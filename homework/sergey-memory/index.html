@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roadmap B2 - Unit 3A Memory</title>
+<style>
+:root{
+  --bg:#f4f2ed; --paper:#fffdfa; --text:#252823; --muted:#6d716b;
+  --accent:#2e6f73; --accent-soft:#e5f0ef; --line:#ddd9d0;
+  --ok:#2f7655; --ok-bg:#e8f3ed; --bad:#9b4d45; --bad-bg:#f8ebe8;
+  --shadow:0 12px 30px rgba(35,42,38,.08);
+}
+*{box-sizing:border-box}
+body{
+  margin:0; font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:var(--bg); color:var(--text); line-height:1.55;
+}
+main{max-width:900px;margin:38px auto;padding:0 18px 64px}
+.hero,.card,.result{
+  background:var(--paper); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow);
+}
+.hero{padding:30px 32px;margin-bottom:20px}
+.eyebrow{font-size:.82rem;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);font-weight:750}
+h1{font-size:clamp(1.8rem,4vw,2.7rem);line-height:1.15;margin:.35rem 0 .55rem}
+.subtitle{color:var(--muted);margin:0}
+.meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+.meta input{
+  min-width:220px;flex:1;border:1px solid var(--line);border-radius:10px;padding:11px 12px;
+  font:inherit;background:white;
+}
+.progress-wrap{margin-top:20px}
+.progress-track{height:8px;background:#e6e2da;border-radius:99px;overflow:hidden}
+.progress-bar{height:100%;width:0;background:var(--accent);transition:width .25s}
+.progress-text{font-size:.88rem;color:var(--muted);margin-top:6px}
+.card{padding:26px 28px;margin:18px 0}
+.section-tag{display:inline-block;background:var(--accent-soft);color:var(--accent);padding:5px 10px;border-radius:99px;font-size:.8rem;font-weight:750}
+h2{font-size:1.35rem;margin:.7rem 0 .2rem}
+.instructions{color:var(--muted);margin:0 0 20px}
+.wordbox{background:#f1efe9;border-radius:12px;padding:13px 15px;margin:12px 0 20px;font-weight:650}
+.q{padding:15px 0;border-top:1px solid #ebe8e1}
+.q:first-of-type{border-top:0}
+.q-row{display:flex;gap:10px;align-items:flex-start}
+.num{min-width:26px;height:26px;border-radius:50%;background:#efede7;display:grid;place-items:center;font-size:.83rem;font-weight:750}
+.prompt{flex:1}
+input.answer, select.answer{
+  width:min(100%,430px);display:block;margin-top:9px;padding:10px 11px;border:1px solid #cfcac0;
+  border-radius:9px;background:#fff;font:inherit;color:var(--text)
+}
+select.answer{cursor:pointer}
+.answer:focus{outline:3px solid rgba(46,111,115,.13);border-color:var(--accent)}
+.q.correct{background:linear-gradient(90deg,var(--ok-bg),transparent 72%);margin-left:-14px;margin-right:-14px;padding-left:14px;padding-right:14px}
+.q.incorrect{background:linear-gradient(90deg,var(--bad-bg),transparent 72%);margin-left:-14px;margin-right:-14px;padding-left:14px;padding-right:14px}
+.feedback{display:none;font-size:.9rem;margin-top:7px;font-weight:650}
+.q.correct .feedback{display:block;color:var(--ok)}
+.q.incorrect .feedback{display:block;color:var(--bad)}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+button{
+  border:0;border-radius:11px;padding:12px 18px;font:inherit;font-weight:750;cursor:pointer
+}
+.primary{background:var(--accent);color:white}
+.secondary{background:#e9e6df;color:var(--text)}
+button:hover{filter:brightness(.98)}
+.result{display:none;padding:28px 30px;margin-top:20px}
+.result.show{display:block}
+.score{font-size:2.2rem;font-weight:800;line-height:1;margin:.45rem 0}
+.message{font-size:1.08rem;margin:.5rem 0;color:var(--text)}
+.review-list{margin:18px 0 0;padding-left:20px}
+.review-list li{margin:6px 0}
+.teacher-note{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.92rem}
+.small{font-size:.86rem;color:var(--muted)}
+@media(max-width:600px){
+  main{margin-top:18px;padding:0 10px 40px}
+  .hero,.card,.result{border-radius:14px;padding:21px 18px}
+  .q-row{gap:8px}
+}
+</style>
+</head>
+<body>
+<main>
+<section class="hero">
+  <div class="eyebrow">Roadmap B2 · Unit 3A</div>
+  <h1>Memory</h1>
+  <p class="subtitle">Take your time. The aim is to notice what you already know and what still needs a little practice.</p>
+  <div class="meta">
+    <input id="studentName" type="text" placeholder="Your name">
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
+    <div id="progressText" class="progress-text">0 of 28 answers completed</div>
+    <div id="draftStatus" class="small">Answers are saved automatically on this device.</div>
+  </div>
+</section>
+
+<form id="hwForm">
+
+<section class="card" data-section="1">
+  <span class="section-tag">1 · Workbook practice</span>
+  <h2>Vocabulary: Memory</h2>
+  <p class="instructions">Complete each sentence with the correct form of a word from the box. Use <b>memory</b> twice.</p>
+  <div class="wordbox">forget · memorable · memorise · memory (×2) · mind · recall · remind</div>
+
+  <div class="q" data-id="1"><div class="q-row"><span class="num">1</span><div class="prompt">I have a good <input class="answer" data-answer="memory" autocomplete="off"> for faces, but I never remember people’s names.<div class="feedback"></div></div></div></div>
+  <div class="q" data-id="2"><div class="q-row"><span class="num">2</span><div class="prompt">Your perfume <input class="answer" data-answer="reminds" autocomplete="off"> me of those pink flowers in our garden.<div class="feedback"></div></div></div></div>
+  <div class="q" data-id="3"><div class="q-row"><span class="num">3</span><div class="prompt">I have to <input class="answer" data-answer="memorise|memorize" autocomplete="off"> all of these words before my English test next week.<div class="feedback"></div></div></div></div>
+  <div class="q" data-id="4"><div class="q-row"><span class="num">4</span><div class="prompt">I can still <input class="answer" data-answer="recall" autocomplete="off"> the first day I met you.<div class="feedback"></div></div></div></div>
+  <div class="q" data-id="5"><div class="q-row"><span class="num">5</span><div class="prompt">What did we have for lunch? I’ve got no <input class="answer" data-answer="memory" autocomplete="off"> of it at all!<div class="feedback"></div></div></div></div>
+  <div class="q" data-id="6"><div class="q-row"><span class="num">6</span><div class="prompt">I loved our wedding. It was such a <input class="answer" data-answer="memorable" autocomplete="off"> day.<div class="feedback"></div></div></div></div>
+  <div class="q" data-id="7"><div class="q-row"><span class="num">7</span><div class="prompt">When you visit Grandad, bear in <input class="answer" data-answer="mind" autocomplete="off"> that he’s not very well.<div class="feedback"></div></div></div></div>
+  <div class="q" data-id="8"><div class="q-row"><span class="num">8</span><div class="prompt">Don’t <input class="answer" data-answer="forget" autocomplete="off"> to buy Mum a birthday present.<div class="feedback"></div></div></div></div>
+</section>
+
+<section class="card" data-section="2">
+  <span class="section-tag">2 · Workbook practice</span>
+  <h2>Build the conversations</h2>
+  <p class="instructions">Use the prompts and add any other words you need. Write a complete sentence.</p>
+
+  <div class="q" data-id="9"><div class="q-row"><span class="num">1</span><div class="prompt">A: <i>(you / recall / name)</i> of that hotel we stayed in last week?<input class="answer" data-answer="do you recall the name" autocomplete="off"><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="10"><div class="q-row"><span class="num">2</span><div class="prompt">A: <i>(this music / remind you / anything)</i>?<input class="answer" data-answer="does this music remind you of anything" autocomplete="off"><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="11"><div class="q-row"><span class="num">3</span><div class="prompt">A: Well, <i>(that meeting / memorable)</i>.<input class="answer" data-answer="that meeting was memorable" autocomplete="off"><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="12"><div class="q-row"><span class="num">4</span><div class="prompt">B: <i>(I / always / good / memory / numbers)</i>.<input class="answer" data-answer="i've always had a good memory for numbers|i have always had a good memory for numbers" autocomplete="off"><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="13"><div class="q-row"><span class="num">5</span><div class="prompt">A: <i>(I / will / never / forget / time)</i> that you called the teacher “Dad”.<input class="answer" data-answer="i will never forget the time|i'll never forget the time" autocomplete="off"><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="14"><div class="q-row"><span class="num">6</span><div class="prompt">B: <i>(I / no memory / it at all)</i>. Sorry!<input class="answer" data-answer="i have no memory of it at all|i've got no memory of it at all|i have got no memory of it at all" autocomplete="off"><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="15"><div class="q-row"><span class="num">7</span><div class="prompt">A: <i>(None of us / need / memorise / history dates)</i> any more.<input class="answer" data-answer="none of us need to memorise history dates|none of us needs to memorise history dates|none of us need to memorize history dates|none of us needs to memorize history dates" autocomplete="off"><div class="feedback"></div></div></div></div>
+</section>
+
+<section class="card" data-section="3">
+  <span class="section-tag">3 · Extra practice</span>
+  <h2>Choose the best expression</h2>
+  <p class="instructions">Choose the option that fits the situation naturally.</p>
+
+  <div class="q" data-id="16"><div class="q-row"><span class="num">1</span><div class="prompt">I can picture the room very clearly, even after twenty years. It is still a ___ memory.
+    <select class="answer" data-answer="vivid"><option value="">Choose</option><option>vivid</option><option>particular</option><option>living</option></select><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="17"><div class="q-row"><span class="num">2</span><div class="prompt">I was explaining what happened, but someone interrupted me and I ___.
+    <select class="answer" data-answer="lost my train of thought"><option value="">Choose</option><option>lost my train of thought</option><option>served as a reminder</option><option>bore it in mind</option></select><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="18"><div class="q-row"><span class="num">3</span><div class="prompt">This old photograph always ___ my first flat in Berlin.
+    <select class="answer" data-answer="reminds me of"><option value="">Choose</option><option>recalls me about</option><option>reminds me of</option><option>reminds me about</option></select><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="19"><div class="q-row"><span class="num">4</span><div class="prompt">Please ___ that the museum closes earlier on Sundays.
+    <select class="answer" data-answer="bear in mind"><option value="">Choose</option><option>bear in mind</option><option>recall about</option><option>memorise of</option></select><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="20"><div class="q-row"><span class="num">5</span><div class="prompt">The flood was the worst the town had experienced ___.
+    <select class="answer" data-answer="in living memory"><option value="">Choose</option><option>in living memory</option><option>in a vivid mind</option><option>within a particular recall</option></select><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="21"><div class="q-row"><span class="num">6</span><div class="prompt">Her message ___ that I still had to renew my passport.
+    <select class="answer" data-answer="served as a reminder"><option value="">Choose</option><option>served as a reminder</option><option>recalled my mind</option><option>reminded as a service</option></select><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="22"><div class="q-row"><span class="num">7</span><div class="prompt">I cannot ___ exactly where I left the receipt.
+    <select class="answer" data-answer="recall"><option value="">Choose</option><option>recall</option><option>remind</option><option>memory</option></select><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="23"><div class="q-row"><span class="num">8</span><div class="prompt">Is there any ___ reason why you chose this date?
+    <select class="answer" data-answer="particular"><option value="">Choose</option><option>particular</option><option>vivid</option><option>memorial</option></select><div class="feedback"></div></div></div></div>
+</section>
+
+<section class="card" data-section="4">
+  <span class="section-tag">4 · Revision</span>
+  <h2>A quick look back</h2>
+  <p class="instructions">Choose the expression that completes each sentence naturally.</p>
+
+  <div class="q" data-id="24"><div class="q-row"><span class="num">1</span><div class="prompt">The new law is difficult to ___ because there are not enough inspectors.
+    <select class="answer" data-answer="enforce"><option value="">Choose</option><option>enforce</option><option>crack</option><option>stand</option></select><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="25"><div class="q-row"><span class="num">2</span><div class="prompt">The initials BBC ___ British Broadcasting Corporation.
+    <select class="answer" data-answer="stand for"><option value="">Choose</option><option>stand for</option><option>carry out</option><option>put at ease</option></select><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="26"><div class="q-row"><span class="num">3</span><div class="prompt">The researchers plan to ___ a larger study next year.
+    <select class="answer" data-answer="carry out"><option value="">Choose</option><option>carry out</option><option>hit it off</option><option>bring down</option></select><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="27"><div class="q-row"><span class="num">4</span><div class="prompt">We started talking at the party and immediately ___.
+    <select class="answer" data-answer="hit it off"><option value="">Choose</option><option>hit it off</option><option>cracked down</option><option>stood for</option></select><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="28"><div class="q-row"><span class="num">5</span><div class="prompt">The interviewer smiled and made a friendly comment to ___.
+    <select class="answer" data-answer="put me at ease"><option value="">Choose</option><option>put me at ease</option><option>get on my nerves</option><option>bring me down</option></select><div class="feedback"></div></div></div></div>
+</section>
+
+<div class="actions">
+  <button type="button" class="primary" id="checkBtn">Check my work</button>
+  <button type="button" class="secondary" id="resetBtn">Start again</button>
+</div>
+</form>
+
+<section id="result" class="result" aria-live="polite">
+  <div class="eyebrow">Today’s result</div>
+  <div id="score" class="score"></div>
+  <p id="message" class="message"></p>
+  <div id="reviewBlock"></div>
+  <p id="sendStatus" class="teacher-note">Your result has not been sent yet.</p><p class="teacher-note">Bring the highlighted sentences to the lesson. We’ll look at the patterns together rather than simply memorising the answers.</p>
+</section>
+</main>
+
+<iframe name="resultFrame" id="resultFrame" style="display:none"></iframe>
+<form id="resultForm" action="https://script.google.com/macros/s/AKfycbw2zUGeG7xViJMx5s-GYAzG-vFglI9ZbfN0QdyOK5bngVf0HciC8hspov8ogaeennPu/exec" method="POST" target="resultFrame" style="display:none">
+  <input type="hidden" name="student" id="formStudent">
+  <input type="hidden" name="homework" id="formHomework">
+  <input type="hidden" name="score" id="formScore">
+  <input type="hidden" name="percent" id="formPercent">
+  <input type="hidden" name="mistakes" id="formMistakes">
+  <input type="hidden" name="answers" id="formAnswers">
+</form>
+
+<script>
+const answers = [...document.querySelectorAll('.answer')];
+const total = answers.length;
+const studentName = document.getElementById('studentName');
+const homeworkId = 'Roadmap B2 · Unit 3A Memory';
+const storageKey = 'homework:' + homeworkId;
+let saveTimer;
+let sendPending = false;
+let sendTimeout;
+
+function normalise(s){
+  return s.toLowerCase().trim()
+    .replace(/[’‘]/g,"'")
+    .replace(/[?.!,;:]/g,"")
+    .replace(/\s+/g," ");
+}
+
+function isCorrect(el){
+  const accepted = el.dataset.answer.split('|').map(normalise);
+  return accepted.includes(normalise(el.value));
+}
+
+function updateProgress(){
+  const done = answers.filter(a => a.value.trim() !== '').length;
+  document.getElementById('progressBar').style.width = `${done/total*100}%`;
+  document.getElementById('progressText').textContent = `${done} of ${total} answers completed`;
+}
+
+function saveDraft(){
+  const draft = {
+    student: studentName.value,
+    answers: answers.map(a => a.value),
+    savedAt: new Date().toISOString()
+  };
+  localStorage.setItem(storageKey, JSON.stringify(draft));
+  const status = document.getElementById('draftStatus');
+  status.textContent = 'Saved automatically on this device.';
+}
+
+function scheduleSave(){
+  clearTimeout(saveTimer);
+  const status = document.getElementById('draftStatus');
+  status.textContent = 'Saving…';
+  saveTimer = setTimeout(saveDraft, 350);
+}
+
+function restoreDraft(){
+  try {
+    const raw = localStorage.getItem(storageKey);
+    if (!raw) return;
+    const draft = JSON.parse(raw);
+    studentName.value = draft.student || '';
+    if (Array.isArray(draft.answers)) {
+      answers.forEach((a, i) => {
+        if (typeof draft.answers[i] === 'string') a.value = draft.answers[i];
+      });
+    }
+    document.getElementById('draftStatus').textContent = 'Your saved answers have been restored.';
+  } catch (err) {
+    console.warn('Could not restore draft:', err);
+  }
+}
+
+answers.forEach(a => {
+  a.addEventListener('input', () => { updateProgress(); scheduleSave(); });
+  a.addEventListener('change', () => { updateProgress(); scheduleSave(); });
+});
+studentName.addEventListener('input', scheduleSave);
+
+const resultFrame = document.getElementById('resultFrame');
+resultFrame.addEventListener('load', () => {
+  if (!sendPending) return;
+  sendPending = false;
+  clearTimeout(sendTimeout);
+  const sendStatus = document.getElementById('sendStatus');
+  sendStatus.textContent = 'Your result has been sent successfully. You can close this page.';
+  saveDraft();
+});
+
+document.getElementById('checkBtn').addEventListener('click', () => {
+  let correct = 0;
+  const wrong = [];
+  const detailedAnswers = [];
+
+  answers.forEach((el, index) => {
+    const q = el.closest('.q');
+    q.classList.remove('correct','incorrect');
+    const feedback = q.querySelector('.feedback');
+    const ok = isCorrect(el);
+
+    detailedAnswers.push({
+      number: index + 1,
+      answer: el.value,
+      correct: ok
+    });
+
+    if (ok){
+      correct++;
+      q.classList.add('correct');
+      feedback.textContent = 'Looks good.';
+    } else {
+      q.classList.add('incorrect');
+      feedback.textContent = el.value.trim() ? 'Have another look at this one.' : 'This one is still empty.';
+      wrong.push(index + 1);
+    }
+  });
+
+  const pct = Math.round(correct/total*100);
+  const name = studentName.value.trim();
+  let message;
+
+  if (pct === 100) message = `Excellent work${name ? ', '+name : ''}. Everything is accurate.`;
+  else if (pct >= 85) message = `Very strong work${name ? ', '+name : ''}. Only a few details need another look.`;
+  else if (pct >= 65) message = `A solid attempt${name ? ', '+name : ''}. The highlighted items will give us useful material for the lesson.`;
+  else message = `Thank you for working through it${name ? ', '+name : ''}. Review the highlighted items, and we’ll untangle them together.`;
+
+  document.getElementById('score').textContent = `${correct} / ${total} · ${pct}%`;
+  document.getElementById('message').textContent = message;
+
+  const block = document.getElementById('reviewBlock');
+  if (wrong.length){
+    block.innerHTML = `<p><b>Have another look:</b></p><ul class="review-list">${wrong.map(n=>`<li>Sentence ${n}</li>`).join('')}</ul>`;
+  } else {
+    block.innerHTML = `<p><b>Nothing to review this time.</b></p>`;
+  }
+
+  const result = document.getElementById('result');
+  result.classList.add('show');
+  result.scrollIntoView({behavior:'smooth', block:'start'});
+
+  const sendStatus = document.getElementById('sendStatus');
+
+  if (!name) {
+    sendStatus.textContent = 'Please enter your name above, then press “Check my work” again so your result can be saved.';
+    saveDraft();
+    return;
+  }
+
+  sendStatus.textContent = 'Sending your result… Please keep this page open.';
+
+  document.getElementById('formStudent').value = name;
+  document.getElementById('formHomework').value = homeworkId;
+  document.getElementById('formScore').value = `${correct}/${total}`;
+  document.getElementById('formPercent').value = pct;
+  document.getElementById('formMistakes').value = wrong.join(', ');
+  document.getElementById('formAnswers').value = JSON.stringify(detailedAnswers);
+
+  saveDraft();
+  sendPending = true;
+  clearTimeout(sendTimeout);
+  sendTimeout = setTimeout(() => {
+    if (!sendPending) return;
+    sendPending = false;
+    sendStatus.textContent = 'The result could not be confirmed. Check your internet connection and press “Check my work” again. Your answers are still saved on this device.';
+  }, 12000);
+
+  try {
+    document.getElementById('resultForm').submit();
+  } catch (err) {
+    sendPending = false;
+    clearTimeout(sendTimeout);
+    sendStatus.textContent = 'The result could not be sent. Your answers are still saved on this device. Please try again.';
+    console.error(err);
+  }
+});
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  if (!confirm('Clear all answers and start again?')) return;
+  document.getElementById('hwForm').reset();
+  localStorage.removeItem(storageKey);
+  answers.forEach(el => {
+    const q = el.closest('.q');
+    q.classList.remove('correct','incorrect');
+    q.querySelector('.feedback').textContent='';
+  });
+  document.getElementById('result').classList.remove('show');
+  document.getElementById('draftStatus').textContent = 'Answers are saved automatically on this device.';
+  updateProgress();
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+restoreDraft();
+updateProgress();
+</script>
+
+</body>
+</html>
