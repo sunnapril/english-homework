@@ -7,16 +7,24 @@ let saveTimer;
 let sendPending = false;
 let sendTimeout;
 
+let startedAt = null;
+let activeMs = 0;
+let activeStartedAt = null;
+
 function normalise(s){
-  return s.toLowerCase().trim()
+  return String(s || '').toLowerCase().trim()
     .replace(/[’‘´`]/g,"'")
     .replace(/[‐‑‒–—]/g,"-")
     .replace(/[?.!,;:]/g,"")
     .replace(/\s+/g," ");
 }
 
+function acceptedAnswers(el){
+  return el.dataset.answer.split('|').map(item => item.trim()).filter(Boolean);
+}
+
 function isCorrect(el){
-  const accepted = el.dataset.answer.split('|').map(normalise);
+  const accepted = acceptedAnswers(el).map(normalise);
   return accepted.includes(normalise(el.value));
 }
 
@@ -26,11 +34,39 @@ function updateProgress(){
   document.getElementById('progressText').textContent = `${done} of ${total} answers completed`;
 }
 
+function beginTiming(){
+  if (!startedAt) startedAt = new Date().toISOString();
+  if (document.visibilityState === 'visible' && activeStartedAt === null) {
+    activeStartedAt = Date.now();
+  }
+}
+
+function pauseTiming(){
+  if (activeStartedAt !== null) {
+    activeMs += Date.now() - activeStartedAt;
+    activeStartedAt = null;
+  }
+}
+
+function currentActiveMs(){
+  return activeMs + (activeStartedAt !== null ? Date.now() - activeStartedAt : 0);
+}
+
+function formatDuration(ms){
+  const totalSeconds = Math.max(0, Math.round(ms / 1000));
+  if (totalSeconds < 60) return `${totalSeconds} sec`;
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return seconds ? `${minutes} min ${seconds} sec` : `${minutes} min`;
+}
+
 function saveDraft(){
   const draft = {
     student: studentName.value,
     answers: answers.map(a => a.value),
-    savedAt: new Date().toISOString()
+    savedAt: new Date().toISOString(),
+    startedAt,
+    activeMs: currentActiveMs()
   };
   localStorage.setItem(storageKey, JSON.stringify(draft));
   const status = document.getElementById('draftStatus');
@@ -50,6 +86,8 @@ function restoreDraft(){
     if (!raw) return;
     const draft = JSON.parse(raw);
     studentName.value = draft.student || '';
+    startedAt = draft.startedAt || null;
+    activeMs = Number(draft.activeMs) || 0;
     if (Array.isArray(draft.answers)) {
       answers.forEach((a, i) => {
         if (typeof draft.answers[i] === 'string') a.value = draft.answers[i];
@@ -61,11 +99,37 @@ function restoreDraft(){
   }
 }
 
+function ensureHiddenInput(name, id){
+  const form = document.getElementById('resultForm');
+  let input = document.getElementById(id);
+  if (!input) {
+    input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = name;
+    input.id = id;
+    form.appendChild(input);
+  }
+  return input;
+}
+
 answers.forEach(a => {
-  a.addEventListener('input', () => { updateProgress(); scheduleSave(); });
-  a.addEventListener('change', () => { updateProgress(); scheduleSave(); });
+  a.addEventListener('input', () => { beginTiming(); updateProgress(); scheduleSave(); });
+  a.addEventListener('change', () => { beginTiming(); updateProgress(); scheduleSave(); });
 });
-studentName.addEventListener('input', scheduleSave);
+studentName.addEventListener('input', () => { beginTiming(); scheduleSave(); });
+
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden') {
+    pauseTiming();
+    saveDraft();
+  } else if (startedAt) {
+    activeStartedAt = Date.now();
+  }
+});
+window.addEventListener('beforeunload', () => {
+  pauseTiming();
+  saveDraft();
+});
 
 const resultFrame = document.getElementById('resultFrame');
 resultFrame.addEventListener('load', () => {
@@ -78,30 +142,33 @@ resultFrame.addEventListener('load', () => {
 });
 
 document.getElementById('checkBtn').addEventListener('click', () => {
+  beginTiming();
   let correct = 0;
   const wrong = [];
-  const detailedAnswers = [];
+  const filledCorrect = [];
+  const filledWrong = [];
 
   answers.forEach((el, index) => {
     const q = el.closest('.q');
     q.classList.remove('correct','incorrect');
     const feedback = q.querySelector('.feedback');
     const ok = isCorrect(el);
-
-    detailedAnswers.push({
-      number: index + 1,
-      answer: el.value,
-      correct: ok
-    });
+    const answer = el.value.trim();
+    const number = index + 1;
 
     if (ok){
       correct++;
       q.classList.add('correct');
       feedback.textContent = 'Looks good.';
+      if (answer) filledCorrect.push(`${number}. ${answer}`);
     } else {
       q.classList.add('incorrect');
-      feedback.textContent = el.value.trim() ? 'Have another look at this one.' : 'This one is still empty.';
-      wrong.push(index + 1);
+      feedback.textContent = answer ? 'Have another look at this one.' : 'This one is still empty.';
+      wrong.push(number);
+      if (answer) {
+        const expected = acceptedAnswers(el)[0] || '—';
+        filledWrong.push(`${number}. ${answer} → ${expected}`);
+      }
     }
   });
 
@@ -136,6 +203,15 @@ document.getElementById('checkBtn').addEventListener('click', () => {
     return;
   }
 
+  pauseTiming();
+  const finishedAt = new Date().toISOString();
+  const duration = formatDuration(activeMs);
+
+  const reportParts = [];
+  if (filledWrong.length) reportParts.push(`❌ ERRORS\n${filledWrong.join('\n')}`);
+  if (filledCorrect.length) reportParts.push(`✅ CORRECT\n${filledCorrect.join('\n')}`);
+  const answerReport = reportParts.join('\n\n') || 'No answers entered';
+
   sendStatus.textContent = 'Sending your result… Please keep this page open.';
 
   document.getElementById('formStudent').value = name;
@@ -143,19 +219,10 @@ document.getElementById('checkBtn').addEventListener('click', () => {
   document.getElementById('formScore').value = `${correct}/${total}`;
   document.getElementById('formPercent').value = pct;
   document.getElementById('formMistakes').value = wrong.join(', ');
-  document.getElementById('formAnswers').value = detailedAnswers
-    .filter(item => item.answer.trim() !== '')
-    .map(item => {
-      const el = answers[item.number - 1];
-      const expected = el.dataset.answer.split('|')[0].trim();
-
-      if (item.correct) {
-        return `${item.number} ✅ ${item.answer.trim()}`;
-      }
-
-      return `${item.number} ❌ ${item.answer.trim()}\nExpected: ${expected}`;
-    })
-    .join('\n\n') || 'No answers entered';
+  document.getElementById('formAnswers').value = answerReport;
+  ensureHiddenInput('startedAt', 'formStartedAt').value = startedAt || '';
+  ensureHiddenInput('finishedAt', 'formFinishedAt').value = finishedAt;
+  ensureHiddenInput('duration', 'formDuration').value = duration;
 
   saveDraft();
   sendPending = true;
@@ -180,6 +247,9 @@ document.getElementById('resetBtn').addEventListener('click', () => {
   if (!confirm('Clear all answers and start again?')) return;
   document.getElementById('hwForm').reset();
   localStorage.removeItem(storageKey);
+  startedAt = null;
+  activeMs = 0;
+  activeStartedAt = null;
   answers.forEach(el => {
     const q = el.closest('.q');
     q.classList.remove('correct','incorrect');
