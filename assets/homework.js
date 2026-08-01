@@ -143,10 +143,19 @@ document.getElementById('checkBtn').addEventListener('click', () => {
   document.getElementById('formScore').value = `${correct}/${total}`;
   document.getElementById('formPercent').value = pct;
   document.getElementById('formMistakes').value = wrong.join(', ');
-  document.getElementById('formAnswers').value = detailedAnswers.map(item => {
-    const shownAnswer = item.answer.trim() || '—';
-    return `${item.number}. ${shownAnswer} — ${item.correct ? 'correct' : 'incorrect'}`;
-  }).join('\n');
+  document.getElementById('formAnswers').value = detailedAnswers
+    .filter(item => item.answer.trim() !== '')
+    .map(item => {
+      const el = answers[item.number - 1];
+      const expected = el.dataset.answer.split('|')[0].trim();
+
+      if (item.correct) {
+        return `${item.number} ✅ ${item.answer.trim()}`;
+      }
+
+      return `${item.number} ❌ ${item.answer.trim()}\nExpected: ${expected}`;
+    })
+    .join('\n\n') || 'No answers entered';
 
   saveDraft();
   sendPending = true;
