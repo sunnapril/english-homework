@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Anastasia · Roadmap A2+ · Unit 5A Homework</title>
+<style>
+:root{--bg:#f2f4f7;--paper:#fffdf9;--ink:#263248;--muted:#697588;--orange:#e88925;--orange2:#a95710;--teal:#247f7a;--green:#2e8b62;--red:#c65252;--blue:#466b95;--line:#dce1e7;--shadow:0 14px 38px rgba(35,48,68,.1)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 8% 0,rgba(232,137,37,.14),transparent 27rem),linear-gradient(180deg,#f5f6f8,#edf0f3);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.55}
+main{max-width:900px;margin:30px auto;padding:0 16px 70px}.hero,.card,.result{border:1px solid var(--line);border-radius:22px;background:var(--paper);box-shadow:var(--shadow)}
+.hero{position:relative;overflow:hidden;padding:38px;color:#fff;background:linear-gradient(125deg,#24334c,#344d6d 62%,#247f7a 140%)}.hero:after{content:"5A";position:absolute;right:20px;top:-42px;color:rgba(255,255,255,.07);font-size:170px;font-weight:900}
+.eyebrow,.stage{font-size:.76rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.eyebrow{color:#ffd497}.stage{color:var(--orange2)}
+h1{max-width:650px;margin:8px 0 12px;font-size:clamp(2.2rem,6vw,4rem);line-height:1}.subtitle{max-width:680px;margin:0;color:#e7edf5;font-size:1.06rem}.meta{margin-top:23px}
+input,select,textarea{font:inherit;color:var(--ink)}.meta input,.answer,textarea{width:100%;border:1px solid #bdc7d2;border-radius:10px;background:#fff;padding:11px 12px}.meta input{max-width:330px}
+.progress-wrap{margin-top:22px}.progress-track{height:10px;overflow:hidden;border-radius:99px;background:rgba(255,255,255,.18)}.progress-bar{width:0;height:100%;background:linear-gradient(90deg,#ffb65d,#6ccec4);transition:width .25s}.progress-text,.save-note{margin-top:7px;font-size:.88rem;color:#dfe8f2}
+.card{margin-top:18px;padding:28px}h2{margin:5px 0 6px;font-size:1.55rem}.lead{margin:0 0 18px;color:var(--muted)}
+.rule-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0}.rule{padding:14px;border:1px solid var(--line);border-radius:12px;background:#fff}.rule b{color:var(--orange2);font-size:1.1rem}
+.that-note{margin:16px 0;padding:15px;border-left:4px solid var(--teal);border-radius:0 12px 12px 0;background:#eaf6f5}.example{color:#536176}
+.q{margin:13px 0;padding:16px;border:1px solid var(--line);border-radius:13px;background:#fff;transition:.2s}.q.correct{border-color:#8ad0aa;background:#f1fbf5}.q.incorrect{border-color:#e7a0a0;background:#fff5f5}.q.review{border-color:#9fb5cf;background:#f3f7fc}
+.q-row{display:grid;grid-template-columns:35px 1fr;gap:10px;align-items:start}.num{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;color:#fff;background:var(--orange);font-weight:900}.prompt{font-weight:680}.prompt .answer{margin-top:9px;font-weight:500}.feedback{min-height:1.25em;margin-top:7px;color:var(--muted);font-size:.9rem}.correct .feedback{color:var(--green);font-weight:750}.incorrect .feedback{color:var(--red);font-weight:750}.review .feedback{color:var(--blue);font-weight:750}
+.word-order{margin-top:7px;color:#41516a;font-weight:600}
+.matching-board{display:grid;grid-template-columns:1fr 1.25fr;gap:14px;margin-top:16px}
+.match-column{display:grid;gap:10px;align-content:start}
+.match-start,.match-end{width:100%;min-height:58px;padding:12px 14px;border:1px solid #cbd4de;border-radius:12px;color:var(--ink);background:#fff;text-align:left;font-weight:650;transform:none}
+.match-start:hover,.match-end:hover{border-color:var(--teal);background:#f2faf9;transform:none}
+.match-start.active{border:2px solid var(--orange);background:#fff7e8}
+.match-start.matched,.match-end.matched{border-color:#87c9a6;background:#edf9f2;color:#276b4d}
+.match-start.wrong,.match-end.wrong{border-color:#e39a9a;background:#fff2f2}
+.match-start:disabled,.match-end:disabled{cursor:default;opacity:1}
+.match-number{display:inline-grid;place-items:center;width:27px;height:27px;margin-right:8px;border-radius:50%;color:#fff;background:var(--orange);font-weight:900}
+.match-q{margin:0;padding:0;border:0;background:transparent}.match-q.correct,.match-q.incorrect{border:0;background:transparent}.match-q .feedback{padding-left:5px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}.chip{padding:6px 10px;border:1px solid #e8ca92;border-radius:999px;background:#fff6dd;color:#724c0c;font-weight:750}
+.speak{margin:14px 0;padding:18px;border:1px solid #cbd5df;border-radius:14px;background:linear-gradient(135deg,#fff,#f5f8fb)}.speak h3{margin:0 0 7px}.steps{margin:8px 0;padding-left:21px}.support{display:none;margin:10px 0;padding:11px;border-radius:10px;background:#eef5ff;color:#405f84}.support.show{display:block}
+button{cursor:pointer;border:0;border-radius:10px;padding:11px 16px;color:#fff;background:var(--teal);font:inherit;font-weight:850}button:hover{filter:brightness(.97);transform:translateY(-1px)}button.secondary{color:var(--ink);background:#e7ebef}button.hint{padding:8px 11px;color:#435267;background:#e7edf3;font-size:.9rem}
+.checkline{display:flex;align-items:center;gap:9px;margin:11px 0;color:#4a596d}.checkline input{width:18px;height:18px}.actions{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}.primary{background:var(--orange)}
+.result{display:none;margin-top:18px;padding:28px;border-top:7px solid var(--orange)}.result.show{display:block}.score{font-size:2.05rem;font-weight:900}.teacher-note{padding:12px 14px;border-radius:10px;background:#eef4f8;color:#506176}.review-list{padding-left:22px}.small{font-size:.88rem;color:var(--muted)}
+
+.completed-dialog{position:fixed;inset:0;z-index:1000;display:none;place-items:center;padding:20px;background:rgba(31,43,61,.48);backdrop-filter:blur(3px)}
+.completed-dialog.show{display:grid}.dialog-card{width:min(560px,100%);padding:26px;border:1px solid var(--line);border-radius:24px;background:var(--paper);box-shadow:0 24px 70px rgba(20,30,45,.28);text-align:center}.dialog-card h2{margin:0 0 10px;font-size:clamp(1.35rem,4vw,1.75rem)}.dialog-card p{margin:0;color:var(--muted)}.dialog-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}.dialog-actions button{width:100%;min-height:48px}.dialog-actions .review-btn{color:var(--ink);background:#e7ebef}.dialog-actions .restart-btn{background:#247f7a}
+@media(max-width:520px){.dialog-card{padding:22px 18px;border-radius:20px}.dialog-actions{grid-template-columns:1fr}}
+@media(max-width:650px){main{margin-top:14px;padding:0 10px 45px}.hero,.card,.result{padding:21px 18px;border-radius:16px}.rule-grid{grid-template-columns:1fr}.matching-board{grid-template-columns:1fr}.hero:after{font-size:110px;right:0}}
+</style>
+</head>
+<body>
+<main>
+<section class="hero">
+  <div class="eyebrow">Roadmap A2+ · Unit 5A · Homework</div>
+  <h1>Relative clauses</h1>
+  <p class="subtitle">This homework has 5 short parts. You can complete them over several days: your answers and progress are saved on this device.</p>
+  <div class="meta"><input id="studentName" type="text" value="Anastasia" aria-label="Your name"></div>
+  <div class="progress-wrap"><div class="progress-track"><div id="progressBar" class="progress-bar"></div></div><div id="progressText" class="progress-text">0 of 5 sections completed</div><div id="saveNote" class="save-note">Your answers are saved automatically on this device.</div></div>
+</section>
+
+<section class="card">
+  <div class="stage">Before you start</div>
+  <h2>People, things and places</h2>
+  <div class="rule-grid">
+    <div class="rule"><b>who / that</b><br><span class="example">a person who helps me<br>a person that helps me</span></div>
+    <div class="rule"><b>which / that</b><br><span class="example">a book which explains it<br>a book that explains it</span></div>
+    <div class="rule"><b>where</b><br><span class="example">a place where people meet</span></div>
+  </div>
+  <div class="that-note"><b>Can we use <i>that</i> for people?</b> Yes. In a defining relative clause, both are possible: <i>the woman who called</i> and <i>the woman that called</i>. <b>Who</b> is usually more natural for people, especially in writing. Do not use <b>that</b> after a comma: <i>My aunt, who lives in Riga, …</i></div>
+</section>
+
+<form id="hwForm">
+<section class="card">
+  <div class="stage">Workbook · Exercise 3</div>
+  <h2>Choose the correct alternative</h2>
+  <p class="lead">Choose <i>who</i> for a person and <i>which</i> for a thing.</p>
+  <div class="q"><div class="q-row"><span class="num">1</span><div class="prompt">A zoo keeper is a person ___ looks after animals.<select class="answer" data-answer="who"><option value="">Choose…</option><option>who</option><option>which</option></select><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">2</span><div class="prompt">He’s the guitarist ___ plays in our band.<select class="answer" data-answer="who"><option value="">Choose…</option><option>who</option><option>which</option></select><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">3</span><div class="prompt">We need a car ___ can go fast.<select class="answer" data-answer="which"><option value="">Choose…</option><option>who</option><option>which</option></select><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">4</span><div class="prompt">Is that the coat ___ your husband bought you for your birthday?<select class="answer" data-answer="which"><option value="">Choose…</option><option>who</option><option>which</option></select><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">5</span><div class="prompt">The train on platform three is the one ___ goes to the airport.<select class="answer" data-answer="which"><option value="">Choose…</option><option>who</option><option>which</option></select><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">6</span><div class="prompt">She’s the hairdresser ___ did my hair for my sister’s wedding.<select class="answer" data-answer="who"><option value="">Choose…</option><option>who</option><option>which</option></select><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">7</span><div class="prompt">This is the book ___ I started reading last week.<select class="answer" data-answer="which"><option value="">Choose…</option><option>who</option><option>which</option></select><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">8</span><div class="prompt">These are the tools ___ you need to put up the shelf.<select class="answer" data-answer="which"><option value="">Choose…</option><option>who</option><option>which</option></select><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">9</span><div class="prompt">It’s a job ___ pays a lot of money.<select class="answer" data-answer="which"><option value="">Choose…</option><option>who</option><option>which</option></select><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">10</span><div class="prompt">Sara’s aunt is the woman ___ won the singing competition.<select class="answer" data-answer="who"><option value="">Choose…</option><option>who</option><option>which</option></select><div class="feedback"></div></div></div></div>
+</section>
+
+<section class="card">
+  <div class="stage">Workbook · Exercise 4</div>
+  <h2>Put the words in the correct order</h2>
+  <p class="lead">Write complete sentences. Punctuation is not checked.</p>
+  <div class="q"><div class="q-row"><span class="num">11</span><div class="prompt"><div class="word-order">helped you / Is that / who / the boy?</div><input class="answer" data-answer="is that the boy who helped you" placeholder="Write the sentence."><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">12</span><div class="prompt"><div class="word-order">a ship / A cruise / is on / which / is a holiday</div><input class="answer" data-answer="a cruise is a holiday which is on a ship" placeholder="Write the sentence."><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">13</span><div class="prompt"><div class="word-order">which / is / something / A straw / for drinking / you can use</div><input class="answer" data-answer="a straw is something which you can use for drinking" placeholder="Write the sentence."><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">14</span><div class="prompt"><div class="word-order">is the player / the trophy / won / Roger / who</div><input class="answer" data-answer="roger is the player who won the trophy" placeholder="Write the sentence."><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">15</span><div class="prompt"><div class="word-order">the dress / That’s / to the party / I wore / which</div><input class="answer" data-answer="that's the dress which i wore to the party|that is the dress which i wore to the party" placeholder="Write the sentence."><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">16</span><div class="prompt"><div class="word-order">who / is now / Stella / is the person / the manager</div><input class="answer" data-answer="stella is the person who is now the manager" placeholder="Write the sentence."><div class="feedback"></div></div></div></div>
+</section>
+
+<section class="card">
+  <div class="stage">Workbook · Exercise 5</div>
+  <h2>Match the sentence halves</h2>
+  <p class="lead">Click a sentence beginning on the left, then click its complete ending on the right. Correct pairs stay highlighted.</p>
+  <div class="matching-board" id="matchingBoard">
+    <div class="match-column">
+      <div class="q match-q"><button type="button" class="match-start" data-target="d"><span class="match-number">17</span>An accountant is a person …</button><input type="hidden" class="answer match-answer" data-answer="d"><div class="feedback"></div></div>
+      <div class="q match-q"><button type="button" class="match-start" data-target="f"><span class="match-number">18</span>A map is something …</button><input type="hidden" class="answer match-answer" data-answer="f"><div class="feedback"></div></div>
+      <div class="q match-q"><button type="button" class="match-start" data-target="a"><span class="match-number">19</span>A reporter is a person …</button><input type="hidden" class="answer match-answer" data-answer="a"><div class="feedback"></div></div>
+      <div class="q match-q"><button type="button" class="match-start" data-target="g"><span class="match-number">20</span>This is the charity …</button><input type="hidden" class="answer match-answer" data-answer="g"><div class="feedback"></div></div>
+      <div class="q match-q"><button type="button" class="match-start" data-target="c"><span class="match-number">21</span>A dictionary is a book …</button><input type="hidden" class="answer match-answer" data-answer="c"><div class="feedback"></div></div>
+      <div class="q match-q"><button type="button" class="match-start" data-target="e"><span class="match-number">22</span>This is the friend …</button><input type="hidden" class="answer match-answer" data-answer="e"><div class="feedback"></div></div>
+      <div class="q match-q"><button type="button" class="match-start" data-target="b"><span class="match-number">23</span>Is that the dentist …</button><input type="hidden" class="answer match-answer" data-answer="b"><div class="feedback"></div></div>
+      <div class="q match-q"><button type="button" class="match-start" data-target="h"><span class="match-number">24</span>Paella is the dish …</button><input type="hidden" class="answer match-answer" data-answer="h"><div class="feedback"></div></div>
+    </div>
+    <div class="match-column">
+      <button type="button" class="match-end" data-letter="c">which gives the meanings of words.</button>
+      <button type="button" class="match-end" data-letter="g">which helps people who don’t have money.</button>
+      <button type="button" class="match-end" data-letter="a">who writes news stories.</button>
+      <button type="button" class="match-end" data-letter="e">who went on holiday with me.</button>
+      <button type="button" class="match-end" data-letter="d">who can help you look after your money.</button>
+      <button type="button" class="match-end" data-letter="h">which I cook on special days.</button>
+      <button type="button" class="match-end" data-letter="f">which can help you when you are lost.</button>
+      <button type="button" class="match-end" data-letter="b">who looked at your teeth last week?</button>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="stage">New practice · Vocabulary</div>
+  <h2>Use familiar words in new contexts</h2>
+  <p class="lead">Complete each sentence with one word or phrase from the box.</p>
+  <div class="bank"><span class="chip">advertise</span><span class="chip">filling</span><span class="chip">in advance</span><span class="chip">in total</span><span class="chip">leave</span><span class="chip">strict</span></div>
+  <div class="q"><div class="q-row"><span class="num">25</span><div class="prompt">My first teacher was quite ___, but her rules helped me study regularly.<input class="answer" data-answer="strict" placeholder="Type the word."><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">26</span><div class="prompt">Please send me the documents ___ so I can read them before our appointment.<input class="answer" data-answer="in advance" placeholder="Type the phrase."><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">27</span><div class="prompt">There were twelve people at the meeting ___.<input class="answer" data-answer="in total" placeholder="Type the phrase."><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">28</span><div class="prompt">The soup was very ___, so I didn’t need a second course.<input class="answer" data-answer="filling" placeholder="Type the word."><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">29</span><div class="prompt">The company plans to ___ its new service online.<input class="answer" data-answer="advertise" placeholder="Type the word."><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">30</span><div class="prompt">I usually ___ the office at six, but yesterday I worked late.<input class="answer" data-answer="leave" placeholder="Type the word."><div class="feedback"></div></div></div></div>
+</section>
+
+<section class="card">
+  <div class="stage">Speaking · New contexts</div>
+  <h2>Say it first, then write it</h2>
+  <p class="lead">Speak for two or three sentences. Then write your best version. These answers are for teacher review.</p>
+  <div class="speak"><h3>31. Think of a strict person who taught you something useful.</h3><ol class="steps"><li>Say who the person is.</li><li>Explain what they taught you.</li><li>Use <b>who</b> or <b>that</b>.</li></ol><button class="hint" type="button" onclick="toggleSupport(this)">Need a start?</button><div class="support">A strict person who taught me something useful was …</div><label class="checkline"><input class="spoken" type="checkbox"> I said my answer aloud.</label><div class="q review"><textarea class="answer open" rows="3" data-review="true" placeholder="Write your final answer."></textarea><div class="feedback"></div></div></div>
+  <div class="speak"><h3>32. Describe something cheap that you bought and still use.</h3><ol class="steps"><li>Name the thing.</li><li>Say where or when you bought it.</li><li>Explain why it was a good purchase.</li></ol><button class="hint" type="button" onclick="toggleSupport(this)">Need a start?</button><div class="support">Something cheap that I bought and still use is …</div><label class="checkline"><input class="spoken" type="checkbox"> I said my answer aloud.</label><div class="q review"><textarea class="answer open" rows="3" data-review="true" placeholder="Write your final answer."></textarea><div class="feedback"></div></div></div>
+  <div class="speak"><h3>33. Describe an advert that you remember.</h3><ol class="steps"><li>Say what it advertised.</li><li>Say where you saw it.</li><li>Explain why you remember it.</li></ol><button class="hint" type="button" onclick="toggleSupport(this)">Need a start?</button><div class="support">An advert that I remember advertised …</div><label class="checkline"><input class="spoken" type="checkbox"> I said my answer aloud.</label><div class="q review"><textarea class="answer open" rows="3" data-review="true" placeholder="Write your final answer."></textarea><div class="feedback"></div></div></div>
+  <div class="speak"><h3>34. Describe a place where people can lift weights or do other exercise.</h3><ol class="steps"><li>Say where the place is.</li><li>Describe what people can do there.</li><li>Say whether you like lifting weights there.</li></ol><button class="hint" type="button" onclick="toggleSupport(this)">Need a start?</button><div class="support">A place where people can exercise is …</div><label class="checkline"><input class="spoken" type="checkbox"> I said my answer aloud.</label><div class="q review"><textarea class="answer open" rows="3" data-review="true" placeholder="Write your final answer."></textarea><div class="feedback"></div></div></div>
+</section>
+
+<div class="actions"><button type="button" class="primary" id="checkBtn">Check my work</button><button type="button" class="secondary" id="resetBtn">Start again</button><button type="button" class="secondary" id="newStudentBtn">New student</button></div>
+</form>
+
+<section id="result" class="result" aria-live="polite"><div class="stage">Today’s result</div><div id="score" class="score"></div><p id="message"></p><div id="reviewBlock"></div><p id="sendStatus" class="teacher-note">Your result has not been sent yet.</p><p class="teacher-note">Questions 31–34 need teacher review. We will use them for speaking practice in the lesson.</p></section>
+
+<section id="completedDialog" class="completed-dialog" role="dialog" aria-modal="true" aria-labelledby="completedTitle">
+  <div class="dialog-card">
+    <h2 id="completedTitle">You’ve already completed this homework.</h2>
+    <p>Your saved answers are still here.</p>
+    <div class="dialog-actions">
+      <button type="button" id="reviewAnswersBtn" class="review-btn">Review answers</button>
+      <button type="button" id="dialogStartAgainBtn" class="restart-btn">Start again</button>
+    </div>
+  </div>
+</section>
+</main>
+
+<iframe name="resultFrame" id="resultFrame" style="display:none"></iframe>
+<form id="resultForm" action="https://script.google.com/macros/s/AKfycbw2zUGeG7xViJMx5s-GYAzG-vFglI9ZbfN0QdyOK5bngVf0HciC8hspov8ogaeennPu/exec" method="POST" target="resultFrame" style="display:none">
+<input type="hidden" name="student" id="formStudent"><input type="hidden" name="homework" id="formHomework"><input type="hidden" name="score" id="formScore"><input type="hidden" name="percent" id="formPercent"><input type="hidden" name="mistakes" id="formMistakes"><input type="hidden" name="answers" id="formAnswers"><input type="hidden" name="startedAt" id="formStartedAt"><input type="hidden" name="finishedAt" id="formFinishedAt"><input type="hidden" name="duration" id="formDuration">
+</form>
+<script>
+const answers=[...document.querySelectorAll('.answer')];
+const spoken=[...document.querySelectorAll('.spoken')];
+const sections=[...document.querySelectorAll('#hwForm > section.card')];
+const closedAnswers=answers.filter(el=>el.dataset.review!=='true');
+const studentName=document.getElementById('studentName');
+const homeworkId='Roadmap A2+ · Unit 5A Relative Clauses · Complete Homework';
+const storageKey='homework:anastasia-roadmap-a2-unit5a-relative-clauses-v3';
+let saveTimer,sendPending=false,sendTimeout,activeMatchStart=null;
+let startedAt=null,activeMs=0,activeStartedAt=null,completed=false;
+
+function normalise(s){return String(s||'').toLowerCase().trim().replace(/[’‘´`]/g,"'").replace(/[‐‑‒–—]/g,'-').replace(/[?.!,;:]/g,'').replace(/\s+/g,' ')}
+function accepted(el){return (el.dataset.answer||'').split('|').map(x=>x.trim()).filter(Boolean)}
+function isClosed(el){return el.dataset.review!=='true'}
+function isCorrect(el){return accepted(el).map(normalise).includes(normalise(el.value))}
+function toggleSupport(btn){const box=btn.nextElementSibling;box.classList.toggle('show');btn.textContent=box.classList.contains('show')?'Hide the start':'Need a start?'}
+
+function sectionIsComplete(section){const sectionAnswers=[...section.querySelectorAll('.answer')];return sectionAnswers.length>0&&sectionAnswers.every(a=>a.value.trim()!=='')}
+function updateProgress(){const done=sections.filter(sectionIsComplete).length;progressBar.style.width=`${done/sections.length*100}%`;progressText.textContent=`${done} of ${sections.length} sections completed`}
+
+function beginTiming(){if(!startedAt)startedAt=new Date().toISOString();if(document.visibilityState==='visible'&&activeStartedAt===null)activeStartedAt=Date.now()}
+function pauseTiming(){if(activeStartedAt!==null){activeMs+=Date.now()-activeStartedAt;activeStartedAt=null}}
+function currentActiveMs(){return activeMs+(activeStartedAt!==null?Date.now()-activeStartedAt:0)}
+function formatDuration(ms){const s=Math.max(0,Math.round(ms/1000));if(s<60)return `${s} sec`;const m=Math.floor(s/60),r=s%60;return r?`${m} min ${r} sec`:`${m} min`}
+
+function draftData(){return{student:studentName.value,answers:answers.map(a=>a.value),spoken:spoken.map(s=>s.checked),startedAt,activeMs:currentActiveMs(),completed,savedAt:new Date().toISOString()}}
+function saveDraft(){localStorage.setItem(storageKey,JSON.stringify(draftData()));saveNote.textContent='Saved automatically on this device.'}
+function scheduleSave(){clearTimeout(saveTimer);saveNote.textContent='Saving…';saveTimer=setTimeout(saveDraft,300)}
+function restoreDraft(){const raw=localStorage.getItem(storageKey);if(!raw)return false;try{const d=JSON.parse(raw);studentName.value=d.student||'Anastasia';(d.answers||[]).forEach((v,i)=>{if(answers[i])answers[i].value=v||''});(d.spoken||[]).forEach((v,i)=>{if(spoken[i])spoken[i].checked=!!v});startedAt=d.startedAt||null;activeMs=Number(d.activeMs)||0;completed=Boolean(d.completed);saveNote.textContent='Your previous answers have been restored.';return true}catch(e){console.warn(e);return false}}
+
+answers.forEach(a=>['input','change'].forEach(ev=>a.addEventListener(ev,()=>{beginTiming();updateProgress();scheduleSave()})));
+spoken.forEach(s=>s.addEventListener('change',()=>{beginTiming();scheduleSave()}));
+studentName.addEventListener('input',()=>{beginTiming();scheduleSave()});
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){pauseTiming();saveDraft()}else if(startedAt){activeStartedAt=Date.now()}});
+window.addEventListener('beforeunload',()=>{pauseTiming();saveDraft()});
+
+const matchStarts=[...document.querySelectorAll('.match-start')],matchEnds=[...document.querySelectorAll('.match-end')];
+matchStarts.forEach(btn=>btn.addEventListener('click',()=>{if(btn.disabled)return;matchStarts.forEach(b=>b.classList.remove('active'));btn.classList.add('active');activeMatchStart=btn}));
+matchEnds.forEach(end=>end.addEventListener('click',()=>{if(end.disabled||!activeMatchStart)return;beginTiming();const start=activeMatchStart,q=start.closest('.match-q'),hidden=q.querySelector('.match-answer'),fb=q.querySelector('.feedback');if(start.dataset.target===end.dataset.letter){hidden.value=end.dataset.letter;start.classList.remove('active','wrong');start.classList.add('matched');start.disabled=true;end.classList.remove('wrong');end.classList.add('matched');end.disabled=true;q.classList.add('correct');fb.textContent='Correct pair.';hidden.dispatchEvent(new Event('input',{bubbles:true}));activeMatchStart=null}else{start.classList.add('wrong');end.classList.add('wrong');fb.textContent='These halves do not match. Try again.';setTimeout(()=>{start.classList.remove('wrong');end.classList.remove('wrong')},650)}}));
+function hydrateMatching(){document.querySelectorAll('.match-answer').forEach(hidden=>{if(!hidden.value)return;const q=hidden.closest('.match-q'),start=q.querySelector('.match-start'),end=document.querySelector(`.match-end[data-letter="${hidden.value}"]`);start.classList.add('matched');start.disabled=true;if(end){end.classList.add('matched');end.disabled=true}q.classList.add('correct');q.querySelector('.feedback').textContent='Correct pair.'})}
+
+function evaluate({scroll=true}={}){let correct=0;const wrong=[],filledWrong=[],filledCorrect=[],open=[];closedAnswers.forEach((el,index)=>{const q=el.closest('.q'),fb=q.querySelector('.feedback'),number=answers.indexOf(el)+1,answer=el.value.trim();q.classList.remove('correct','incorrect','review');if(isCorrect(el)){correct++;q.classList.add('correct');fb.textContent='Looks good.';if(answer)filledCorrect.push(`${number}. ${answer}`)}else{q.classList.add('incorrect');fb.textContent=answer?'Have another look at this one.':'This one is still empty.';wrong.push(number);if(answer)filledWrong.push(`${number}. ${answer} → ${accepted(el)[0]||'—'}`)}});
+answers.filter(el=>!isClosed(el)).forEach(el=>{const q=el.closest('.q'),fb=q.querySelector('.feedback'),number=answers.indexOf(el)+1,answer=el.value.trim();q.classList.remove('correct','incorrect');q.classList.add('review');fb.textContent=answer?'Saved for teacher review.':'Please add your own answer.';open.push(`${number}. ${answer||'—'}`)});
+const pct=Math.round(correct/closedAnswers.length*100),name=studentName.value.trim();score.textContent=`${correct} / ${closedAnswers.length} automatically checked · ${pct}%`;message.textContent=pct===100?`Excellent work${name?', '+name:''}. All automatically checked answers are accurate.`:pct>=85?`Very strong work${name?', '+name:''}. Only a few items need another look.`:pct>=65?`A solid attempt${name?', '+name:''}. Review the highlighted items before the lesson.`:`Thank you for completing the work${name?', '+name:''}. The highlighted items show us what to practise together.`;reviewBlock.innerHTML=wrong.length?`<p><b>Have another look:</b></p><ul class="review-list">${wrong.map(n=>`<li>Question ${n}</li>`).join('')}</ul><p><b>Teacher review:</b> Questions 31–34.</p>`:`<p><b>No automatically checked questions to review.</b></p><p><b>Teacher review:</b> Questions 31–34.</p>`;result.classList.add('show');if(scroll)result.scrollIntoView({behavior:'smooth',block:'start'});return{correct,pct,wrong,filledWrong,filledCorrect,open,name}}
+
+resultFrame.addEventListener('load',()=>{if(!sendPending)return;sendPending=false;clearTimeout(sendTimeout);sendStatus.textContent='Your result has been sent successfully. You can close this page.';completed=true;saveDraft()});
+checkBtn.addEventListener('click',()=>{beginTiming();const r=evaluate();if(!r.name){sendStatus.textContent='Please enter your name above and press “Check my work” again.';saveDraft();return}pauseTiming();const finishedAt=new Date().toISOString(),duration=formatDuration(activeMs),parts=[];if(r.filledWrong.length)parts.push(`❌ ERRORS\n${r.filledWrong.join('\n')}`);if(r.filledCorrect.length)parts.push(`✅ CORRECT\n${r.filledCorrect.join('\n')}`);parts.push(`📝 TEACHER REVIEW\n${r.open.join('\n')}`);parts.push(`🗣 SPOKEN ALOUD\n${spoken.map((s,i)=>`${31+i}. ${s.checked?'yes':'no'}`).join('\n')}`);formStudent.value=r.name;formHomework.value=homeworkId;formScore.value=`${r.correct}/${closedAnswers.length}`;formPercent.value=r.pct;formMistakes.value=r.wrong.join(', ');formAnswers.value=parts.join('\n\n');formStartedAt.value=startedAt||'';formFinishedAt.value=finishedAt;formDuration.value=duration;sendStatus.textContent='Sending your result… Please keep this page open.';saveDraft();sendPending=true;clearTimeout(sendTimeout);sendTimeout=setTimeout(()=>{if(!sendPending)return;sendPending=false;sendStatus.textContent='The result could not be confirmed. Check your internet connection and press “Check my work” again. Your answers are still saved on this device.'},12000);try{resultForm.submit()}catch(e){sendPending=false;clearTimeout(sendTimeout);sendStatus.textContent='The result could not be sent. Your answers are still saved on this device. Please try again.'}});
+
+function clearAttempt({keepStudent}){const name=keepStudent?studentName.value.trim():'';answers.forEach(el=>{el.value='';const q=el.closest('.q');q.classList.remove('correct','incorrect','review');q.querySelector('.feedback').textContent=''});spoken.forEach(s=>s.checked=false);matchStarts.forEach(b=>{b.disabled=false;b.classList.remove('active','matched','wrong')});matchEnds.forEach(b=>{b.disabled=false;b.classList.remove('matched','wrong')});activeMatchStart=null;studentName.value=name;localStorage.removeItem(storageKey);startedAt=null;activeMs=0;activeStartedAt=null;completed=false;result.classList.remove('show');score.textContent='';message.textContent='';reviewBlock.innerHTML='';sendStatus.textContent='Your result has not been sent yet.';saveNote.textContent='Your answers are saved automatically on this device.';completedDialog.classList.remove('show');updateProgress();saveDraft();scrollTo({top:0,behavior:'smooth'})}
+resetBtn.addEventListener('click',()=>{if(confirm('Clear all answers and start again with the same student name?'))clearAttempt({keepStudent:true})});
+newStudentBtn.addEventListener('click',()=>{if(confirm('Start a new student? This will clear the student name, all answers and reset the timer.'))clearAttempt({keepStudent:false})});
+reviewAnswersBtn.addEventListener('click',()=>{completedDialog.classList.remove('show');evaluate({scroll:false});result.scrollIntoView({behavior:'smooth',block:'start'})});
+dialogStartAgainBtn.addEventListener('click',()=>clearAttempt({keepStudent:true}));
+
+const restored=restoreDraft();hydrateMatching();updateProgress();if(startedAt&&document.visibilityState==='visible')activeStartedAt=Date.now();if(restored&&completed)setTimeout(()=>completedDialog.classList.add('show'),120);
+</script>
+</body>
+</html>
