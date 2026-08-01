@@ -10,6 +10,7 @@ let sendTimeout;
 let startedAt = null;
 let activeMs = 0;
 let activeStartedAt = null;
+let completed = false;
 
 function normalise(s){
   return String(s || '').toLowerCase().trim()
@@ -66,7 +67,8 @@ function saveDraft(){
     answers: answers.map(a => a.value),
     savedAt: new Date().toISOString(),
     startedAt,
-    activeMs: currentActiveMs()
+    activeMs: currentActiveMs(),
+    completed
   };
   localStorage.setItem(storageKey, JSON.stringify(draft));
   const status = document.getElementById('draftStatus');
@@ -88,6 +90,7 @@ function restoreDraft(){
     studentName.value = draft.student || '';
     startedAt = draft.startedAt || null;
     activeMs = Number(draft.activeMs) || 0;
+    completed = Boolean(draft.completed);
     if (Array.isArray(draft.answers)) {
       answers.forEach((a, i) => {
         if (typeof draft.answers[i] === 'string') a.value = draft.answers[i];
@@ -138,6 +141,7 @@ resultFrame.addEventListener('load', () => {
   clearTimeout(sendTimeout);
   const sendStatus = document.getElementById('sendStatus');
   sendStatus.textContent = 'Your result has been sent successfully. You can close this page.';
+  completed = true;
   saveDraft();
 });
 
@@ -258,6 +262,7 @@ function clearAttempt({ keepStudent }){
   startedAt = null;
   activeMs = 0;
   activeStartedAt = null;
+  completed = false;
 
   document.getElementById('result').classList.remove('show');
   document.getElementById('score').textContent = '';
@@ -284,10 +289,70 @@ newStudentBtn.textContent = 'New student';
 document.getElementById('resetBtn').insertAdjacentElement('afterend', newStudentBtn);
 
 newStudentBtn.addEventListener('click', () => {
-  if (!confirm('Clear the student name, all answers and the timer for a new student?')) return;
+  if (!confirm('Start a new student? This will clear the student name, all answers and reset the timer.')) return;
   clearAttempt({ keepStudent: false });
   studentName.focus();
 });
 
+function renderReviewOnly(){
+  let correct = 0;
+  const wrong = [];
+
+  answers.forEach((el, index) => {
+    const q = el.closest('.q');
+    q.classList.remove('correct','incorrect');
+    const feedback = q.querySelector('.feedback');
+    const ok = isCorrect(el);
+
+    if (ok) {
+      correct++;
+      q.classList.add('correct');
+      feedback.textContent = 'Looks good.';
+    } else {
+      q.classList.add('incorrect');
+      feedback.textContent = el.value.trim() ? 'Have another look at this one.' : 'This one is still empty.';
+      wrong.push(index + 1);
+    }
+  });
+
+  const pct = Math.round(correct / total * 100);
+  document.getElementById('score').textContent = `${correct} / ${total} · ${pct}%`;
+  document.getElementById('message').textContent = 'Your previous answers are shown below. You can review them or start again.';
+  document.getElementById('reviewBlock').innerHTML = wrong.length
+    ? `<p><b>Have another look:</b></p><ul class="review-list">${wrong.map(n=>`<li>Sentence ${n}</li>`).join('')}</ul>`
+    : `<p><b>Nothing to review this time.</b></p>`;
+  document.getElementById('result').classList.add('show');
+}
+
+function showCompletedDialog(){
+  const overlay = document.createElement('div');
+  overlay.setAttribute('role', 'dialog');
+  overlay.setAttribute('aria-modal', 'true');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:20px;z-index:9999;';
+
+  const box = document.createElement('div');
+  box.style.cssText = 'width:min(460px,100%);background:#fff;border-radius:18px;padding:26px;box-shadow:0 18px 60px rgba(0,0,0,.25);font-family:inherit;';
+  box.innerHTML = `
+    <h2 style="margin:0 0 10px;font-size:1.45rem;">You've already completed this homework.</h2>
+    <p style="margin:0 0 22px;line-height:1.5;">Would you like to review your previous answers or start again?</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end;">
+      <button type="button" id="completedReviewBtn" class="secondary">Review answers</button>
+      <button type="button" id="completedRestartBtn">Start again</button>
+    </div>`;
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+
+  box.querySelector('#completedReviewBtn').addEventListener('click', () => {
+    overlay.remove();
+    renderReviewOnly();
+  });
+
+  box.querySelector('#completedRestartBtn').addEventListener('click', () => {
+    overlay.remove();
+    clearAttempt({ keepStudent: true });
+  });
+}
+
 restoreDraft();
 updateProgress();
+if (completed) showCompletedDialog();
