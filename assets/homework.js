@@ -331,13 +331,13 @@ function showCompletedDialog(){
   overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:20px;z-index:9999;';
 
   const box = document.createElement('div');
-  box.style.cssText = 'width:min(460px,100%);background:#fff;border-radius:18px;padding:26px;box-shadow:0 18px 60px rgba(0,0,0,.25);font-family:inherit;';
+  box.style.cssText = 'width:min(560px,100%);background:#fff;border-radius:18px;padding:24px;box-shadow:0 18px 60px rgba(0,0,0,.25);font-family:inherit;';
   box.innerHTML = `
-    <h2 style="margin:0 0 10px;font-size:1.45rem;">You've already completed this homework.</h2>
-    <p style="margin:0 0 22px;line-height:1.5;">Would you like to review your previous answers or start again?</p>
-    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end;">
-      <button type="button" id="completedReviewBtn" class="secondary">Review answers</button>
-      <button type="button" id="completedRestartBtn">Start again</button>
+    <h2 style="margin:0 0 8px;font-size:clamp(1.15rem,3vw,1.35rem);line-height:1.25;">You've already completed this homework.</h2>
+    <p style="margin:0 0 20px;line-height:1.45;">Would you like to review your previous answers or start again?</p>
+    <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;">
+      <button type="button" id="completedReviewBtn" style="width:100%;min-height:52px;border:0;border-radius:14px;background:#f0ede7;color:#252823;font:inherit;font-weight:700;padding:12px 16px;cursor:pointer;">Review answers</button>
+      <button type="button" id="completedRestartBtn" style="width:100%;min-height:52px;border:0;border-radius:14px;background:#2e6f73;color:#fff;font:inherit;font-weight:700;padding:12px 16px;cursor:pointer;">Start again</button>
     </div>`;
   overlay.appendChild(box);
   document.body.appendChild(overlay);
