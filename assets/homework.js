@@ -243,22 +243,50 @@ document.getElementById('checkBtn').addEventListener('click', () => {
   }
 });
 
-document.getElementById('resetBtn').addEventListener('click', () => {
-  if (!confirm('Clear all answers and start again?')) return;
-  document.getElementById('hwForm').reset();
+function clearAttempt({ keepStudent }){
+  const savedName = keepStudent ? studentName.value.trim() : '';
+
+  answers.forEach(el => {
+    el.value = '';
+    const q = el.closest('.q');
+    q.classList.remove('correct','incorrect');
+    q.querySelector('.feedback').textContent = '';
+  });
+
+  studentName.value = savedName;
   localStorage.removeItem(storageKey);
   startedAt = null;
   activeMs = 0;
   activeStartedAt = null;
-  answers.forEach(el => {
-    const q = el.closest('.q');
-    q.classList.remove('correct','incorrect');
-    q.querySelector('.feedback').textContent='';
-  });
+
   document.getElementById('result').classList.remove('show');
+  document.getElementById('score').textContent = '';
+  document.getElementById('message').textContent = '';
+  document.getElementById('reviewBlock').innerHTML = '';
+  document.getElementById('sendStatus').textContent = '';
   document.getElementById('draftStatus').textContent = 'Answers are saved automatically on this device.';
+
   updateProgress();
-  window.scrollTo({top:0,behavior:'smooth'});
+  saveDraft();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  if (!confirm('Clear all answers and start again with the same student name?')) return;
+  clearAttempt({ keepStudent: true });
+});
+
+const newStudentBtn = document.createElement('button');
+newStudentBtn.type = 'button';
+newStudentBtn.id = 'newStudentBtn';
+newStudentBtn.className = 'secondary';
+newStudentBtn.textContent = 'New student';
+document.getElementById('resetBtn').insertAdjacentElement('afterend', newStudentBtn);
+
+newStudentBtn.addEventListener('click', () => {
+  if (!confirm('Clear the student name, all answers and the timer for a new student?')) return;
+  clearAttempt({ keepStudent: false });
+  studentName.focus();
 });
 
 restoreDraft();
