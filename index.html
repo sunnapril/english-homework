@@ -1,17 +1,42 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>English Homework</title>
-  <style>
-    body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;max-width:760px;margin:48px auto;padding:0 20px;color:#252823;background:#fffdfa}
-    h1{font-size:clamp(2rem,6vw,3.5rem);margin-bottom:10px}.card{display:block;margin-top:28px;padding:22px;border:1px solid #ddd9d0;border-radius:16px;color:inherit;text-decoration:none;background:white}.card:hover{border-color:#2e6f73}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Irina English Homework</title>
+<style>
+:root{--bg:#eef2f3;--paper:#fffdf9;--ink:#243148;--muted:#6d7786;--teal:#247f7a;--teal-dark:#17645f;--orange:#e88925;--line:#dce2e5;--shadow:0 16px 42px rgba(35,48,68,.10)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 10% 0,rgba(36,127,122,.14),transparent 28rem),linear-gradient(180deg,#f6f7f7,#edf1f2);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}
+main{max-width:980px;margin:0 auto;padding:34px 18px 70px}.hero,.card{background:var(--paper);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}
+.hero{padding:38px;background:linear-gradient(125deg,#23344d,#345069 62%,#247f7a 140%);color:#fff}.eyebrow{font-size:.78rem;font-weight:900;letter-spacing:.09em;text-transform:uppercase;color:#ffd497}h1{margin:8px 0 10px;font-size:clamp(2.4rem,6vw,4.4rem);line-height:1}.hero p{max-width:650px;margin:0;color:#e5edf2;font-size:1.06rem}
+.section-title{margin:30px 0 12px}.section-title h2{margin:0 0 4px;font-size:1.55rem}.section-title p{margin:0;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card{padding:24px}.student{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.student h3{margin:0 0 4px;font-size:1.35rem}.course{color:var(--muted);font-weight:650}.badge{padding:6px 10px;border-radius:999px;background:#e9f5f3;color:var(--teal-dark);font-size:.8rem;font-weight:850;white-space:nowrap}.homework{margin:18px 0 0;padding:15px;border:1px solid var(--line);border-radius:14px;background:#fff}.homework b{display:block;margin-bottom:3px}.meta{font-size:.9rem;color:var(--muted)}a.button{display:inline-flex;align-items:center;justify-content:center;margin-top:15px;padding:11px 15px;border-radius:11px;background:var(--teal);color:#fff;text-decoration:none;font-weight:850}a.button:hover{background:var(--teal-dark)}.note{margin-top:22px;color:var(--muted);font-size:.9rem}
+@media(max-width:700px){main{padding:16px 10px 45px}.hero,.card{border-radius:17px}.hero{padding:25px 21px}.grid{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
-  <h1>English Homework</h1>
-  <p>Interactive homework for Irina's students.</p>
-  <a class="card" href="homework/sergey-memory/">Sergey — Roadmap B2 Unit 3A</a>
+<main>
+<section class="hero">
+  <div class="eyebrow">Irina English Homework</div>
+  <h1>Homework hub</h1>
+  <p>Open a student page to find current and previous homework. Student results and teacher notes remain private in Google Sheets.</p>
+</section>
+
+<div class="section-title"><h2>Students</h2><p>Use this page as the single starting point for all homework links.</p></div>
+<div class="grid">
+  <article class="card">
+    <div class="student"><div><h3>Anastasia</h3><div class="course">Roadmap A2+</div></div><span class="badge">1 active</span></div>
+    <div class="homework"><b>Unit 5A · Relative clauses</b><div class="meta">Assigned 1 August 2026</div></div>
+    <a class="button" href="/homework/anastasia/">Open Anastasia’s page</a>
+  </article>
+
+  <article class="card">
+    <div class="student"><div><h3>Sergey</h3><div class="course">Roadmap B2</div></div><span class="badge">Current link</span></div>
+    <div class="homework"><b>Unit 3A · Memory</b><div class="meta">Existing homework link kept unchanged</div></div>
+    <a class="button" href="/homework/sergey-memory/">Open Sergey’s homework</a>
+  </article>
+</div>
+<p class="note">Only first names and homework titles are shown here. Scores, answers, personal vocabulary and teacher comments are not published on this page.</p>
+</main>
 </body>
 </html>
