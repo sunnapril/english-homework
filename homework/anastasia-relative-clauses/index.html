@@ -35,10 +35,6 @@ input,select,textarea{font:inherit;color:var(--ink)}.meta input,.answer,textarea
 button{cursor:pointer;border:0;border-radius:10px;padding:11px 16px;color:#fff;background:var(--teal);font:inherit;font-weight:850}button:hover{filter:brightness(.97);transform:translateY(-1px)}button.secondary{color:var(--ink);background:#e7ebef}button.hint{padding:8px 11px;color:#435267;background:#e7edf3;font-size:.9rem}
 .checkline{display:flex;align-items:center;gap:9px;margin:11px 0;color:#4a596d}.checkline input{width:18px;height:18px}.actions{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}.primary{background:var(--orange)}
 .result{display:none;margin-top:18px;padding:28px;border-top:7px solid var(--orange)}.result.show{display:block}.score{font-size:2.05rem;font-weight:900}.teacher-note{padding:12px 14px;border-radius:10px;background:#eef4f8;color:#506176}.review-list{padding-left:22px}.small{font-size:.88rem;color:var(--muted)}
-
-.completed-dialog{position:fixed;inset:0;z-index:1000;display:none;place-items:center;padding:20px;background:rgba(31,43,61,.48);backdrop-filter:blur(3px)}
-.completed-dialog.show{display:grid}.dialog-card{width:min(560px,100%);padding:26px;border:1px solid var(--line);border-radius:24px;background:var(--paper);box-shadow:0 24px 70px rgba(20,30,45,.28);text-align:center}.dialog-card h2{margin:0 0 10px;font-size:clamp(1.35rem,4vw,1.75rem)}.dialog-card p{margin:0;color:var(--muted)}.dialog-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}.dialog-actions button{width:100%;min-height:48px}.dialog-actions .review-btn{color:var(--ink);background:#e7ebef}.dialog-actions .restart-btn{background:#247f7a}
-@media(max-width:520px){.dialog-card{padding:22px 18px;border-radius:20px}.dialog-actions{grid-template-columns:1fr}}
 @media(max-width:650px){main{margin-top:14px;padding:0 10px 45px}.hero,.card,.result{padding:21px 18px;border-radius:16px}.rule-grid{grid-template-columns:1fr}.matching-board{grid-template-columns:1fr}.hero:after{font-size:110px;right:0}}
 </style>
 </head>
@@ -47,9 +43,9 @@ button{cursor:pointer;border:0;border-radius:10px;padding:11px 16px;color:#fff;b
 <section class="hero">
   <div class="eyebrow">Roadmap A2+ · Unit 5A · Homework</div>
   <h1>Relative clauses</h1>
-  <p class="subtitle">This homework has 5 short parts. You can complete them over several days: your answers and progress are saved on this device.</p>
+  <p class="subtitle">Everything is on this page: Workbook practice, new vocabulary contexts and speaking. Your answers are saved on this device.</p>
   <div class="meta"><input id="studentName" type="text" value="Anastasia" aria-label="Your name"></div>
-  <div class="progress-wrap"><div class="progress-track"><div id="progressBar" class="progress-bar"></div></div><div id="progressText" class="progress-text">0 of 5 sections completed</div><div id="saveNote" class="save-note">Your answers are saved automatically on this device.</div></div>
+  <div class="progress-wrap"><div class="progress-track"><div id="progressBar" class="progress-bar"></div></div><div id="progressText" class="progress-text">0 of 34 answers completed</div><div id="saveNote" class="save-note">Your answers are saved automatically on this device.</div></div>
 </section>
 
 <section class="card">
@@ -143,82 +139,72 @@ button{cursor:pointer;border:0;border-radius:10px;padding:11px 16px;color:#fff;b
   <div class="speak"><h3>34. Describe a place where people can lift weights or do other exercise.</h3><ol class="steps"><li>Say where the place is.</li><li>Describe what people can do there.</li><li>Say whether you like lifting weights there.</li></ol><button class="hint" type="button" onclick="toggleSupport(this)">Need a start?</button><div class="support">A place where people can exercise is …</div><label class="checkline"><input class="spoken" type="checkbox"> I said my answer aloud.</label><div class="q review"><textarea class="answer open" rows="3" data-review="true" placeholder="Write your final answer."></textarea><div class="feedback"></div></div></div>
 </section>
 
-<div class="actions"><button type="button" class="primary" id="checkBtn">Check my work</button><button type="button" class="secondary" id="resetBtn">Start again</button><button type="button" class="secondary" id="newStudentBtn">New student</button></div>
+<div class="actions"><button type="button" class="primary" id="checkBtn">Check my work</button><button type="button" class="secondary" id="resetBtn">Start again</button></div>
 </form>
 
 <section id="result" class="result" aria-live="polite"><div class="stage">Today’s result</div><div id="score" class="score"></div><p id="message"></p><div id="reviewBlock"></div><p id="sendStatus" class="teacher-note">Your result has not been sent yet.</p><p class="teacher-note">Questions 31–34 need teacher review. We will use them for speaking practice in the lesson.</p></section>
-
-<section id="completedDialog" class="completed-dialog" role="dialog" aria-modal="true" aria-labelledby="completedTitle">
-  <div class="dialog-card">
-    <h2 id="completedTitle">You’ve already completed this homework.</h2>
-    <p>Your saved answers are still here.</p>
-    <div class="dialog-actions">
-      <button type="button" id="reviewAnswersBtn" class="review-btn">Review answers</button>
-      <button type="button" id="dialogStartAgainBtn" class="restart-btn">Start again</button>
-    </div>
-  </div>
-</section>
 </main>
 
-<iframe name="resultFrame" id="resultFrame" style="display:none"></iframe>
-<form id="resultForm" action="https://script.google.com/macros/s/AKfycbw2zUGeG7xViJMx5s-GYAzG-vFglI9ZbfN0QdyOK5bngVf0HciC8hspov8ogaeennPu/exec" method="POST" target="resultFrame" style="display:none">
-<input type="hidden" name="student" id="formStudent"><input type="hidden" name="homework" id="formHomework"><input type="hidden" name="score" id="formScore"><input type="hidden" name="percent" id="formPercent"><input type="hidden" name="mistakes" id="formMistakes"><input type="hidden" name="answers" id="formAnswers"><input type="hidden" name="startedAt" id="formStartedAt"><input type="hidden" name="finishedAt" id="formFinishedAt"><input type="hidden" name="duration" id="formDuration">
-</form>
 <script>
-const answers=[...document.querySelectorAll('.answer')];
-const spoken=[...document.querySelectorAll('.spoken')];
-const sections=[...document.querySelectorAll('#hwForm > section.card')];
-const closedAnswers=answers.filter(el=>el.dataset.review!=='true');
-const studentName=document.getElementById('studentName');
-const homeworkId='Roadmap A2+ · Unit 5A Relative Clauses · Complete Homework';
-const storageKey='homework:anastasia-roadmap-a2-unit5a-relative-clauses-v3';
-let saveTimer,sendPending=false,sendTimeout,activeMatchStart=null;
-let startedAt=null,activeMs=0,activeStartedAt=null,completed=false;
-
-function normalise(s){return String(s||'').toLowerCase().trim().replace(/[’‘´`]/g,"'").replace(/[‐‑‒–—]/g,'-').replace(/[?.!,;:]/g,'').replace(/\s+/g,' ')}
-function accepted(el){return (el.dataset.answer||'').split('|').map(x=>x.trim()).filter(Boolean)}
+const answers=[...document.querySelectorAll('.answer')],spoken=[...document.querySelectorAll('.spoken')],total=answers.length,storageKey='anastasia_roadmap_a2_unit5a_homework_v2';
+function normalise(s){return s.toLowerCase().trim().replace(/[’‘]/g,"'").replace(/[?.!,;:]/g,"").replace(/\s+/g," ")}
+function accepted(el){return(el.dataset.answer||'').split('|').map(normalise)}
 function isClosed(el){return el.dataset.review!=='true'}
-function isCorrect(el){return accepted(el).map(normalise).includes(normalise(el.value))}
 function toggleSupport(btn){const box=btn.nextElementSibling;box.classList.toggle('show');btn.textContent=box.classList.contains('show')?'Hide the start':'Need a start?'}
-
-function sectionIsComplete(section){const sectionAnswers=[...section.querySelectorAll('.answer')];return sectionAnswers.length>0&&sectionAnswers.every(a=>a.value.trim()!=='')}
-function updateProgress(){const done=sections.filter(sectionIsComplete).length;progressBar.style.width=`${done/sections.length*100}%`;progressText.textContent=`${done} of ${sections.length} sections completed`}
-
-function beginTiming(){if(!startedAt)startedAt=new Date().toISOString();if(document.visibilityState==='visible'&&activeStartedAt===null)activeStartedAt=Date.now()}
-function pauseTiming(){if(activeStartedAt!==null){activeMs+=Date.now()-activeStartedAt;activeStartedAt=null}}
-function currentActiveMs(){return activeMs+(activeStartedAt!==null?Date.now()-activeStartedAt:0)}
-function formatDuration(ms){const s=Math.max(0,Math.round(ms/1000));if(s<60)return `${s} sec`;const m=Math.floor(s/60),r=s%60;return r?`${m} min ${r} sec`:`${m} min`}
-
-function draftData(){return{student:studentName.value,answers:answers.map(a=>a.value),spoken:spoken.map(s=>s.checked),startedAt,activeMs:currentActiveMs(),completed,savedAt:new Date().toISOString()}}
-function saveDraft(){localStorage.setItem(storageKey,JSON.stringify(draftData()));saveNote.textContent='Saved automatically on this device.'}
-function scheduleSave(){clearTimeout(saveTimer);saveNote.textContent='Saving…';saveTimer=setTimeout(saveDraft,300)}
-function restoreDraft(){const raw=localStorage.getItem(storageKey);if(!raw)return false;try{const d=JSON.parse(raw);studentName.value=d.student||'Anastasia';(d.answers||[]).forEach((v,i)=>{if(answers[i])answers[i].value=v||''});(d.spoken||[]).forEach((v,i)=>{if(spoken[i])spoken[i].checked=!!v});startedAt=d.startedAt||null;activeMs=Number(d.activeMs)||0;completed=Boolean(d.completed);saveNote.textContent='Your previous answers have been restored.';return true}catch(e){console.warn(e);return false}}
-
-answers.forEach(a=>['input','change'].forEach(ev=>a.addEventListener(ev,()=>{beginTiming();updateProgress();scheduleSave()})));
-spoken.forEach(s=>s.addEventListener('change',()=>{beginTiming();scheduleSave()}));
-studentName.addEventListener('input',()=>{beginTiming();scheduleSave()});
-document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){pauseTiming();saveDraft()}else if(startedAt){activeStartedAt=Date.now()}});
-window.addEventListener('beforeunload',()=>{pauseTiming();saveDraft()});
-
-const matchStarts=[...document.querySelectorAll('.match-start')],matchEnds=[...document.querySelectorAll('.match-end')];
-matchStarts.forEach(btn=>btn.addEventListener('click',()=>{if(btn.disabled)return;matchStarts.forEach(b=>b.classList.remove('active'));btn.classList.add('active');activeMatchStart=btn}));
-matchEnds.forEach(end=>end.addEventListener('click',()=>{if(end.disabled||!activeMatchStart)return;beginTiming();const start=activeMatchStart,q=start.closest('.match-q'),hidden=q.querySelector('.match-answer'),fb=q.querySelector('.feedback');if(start.dataset.target===end.dataset.letter){hidden.value=end.dataset.letter;start.classList.remove('active','wrong');start.classList.add('matched');start.disabled=true;end.classList.remove('wrong');end.classList.add('matched');end.disabled=true;q.classList.add('correct');fb.textContent='Correct pair.';hidden.dispatchEvent(new Event('input',{bubbles:true}));activeMatchStart=null}else{start.classList.add('wrong');end.classList.add('wrong');fb.textContent='These halves do not match. Try again.';setTimeout(()=>{start.classList.remove('wrong');end.classList.remove('wrong')},650)}}));
-function hydrateMatching(){document.querySelectorAll('.match-answer').forEach(hidden=>{if(!hidden.value)return;const q=hidden.closest('.match-q'),start=q.querySelector('.match-start'),end=document.querySelector(`.match-end[data-letter="${hidden.value}"]`);start.classList.add('matched');start.disabled=true;if(end){end.classList.add('matched');end.disabled=true}q.classList.add('correct');q.querySelector('.feedback').textContent='Correct pair.'})}
-
-function evaluate({scroll=true}={}){let correct=0;const wrong=[],filledWrong=[],filledCorrect=[],open=[];closedAnswers.forEach((el,index)=>{const q=el.closest('.q'),fb=q.querySelector('.feedback'),number=answers.indexOf(el)+1,answer=el.value.trim();q.classList.remove('correct','incorrect','review');if(isCorrect(el)){correct++;q.classList.add('correct');fb.textContent='Looks good.';if(answer)filledCorrect.push(`${number}. ${answer}`)}else{q.classList.add('incorrect');fb.textContent=answer?'Have another look at this one.':'This one is still empty.';wrong.push(number);if(answer)filledWrong.push(`${number}. ${answer} → ${accepted(el)[0]||'—'}`)}});
-answers.filter(el=>!isClosed(el)).forEach(el=>{const q=el.closest('.q'),fb=q.querySelector('.feedback'),number=answers.indexOf(el)+1,answer=el.value.trim();q.classList.remove('correct','incorrect');q.classList.add('review');fb.textContent=answer?'Saved for teacher review.':'Please add your own answer.';open.push(`${number}. ${answer||'—'}`)});
-const pct=Math.round(correct/closedAnswers.length*100),name=studentName.value.trim();score.textContent=`${correct} / ${closedAnswers.length} automatically checked · ${pct}%`;message.textContent=pct===100?`Excellent work${name?', '+name:''}. All automatically checked answers are accurate.`:pct>=85?`Very strong work${name?', '+name:''}. Only a few items need another look.`:pct>=65?`A solid attempt${name?', '+name:''}. Review the highlighted items before the lesson.`:`Thank you for completing the work${name?', '+name:''}. The highlighted items show us what to practise together.`;reviewBlock.innerHTML=wrong.length?`<p><b>Have another look:</b></p><ul class="review-list">${wrong.map(n=>`<li>Question ${n}</li>`).join('')}</ul><p><b>Teacher review:</b> Questions 31–34.</p>`:`<p><b>No automatically checked questions to review.</b></p><p><b>Teacher review:</b> Questions 31–34.</p>`;result.classList.add('show');if(scroll)result.scrollIntoView({behavior:'smooth',block:'start'});return{correct,pct,wrong,filledWrong,filledCorrect,open,name}}
-
-resultFrame.addEventListener('load',()=>{if(!sendPending)return;sendPending=false;clearTimeout(sendTimeout);sendStatus.textContent='Your result has been sent successfully. You can close this page.';completed=true;saveDraft()});
-checkBtn.addEventListener('click',()=>{beginTiming();const r=evaluate();if(!r.name){sendStatus.textContent='Please enter your name above and press “Check my work” again.';saveDraft();return}pauseTiming();const finishedAt=new Date().toISOString(),duration=formatDuration(activeMs),parts=[];if(r.filledWrong.length)parts.push(`❌ ERRORS\n${r.filledWrong.join('\n')}`);if(r.filledCorrect.length)parts.push(`✅ CORRECT\n${r.filledCorrect.join('\n')}`);parts.push(`📝 TEACHER REVIEW\n${r.open.join('\n')}`);parts.push(`🗣 SPOKEN ALOUD\n${spoken.map((s,i)=>`${31+i}. ${s.checked?'yes':'no'}`).join('\n')}`);formStudent.value=r.name;formHomework.value=homeworkId;formScore.value=`${r.correct}/${closedAnswers.length}`;formPercent.value=r.pct;formMistakes.value=r.wrong.join(', ');formAnswers.value=parts.join('\n\n');formStartedAt.value=startedAt||'';formFinishedAt.value=finishedAt;formDuration.value=duration;sendStatus.textContent='Sending your result… Please keep this page open.';saveDraft();sendPending=true;clearTimeout(sendTimeout);sendTimeout=setTimeout(()=>{if(!sendPending)return;sendPending=false;sendStatus.textContent='The result could not be confirmed. Check your internet connection and press “Check my work” again. Your answers are still saved on this device.'},12000);try{resultForm.submit()}catch(e){sendPending=false;clearTimeout(sendTimeout);sendStatus.textContent='The result could not be sent. Your answers are still saved on this device. Please try again.'}});
-
-function clearAttempt({keepStudent}){const name=keepStudent?studentName.value.trim():'';answers.forEach(el=>{el.value='';const q=el.closest('.q');q.classList.remove('correct','incorrect','review');q.querySelector('.feedback').textContent=''});spoken.forEach(s=>s.checked=false);matchStarts.forEach(b=>{b.disabled=false;b.classList.remove('active','matched','wrong')});matchEnds.forEach(b=>{b.disabled=false;b.classList.remove('matched','wrong')});activeMatchStart=null;studentName.value=name;localStorage.removeItem(storageKey);startedAt=null;activeMs=0;activeStartedAt=null;completed=false;result.classList.remove('show');score.textContent='';message.textContent='';reviewBlock.innerHTML='';sendStatus.textContent='Your result has not been sent yet.';saveNote.textContent='Your answers are saved automatically on this device.';completedDialog.classList.remove('show');updateProgress();saveDraft();scrollTo({top:0,behavior:'smooth'})}
-resetBtn.addEventListener('click',()=>{if(confirm('Clear all answers and start again with the same student name?'))clearAttempt({keepStudent:true})});
-newStudentBtn.addEventListener('click',()=>{if(confirm('Start a new student? This will clear the student name, all answers and reset the timer.'))clearAttempt({keepStudent:false})});
-reviewAnswersBtn.addEventListener('click',()=>{completedDialog.classList.remove('show');evaluate({scroll:false});result.scrollIntoView({behavior:'smooth',block:'start'})});
-dialogStartAgainBtn.addEventListener('click',()=>clearAttempt({keepStudent:true}));
-
-const restored=restoreDraft();hydrateMatching();updateProgress();if(startedAt&&document.visibilityState==='visible')activeStartedAt=Date.now();if(restored&&completed)setTimeout(()=>completedDialog.classList.add('show'),120);
+function updateProgress(){const done=answers.filter(a=>a.value.trim()).length;document.getElementById('progressBar').style.width=`${done/total*100}%`;document.getElementById('progressText').textContent=`${done} of ${total} answers completed`}
+function saveDraft(){localStorage.setItem(storageKey,JSON.stringify({student:studentName.value,answers:answers.map(a=>a.value),spoken:spoken.map(a=>a.checked),savedAt:new Date().toISOString()}));saveNote.textContent='Saved automatically on this device.'}
+function restoreDraft(){const raw=localStorage.getItem(storageKey);if(!raw)return;try{const d=JSON.parse(raw);studentName.value=d.student||'Anastasia';(d.answers||[]).forEach((v,i)=>{if(answers[i])answers[i].value=v||''});(d.spoken||[]).forEach((v,i)=>{if(spoken[i])spoken[i].checked=!!v});saveNote.textContent='Your previous answers have been restored.'}catch(e){}}
+answers.forEach(a=>['input','change'].forEach(ev=>a.addEventListener(ev,()=>{updateProgress();saveDraft()})));spoken.forEach(a=>a.addEventListener('change',saveDraft));studentName.addEventListener('input',saveDraft);
+let activeMatchStart=null;
+const matchStarts=[...document.querySelectorAll('.match-start')];
+const matchEnds=[...document.querySelectorAll('.match-end')];
+matchStarts.forEach(btn=>btn.addEventListener('click',()=>{
+  if(btn.disabled)return;
+  matchStarts.forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');activeMatchStart=btn;
+}));
+matchEnds.forEach(end=>end.addEventListener('click',()=>{
+  if(end.disabled||!activeMatchStart)return;
+  const start=activeMatchStart,q=start.closest('.match-q'),hidden=q.querySelector('.match-answer'),feedback=q.querySelector('.feedback');
+  if(start.dataset.target===end.dataset.letter){
+    hidden.value=end.dataset.letter;
+    start.classList.remove('active','wrong');start.classList.add('matched');start.disabled=true;
+    end.classList.remove('wrong');end.classList.add('matched');end.disabled=true;
+    q.classList.add('correct');feedback.textContent='Correct pair.';
+    hidden.dispatchEvent(new Event('input',{bubbles:true}));activeMatchStart=null;
+  }else{
+    start.classList.add('wrong');end.classList.add('wrong');feedback.textContent='These halves do not match. Try again.';
+    setTimeout(()=>{start.classList.remove('wrong');end.classList.remove('wrong')},650);
+  }
+}));
+function hydrateMatching(){
+  document.querySelectorAll('.match-answer').forEach(hidden=>{
+    if(!hidden.value)return;
+    const q=hidden.closest('.match-q'),start=q.querySelector('.match-start'),end=document.querySelector(`.match-end[data-letter="${hidden.value}"]`);
+    start.classList.add('matched');start.disabled=true;
+    if(end){end.classList.add('matched');end.disabled=true}
+    q.classList.add('correct');q.querySelector('.feedback').textContent='Correct pair.';
+  });
+}
+checkBtn.addEventListener('click',()=>{
+ let correct=0,closedTotal=0;const wrong=[],open=[],details=[];
+ answers.forEach((el,i)=>{const q=el.closest('.q'),fb=q.querySelector('.feedback');q.classList.remove('correct','incorrect');
+  if(isClosed(el)){closedTotal++;const ok=accepted(el).includes(normalise(el.value));if(ok){correct++;q.classList.add('correct');fb.textContent='Correct.'}else{q.classList.add('incorrect');fb.textContent=el.value.trim()?'Have another look.':'This answer is still empty.';wrong.push(i+1);details.push(`${i+1}: ${el.value.trim()||'—'} → ${accepted(el).join(' / ')}`)}}
+  else{q.classList.add('review');fb.textContent=el.value.trim()?'Saved for teacher review.':'Please add your own answer.';open.push(`${i+1}: ${el.value.trim()||'—'}`)}
+ });
+ const pct=Math.round(correct/closedTotal*100),name=studentName.value.trim();score.textContent=`${correct} / ${closedTotal} automatically checked · ${pct}%`;
+ message.textContent=pct===100?`Excellent work${name?', '+name:''}. All automatically checked answers are accurate.`:pct>=85?`Very strong work${name?', '+name:''}. Only a few items need another look.`:pct>=65?`A solid attempt${name?', '+name:''}. Review the highlighted items before the lesson.`:`Thank you for completing the work${name?', '+name:''}. The highlighted items show us what to practise together.`;
+ reviewBlock.innerHTML=wrong.length?`<p><b>Have another look:</b></p><ul class="review-list">${wrong.map(n=>`<li>Question ${n}</li>`).join('')}</ul><p><b>Teacher review:</b> Questions 31–34.</p>`:`<p><b>No closed questions to review.</b></p><p><b>Teacher review:</b> Questions 31–34.</p>`;
+ result.classList.add('show');result.scrollIntoView({behavior:'smooth',block:'start'});
+ if(!name){sendStatus.textContent='Please enter your name above and press “Check my work” again.';return}
+ formStudent.value=name;formHomework.value='Roadmap A2+ · Unit 5A Relative Clauses · Complete Homework';formScore.value=`${correct}/${closedTotal}`;formPercent.value=pct;formMistakes.value=wrong.join(', ');
+ formAnswers.value=[details.length?`Closed: ${details.join(' | ')}`:'Closed: all correct',`Open: ${open.join(' | ')}`,`Spoken aloud: ${spoken.map((s,i)=>`${31+i}=${s.checked?'yes':'no'}`).join(', ')}`].join(' || ');
+ resultForm.submit();sendStatus.textContent='Your result has been sent. Your answers will stay saved on this device.';saveDraft();
+});
+resetBtn.addEventListener('click',()=>{if(!confirm('Clear all saved answers and start again?'))return;hwForm.reset();studentName.value='Anastasia';answers.forEach(el=>{const q=el.closest('.q');q.classList.remove('correct','incorrect');q.querySelector('.feedback').textContent=''});matchStarts.forEach(b=>{b.disabled=false;b.classList.remove('active','matched','wrong')});matchEnds.forEach(b=>{b.disabled=false;b.classList.remove('matched','wrong')});activeMatchStart=null;localStorage.removeItem(storageKey);result.classList.remove('show');saveNote.textContent='Your answers are saved automatically on this device.';updateProgress();scrollTo({top:0,behavior:'smooth'})});
+restoreDraft();hydrateMatching();updateProgress();
 </script>
+<iframe name="resultFrame" id="resultFrame" style="display:none"></iframe>
+<form id="resultForm" action="https://script.google.com/macros/s/AKfycbw2zUGeG7xViJMx5s-GYAzG-vFglI9ZbfN0QdyOK5bngVf0HciC8hspov8ogaeennPu/exec" method="POST" target="resultFrame" style="display:none"><input type="hidden" name="student" id="formStudent"><input type="hidden" name="homework" id="formHomework"><input type="hidden" name="score" id="formScore"><input type="hidden" name="percent" id="formPercent"><input type="hidden" name="mistakes" id="formMistakes"><input type="hidden" name="answers" id="formAnswers"></form>
 </body>
 </html>

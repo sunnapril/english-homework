@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roadmap B2 · Unit 3B Homework</title>
+<style>
+:root{
+  --bg:#f4f2ed;--paper:#fffdfa;--text:#252823;--muted:#6d716b;
+  --accent:#2e6f73;--accent-soft:#e5f0ef;--line:#ddd9d0;
+  --ok:#2f7655;--ok-bg:#e8f3ed;--bad:#9b4d45;--bad-bg:#f8ebe8;
+  --warm:#f4eadc;--warm-ink:#805c37;--shadow:0 12px 30px rgba(35,42,38,.08)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);line-height:1.55}
+main{max-width:900px;margin:38px auto;padding:0 18px 64px}
+.hero,.card,.result{background:var(--paper);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.hero{padding:30px 32px;margin-bottom:20px}
+.eyebrow{font-size:.82rem;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);font-weight:750}
+h1{font-size:clamp(1.8rem,4vw,2.7rem);line-height:1.15;margin:.35rem 0 .55rem}
+.subtitle{color:var(--muted);margin:0;max-width:700px}
+.meta{margin-top:20px}
+.meta input,input.answer,textarea.answer{border:1px solid #cfcac0;border-radius:10px;padding:11px 12px;font:inherit;background:#fff;color:var(--text)}
+.meta input{width:100%;min-width:0}
+.progress-wrap{margin-top:20px}.progress-track{height:8px;background:#e6e2da;border-radius:99px;overflow:hidden}.progress-bar{height:100%;width:0;background:var(--accent);transition:width .25s}.progress-text{font-size:.88rem;color:var(--muted);margin-top:6px}
+.save-note{font-size:.82rem;color:var(--muted);margin-top:10px}
+.card{padding:26px 28px;margin:18px 0}
+.section-tag{display:inline-block;background:var(--accent-soft);color:var(--accent);padding:5px 10px;border-radius:99px;font-size:.8rem;font-weight:750}
+.section-tag.extra{background:var(--warm);color:var(--warm-ink)}
+h2{font-size:1.35rem;margin:.7rem 0 .2rem}.instructions{color:var(--muted);margin:0 0 20px}.wordbox{background:#f1efe9;border-radius:12px;padding:13px 15px;margin:12px 0 20px;font-weight:650}
+.q{padding:15px 0;border-top:1px solid #ebe8e1}.q:first-of-type{border-top:0}.q-row{display:flex;gap:10px;align-items:flex-start}.num{min-width:26px;height:26px;border-radius:50%;background:#efede7;display:grid;place-items:center;font-size:.83rem;font-weight:750}.prompt{flex:1;min-width:0}
+input.answer{width:min(100%,430px);display:block;margin-top:9px}textarea.answer{display:block;width:100%;min-height:88px;margin-top:10px;resize:vertical}
+.answer:focus,.meta input:focus{outline:3px solid rgba(46,111,115,.13);border-color:var(--accent)}
+.initial{font-weight:800;color:var(--accent)}
+.q.correct{background:linear-gradient(90deg,var(--ok-bg),transparent 72%);margin-left:-14px;margin-right:-14px;padding-left:14px;padding-right:14px}.q.incorrect{background:linear-gradient(90deg,var(--bad-bg),transparent 72%);margin-left:-14px;margin-right:-14px;padding-left:14px;padding-right:14px}
+.feedback{display:none;font-size:.9rem;margin-top:7px;font-weight:650}.q.correct .feedback{display:block;color:var(--ok)}.q.incorrect .feedback{display:block;color:var(--bad)}
+.open-card{padding:15px;border:1px solid var(--line);border-radius:13px;background:#fbfaf6;margin:12px 0}.open-card b{color:var(--accent)}.support{font-size:.88rem;color:var(--muted);margin-top:6px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}button{border:0;border-radius:11px;padding:12px 18px;font:inherit;font-weight:750;cursor:pointer}.primary{background:var(--accent);color:#fff}.secondary{background:#e9e6df;color:var(--text)}.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}button:hover{filter:brightness(.98)}
+.result{display:none;padding:28px 30px;margin-top:20px}.result.show{display:block}.score{font-size:2.2rem;font-weight:800;line-height:1;margin:.45rem 0}.message{font-size:1.08rem;margin:.5rem 0}.review-list{margin:18px 0 0;padding-left:20px}.review-list li{margin:6px 0}.teacher-note{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.92rem}.status{font-weight:700;color:var(--accent)}
+@media(max-width:650px){main{margin-top:14px;padding:0 10px 40px}.hero,.card,.result{border-radius:14px;padding:21px 18px}.q-row{gap:8px}.actions{display:grid;grid-template-columns:1fr}button{width:100%;padding:12px 10px}}
+</style>
+</head>
+<body>
+<main>
+<section class="hero">
+  <div class="eyebrow">Roadmap B2 · Unit 3B</div>
+  <h1>Character adjectives</h1>
+  <p class="subtitle">Complete the two Workbook exercises, then use the adjectives to interpret real behaviour.</p>
+  <div class="meta">
+    <input id="studentName" type="text" value="Sergey" readonly aria-label="Student name">
+  </div>
+  <div class="progress-wrap"><div class="progress-track"><div id="progressBar" class="progress-bar"></div></div><div id="progressText" class="progress-text">0 of 20 answers completed</div></div>
+  <div class="save-note">Your name and answers are saved automatically on this device.</div>
+</section>
+
+<form id="hwForm">
+<section class="card" data-section="1">
+  <span class="section-tag">1 · Workbook p.21</span>
+  <h2>Read the descriptions</h2>
+  <p class="instructions">What adjective describes each person? The first letter is given to help you.</p>
+  <div class="q" data-id="1"><div class="q-row"><span class="num">1</span><div class="prompt">Steve thinks he’s better than everyone and can be quite unpleasant. <span class="initial">a…</span><input class="answer closed" data-answer="arrogant" autocomplete="off"><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="2"><div class="q-row"><span class="num">2</span><div class="prompt">The new receptionist is really sweet but she clearly lacks knowledge and skills. <span class="initial">i…</span><input class="answer closed" data-answer="inexperienced" autocomplete="off"><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="3"><div class="q-row"><span class="num">3</span><div class="prompt">Alan always thinks about how he can make people happy. <span class="initial">t…</span><input class="answer closed" data-answer="thoughtful" autocomplete="off"><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="4"><div class="q-row"><span class="num">4</span><div class="prompt">My nephew’s achieved so much in his life. He’s a really surprising guy. <span class="initial">r…</span><input class="answer closed" data-answer="remarkable" autocomplete="off"><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="5"><div class="q-row"><span class="num">5</span><div class="prompt">The boss can be very strong. <span class="initial">t…</span><input class="answer closed" data-answer="tough" autocomplete="off"><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="6"><div class="q-row"><span class="num">6</span><div class="prompt">You never know what my friend Matt will do next. <span class="initial">u…</span><input class="answer closed" data-answer="unpredictable" autocomplete="off"><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="7"><div class="q-row"><span class="num">7</span><div class="prompt">Rachel feels sure that her job interview will go well. <span class="initial">c…</span><input class="answer closed" data-answer="confident" autocomplete="off"><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="8"><div class="q-row"><span class="num">8</span><div class="prompt">I want to go to New Zealand and I won’t let anything stop me! <span class="initial">d…</span><input class="answer closed" data-answer="determined" autocomplete="off"><div class="feedback"></div></div></div></div>
+</section>
+
+<section class="card" data-section="2">
+  <span class="section-tag">2 · Workbook p.21</span>
+  <h2>Complete the conversations</h2>
+  <p class="instructions">Complete the conversations with the adjectives in the box. Use each adjective once.</p>
+  <div class="wordbox">arrogant · bold · competitive · determined · reasonable · remarkable · stubborn · thoughtful</div>
+  <div class="q" data-id="9"><div class="q-row"><span class="num">1</span><div class="prompt">A: I hear what you’re saying but I won’t change my mind.<br>B: Oh, don’t be so ___!<input class="answer closed" data-answer="stubborn" autocomplete="off"><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="10"><div class="q-row"><span class="num">2</span><div class="prompt">A: I just walked straight into my boss’s office and asked for more money.<br>B: Wow, that was ___ of you.<input class="answer closed" data-answer="bold" autocomplete="off"><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="11"><div class="q-row"><span class="num">3</span><div class="prompt">A: You don’t need to be so ___ all the time.<br>B: You know me. I hate to lose.<input class="answer closed" data-answer="competitive" autocomplete="off"><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="12"><div class="q-row"><span class="num">4</span><div class="prompt">A: I got you a coffee from the shop. Milk and one sugar, right?<br>B: Yes, that’s really ___, thanks.<input class="answer closed" data-answer="thoughtful" autocomplete="off"><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="13"><div class="q-row"><span class="num">5</span><div class="prompt">A: Jenny wants the report by midday.<br>B: What? That’s crazy — she’s usually very ___.<input class="answer closed" data-answer="reasonable" autocomplete="off"><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="14"><div class="q-row"><span class="num">6</span><div class="prompt">A: I’m ___ to get fit this year.<br>B: Well, if you put your mind to it, then you can do it.<input class="answer closed" data-answer="determined" autocomplete="off"><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="15"><div class="q-row"><span class="num">7</span><div class="prompt">A: Eva got an A in all her subjects this year.<br>B: I’m not surprised. She’s a ___ woman.<input class="answer closed" data-answer="remarkable" autocomplete="off"><div class="feedback"></div></div></div></div>
+  <div class="q" data-id="16"><div class="q-row"><span class="num">8</span><div class="prompt">A: If anyone should get the job, it’s me.<br>B: Don’t be so ___! The others are good workers, too.<input class="answer closed" data-answer="arrogant" autocomplete="off"><div class="feedback"></div></div></div></div>
+</section>
+
+<section class="card" data-section="3">
+  <span class="section-tag extra">3 · Use the vocabulary</span>
+  <h2>What does the behaviour tell you?</h2>
+  <p class="instructions">Choose the most suitable adjective and explain your choice in one or two sentences. There may be more than one defensible answer, so give evidence.</p>
+  <div class="open-card q" data-id="17"><b>1.</b> A project leader continues with the original plan even after the team presents strong evidence that it will fail. Is the leader <b>determined</b> or <b>stubborn</b>? Why?<textarea class="answer open" placeholder="The leader seems … because …"></textarea><div class="support">Useful language: refuse to change your mind · take evidence into account</div></div>
+  <div class="open-card q" data-id="18"><b>2.</b> A new employee volunteers to present a risky idea to the directors, but listens carefully to their concerns. Is the employee <b>bold</b>, <b>confident</b> or <b>arrogant</b>? Why?<textarea class="answer open" placeholder="I would describe the employee as …"></textarea><div class="support">Useful language: be willing to take a risk · listen to feedback</div></div>
+  <div class="open-card q" data-id="19"><b>3.</b> A colleague notices that a visitor is nervous, starts a friendly conversation and puts them at ease. Which adjective fits the colleague best? Explain.<textarea class="answer open" placeholder="The colleague is … because …"></textarea><div class="support">Recycle: put someone at ease</div></div>
+  <div class="open-card q" data-id="20"><b>4.</b> An inspector has to enforce an unpopular law. They apply the same rules to everyone but listen to each person’s circumstances. Which two adjectives could describe the inspector? Explain.<textarea class="answer open" placeholder="The inspector is … and …"></textarea><div class="support">Recycle: enforce a law · take circumstances into account</div></div>
+</section>
+
+<div class="actions">
+  <button type="button" class="primary" id="checkBtn">Check and send</button>
+  <button type="button" class="secondary" id="resetBtn">Start again</button>
+</div>
+</form>
+
+<section id="result" class="result" aria-live="polite">
+  <div class="eyebrow">Today’s result</div><div id="score" class="score"></div><p id="message" class="message"></p><div id="reviewBlock"></div>
+  <p id="sendStatus" class="teacher-note status">Your result has not been sent yet.</p>
+  <p class="teacher-note">Your four written answers are sent to your teacher and are not marked automatically.</p>
+</section>
+</main>
+
+<iframe name="resultFrame" id="resultFrame" style="display:none"></iframe>
+<form id="resultForm" action="https://script.google.com/macros/s/AKfycbw2zUGeG7xViJMx5s-GYAzG-vFglI9ZbfN0QdyOK5bngVf0HciC8hspov8ogaeennPu/exec" method="POST" target="resultFrame" style="display:none">
+  <input type="hidden" name="student" id="formStudent"><input type="hidden" name="homework" id="formHomework"><input type="hidden" name="score" id="formScore"><input type="hidden" name="percent" id="formPercent"><input type="hidden" name="mistakes" id="formMistakes"><input type="hidden" name="answers" id="formAnswers"><input type="hidden" name="openAnswers" id="formOpenAnswers"><input type="hidden" name="attemptId" id="formAttemptId"><input type="hidden" name="startedAt" id="formStartedAt"><input type="hidden" name="finishedAt" id="formFinishedAt"><input type="hidden" name="durationSeconds" id="formDuration"><input type="hidden" name="action" value="upsert">
+</form>
+
+<script>
+const HOMEWORK='Roadmap B2 · Unit 3B Character adjectives';
+const STORAGE_KEY='sergey-roadmap-b2-unit-3b-homework-v1';
+const allAnswers=[...document.querySelectorAll('.answer')];
+const closed=[...document.querySelectorAll('.closed')];
+const open=[...document.querySelectorAll('.open')];
+const nameInput=document.getElementById('studentName');
+let state={name:'Sergey',values:[],attemptId:crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random().toString(16).slice(2),startedAt:null,finishedAt:null};
+let timerHandle=null;
+
+function normalise(s){return s.toLowerCase().trim().replace(/[’‘]/g,"'").replace(/[?.!,;:]/g,'').replace(/\s+/g,' ')}
+function isCorrect(el){return el.dataset.answer.split('|').map(normalise).includes(normalise(el.value))}
+function formatClock(iso){if(!iso)return '—';return new Date(iso).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}
+function elapsedSeconds(){if(!state.startedAt)return 0;const end=state.finishedAt?new Date(state.finishedAt).getTime():Date.now();return Math.max(0,Math.floor((end-new Date(state.startedAt).getTime())/1000))}
+function formatDuration(seconds){const h=Math.floor(seconds/3600),m=Math.floor(seconds%3600/60),s=seconds%60;return h?`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`:`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`}
+function updateTimer(){}
+function ensureStarted(){if(!state.startedAt){state.startedAt=new Date().toISOString();state.finishedAt=null;startTimer()}}
+function startTimer(){clearInterval(timerHandle);if(!state.finishedAt)timerHandle=setInterval(updateTimer,1000);updateTimer()}
+function save(){state.name=nameInput.value;state.values=allAnswers.map(x=>x.value);localStorage.setItem(STORAGE_KEY,JSON.stringify(state));updateProgress()}
+function restore(){try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY));if(saved&&saved.attemptId)state={...state,...saved}}catch(e){}state.name='Sergey';nameInput.value='Sergey';allAnswers.forEach((x,i)=>x.value=(state.values&&state.values[i])||'');updateProgress();startTimer()}
+function updateProgress(){const done=allAnswers.filter(a=>a.value.trim()).length;document.getElementById('progressBar').style.width=`${done/allAnswers.length*100}%`;document.getElementById('progressText').textContent=`${done} of ${allAnswers.length} answers completed`}
+function markEdited(){ensureStarted();if(state.finishedAt){state.finishedAt=null;startTimer()}save()}
+allAnswers.forEach(a=>a.addEventListener('input',markEdited));nameInput.addEventListener('input',()=>{ensureStarted();save()});
+
+document.getElementById('checkBtn').addEventListener('click',()=>{
+  ensureStarted();
+  const name=nameInput.value.trim();
+  if(!name){nameInput.focus();alert('Please enter your name first.');return}
+  state.finishedAt=new Date().toISOString();clearInterval(timerHandle);save();updateTimer();
+  let correct=0;const wrong=[];const details=[];
+  closed.forEach((el,index)=>{const q=el.closest('.q'),feedback=q.querySelector('.feedback'),ok=isCorrect(el);q.classList.remove('correct','incorrect');q.classList.add(ok?'correct':'incorrect');feedback.textContent=ok?'Looks good.':(el.value.trim()?'Have another look at this one.':'This one is still empty.');if(ok)correct++;else wrong.push(index+1);details.push({number:index+1,answer:el.value,correct:ok})});
+  const pct=Math.round(correct/closed.length*100);const openCompleted=open.filter(x=>x.value.trim()).length;
+  document.getElementById('score').textContent=`${correct} / ${closed.length} · ${pct}%`;
+  document.getElementById('message').textContent=pct===100?`Excellent work, ${name}. All the Workbook answers are accurate.`:pct>=85?`Very strong work, ${name}. Only a few details need another look.`:pct>=65?`A solid attempt, ${name}. Review the highlighted items before the lesson.`:`Thank you for completing it, ${name}. The highlighted items show us what to practise next.`;
+  document.getElementById('reviewBlock').innerHTML=(wrong.length?`<p><b>Have another look:</b></p><ul class="review-list">${wrong.map(n=>`<li>Workbook item ${n}</li>`).join('')}</ul>`:'<p><b>No closed items to review.</b></p>')+(openCompleted<open.length?`<p><b>Written task:</b> ${openCompleted} of ${open.length} answers completed.</p>`:'<p><b>Written task:</b> all four answers completed.</p>');
+  document.getElementById('result').classList.add('show');document.getElementById('result').scrollIntoView({behavior:'smooth',block:'start'});
+  const openDetails=open.map((x,i)=>({number:17+i,answer:x.value.trim()}));
+  const closedReport=details.map((item,index)=>{
+    const studentAnswer=item.answer.trim()||'—';
+    const expected=closed[index].dataset.answer.split('|')[0];
+    return item.correct
+      ? `${item.number}. ✅ ${studentAnswer}`
+      : `${item.number}. ❌ ${studentAnswer} → ${expected}`;
+  }).join('\n');
+  const openReport=openDetails.map(item=>`${item.number}. ${item.answer||'—'}`).join('\n\n');
+  const sheetReport=`✅ CLOSED ANSWERS\n${closedReport}\n\n✍️ OPEN ANSWERS — CHECK MANUALLY\n${openReport}`;
+  const payload={student:name,homework:HOMEWORK,score:`${correct}/${closed.length}`,percent:pct,mistakes:wrong.join(', '),answers:sheetReport,openAnswers:openDetails,attemptId:state.attemptId,startedAt:state.startedAt,finishedAt:state.finishedAt,durationSeconds:elapsedSeconds(),action:'upsert'};
+  const fields={formStudent:name,formHomework:HOMEWORK,formScore:payload.score,formPercent:pct,formMistakes:payload.mistakes,formAnswers:sheetReport,formOpenAnswers:JSON.stringify(openDetails),formAttemptId:state.attemptId,formStartedAt:state.startedAt,formFinishedAt:state.finishedAt,formDuration:payload.durationSeconds};Object.entries(fields).forEach(([id,value])=>document.getElementById(id).value=value);
+  document.getElementById('sendStatus').textContent='Saving your attempt…';document.getElementById('resultForm').submit();setTimeout(()=>document.getElementById('sendStatus').textContent='Your attempt has been sent. If you make changes and send again, this attempt will be updated.',900);
+});
+
+document.getElementById('resetBtn').addEventListener('click',()=>{if(!confirm('Clear the answers and start this attempt again?'))return;allAnswers.forEach(x=>x.value='');document.querySelectorAll('.q').forEach(q=>q.classList.remove('correct','incorrect'));state.values=[];state.startedAt=new Date().toISOString();state.finishedAt=null;document.getElementById('result').classList.remove('show');save();startTimer();window.scrollTo({top:0,behavior:'smooth'})});
+restore();
+</script>
+</body>
+</html>
