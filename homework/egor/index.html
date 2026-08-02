@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Egor · Roadmap B1 · Unit 4B Homework</title>
+  <style>
+    :root{--bg:#f5f2ed;--paper:#fffdfa;--ink:#2f3432;--muted:#6f7772;--sage:#8ca99a;--sage2:#dfeae4;--peach:#f2d8c8;--lav:#e5dff0;--line:#e7e1d9;--ok:#397a5b;--bad:#a64f4f;--shadow:0 12px 34px rgba(54,60,56,.08)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(145deg,#f8f5f0,#eef3ef);color:var(--ink);font:16px/1.55 Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    .wrap{width:min(920px,calc(100% - 28px));margin:24px auto 70px}.hero,.card,.submit-card{background:rgba(255,253,250,.96);border:1px solid rgba(231,225,217,.9);border-radius:26px;box-shadow:var(--shadow)}
+    .hero{padding:28px}.eyebrow{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#658273}.hero h1{font-size:clamp(2rem,7vw,3.7rem);line-height:1.02;margin:8px 0 12px}.hero p{margin:0;color:var(--muted)}
+    .meta{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}.pill{padding:7px 12px;border-radius:999px;background:var(--sage2);font-size:.85rem;font-weight:700}.pill:nth-child(2){background:var(--peach)}.pill:nth-child(3){background:var(--lav)}
+    .progress-shell{margin-top:22px;height:9px;background:#ece8e2;border-radius:99px;overflow:hidden}.progress{height:100%;width:0;background:linear-gradient(90deg,var(--sage),#b49bc5);transition:.25s}.progress-text{margin-top:7px;font-size:.82rem;color:var(--muted)}
+    .card{margin-top:18px;padding:24px}.section-tag{display:inline-block;padding:6px 10px;border-radius:999px;background:var(--peach);font-weight:800;font-size:.76rem;text-transform:uppercase;letter-spacing:.08em}.card:nth-of-type(3n) .section-tag{background:var(--lav)}.card:nth-of-type(3n+1) .section-tag{background:var(--sage2)}
+    h2{font-size:clamp(1.35rem,4vw,1.8rem);margin:12px 0 5px}h3{margin:0 0 6px}.instruction{color:var(--muted);margin:0 0 18px}.q{padding:16px 0;border-top:1px solid var(--line)}.q:first-of-type{border-top:0}.q label{display:block;font-weight:650;margin-bottom:8px}.num{display:inline-grid;place-items:center;width:27px;height:27px;margin-right:8px;border-radius:50%;background:#edf2ef;color:#557364;font-size:.83rem}
+    input[type=text],textarea,select{width:100%;border:1.5px solid #d8d4cd;border-radius:14px;background:#fff;padding:12px 13px;color:var(--ink);font:inherit;outline:none;transition:.15s}input:focus,textarea:focus,select:focus{border-color:var(--sage);box-shadow:0 0 0 3px rgba(140,169,154,.15)}textarea{min-height:88px;resize:vertical}.inline{display:inline-block;width:min(210px,100%);margin:0 4px;padding:8px 10px!important}
+    .feedback{display:none;margin-top:8px;font-size:.88rem;font-weight:700}.q.correct .feedback{display:block;color:var(--ok)}.q.wrong .feedback{display:block;color:var(--bad)}.q.correct input,.q.correct select{border-color:#7eb293;background:#f3fbf6}.q.wrong input,.q.wrong select{border-color:#c98282;background:#fff7f7}
+    .check{margin-top:16px;border:0;border-radius:14px;background:var(--ink);color:white;padding:12px 17px;font:inherit;font-weight:800;cursor:pointer}.check:hover{filter:brightness(1.08)}.tip{margin-top:17px;padding:14px 15px;border-radius:16px;background:#f1f5f2;color:#4d6258}.speaking{margin-top:18px;padding:17px;border-radius:18px;background:linear-gradient(135deg,#f3edf7,#fbf6ef)}.speaking strong{display:block;margin-bottom:4px}
+    .submit-card{margin-top:20px;padding:25px}.score{display:none;margin:14px 0;padding:18px;border-radius:18px;background:var(--sage2)}.score strong{font-size:1.35rem}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.send,.reset{border:0;border-radius:14px;padding:13px 18px;font:inherit;font-weight:800;cursor:pointer}.send{background:#6d8d7c;color:#fff}.reset{background:#ece7e0;color:var(--ink)}.status{min-height:24px;margin-top:10px;color:var(--muted);font-size:.9rem}.student{display:flex;gap:10px;align-items:center;margin:14px 0}.student span{font-weight:800}.student input{max-width:260px;background:#f3f1ed;color:#5c625f}
+    .save-note{position:fixed;right:15px;bottom:15px;padding:8px 12px;border-radius:99px;background:rgba(47,52,50,.88);color:#fff;font-size:.76rem;opacity:0;transition:.2s;pointer-events:none}.save-note.show{opacity:1}
+    @media(max-width:600px){.wrap{width:min(100% - 18px,920px);margin-top:9px}.hero,.card,.submit-card{border-radius:21px;padding:19px}.hero h1{font-size:2.35rem}.q{padding:14px 0}.student{align-items:flex-start;flex-direction:column}.student input{max-width:none}.actions button{width:100%}}
+  </style>
+</head>
+<body>
+<main class="wrap">
+  <section class="hero">
+    <div class="eyebrow">Egor · Roadmap B1 · Unit 4B Homework</div>
+    <h1>Popular brands</h1>
+    <p>Grammar focus: superlatives. Complete the tasks in order; your work is saved automatically on this device.</p>
+    <div class="meta"><span class="pill">Core grammar</span><span class="pill">Vocabulary bridge</span><span class="pill">Mixed revision</span></div>
+    <div class="progress-shell"><div class="progress" id="progress"></div></div><div class="progress-text" id="progressText">0% completed</div>
+  </section>
+
+  <section class="card" data-section="ex3">
+    <span class="section-tag">Workbook · Ex. 3</span><h2>Complete the conversations</h2>
+    <p class="instruction">Write the superlative form of the adjective in brackets.</p>
+    <div id="ex3"></div><button class="check" type="button" data-check="ex3">Check exercise 3</button>
+    <div class="speaking"><strong>Say it aloud · Personal</strong>What is the nicest place you have visited recently? Give two reasons.</div>
+  </section>
+
+  <section class="card" data-section="ex4">
+    <span class="section-tag">Workbook · Ex. 4</span><h2>Correct the mistakes</h2>
+    <p class="instruction">Each sentence has one mistake. Rewrite the complete sentence correctly.</p>
+    <div id="ex4"></div><button class="check" type="button" data-check="ex4">Check exercise 4</button>
+    <div class="speaking"><strong>Say it aloud · Opinion</strong>Which matters most when you buy a phone: price, reliability or design? Why?</div>
+  </section>
+
+  <section class="card" data-section="vocab">
+    <span class="section-tag">Vocabulary bridge</span><h2>Products and services</h2>
+    <p class="instruction">Choose the best phrase. This short task lets you learn the 4B vocabulary independently, so lesson time can stay focused on grammar.</p>
+    <div id="vocab"></div><button class="check" type="button" data-check="vocab">Check vocabulary</button>
+    <div class="speaking"><strong>Say it aloud · Experience</strong>Describe a product that was good value for money. Did it live up to your expectations?</div>
+  </section>
+
+  <section class="card" data-section="mixed">
+    <span class="section-tag">Mixed revision</span><h2>Make one natural sentence</h2>
+    <p class="instruction">Complete each sentence with the correct form. These items combine Unit 4B grammar with words from your vocabulary.</p>
+    <div id="mixed"></div><button class="check" type="button" data-check="mixed">Check mixed revision</button>
+    <div class="speaking"><strong>Say it aloud · Hypothetical</strong>If you had to choose the least convenient way to travel for a week, what would you choose and how would you navigate through the problems?</div>
+  </section>
+
+  <section class="card">
+    <span class="section-tag">Teacher review</span><h2>Your recommendations</h2>
+    <p class="instruction">Write complete answers. These are not checked automatically; your teacher will receive them.</p>
+    <div class="q"><label><span class="num">1</span>What is the most useful app or piece of software you use? Explain why.</label><textarea id="open1" data-save placeholder="Write 2–3 sentences."></textarea></div>
+    <div class="q"><label><span class="num">2</span>What is the worst purchase you have ever made? What went wrong?</label><textarea id="open2" data-save placeholder="Write 2–3 sentences."></textarea></div>
+    <div class="q"><label><span class="num">3</span>Think of a product whose popularity is at odds with its quality. What is it, and why do you think people still buy it?</label><textarea id="open3" data-save placeholder="Write 2–3 sentences."></textarea></div>
+  </section>
+
+  <section class="submit-card">
+    <h2>Finish homework</h2><p class="instruction">Check all four closed sections before sending. You can send again later; the same attempt will be updated.</p>
+    <div class="student"><span>Student</span><input id="studentName" value="Egor" readonly></div>
+    <div class="score" id="scoreBox"><strong id="scoreLine"></strong><div id="scoreNote"></div></div>
+    <div class="actions"><button class="send" id="sendBtn" type="button">Send to teacher</button><button class="reset" id="resetBtn" type="button">Start again</button></div>
+    <div class="status" id="sendStatus"></div>
+  </section>
+</main>
+
+<form id="resultForm" method="POST" action="https://script.google.com/macros/s/AKfycbw2zUGeG7xViJMx5s-GYAzG-vFglI9ZbfN0QdyOK5bngVf0HciC8hspov8ogaeennPu/exec" target="submitFrame" hidden>
+  <input name="student" id="formStudent"><input name="homework" id="formHomework"><input name="score" id="formScore"><input name="percent" id="formPercent"><input name="mistakes" id="formMistakes"><input name="answers" id="formAnswers">
+</form><iframe name="submitFrame" hidden></iframe><div class="save-note" id="saveNote">Saved</div>
+
+<script>
+const STORAGE='egor_roadmap_b1_unit4b_homework_v1';
+const data={
+ ex3:[
+  ["A: Which café do you like best? B: The Corner Café is the ___ place to sit outside. (nice)","nicest"],
+  ["A: How was the hotel? B: It was the ___ place we stayed in all week. (bad)","worst"],
+  ["A: Which phone would you choose? B: This one has the ___ camera. (good)","best"],
+  ["A: Where did you get the best service? B: The staff at Bellini's were the ___. (friendly)","friendliest"],
+  ["A: What is the ___ thing when you choose a laptop? B: Reliability. (important)","most important"],
+  ["A: And what is the ___ thing for you? B: The colour. (important)","least important"],
+  ["A: Which advert did you enjoy? B: The one with the dog was the ___. (funny)","funniest"],
+  ["A: Which is the ___ brand among your friends? B: Probably Samsung. (popular)","most popular"]],
+ ex4:[
+  ["This is the most easy route to the city centre.","This is the easiest route to the city centre."],
+  ["This must be the most loud washing machine I've ever had!","This must be the loudest washing machine I've ever had!"],
+  ["This restaurant is best in town — everyone knows it!","This restaurant is the best in town — everyone knows it!"],
+  ["Why did you buy the most cheap one?","Why did you buy the cheapest one?"],
+  ["The most best phones come with good cameras.","The best phones come with good cameras."],
+  ["It's simply most reliable.","It's simply the most reliable."],
+  ["This is the baddest meal I've ever had.","This is the worst meal I've ever had."],
+  ["I think it's the better value.","I think it's the best value."]],
+ vocab:[
+  ["This laptop still works perfectly after six years. It's very ___.",["reliable","well-designed","popular"],"reliable"],
+  ["The controls are clear, so the coffee machine is ___.",["easy to use","good quality","value for money"],"easy to use"],
+  ["The materials are strong and the finish is excellent. It's ___.",["good quality","popular","easy to use"],"good quality"],
+  ["It isn't the cheapest model, but it lasts for years. It's ___.",["good value for money","well-designed","popular"],"good value for money"],
+  ["The chair looks elegant and is comfortable. It's ___.",["well-designed","reliable","easy to use"],"well-designed"],
+  ["Almost everyone in my office uses this brand. It's very ___.",["popular","good quality","reliable"],"popular"]],
+ mixed:[
+  ["That cancellation was one of ___ travel experiences I've had. (inconvenient)","the most inconvenient"],
+  ["Of everyone on the team, Maya is ___ person to handle sensitive information. (trustworthy)","the most trustworthy"],
+  ["Of all the pitfalls, this one is ___. (easy / sidestep)","the easiest to sidestep"],
+  ["That was ___ attempt to navigate through the problem. (successful)","the most successful"],
+  ["Of all the solutions we discussed, this one seems ___. (reliable)","the most reliable"],
+  ["For me, empathy is one of ___ qualities in a colleague. (important)","the most important"]]
+};
+const norm=s=>s.trim().toLowerCase().replace(/[’]/g,"'").replace(/[–—]/g,"-").replace(/\s+/g," ").replace(/[.!?]+$/,'');
+const esc=s=>s.replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function renderText(id,items){document.getElementById(id).innerHTML=items.map((x,i)=>`<div class="q" data-q="${id}-${i+1}"><label><span class="num">${i+1}</span>${esc(x[0])}</label><input type="text" id="${id}-${i+1}" data-save autocomplete="off"><div class="feedback"></div></div>`).join('')}
+function renderSelect(){document.getElementById('vocab').innerHTML=data.vocab.map((x,i)=>`<div class="q" data-q="vocab-${i+1}"><label><span class="num">${i+1}</span>${esc(x[0])}</label><select id="vocab-${i+1}" data-save><option value="">Choose…</option>${x[1].map(v=>`<option>${esc(v)}</option>`).join('')}</select><div class="feedback"></div></div>`).join('')}
+renderText('ex3',data.ex3);renderText('ex4',data.ex4);renderSelect();renderText('mixed',data.mixed);
+const fields=[...document.querySelectorAll('[data-save]')],checks={};
+function flashSaved(){saveNote.classList.add('show');clearTimeout(flashSaved.t);flashSaved.t=setTimeout(()=>saveNote.classList.remove('show'),700)}
+function save(){const values={};fields.forEach(f=>values[f.id]=f.value);localStorage.setItem(STORAGE,JSON.stringify({values,checks}));updateProgress();flashSaved()}
+function restore(){try{const s=JSON.parse(localStorage.getItem(STORAGE)||'{}');Object.entries(s.values||{}).forEach(([id,v])=>{const el=document.getElementById(id);if(el)el.value=v});Object.assign(checks,s.checks||{})}catch(e){} updateProgress()}
+fields.forEach(f=>f.addEventListener('input',save));fields.forEach(f=>f.addEventListener('change',save));
+function answerFor(section,i){const x=data[section][i];return section==='vocab'?x[2]:x[1]}
+function checkSection(section,quiet=false){let right=0;data[section].forEach((x,i)=>{const el=document.getElementById(`${section}-${i+1}`),q=el.closest('.q'),expected=answerFor(section,i);const ok=norm(el.value)===norm(expected);q.classList.toggle('correct',ok);q.classList.toggle('wrong',!ok);q.querySelector('.feedback').textContent=ok?'✓ Correct':`✕ Try again. Expected: ${expected}`;if(ok)right++});checks[section]=true;if(!quiet)save();return right}
+document.querySelectorAll('[data-check]').forEach(b=>b.addEventListener('click',()=>checkSection(b.dataset.check)));
+function updateProgress(){const filled=fields.filter(f=>f.value.trim()).length,pct=Math.round(filled/fields.length*100);progress.style.width=pct+'%';progressText.textContent=`${pct}% completed · ${filled}/${fields.length} answers`}
+function collect(){let correct=0,total=0,wrong=[],details=[];['ex3','ex4','vocab','mixed'].forEach(section=>{data[section].forEach((x,i)=>{total++;const el=document.getElementById(`${section}-${i+1}`),expected=answerFor(section,i),given=el.value.trim(),ok=norm(given)===norm(expected);if(ok)correct++;else wrong.push(`${section.toUpperCase()} ${i+1}`);if(given)details.push(`${section.toUpperCase()} ${i+1} ${ok?'✅':'❌'} ${given}${ok?'':` (Expected: ${expected})`}`)})});return{correct,total,wrong,details}}
+sendBtn.addEventListener('click',()=>{['ex3','ex4','vocab','mixed'].forEach(s=>checkSection(s,true));const r=collect(),pct=Math.round(r.correct/r.total*100),open=[open1,open2,open3].map((e,i)=>`OPEN ${i+1}: ${e.value.trim()||'[blank]'}`);scoreBox.style.display='block';scoreLine.textContent=`${r.correct}/${r.total} · ${pct}%`;scoreNote.textContent=r.wrong.length?`${r.wrong.length} answer(s) need another look. Your current work will still be sent.`:'All closed answers are correct.';formStudent.value='Egor';formHomework.value='Roadmap B1 · Unit 4B Popular Brands · Homework v1';formScore.value=`${r.correct}/${r.total}`;formPercent.value=pct;formMistakes.value=r.wrong.join(', ');formAnswers.value=[r.details.length?`✅ CLOSED ANSWERS\n${r.details.join('\n')}`:'✅ CLOSED ANSWERS\n[none filled]',`✍️ OPEN ANSWERS — CHECK MANUALLY\n${open.join('\n')}`].join('\n\n');resultForm.submit();sendStatus.textContent='Sending…';setTimeout(()=>sendStatus.textContent='Sent. If you change anything, send again to update this attempt.',1400);save()});
+resetBtn.addEventListener('click',()=>{if(!confirm('Clear all answers and start again?'))return;fields.forEach(f=>f.value='');document.querySelectorAll('.q').forEach(q=>q.classList.remove('correct','wrong'));Object.keys(checks).forEach(k=>delete checks[k]);localStorage.removeItem(STORAGE);scoreBox.style.display='none';sendStatus.textContent='';updateProgress()});
+restore();
+</script>
+</body>
+</html>
