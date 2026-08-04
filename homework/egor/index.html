@@ -20,6 +20,9 @@
     .save-note{position:fixed;right:15px;bottom:15px;padding:8px 12px;border-radius:99px;background:rgba(47,52,50,.88);color:#fff;font-size:.76rem;opacity:0;transition:.2s;pointer-events:none}.save-note.show{opacity:1}
     @media(max-width:600px){.wrap{width:min(100% - 18px,920px);margin-top:9px}.hero,.card,.submit-card{border-radius:21px;padding:19px}.hero h1{font-size:2.35rem}.q{padding:14px 0}.student{align-items:flex-start;flex-direction:column}.student input{max-width:none}.actions button{width:100%}}
   </style>
+  <style>
+    .answer-btn{display:none;margin-top:9px;border:1px solid #d8d1c8;border-radius:11px;background:#fff;padding:8px 11px;color:var(--ink);font:inherit;font-size:.86rem;font-weight:800;cursor:pointer}.q.wrong .answer-btn{display:inline-block}
+  </style>
 </head>
 <body>
 <main class="wrap">
@@ -118,8 +121,10 @@ const data={
 };
 const norm=s=>s.trim().toLowerCase().replace(/[’]/g,"'").replace(/[–—]/g,"-").replace(/\s+/g," ").replace(/[.!?]+$/,'');
 const esc=s=>s.replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-function renderText(id,items){document.getElementById(id).innerHTML=items.map((x,i)=>`<div class="q" data-q="${id}-${i+1}"><label><span class="num">${i+1}</span>${esc(x[0])}</label><input type="text" id="${id}-${i+1}" data-save autocomplete="off"><div class="feedback"></div></div>`).join('')}
-function renderSelect(){document.getElementById('vocab').innerHTML=data.vocab.map((x,i)=>`<div class="q" data-q="vocab-${i+1}"><label><span class="num">${i+1}</span>${esc(x[0])}</label><select id="vocab-${i+1}" data-save><option value="">Choose…</option>${x[1].map(v=>`<option>${esc(v)}</option>`).join('')}</select><div class="feedback"></div></div>`).join('')}
+const sectionHints={ex3:'Use the superlative form. Check the adjective ending and whether you need most or least.',ex4:'Check the superlative form and the article the. There is one mistake.',vocab:'Read the clue before the gap and match it to the meaning of the phrase.',mixed:'Use the clue in brackets and make a complete superlative phrase.'};
+const answerTools='<div class="feedback"></div><button type="button" class="answer-btn">Show answer</button>';
+function renderText(id,items){document.getElementById(id).innerHTML=items.map((x,i)=>`<div class="q" data-q="${id}-${i+1}" data-hint="${esc(sectionHints[id])}"><label><span class="num">${i+1}</span>${esc(x[0])}</label><input type="text" id="${id}-${i+1}" data-save autocomplete="off">${answerTools}</div>`).join('')}
+function renderSelect(){document.getElementById('vocab').innerHTML=data.vocab.map((x,i)=>`<div class="q" data-q="vocab-${i+1}" data-hint="${esc(sectionHints.vocab)}"><label><span class="num">${i+1}</span>${esc(x[0])}</label><select id="vocab-${i+1}" data-save><option value="">Choose…</option>${x[1].map(v=>`<option>${esc(v)}</option>`).join('')}</select>${answerTools}</div>`).join('')}
 renderText('ex3',data.ex3);renderText('ex4',data.ex4);renderSelect();renderText('mixed',data.mixed);
 const fields=[...document.querySelectorAll('[data-save]')],checks={};
 function flashSaved(){saveNote.classList.add('show');clearTimeout(flashSaved.t);flashSaved.t=setTimeout(()=>saveNote.classList.remove('show'),700)}
@@ -127,12 +132,13 @@ function save(){const values={};fields.forEach(f=>values[f.id]=f.value);localSto
 function restore(){try{const s=JSON.parse(localStorage.getItem(STORAGE)||'{}');Object.entries(s.values||{}).forEach(([id,v])=>{const el=document.getElementById(id);if(el)el.value=v});Object.assign(checks,s.checks||{})}catch(e){} updateProgress()}
 fields.forEach(f=>f.addEventListener('input',save));fields.forEach(f=>f.addEventListener('change',save));
 function answerFor(section,i){const x=data[section][i];return section==='vocab'?x[2]:x[1]}
-function checkSection(section,quiet=false){let right=0;data[section].forEach((x,i)=>{const el=document.getElementById(`${section}-${i+1}`),q=el.closest('.q'),expected=answerFor(section,i);const ok=norm(el.value)===norm(expected);q.classList.toggle('correct',ok);q.classList.toggle('wrong',!ok);q.querySelector('.feedback').textContent=ok?'✓ Correct':`✕ Try again. Expected: ${expected}`;if(ok)right++});checks[section]=true;if(!quiet)save();return right}
+function checkSection(section,quiet=false){let right=0;data[section].forEach((x,i)=>{const el=document.getElementById(`${section}-${i+1}`),q=el.closest('.q'),expected=answerFor(section,i);const ok=norm(el.value)===norm(expected);q.classList.toggle('correct',ok);q.classList.toggle('wrong',!ok);q.querySelector('.answer-btn').style.display='';q.querySelector('.feedback').textContent=ok?'✓ Correct':`✕ Not quite. Hint: ${q.dataset.hint}`;if(ok)right++});checks[section]=true;if(!quiet)save();return right}
 document.querySelectorAll('[data-check]').forEach(b=>b.addEventListener('click',()=>checkSection(b.dataset.check)));
+document.addEventListener('click',e=>{if(!e.target.classList.contains('answer-btn'))return;const q=e.target.closest('.q'),parts=q.dataset.q.split('-'),section=parts[0],i=Number(parts[1])-1;q.querySelector('.feedback').textContent=`Correct answer: ${answerFor(section,i)}`;e.target.style.display='none'});
 function updateProgress(){const filled=fields.filter(f=>f.value.trim()).length,pct=Math.round(filled/fields.length*100);progress.style.width=pct+'%';progressText.textContent=`${pct}% completed · ${filled}/${fields.length} answers`}
 function collect(){let correct=0,total=0,wrong=[],details=[];['ex3','ex4','vocab','mixed'].forEach(section=>{data[section].forEach((x,i)=>{total++;const el=document.getElementById(`${section}-${i+1}`),expected=answerFor(section,i),given=el.value.trim(),ok=norm(given)===norm(expected);if(ok)correct++;else wrong.push(`${section.toUpperCase()} ${i+1}`);if(given)details.push(`${section.toUpperCase()} ${i+1} ${ok?'✅':'❌'} ${given}${ok?'':` (Expected: ${expected})`}`)})});return{correct,total,wrong,details}}
 sendBtn.addEventListener('click',()=>{['ex3','ex4','vocab','mixed'].forEach(s=>checkSection(s,true));const r=collect(),pct=Math.round(r.correct/r.total*100),open=[open1,open2,open3].map((e,i)=>`OPEN ${i+1}: ${e.value.trim()||'[blank]'}`);scoreBox.style.display='block';scoreLine.textContent=`${r.correct}/${r.total} · ${pct}%`;scoreNote.textContent=r.wrong.length?`${r.wrong.length} answer(s) need another look. Your current work will still be sent.`:'All closed answers are correct.';formStudent.value='Egor';formHomework.value='Roadmap B1 · Unit 4B Popular Brands · Homework v1';formScore.value=`${r.correct}/${r.total}`;formPercent.value=pct;formMistakes.value=r.wrong.join(', ');formAnswers.value=[r.details.length?`✅ CLOSED ANSWERS\n${r.details.join('\n')}`:'✅ CLOSED ANSWERS\n[none filled]',`✍️ OPEN ANSWERS — CHECK MANUALLY\n${open.join('\n')}`].join('\n\n');resultForm.submit();sendStatus.textContent='Sending…';setTimeout(()=>sendStatus.textContent='Sent. If you change anything, send again to update this attempt.',1400);save()});
-resetBtn.addEventListener('click',()=>{if(!confirm('Clear all answers and start again?'))return;fields.forEach(f=>f.value='');document.querySelectorAll('.q').forEach(q=>q.classList.remove('correct','wrong'));Object.keys(checks).forEach(k=>delete checks[k]);localStorage.removeItem(STORAGE);scoreBox.style.display='none';sendStatus.textContent='';updateProgress()});
+resetBtn.addEventListener('click',()=>{if(!confirm('Clear all answers and start again?'))return;fields.forEach(f=>f.value='');document.querySelectorAll('.q').forEach(q=>{q.classList.remove('correct','wrong');const b=q.querySelector('.answer-btn');if(b)b.style.display=''});Object.keys(checks).forEach(k=>delete checks[k]);localStorage.removeItem(STORAGE);scoreBox.style.display='none';sendStatus.textContent='';updateProgress()});
 restore();
 </script>
 </body>

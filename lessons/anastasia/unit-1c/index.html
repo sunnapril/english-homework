@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anastasia · Roadmap A2+ · Unit 1C</title>
+<style>
+:root{--bg:#f3f1ec;--paper:#fffdf9;--ink:#26312f;--muted:#6d746f;--teal:#2f7f7d;--teal-soft:#e6f3f1;--gold:#d99a3d;--gold-soft:#fff3dc;--violet:#7564a8;--violet-soft:#f1eef9;--line:#dedbd3;--green:#2f7b55;--red:#a94c46;--shadow:0 12px 28px rgba(38,49,47,.09)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(180deg,#f7f6f2,#efede7);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}main{max-width:980px;margin:24px auto;padding:0 16px 60px}.hero,.card{background:var(--paper);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}.hero{padding:34px;background:linear-gradient(128deg,#244746,#2f7f7d 72%,#d99a3d 145%);color:#fff;position:relative;overflow:hidden}.hero:after{content:"1C";position:absolute;right:20px;top:-40px;font-size:165px;font-weight:900;color:rgba(255,255,255,.08)}.eyebrow,.stage{font-size:.76rem;font-weight:900;letter-spacing:.09em;text-transform:uppercase}.eyebrow{color:#ffe5b7}.stage{color:#8e5c18}h1{margin:7px 0 10px;font-size:clamp(2.15rem,5.5vw,3.7rem);line-height:1.03}h2{margin:5px 0 7px;font-size:1.55rem}h3{margin:8px 0}.subtitle{max-width:720px;margin:0;color:#e8f3f2;font-size:1.05rem}.meta{display:flex;gap:9px;flex-wrap:wrap;margin-top:20px}.tag{padding:7px 11px;border-radius:999px;background:rgba(255,255,255,.15);font-weight:750;font-size:.88rem}.card{margin-top:18px;padding:27px}.lead{margin:0 0 16px;color:var(--muted)}.time{display:inline-grid;place-items:center;min-width:44px;height:29px;margin-right:8px;border-radius:999px;background:var(--teal-soft);color:var(--teal);font-weight:900}.cards,.two-col,.speaking-grid,.revision-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.prompt,.reading,.speak,.revision-box{padding:15px;border:1px solid var(--line);border-radius:15px;background:white}.prompt b,.reading b{color:var(--teal)}.level-picker{display:flex;gap:9px;justify-content:center;margin:0 0 14px}.random-card{min-height:160px;display:grid;align-content:center;justify-items:center;text-align:center;border:2px dashed #a9c9c5;border-radius:18px;background:var(--teal-soft);padding:24px}.random-word{font-size:1.55rem;font-weight:900;color:var(--teal)}.random-question{margin-top:8px;font-size:1.06rem}.level-label{display:inline-block;margin-bottom:8px;padding:4px 9px;border-radius:999px;background:#fff;color:var(--teal);font-size:.75rem;font-weight:900;letter-spacing:.06em;text-transform:uppercase}.level-btn{background:#e8e6df;color:var(--ink);min-width:120px}.level-btn.active{background:var(--teal);color:#fff}.actions{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}button{cursor:pointer;border:0;border-radius:12px;padding:11px 15px;background:var(--teal);color:white;font:inherit;font-weight:850}button.secondary{background:#e8e6df;color:var(--ink)}button.violet{background:var(--violet)}button:hover{filter:brightness(.97);transform:translateY(-1px)}.bank{display:flex;flex-wrap:wrap;gap:8px;margin:13px 0}.chip{padding:7px 10px;border:1px solid #e6c78d;border-radius:999px;background:var(--gold-soft);font-weight:800;color:#744c11}.q{margin:12px 0;padding:15px;border:1px solid var(--line);border-radius:14px;background:white}.q.correct{border-color:#82c49f;background:#f0faf4}.q.incorrect{border-color:#dfa19d;background:#fff4f3}.q-row{display:grid;grid-template-columns:34px 1fr;gap:10px}.num{display:grid;place-items:center;width:29px;height:29px;border-radius:50%;background:var(--gold);color:white;font-weight:900}select,input,textarea{width:100%;margin-top:8px;padding:11px 12px;border:1px solid #bcc8c5;border-radius:10px;background:white;color:var(--ink);font:inherit}.feedback{min-height:1.2em;margin-top:6px;color:var(--muted);font-size:.9rem}.correct .feedback{color:var(--green);font-weight:800}.incorrect .feedback{color:var(--red);font-weight:800}.speak-after{margin-top:18px;padding:17px;border:1px solid #d8d0ec;border-radius:15px;background:var(--violet-soft)}.speak-after h3,.speak h3{color:#4f4276}.support{display:none;margin-top:10px;padding:13px;border-radius:12px;background:#fff;color:#4f4276;border:1px solid #d8d0ec}.support.show{display:block}.speaking{background:linear-gradient(135deg,#fbf9ff,#fffdf9)}.speak{border-color:#d8d0ec}.label{display:inline-block;padding:3px 8px;border-radius:999px;background:var(--teal-soft);color:var(--teal);font-size:.76rem;font-weight:900}.challenge{background:var(--gold-soft);border-color:#e6c78d}.reading p{margin:.55em 0}.rule{padding:14px;border-left:5px solid var(--teal);background:var(--teal-soft);border-radius:10px;margin:12px 0}.hidden{display:none}.model{margin-top:10px;padding:13px;border-radius:12px;background:#fff8e9;border:1px solid #ead2a2;color:#664816}.checkline{display:flex;gap:8px;align-items:flex-start;margin:8px 0}.checkline input{width:auto;margin:5px 0 0}.score{font-weight:900;color:var(--teal)}
+.vocab-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.vocab-item{display:flex;align-items:center;gap:10px;min-height:58px;margin:0;padding:10px 13px}.vocab-item input{width:112px;flex:0 0 112px;margin:0;padding:9px 10px}.vocab-item .feedback{margin:0 0 0 auto;min-width:72px;text-align:right}.later{margin-top:15px;padding:13px 15px;border-radius:12px;background:#fff;border:1px dashed #d7b46e;color:#664816}
+.answer-tools{display:none;margin-top:9px}.answer-tools.show{display:block}.answer-tools button{padding:8px 11px;color:#694316;background:#fff0d7;font-size:.88rem}.revealed{margin-top:7px;color:#76501d;font-weight:750}
+@media(max-width:700px){main{margin-top:10px;padding:0 9px 40px}.hero,.card{padding:20px 17px;border-radius:17px}.cards,.two-col,.speaking-grid,.revision-row,.vocab-list{grid-template-columns:1fr}.hero:after{font-size:105px;right:-4px}.vocab-item .feedback{min-width:58px}}
+</style>
+</head>
+<body><main>
+<section class="hero">
+ <div class="eyebrow">Roadmap A2+ · Unit 1C · Interactive lesson</div>
+ <h1>A new lifestyle</h1>
+ <p class="subtitle">Read about a temporary lifestyle, choose between the present simple and present continuous, and describe everyday activities.</p>
+ <div class="meta"><span class="tag">Anastasia</span><span class="tag">60 minutes</span><span class="tag">Speaking support</span></div>
+</section>
+
+<section class="card">
+ <div class="stage"><span class="time">6</span>Warm-up</div><h2>One month with less technology</h2>
+ <p class="lead">Imagine you are staying in a quiet place with no computer and limited internet for one month. Choose three things to take.</p>
+ <div class="level-picker"><button id="easyBtn" class="level-btn active" onclick="setLevel('easy')">Easy</button><button id="challengeBtn" class="level-btn" onclick="setLevel('challenge')">Challenge</button></div>
+ <div class="random-card"><span id="levelLabel" class="level-label">Easy</span><div id="randomWord" class="random-word">Ready?</div><div id="randomQuestion" class="random-question">Show a card and answer in 2–3 sentences.</div><button id="cardExampleBtn" class="violet hidden" onclick="showCardExample()">Show an example</button><div id="randomExample" class="model hidden"></div></div>
+ <div class="actions"><button onclick="nextCard()">Show a card</button><button class="secondary" onclick="resetCards()">Reset</button></div>
+</section>
+
+<section class="card">
+ <div class="stage"><span class="time">10</span>Reading · Roadmap p.10</div><h2>A simple month</h2>
+ <div class="reading">
+  <p>Marek and Kim usually live in a big city, but this month they are trying a very different lifestyle. They are staying in a small house in a forest. The house has no electricity.</p>
+  <p>Every day, they get up at 5.30 and have a simple breakfast. Then they pick vegetables in the garden and collect wood. They normally finish at about six. In the evening, they play cards, read or sit outside, and they go to bed at around nine.</p>
+  <p>Today Marek is using a computer in a shop to write this update because the couple come into town only once a week. Kim is looking for warm blankets. Marek says they aren’t missing television and are enjoying the experience so far.</p>
+ </div>
+ <div id="readingQs">
+  <div class="q"><div class="q-row"><span class="num">1</span><div>How often do they come into town?<select data-answer="once a week"><option value="">Choose</option><option>every day</option><option>once a week</option><option>once a month</option></select><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">2</span><div>What time do they get up?<select data-answer="at 5.30"><option value="">Choose</option><option>at 5.30</option><option>at 6.00</option><option>at 9.00</option></select><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">3</span><div>Why is Marek using a computer today?<select data-answer="to write an update"><option value="">Choose</option><option>to watch a show</option><option>to write an update</option><option>to check medical tests</option></select><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">4</span><div>Are they enjoying the new lifestyle?<select data-answer="yes"><option value="">Choose</option><option>yes</option><option>no</option><option>the text does not say</option></select><div class="feedback"></div></div></div></div>
+ </div>
+ <div class="actions"><button onclick="checkBlock('readingQs')">Check reading</button></div>
+ <div class="speak-after"><h3>Speak after the exercise</h3><p><b>Question:</b> Which one part of their new routine would be easiest for you?</p><p><b>Start:</b> The easiest part for me would be … because …</p><button class="violet" onclick="toggle('readModel')">Show an example</button><div id="readModel" class="support">The easiest part for me would be reading in the evening because it is a useful way to relax.</div></div>
+</section>
+
+<section class="card">
+ <div class="stage"><span class="time">12</span>Grammar focus</div><h2>Present simple or present continuous?</h2>
+ <div class="two-col"><div class="rule"><b>Present simple</b><br>routines and facts<br><i>They get up early every day.</i></div><div class="rule"><b>Present continuous</b><br>now or a temporary situation<br><i>They are trying a new lifestyle this month.</i></div></div>
+ <div id="grammarQs">
+  <div class="q"><div class="q-row"><span class="num">1</span><div>Anastasia usually ___ her appointments in advance. (plan)<input data-answer="plans" placeholder="Write the verb"><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">2</span><div>This month, she ___ more time for English. (make)<input data-answer="is making|'s making" placeholder="Write the verb"><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">3</span><div>My friend ___ two evening classes every week. (attend)<input data-answer="attends" placeholder="Write the verb"><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">4</span><div>We ___ a new habit at the moment. (develop)<input data-answer="are developing|'re developing" placeholder="Write the verb"><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">5</span><div>I ___ this advice is useful. (think)<input data-answer="think" placeholder="Write the verb"><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">6</span><div>Look! They ___ two things at the same time. (do)<input data-answer="are doing|'re doing" placeholder="Write the verb"><div class="feedback"></div></div></div></div>
+ </div>
+ <div class="actions"><button onclick="checkBlock('grammarQs')">Check grammar</button></div>
+ <div class="speak-after"><h3>Speak after the exercise</h3><p><b>Question:</b> What is one temporary change in your life these days?</p><p><b>Start:</b> These days, I’m … . I usually …, but at the moment …</p><button class="violet" onclick="toggle('grammarModel')">Show an example</button><div id="grammarModel" class="support">These days, I’m learning to cook more dishes. I usually make very simple meals, but at the moment I’m trying new recipes.</div></div>
+</section>
+
+<section class="card">
+ <div class="stage"><span class="time">12</span>Vocabulary · Roadmap p.11</div><h2>Everyday activities</h2><p class="lead">Complete the phrases. Use each verb twice.</p>
+ <div class="bank"><span class="chip">check</span><span class="chip">get</span><span class="chip">have</span><span class="chip">play</span><span class="chip">spend</span><span class="chip">start / finish</span><span class="chip">take</span><span class="chip">watch</span></div>
+ <div id="vocabQs" class="vocab-list">
+  <div class="q vocab-item"><input data-answer="take" aria-label="Verb for photos"><span>photos</span><div class="feedback"></div></div><div class="q vocab-item"><input data-answer="take" aria-label="Verb for a taxi"><span>a taxi</span><div class="feedback"></div></div>
+  <div class="q vocab-item"><input data-answer="watch" aria-label="Verb for TV"><span>TV</span><div class="feedback"></div></div><div class="q vocab-item"><input data-answer="watch" aria-label="Verb for a show"><span>a show</span><div class="feedback"></div></div>
+  <div class="q vocab-item"><input data-answer="have" aria-label="Verb for breakfast"><span>breakfast</span><div class="feedback"></div></div><div class="q vocab-item"><input data-answer="have" aria-label="Verb for a good time"><span>a good time</span><div class="feedback"></div></div>
+  <div class="q vocab-item"><input data-answer="start|finish" aria-label="Verb for work"><span>work</span><div class="feedback"></div></div><div class="q vocab-item"><input data-answer="start|finish" aria-label="Verb for a language course"><span>a language course</span><div class="feedback"></div></div>
+  <div class="q vocab-item"><input data-answer="get" aria-label="Verb for up"><span>up</span><div class="feedback"></div></div><div class="q vocab-item"><input data-answer="get" aria-label="Verb for home"><span>home</span><div class="feedback"></div></div>
+  <div class="q vocab-item"><input data-answer="check" aria-label="Verb for messages"><span>messages</span><div class="feedback"></div></div><div class="q vocab-item"><input data-answer="check" aria-label="Verb for the answers"><span>the answers</span><div class="feedback"></div></div>
+  <div class="q vocab-item"><input data-answer="play" aria-label="Verb for cards"><span>cards</span><div class="feedback"></div></div><div class="q vocab-item"><input data-answer="play" aria-label="Verb for the piano"><span>the piano</span><div class="feedback"></div></div>
+  <div class="q vocab-item"><input data-answer="spend" aria-label="Verb for time with friends"><span>time with friends</span><div class="feedback"></div></div><div class="q vocab-item"><input data-answer="spend" aria-label="Verb for money"><span>money</span><div class="feedback"></div></div>
+ </div>
+ <div class="actions"><button onclick="checkBlock('vocabQs')">Check vocabulary</button></div>
+ <div class="speak-after"><h3>Speak after the exercise</h3><p><b>Question:</b> Which three activities are an important part of a balanced week?</p><p><b>Start:</b> For me, a balanced week includes …, … and … . The most important one is … because …</p><button class="violet" onclick="toggle('vocabModel')">Show an example</button><div id="vocabModel" class="support">For me, a balanced week includes spending time with friends, having a good time and finishing important tasks. The most important one is spending time with friends because people need support.</div></div>
+</section>
+
+<section class="card challenge">
+ <div class="stage"><span class="time">5</span>Challenge · Vocabulary Bank p.136</div><h2>Choose the natural phrase</h2>
+ <div id="challengeQs">
+  <div class="q">I usually listen ___ music when I get home.<select data-answer="to"><option value="">Choose</option><option>at</option><option>to</option><option>for</option></select><div class="feedback"></div></div>
+  <div class="q">She goes ___ a walk before dinner.<select data-answer="for"><option value="">Choose</option><option>for</option><option>in</option><option>to</option></select><div class="feedback"></div></div>
+  <div class="q">They have dinner ___ friends twice a month.<select data-answer="with"><option value="">Choose</option><option>to</option><option>with</option><option>for</option></select><div class="feedback"></div></div>
+ </div><div class="actions"><button onclick="checkBlock('challengeQs')">Check challenge</button></div>
+ <div class="speak-after"><h3>Speak after the exercise</h3><p><b>Question:</b> Choose one phrase and add a true detail about your life.</p><p><b>Start:</b> I usually … . I do it …</p><button class="violet" onclick="toggle('challengeModel')">Show an example</button><div id="challengeModel" class="support">I usually go for a walk in the evening. I do it when I need time to think.</div></div>
+ <div class="later"><b>We’ll come back to this vocabulary.</b><br>This is the first part of Vocabulary Bank 1C. We’ll practise the other useful everyday phrases in the next lessons and homework.</div>
+</section>
+
+<section class="card speaking">
+ <div class="stage"><span class="time">11</span>Speaking goal</div><h2>Try a new lifestyle for one month</h2><p class="lead">Choose one realistic change. Make short notes, then describe your normal life and the temporary change.</p>
+ <div class="speaking-grid">
+  <div class="speak"><span class="label">1 · Change</span><h3>What are you trying?</h3><textarea rows="3" placeholder="I’m trying … for one month."></textarea><button class="violet" onclick="toggle('m1')">Show an example</button><div id="m1" class="support">I’m trying a no-phone evening twice a week for one month.</div></div>
+  <div class="speak"><span class="label">2 · Normal routine</span><h3>What do you usually do?</h3><textarea rows="3" placeholder="I usually …"></textarea><button class="violet" onclick="toggle('m2')">Show an example</button><div id="m2" class="support">I usually check my messages several times in the evening.</div></div>
+  <div class="speak"><span class="label">3 · Now</span><h3>What are you doing differently?</h3><textarea rows="3" placeholder="At the moment, I’m … instead."></textarea><button class="violet" onclick="toggle('m3')">Show an example</button><div id="m3" class="support">At the moment, I’m reading or going for a walk instead.</div></div>
+  <div class="speak"><span class="label">4 · Result</span><h3>How is it going?</h3><textarea rows="3" placeholder="So far, …"></textarea><button class="violet" onclick="toggle('m4')">Show an example</button><div id="m4" class="support">So far, it is difficult, but I have plenty of time for useful things.</div></div>
+ </div>
+ <div class="model"><b>Your answer path:</b><br>I’m trying … for one month. → I usually … → But at the moment, I’m … → So far, … → I think this change will / won’t become a habit because …</div>
+</section>
+
+<section class="card">
+ <div class="stage"><span class="time">4</span>Mixed revision</div><h2>Choose two mini-challenges</h2>
+ <div class="revision-row">
+  <div class="revision-box"><b>Routine + now:</b><br>Use <i>usually</i> and <i>at the moment</i> to contrast two activities.<br><span class="label">Start</span> I usually …, but at the moment …</div>
+  <div class="revision-box"><b>Useful advice:</b><br>Your friend wants to develop a new habit. Give one piece of advice.<br><span class="label">Start</span> My advice is to … because …</div>
+  <div class="revision-box"><b>Clear goals:</b><br>Explain how one clear goal can support a lifestyle change.<br><span class="label">Start</span> A clear goal is useful because …</div>
+  <div class="revision-box"><b>Question:</b><br>Ask one follow-up question about the new lifestyle.<br><span class="label">Start</span> How often do you …? / Why are you …?</div>
+ </div>
+</section>
+</main>
+<script>
+const cards=[
+ {w:"a book",easy:"Which kind of book would you take?",challenge:"How could this book make the month easier?",easyModel:"I’d take a detective novel because I enjoy stories with a mystery.",challengeModel:"A familiar book could make the month easier because it would help me relax in a new place."},
+ {w:"food",easy:"Which food would you take plenty of?",challenge:"Would you choose useful food or ideal comfort food? Why?",easyModel:"I’d take plenty of fruit because it is easy to eat and useful.",challengeModel:"I’d choose useful food because I would need plenty of energy for everyday tasks."},
+ {w:"free time",easy:"What would you do in your free time?",challenge:"Which new habit could you develop without technology?",easyModel:"I’d read, go for walks and learn to play cards.",challengeModel:"I could develop a habit of writing every evening because my phone wouldn’t take my attention."},
+ {w:"support",easy:"Who would you miss most?",challenge:"How could people support each other in a remote place?",easyModel:"I’d miss my close friends most because I usually talk to them regularly.",challengeModel:"People could support each other by sharing everyday tasks and listening carefully when someone has a problem."},
+ {w:"everyday tasks",easy:"Which everyday task would be easy for you?",challenge:"How would you get things done without electricity?",easyModel:"Cooking a simple breakfast would be easy for me.",challengeModel:"I’d plan my time in advance and do important tasks while there was enough daylight."}
+];let unused=[],level="easy",currentCard=null;
+function hideCardExample(){randomExample.classList.add("hidden");randomExample.classList.remove("show");cardExampleBtn.textContent="Show an example"}
+function setLevel(n){level=n;easyBtn.classList.toggle("active",n==="easy");challengeBtn.classList.toggle("active",n==="challenge");levelLabel.textContent=n==="easy"?"Easy":"Challenge";if(currentCard){randomQuestion.textContent=currentCard[level];randomExample.textContent=currentCard[level+"Model"]}hideCardExample()}
+function resetCards(){unused=[...cards];currentCard=null;randomWord.textContent="Ready?";randomQuestion.textContent="Show a card and answer in 2–3 sentences.";cardExampleBtn.classList.add("hidden");hideCardExample()}
+function nextCard(){if(!unused.length)unused=[...cards];const i=Math.floor(Math.random()*unused.length);currentCard=unused.splice(i,1)[0];randomWord.textContent=currentCard.w;randomQuestion.textContent=currentCard[level];randomExample.textContent=currentCard[level+"Model"];cardExampleBtn.classList.remove("hidden");hideCardExample()}
+function showCardExample(){if(!currentCard)return;const open=randomExample.classList.contains("hidden");randomExample.classList.toggle("hidden",!open);randomExample.classList.toggle("show",open);cardExampleBtn.textContent=open?"Hide the example":"Show an example"}
+function norm(s){return String(s||"").toLowerCase().trim().replace(/[’‘]/g,"'").replace(/[?.!,;:]/g,"").replace(/\s+/g," ")}
+const lessonAnswers=[...document.querySelectorAll('[data-answer]')];
+const lessonHints=[
+ 'Look for the frequency phrase in the first paragraph.','The text gives an exact early-morning time.','He is in a shop and wants to add something to the blog.','Check the final sentence of the text.',
+ 'This is a usual habit, and the subject is she.','This is a temporary situation happening this month.','This happens every week, and the subject is she.','Use be + verb-ing for something happening at the moment.','Think is a state verb here, so do not use the continuous form.','Look signals an action happening now.',
+ 'Which verb commonly goes with photos?','Which verb commonly goes with taxi?','Which verb commonly goes with TV?','Which verb commonly goes with show?','Which verb commonly goes with breakfast?','Which verb commonly goes with a good time?','You can begin or end work.','You can begin or complete a course.','Complete the phrasal verb … up.','Complete the phrase … home.','Which verb commonly goes with messages?','Which verb commonly goes with answers?','Which verb commonly goes with cards?','Which verb commonly goes with a musical instrument?','Which verb commonly goes with time?','Which verb commonly goes with money?',
+ 'The verb listen needs a preposition.','Complete the phrase go … a walk.','Choose the preposition meaning together with other people.'
+];
+function acceptedAnswer(el){return el.dataset.answer.split('|').map(norm)}
+function hideAnswerTool(box){const tools=box.querySelector('.answer-tools');if(tools)tools.classList.remove('show')}
+function showAnswerTool(el){const box=el.closest('.q');let tools=box.querySelector('.answer-tools');if(!tools){tools=document.createElement('div');tools.className='answer-tools';const btn=document.createElement('button');btn.type='button';btn.textContent='Show the correct answer';const shown=document.createElement('div');shown.className='revealed';btn.addEventListener('click',()=>{const answer=acceptedAnswer(el)[0];el.value=answer;shown.textContent=`Correct answer: ${answer}`});tools.append(btn,shown);box.appendChild(tools)}tools.classList.add('show')}
+function checkBlock(id){document.querySelectorAll("#"+id+" [data-answer]").forEach(el=>{const box=el.closest(".q"),i=lessonAnswers.indexOf(el),ok=acceptedAnswer(el).includes(norm(el.value)),fb=box.querySelector(".feedback");box.classList.toggle("correct",ok);box.classList.toggle("incorrect",!ok);if(ok){fb.textContent="Correct";hideAnswerTool(box)}else{fb.textContent=`Hint: ${lessonHints[i]}`;showAnswerTool(el)}})}
+function toggle(id){document.getElementById(id).classList.toggle("show");document.getElementById(id).classList.toggle("hidden")}
+resetCards();
+</script></body></html>

@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Anastasia · Roadmap A2+ · Unit 1B Homework</title>
+<style>
+:root{--bg:#f2f4f7;--paper:#fffdf9;--ink:#263248;--muted:#697588;--orange:#e88925;--orange2:#a95710;--teal:#247f7a;--green:#2e8b62;--red:#c65252;--blue:#466b95;--line:#dce1e7;--shadow:0 14px 38px rgba(35,48,68,.1)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 8% 0,rgba(232,137,37,.14),transparent 27rem),linear-gradient(180deg,#f5f6f8,#edf0f3);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.55}
+main{max-width:900px;margin:30px auto;padding:0 16px 70px}.hero,.card,.result{border:1px solid var(--line);border-radius:22px;background:var(--paper);box-shadow:var(--shadow)}
+.hero{position:relative;overflow:hidden;padding:38px;color:#fff;background:linear-gradient(125deg,#24334c,#344d6d 62%,#247f7a 140%)}.hero:after{content:"1B";position:absolute;right:20px;top:-42px;color:rgba(255,255,255,.07);font-size:170px;font-weight:900}
+.eyebrow,.stage{font-size:.76rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.eyebrow{color:#ffd497}.stage{color:var(--orange2)}
+h1{max-width:650px;margin:8px 0 12px;font-size:clamp(2.2rem,6vw,4rem);line-height:1}.subtitle{max-width:680px;margin:0;color:#e7edf5;font-size:1.06rem}.meta{margin-top:23px}
+input,select,textarea{font:inherit;color:var(--ink)}.meta input,.answer,textarea{width:100%;border:1px solid #bdc7d2;border-radius:10px;background:#fff;padding:11px 12px}.meta input{max-width:330px}
+.progress-wrap{margin-top:22px}.progress-track{height:10px;overflow:hidden;border-radius:99px;background:rgba(255,255,255,.18)}.progress-bar{width:0;height:100%;background:linear-gradient(90deg,#ffb65d,#6ccec4);transition:width .25s}.progress-text,.save-note{margin-top:7px;font-size:.88rem;color:#dfe8f2}
+.card{margin-top:18px;padding:28px}h2{margin:5px 0 6px;font-size:1.55rem}.lead{margin:0 0 18px;color:var(--muted)}
+.overview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0}.overview div{padding:14px;border:1px solid var(--line);border-radius:12px;background:#fff}.overview b{color:var(--orange2)}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}.chip{padding:6px 10px;border:1px solid #e8ca92;border-radius:999px;background:#fff6dd;color:#724c0c;font-weight:750}
+.q{margin:13px 0;padding:16px;border:1px solid var(--line);border-radius:13px;background:#fff;transition:.2s}.q.correct{border-color:#8ad0aa;background:#f1fbf5}.q.incorrect{border-color:#e7a0a0;background:#fff5f5}.q.review{border-color:#9fb5cf;background:#f3f7fc}
+.q-row{display:grid;grid-template-columns:35px 1fr;gap:10px;align-items:start}.num{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;color:#fff;background:var(--orange);font-weight:900}.prompt{font-weight:680}.prompt .answer{margin-top:9px;font-weight:500}.feedback{min-height:1.25em;margin-top:7px;color:var(--muted);font-size:.9rem}.correct .feedback{color:var(--green);font-weight:750}.incorrect .feedback{color:var(--red);font-weight:750}.review .feedback{color:var(--blue);font-weight:750}
+.speak{margin:14px 0;padding:18px;border:1px solid #cbd5df;border-radius:14px;background:linear-gradient(135deg,#fff,#f5f8fb)}.speak h3{margin:0 0 7px}.steps{margin:8px 0;padding-left:21px}.support{margin:10px 0;padding:12px;border-radius:10px;background:#eef5ff;color:#405f84}.support b{color:#2e547c}.model{display:none;margin-top:8px;padding-top:8px;border-top:1px solid #cbd9e8}.model.show{display:block}
+button{cursor:pointer;border:0;border-radius:10px;padding:11px 16px;color:#fff;background:var(--teal);font:inherit;font-weight:850}button:hover{filter:brightness(.97);transform:translateY(-1px)}button.secondary{color:var(--ink);background:#e7ebef}button.hint{padding:8px 11px;color:#435267;background:#e7edf3;font-size:.9rem}
+.answer-tools{display:none;margin-top:9px}.answer-tools.show{display:block}.answer-tools button{padding:8px 11px;color:#694316;background:#fff0d7;font-size:.88rem}.revealed{margin-top:7px;color:#76501d;font-weight:750}
+.checkline{display:flex;align-items:center;gap:9px;margin:11px 0;color:#4a596d}.checkline input{width:18px;height:18px}.actions{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}.primary{background:var(--orange)}
+.result{display:none;margin-top:18px;padding:28px;border-top:7px solid var(--orange)}.result.show{display:block}.score{font-size:2.05rem;font-weight:900}.teacher-note{padding:12px 14px;border-radius:10px;background:#eef4f8;color:#506176}.review-list{padding-left:22px}
+@media(max-width:650px){main{margin-top:14px;padding:0 10px 45px}.hero,.card,.result{padding:21px 18px;border-radius:16px}.overview{grid-template-columns:1fr}.hero:after{font-size:110px;right:0}}
+</style>
+</head>
+<body>
+<main>
+<section class="hero">
+  <div class="eyebrow">Roadmap A2+ · Unit 1B · Homework</div>
+  <h1>Successful habits</h1>
+  <p class="subtitle">Workbook vocabulary, today’s new phrases and supported speaking. Your answers are saved on this device.</p>
+  <div class="meta"><input id="studentName" type="text" value="Anastasia" aria-label="Your name"></div>
+  <div class="progress-wrap"><div class="progress-track"><div id="progressBar" class="progress-bar"></div></div><div id="progressText" class="progress-text">0 of 28 answers completed</div><div id="saveNote" class="save-note">Your answers are saved automatically on this device.</div></div>
+</section>
+
+<section class="card">
+  <div class="stage">Before you start</div>
+  <h2>Three useful patterns</h2>
+  <div class="overview">
+    <div><b>verb + noun</b><br>have clear goals<br>ask questions</div>
+    <div><b>verb + adverb</b><br>listen carefully<br>plan your time well</div>
+    <div><b>take + noun</b><br>take care of yourself<br>take time off</div>
+  </div>
+</section>
+
+<form id="hwForm">
+<section class="card">
+  <div class="stage">Workbook p.5 · Exercise 1</div>
+  <h2>Complete the phrases</h2>
+  <p class="lead">Choose the correct verb. You can use <i>take</i> twice.</p>
+  <div class="bank"><span class="chip">ask</span><span class="chip">have</span><span class="chip">listen</span><span class="chip">plan</span><span class="chip">start</span><span class="chip">take × 2</span><span class="chip">try</span></div>
+  <div class="q"><div class="q-row"><span class="num">1</span><div class="prompt">___ a lot of questions<select class="answer" data-answer="ask"><option value="">Choose…</option><option>ask</option><option>have</option><option>listen</option><option>plan</option><option>start</option><option>take</option><option>try</option></select><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">2</span><div class="prompt">___ carefully<select class="answer" data-answer="listen"><option value="">Choose…</option><option>ask</option><option>have</option><option>listen</option><option>plan</option><option>start</option><option>take</option><option>try</option></select><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">3</span><div class="prompt">___ care of yourself<select class="answer" data-answer="take"><option value="">Choose…</option><option>ask</option><option>have</option><option>listen</option><option>plan</option><option>start</option><option>take</option><option>try</option></select><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">4</span><div class="prompt">___ again<select class="answer" data-answer="start"><option value="">Choose…</option><option>ask</option><option>have</option><option>listen</option><option>plan</option><option>start</option><option>take</option><option>try</option></select><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">5</span><div class="prompt">___ clear goals<select class="answer" data-answer="have"><option value="">Choose…</option><option>ask</option><option>have</option><option>listen</option><option>plan</option><option>start</option><option>take</option><option>try</option></select><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">6</span><div class="prompt">___ new things<select class="answer" data-answer="try"><option value="">Choose…</option><option>ask</option><option>have</option><option>listen</option><option>plan</option><option>start</option><option>take</option><option>try</option></select><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">7</span><div class="prompt">___ your time well<select class="answer" data-answer="plan"><option value="">Choose…</option><option>ask</option><option>have</option><option>listen</option><option>plan</option><option>start</option><option>take</option><option>try</option></select><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">8</span><div class="prompt">___ time off<select class="answer" data-answer="take"><option value="">Choose…</option><option>ask</option><option>have</option><option>listen</option><option>plan</option><option>start</option><option>take</option><option>try</option></select><div class="feedback"></div></div></div></div>
+</section>
+
+<section class="card">
+  <div class="stage">Workbook p.5 · Exercise 2</div>
+  <h2>Complete the advice</h2>
+  <p class="lead">Write one word in each gap. Use the phrases from Exercise 1.</p>
+  <div class="q"><div class="q-row"><span class="num">9</span><div class="prompt">___ carefully when another person is speaking.<input class="answer" data-answer="listen" placeholder="One word"><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">10</span><div class="prompt">___ clear goals for the next few months.<input class="answer" data-answer="have" placeholder="One word"><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">11</span><div class="prompt">___ your time well when you have plenty of things to do.<input class="answer" data-answer="plan" placeholder="One word"><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">12</span><div class="prompt">If something doesn’t work, start ___.<input class="answer" data-answer="again" placeholder="One word"><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">13</span><div class="prompt">Take ___ of yourself when you are busy.<input class="answer" data-answer="care" placeholder="One word"><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">14</span><div class="prompt">Take time ___ and do something you enjoy.<input class="answer" data-answer="off" placeholder="One word"><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">15</span><div class="prompt">___ new things and learn from your mistakes.<input class="answer" data-answer="try" placeholder="One word"><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">16</span><div class="prompt">___ questions when you need more information.<input class="answer" data-answer="ask" placeholder="One word"><div class="feedback"></div></div></div></div>
+</section>
+
+<section class="card">
+  <div class="stage">Vocabulary from the lesson</div>
+  <h2>Choose the phrase that fits</h2>
+  <p class="lead">Each sentence has only one natural answer.</p>
+  <div class="q"><div class="q-row"><span class="num">17</span><div class="prompt">I always buy train tickets ___ because they are often cheaper.<select class="answer" data-answer="in advance"><option value="">Choose…</option><option>at the same time</option><option>in advance</option><option>kind of</option></select><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">18</span><div class="prompt">Before a long journey, I ___ and check my documents.<select class="answer" data-answer="pack my suitcase"><option value="">Choose…</option><option>attend an event</option><option>pack my suitcase</option><option>take time off</option></select><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">19</span><div class="prompt">My doctor asked me to have some ___.<select class="answer" data-answer="medical tests"><option value="">Choose…</option><option>clear goals</option><option>medical tests</option><option>useful habits</option></select><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">20</span><div class="prompt">I can’t answer messages and listen carefully ___.<select class="answer" data-answer="at the same time"><option value="">Choose…</option><option>at the same time</option><option>in advance</option><option>plenty of</option></select><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">21</span><div class="prompt">There is ___ useful information on this website.<select class="answer" data-answer="plenty of"><option value="">Choose…</option><option>ideal</option><option>kind of</option><option>plenty of</option></select><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">22</span><div class="prompt">This app is ___ because it helps me remember my appointments.<select class="answer" data-answer="useful"><option value="">Choose…</option><option>medical</option><option>successful</option><option>useful</option></select><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">23</span><div class="prompt">What ___ event would you like to attend: a concert, a festival or an exhibition?<select class="answer" data-answer="kind of"><option value="">Choose…</option><option>kind of</option><option>plenty of</option><option>support</option></select><div class="feedback"></div></div></div></div>
+  <div class="q"><div class="q-row"><span class="num">24</span><div class="prompt">Good ___ can help you continue when something is difficult.<select class="answer" data-answer="support"><option value="">Choose…</option><option>appointment</option><option>goal</option><option>support</option></select><div class="feedback"></div></div></div></div>
+</section>
+
+<section class="card">
+  <div class="stage">Supported speaking</div>
+  <h2>Say it first, then write it</h2>
+  <p class="lead">Use the blue beginning and write two or three sentences. Your teacher will check this part.</p>
+  <div class="speak"><h3>25. What is one useful habit you would like to develop?</h3><div class="support"><b>Start:</b> One useful habit I would like to develop is …<div class="model">One useful habit I would like to develop is planning my week in advance. I think it would help me feel less busy.</div></div><button class="hint" type="button" onclick="toggleModel(this)">Show an example</button><div class="q review"><textarea class="answer open" rows="3" data-review="true" placeholder="One useful habit I would like to develop is …"></textarea><div class="feedback"></div></div></div>
+  <div class="speak"><h3>26. What helps you get things done on a busy day?</h3><div class="support"><b>Start:</b> On a busy day, … helps me get things done because …<div class="model">On a busy day, a short list helps me get things done because I can see what is most important.</div></div><button class="hint" type="button" onclick="toggleModel(this)">Show an example</button><div class="q review"><textarea class="answer open" rows="3" data-review="true" placeholder="On a busy day, … helps me get things done because …"></textarea><div class="feedback"></div></div></div>
+  <div class="speak"><h3>27. What kind of advice do you find useful?</h3><div class="support"><b>Start:</b> I find advice about … useful because …<div class="model">I find advice about learning languages useful because I can try new ways of studying.</div></div><button class="hint" type="button" onclick="toggleModel(this)">Show an example</button><div class="q review"><textarea class="answer open" rows="3" data-review="true" placeholder="I find advice about … useful because …"></textarea><div class="feedback"></div></div></div>
+  <div class="speak"><h3>28. When do you usually need support?</h3><div class="support"><b>Start:</b> I usually need support when …<div class="model">I usually need support when I have plenty of things to do at the same time. Advice from another person can be useful.</div></div><button class="hint" type="button" onclick="toggleModel(this)">Show an example</button><div class="q review"><textarea class="answer open" rows="3" data-review="true" placeholder="I usually need support when …"></textarea><div class="feedback"></div></div></div>
+</section>
+
+<div class="actions"><button type="button" class="primary" id="checkBtn">Check my work</button><button type="button" class="secondary" id="resetBtn">Start again</button></div>
+</form>
+
+<section id="result" class="result" aria-live="polite"><div class="stage">Today’s result</div><div id="score" class="score"></div><p id="message"></p><div id="reviewBlock"></div><p id="sendStatus" class="teacher-note">Your result has not been sent yet.</p><p class="teacher-note">Questions 25–28 need teacher review. We will use them for speaking practice in the lesson.</p></section>
+</main>
+
+<script>
+const answers=[...document.querySelectorAll('.answer')],total=answers.length,storageKey='anastasia_roadmap_a2_unit1b_homework_v1';
+const hints=[
+ 'Which verb commonly goes with “questions”?','Which verb means “pay attention to what you hear”?','The phrase begins with the verb take.','Which verb means “begin”?','Which verb commonly goes with goals?','Which verb means “do or experience something new”?','Which verb commonly goes with time when you organise it?','The phrase begins with the verb take.',
+ 'Use the verb meaning “pay attention to what you hear”.','Use the verb that commonly goes with goals.','Use the verb that means “organise”.','Complete the phrase start …','Complete the phrase take … of yourself.','Complete the phrase take time …','Use the verb meaning “do something new”.','Use the verb that commonly goes with questions.',
+ 'You buy the tickets before the journey, not on the day.','Think about putting clothes and other things into your luggage.','These are checks done by a doctor or laboratory.','The phrase means “simultaneously”.','Choose a phrase meaning “a large amount of”.','Choose an adjective meaning “helpful”.','You are asking about the type of event.','Choose the uncountable noun meaning “help from another person”.'
+];
+function normalise(s){return String(s||'').toLowerCase().trim().replace(/[’‘]/g,"'").replace(/[?.!,;:]/g,"").replace(/\s+/g," ")}
+function accepted(el){return(el.dataset.answer||'').split('|').map(normalise)}
+function isClosed(el){return el.dataset.review!=='true'}
+function toggleModel(btn){const model=btn.previousElementSibling.querySelector('.model');model.classList.toggle('show');btn.textContent=model.classList.contains('show')?'Hide the example':'Show an example'}
+function hideAnswerTool(q){const tools=q.querySelector('.answer-tools');if(tools)tools.classList.remove('show')}
+function showAnswerTool(el,i){const q=el.closest('.q');let tools=q.querySelector('.answer-tools');if(!tools){tools=document.createElement('div');tools.className='answer-tools';const btn=document.createElement('button');btn.type='button';btn.textContent='Show the correct answer';const shown=document.createElement('div');shown.className='revealed';btn.addEventListener('click',()=>{const answer=accepted(el)[0];el.value=answer;shown.textContent=`Correct answer: ${answer}`;updateProgress();saveDraft()});tools.append(btn,shown);q.appendChild(tools)}tools.classList.add('show')}
+function updateProgress(){const done=answers.filter(a=>a.value.trim()).length;progressBar.style.width=`${done/total*100}%`;progressText.textContent=`${done} of ${total} answers completed`}
+function saveDraft(){localStorage.setItem(storageKey,JSON.stringify({student:studentName.value,answers:answers.map(a=>a.value),savedAt:new Date().toISOString()}));saveNote.textContent='Saved automatically on this device.'}
+function restoreDraft(){const raw=localStorage.getItem(storageKey);if(!raw)return;try{const d=JSON.parse(raw);studentName.value=d.student||'Anastasia';(d.answers||[]).forEach((v,i)=>{if(answers[i])answers[i].value=v||''});saveNote.textContent='Your previous answers have been restored.'}catch(e){}}
+answers.forEach(a=>['input','change'].forEach(ev=>a.addEventListener(ev,()=>{updateProgress();saveDraft()})));studentName.addEventListener('input',saveDraft);
+checkBtn.addEventListener('click',()=>{
+ let correct=0,closedTotal=0;const wrong=[],open=[],details=[];
+ answers.forEach((el,i)=>{const q=el.closest('.q'),fb=q.querySelector('.feedback');q.classList.remove('correct','incorrect','review');
+  if(isClosed(el)){closedTotal++;const ok=accepted(el).includes(normalise(el.value));if(ok){correct++;q.classList.add('correct');fb.textContent='Correct.';hideAnswerTool(q)}else{q.classList.add('incorrect');fb.textContent=`Hint: ${hints[i]}`;showAnswerTool(el,i);wrong.push(i+1);details.push(`${i+1}: ${el.value.trim()||'—'} → ${accepted(el).join(' / ')}`)}}
+  else{q.classList.add('review');fb.textContent=el.value.trim()?'Saved for teacher review.':'Please add your own answer.';open.push(`${i+1}: ${el.value.trim()||'—'}`)}
+ });
+ const pct=Math.round(correct/closedTotal*100),name=studentName.value.trim();score.textContent=`${correct} / ${closedTotal} automatically checked · ${pct}%`;
+ message.textContent=pct===100?`Excellent work${name?', '+name:''}. All automatically checked answers are accurate.`:pct>=85?`Very strong work${name?', '+name:''}. Only a few items need another look.`:pct>=65?`A solid attempt${name?', '+name:''}. Review the highlighted items before the lesson.`:`Thank you for completing the work${name?', '+name:''}. The highlighted items show us what to practise together.`;
+ reviewBlock.innerHTML=wrong.length?`<p><b>Have another look:</b></p><ul class="review-list">${wrong.map(n=>`<li>Question ${n}</li>`).join('')}</ul><p><b>Teacher review:</b> Questions 25–28.</p>`:`<p><b>No closed questions to review.</b></p><p><b>Teacher review:</b> Questions 25–28.</p>`;
+ result.classList.add('show');result.scrollIntoView({behavior:'smooth',block:'start'});
+ if(!name){sendStatus.textContent='Please enter your name above and press “Check my work” again.';return}
+ formStudent.value=name;formHomework.value='Roadmap A2+ · Unit 1B Successful Habits · Complete Homework';formScore.value=`${correct}/${closedTotal}`;formPercent.value=pct;formMistakes.value=wrong.join(', ');
+ formAnswers.value=[details.length?`Closed: ${details.join(' | ')}`:'Closed: all correct',`Open: ${open.join(' | ')}`].join(' || ');
+ resultForm.submit();sendStatus.textContent='Your result has been sent. Your answers will stay saved on this device.';saveDraft();
+});
+resetBtn.addEventListener('click',()=>{if(!confirm('Clear all saved answers and start again?'))return;hwForm.reset();studentName.value='Anastasia';answers.forEach(el=>{const q=el.closest('.q');q.classList.remove('correct','incorrect','review');q.querySelector('.feedback').textContent='';const tools=q.querySelector('.answer-tools');if(tools)tools.remove()});localStorage.removeItem(storageKey);result.classList.remove('show');saveNote.textContent='Your answers are saved automatically on this device.';updateProgress();scrollTo({top:0,behavior:'smooth'})});
+restoreDraft();updateProgress();
+</script>
+<iframe name="resultFrame" id="resultFrame" style="display:none"></iframe>
+<form id="resultForm" action="https://script.google.com/macros/s/AKfycbw2zUGeG7xViJMx5s-GYAzG-vFglI9ZbfN0QdyOK5bngVf0HciC8hspov8ogaeennPu/exec" method="POST" target="resultFrame" style="display:none"><input type="hidden" name="student" id="formStudent"><input type="hidden" name="homework" id="formHomework"><input type="hidden" name="score" id="formScore"><input type="hidden" name="percent" id="formPercent"><input type="hidden" name="mistakes" id="formMistakes"><input type="hidden" name="answers" id="formAnswers"></form>
+</body>
+</html>
