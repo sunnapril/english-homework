@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Roadmap B1 · Achievement Test 2</title>
+<style>
+:root{--ink:#27373d;--muted:#68777d;--bg:#f3f6f4;--card:#fffdfa;--sage:#dfece4;--blue:#e2ecf5;--peach:#f7e6dc;--accent:#47705a;--line:#dbe4df;--good:#2f7250;--bad:#a64f4f;--hint:#eef3f0;--answer:#f5ecdf}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(180deg,#eef4f1 0,#f6f4f0 100%);color:var(--ink);font:16.5px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}.wrap{max-width:980px;margin:auto;padding:20px}.hero,.slide{background:var(--card);border:1px solid #e4e8e5;border-radius:24px;padding:28px;margin:16px 0;box-shadow:0 10px 30px rgba(36,55,61,.06)}.hero{background:linear-gradient(135deg,var(--sage),var(--blue))}.eyebrow{color:#597068;font-weight:800;letter-spacing:.04em;text-transform:uppercase;font-size:.78rem}h1{font-size:clamp(2rem,5vw,3.25rem);line-height:1.08;margin:.25rem 0 .7rem}h2{font-size:clamp(1.5rem,3vw,2rem);line-height:1.2;margin:.2rem 0 .55rem}.lead,.instruction{color:var(--muted)}.score-chip,.pill{display:inline-block;padding:5px 10px;border-radius:999px;background:var(--sage);font-weight:750;margin:3px}.section-score{float:right;color:#587064;font-weight:800}.task{padding:15px 0;border-top:1px solid var(--line)}.task:first-of-type{border-top:0}.example{background:#f3f6f4;border-radius:13px;padding:13px;margin:12px 0}.text-passage{font-size:1.05rem;line-height:2.05;background:#f9fbfa;border:1px solid var(--line);border-radius:16px;padding:18px}.inline-select{width:auto;min-width:125px;margin:2px 3px}.sentence{display:flex;gap:9px;align-items:flex-start}.num{flex:0 0 25px;font-weight:850;color:#567264}input,select{font:inherit;color:var(--ink);border:1px solid #c7d4cd;border-radius:11px;padding:8px 10px;background:#fff;outline:none}input:focus,select:focus{border-color:#6d9981;box-shadow:0 0 0 3px #dcebe2}input.gap{min-width:190px;max-width:100%}.wordbox{background:#f5f8f6;border-radius:14px;padding:14px;margin:12px 0}.wordbox span{display:inline-block;padding:5px 9px;margin:3px;border-radius:999px;background:white;border:1px solid var(--line);font-weight:700;cursor:pointer;transition:.18s}.wordbox span.used{background:#89ad98;color:white;border-color:#789e87}.tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}button{border:0;border-radius:11px;padding:10px 15px;background:var(--accent);color:#fff;font:700 15px inherit;cursor:pointer}.hint-btn{background:#e7efea;color:var(--ink)}.answer-btn{background:var(--answer);color:#684f38}.hint,.answer,.result{display:none;border-radius:11px;padding:11px 12px;margin-top:9px}.hint.show,.answer.show,.result.show{display:block}.hint{background:var(--hint);color:#52645b}.answer{background:#e8f2ec;color:var(--good)}.result.good{background:#e8f2ec;color:var(--good)}.result.bad{background:#f8e8e8;color:var(--bad)}.speaking{background:var(--peach);padding:16px;border-radius:15px;margin-top:20px}.speaking strong{color:#795340}.top-nav{position:sticky;top:8px;z-index:10;background:#fffffff0;backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:17px;padding:10px;margin:12px 0;box-shadow:0 8px 25px rgba(36,55,61,.08)}.progress-track{height:9px;background:#e5ebe8;border-radius:99px;overflow:hidden;margin-bottom:9px}.progress-fill{height:100%;width:0;border-radius:99px;background:#8fb2a0;transition:width .35s,background .35s}.page-tabs{display:flex;gap:7px;overflow-x:auto;padding:1px 1px 4px;scrollbar-width:thin}.page-tab{flex:0 0 auto;background:#eef3f0;color:#496157;padding:8px 11px;font-size:.78rem}.page-tab.active{background:var(--accent);color:white}.page-tab.done{background:#cfe2d6;color:#2d5d44}.page-tab.active.done{background:var(--accent);color:white}.hidden{display:none}@media(max-width:680px){.wrap{padding:9px}.hero,.slide{padding:19px;border-radius:18px}.section-score{float:none;display:block;margin-bottom:4px}.text-passage{padding:13px;line-height:1.8}.inline-select,input.gap{display:block;width:100%;margin:6px 0}.sentence{display:block}.num{display:inline}.top-nav{top:4px;padding:8px}.page-tab{font-size:.72rem;padding:7px 9px}}
+</style>
+<style>
+.gap-unit{display:inline-flex;flex-direction:column;vertical-align:middle;align-items:stretch;margin:3px 4px}.gap-unit input,.gap-unit select{margin:0}.mini-hint-btn{align-self:flex-start;margin-top:4px;padding:4px 8px;border-radius:8px;background:#e7efea;color:#42554c;font-size:.72rem}.mini-hint{display:none;max-width:260px;margin-top:4px;padding:7px 8px;border-radius:8px;background:var(--hint);color:#52645b;font-size:.78rem;line-height:1.35}.mini-hint.show{display:block}@media(max-width:680px){.gap-unit{display:flex;width:100%;margin:7px 0}.mini-hint{max-width:none}}
+.send-panel{background:linear-gradient(135deg,#e7f0ea,#e8eef5);border:1px solid var(--line);border-radius:20px;padding:20px;margin:16px 0 34px}.send-panel h2{margin:0 0 5px}.student-name{display:inline-block;background:white;border:1px solid var(--line);border-radius:10px;padding:7px 11px;margin:8px 0;font-weight:800}.send-status{min-height:25px;margin-top:9px;color:#4f665b;font-weight:700}.send-status.error{color:var(--bad)}
+</style>
+</head>
+<body><main class="wrap">
+<section class="hero">
+  <div class="eyebrow">Roadmap B1 · Units 3–4</div>
+  <h1>Achievement Test 2</h1>
+  <p class="lead">Grammar, Vocabulary and Function. Listening and Reading are reserved for homework.</p>
+</section>
+<nav class="top-nav" aria-label="Lesson pages"><div class="progress-track"><div class="progress-fill" id="progressFill"></div></div><div class="page-tabs" id="pageTabs"></div></nav>
+
+<section class="slide" data-slide data-ex="ex4"><span class="section-score">/10</span><div class="eyebrow">Grammar · Exercise 4</div><h2>The Film Critic</h2><p class="instruction">Choose the correct option to complete the text.</p>
+<div class="text-passage">Millie <strong>has been</strong> a film critic since she left university over ten years ago. She’s loved movies since she
+<select class="inline-select" data-answer="was"><option value="">2 · choose</option><option>was</option><option>is</option><option>has been</option><option>has been being</option></select>
+a child, when animations were her favourite type of film. These days she thinks historical dramas are
+<select class="inline-select" data-answer="more"><option value="">3 · choose</option><option>the most</option><option>the more</option><option>more</option><option>-</option></select>
+interesting than animations. She first started working at
+<select class="inline-select" data-answer="a"><option value="">4 · choose</option><option>a</option><option>an</option><option>the</option><option>-</option></select>
+fashion magazine which included a small film review article each month. The place
+<select class="inline-select" data-answer="where"><option value="">5 · choose</option><option>where</option><option>when</option><option>which</option><option>who</option></select>
+she works now is an online film review website. She says that websites are
+<select class="inline-select" data-answer="better"><option value="">6 · choose</option><option>good</option><option>best</option><option>the best</option><option>better</option></select>
+than magazines for learning about films because it’s easier to find a review of the film that you want to see. The
+<select class="inline-select" data-answer="most popular"><option value="">7 · choose</option><option>popular</option><option>more popular</option><option>most popular</option><option>popularest</option></select>
+types of film people read about on her website are horror and science fiction. Last month she
+<select class="inline-select" data-answer="wrote"><option value="">8 · choose</option><option>wrote</option><option>has written</option><option>written</option><option>has wrote</option></select>
+about her top ten favourite romantic comedies, but this type of film is her
+<select class="inline-select" data-answer="least"><option value="">9 · choose</option><option>less</option><option>the least</option><option>leaster</option><option>least</option></select>
+favourite. “My boss asked me to write the review,” she said, “because he wants to attract more people to
+<select class="inline-select" data-answer="the"><option value="">10 · choose</option><option>a</option><option>an</option><option>the</option><option>-</option></select>
+website.” However, she
+<select class="inline-select" data-answer="hated"><option value="">11 · choose</option><option>hate</option><option>hates</option><option>hated</option><option>was hated</option></select>
+writing it.</div>
+<div class="tools"><button onclick="checkExercise('ex4')">Check exercise</button><button class="hint-btn" onclick="toggleBox(this,'hint')">Hint</button><button class="answer-btn" onclick="toggleBox(this,'answer')">Correct answers</button></div><div class="hint">Look for time markers first: <em>since</em>, <em>when she was a child</em>, <em>than</em> and <em>last month</em>. Then check articles and the relative word for a place.</div><div class="answer">2 was · 3 more · 4 a · 5 where · 6 better · 7 most popular · 8 wrote · 9 least · 10 the · 11 hated</div><div class="result"></div>
+<div class="speaking"><strong>Speaking · Opinion</strong><br>Which film genre is the least appealing to you? Compare it with a genre you enjoy.</div></section>
+
+<section class="slide hidden" data-slide data-ex="ex5"><span class="section-score">/10</span><div class="eyebrow">Grammar · Exercise 5</div><h2>Past simple or present perfect?</h2><p class="instruction">Complete the sentences using the correct form of the verbs in brackets.</p>
+<div class="example"><strong>Example:</strong> I <strong>haven’t seen</strong> him this afternoon. He <strong>was</strong> here this morning.</div>
+<div class="task"><div class="sentence"><span class="num">2</span><span>Peter <input class="gap" data-answer="went" placeholder="go"> to Paris when he was a student, but he <input class="gap" data-answer="hasn't been|has not been" placeholder="not go / be"> back since then.</span></div><div class="tools"><button class="hint-btn" onclick="toggleBox(this,'hint')">Hint</button><button class="answer-btn" onclick="toggleBox(this,'answer')">Correct answer</button></div><div class="hint">“When he was a student” is a finished past time; “since then” connects the past to now.</div><div class="answer">went · hasn’t been</div></div>
+<div class="task"><div class="sentence"><span class="num">3</span><span>It <input class="gap" data-answer="wasn't|was not" placeholder="not be"> a fair race. I <input class="gap" data-answer="have never run|I've never run|I have never run" placeholder="run, never"> that distance before, but Vicky is a long-distance runner.</span></div><div class="tools"><button class="hint-btn" onclick="toggleBox(this,'hint')">Hint</button><button class="answer-btn" onclick="toggleBox(this,'answer')">Correct answer</button></div><div class="hint">The race is a finished event. “Before” describes life experience up to that moment in the story.</div><div class="answer">wasn’t · have never run</div></div>
+<div class="task"><div class="sentence"><span class="num">4</span><span>You <input class="gap" data-answer="have eaten|you've eaten|you have eaten" placeholder="eat"> all the cakes! I <input class="gap" data-answer="made" placeholder="make"> those for all of us.</span></div><div class="tools"><button class="hint-btn" onclick="toggleBox(this,'hint')">Hint</button><button class="answer-btn" onclick="toggleBox(this,'answer')">Correct answer</button></div><div class="hint">The missing cakes are a present result. Making them happened at a finished past moment.</div><div class="answer">have eaten · made</div></div>
+<div class="task"><div class="sentence"><span class="num">5</span><span><input class="gap" data-answer="has anyone seen" placeholder="anyone / see"> my watch? I think I <input class="gap" data-answer="left" placeholder="leave"> it in the storeroom, but I can’t find it.</span></div><div class="tools"><button class="hint-btn" onclick="toggleBox(this,'hint')">Hint</button><button class="answer-btn" onclick="toggleBox(this,'answer')">Correct answer</button></div><div class="hint">The first question is about an unspecified time up to now; the second action happened at a particular past moment.</div><div class="answer">Has anyone seen · left</div></div>
+<div class="task"><div class="sentence"><span class="num">6</span><span>I <input class="gap" data-answer="have just started|I've just started|I have just started" placeholder="just start"> the book, but I’m already bored. <input class="gap" data-answer="have you finished" placeholder="you finish"> it yet?</span></div><div class="tools"><button class="hint-btn" onclick="toggleBox(this,'hint')">Hint</button><button class="answer-btn" onclick="toggleBox(this,'answer')">Correct answer</button></div><div class="hint"><em>Just</em> and <em>yet</em> commonly signal the present perfect here.</div><div class="answer">have just started · Have you finished</div></div>
+<div class="tools"><button onclick="checkExercise('ex5')">Check exercise</button></div><div class="result"></div>
+<div class="speaking"><strong>Speaking · Experience</strong><br>What have you started recently? When did you start it, and have you finished it yet?</div></section>
+
+<section class="slide hidden" data-slide data-ex="ex6"><span class="section-score">/7</span><div class="eyebrow">Vocabulary · Exercise 6</div><h2>City and film vocabulary</h2><p class="instruction">Match words 2–8 with descriptions a–h. The first item is an example.</p>
+<div class="example"><strong>1 art gallery — c · a place where you can look at paintings</strong></div>
+<div class="task">2 romantic comedy <select data-answer="f" data-match="city-film"></select></div><div class="task">3 traffic jam <select data-answer="b" data-match="city-film"></select></div><div class="task">4 science fiction <select data-answer="e" data-match="city-film"></select></div><div class="task">5 suburb <select data-answer="a" data-match="city-film"></select></div><div class="task">6 skyline <select data-answer="h" data-match="city-film"></select></div><div class="task">7 cycle lane <select data-answer="g" data-match="city-film"></select></div><div class="task">8 historical drama <select data-answer="d" data-match="city-film"></select></div>
+<div class="tools"><button onclick="checkExercise('ex6')">Check exercise</button><button class="hint-btn" onclick="toggleBox(this,'hint')">Hint</button><button class="answer-btn" onclick="toggleBox(this,'answer')">Correct answers</button></div><div class="hint">Separate the words into two groups first: three film types and four city features/problems.</div><div class="answer">2 f · 3 b · 4 e · 5 a · 6 h · 7 g · 8 d</div><div class="result"></div>
+<div class="speaking"><strong>Speaking · Personal</strong><br>Which feature would improve the city where you live most: more cycle lanes, a stronger skyline or less traffic? Why?</div></section>
+
+<section class="slide hidden" data-slide data-ex="ex7"><span class="section-score">/7</span><div class="eyebrow">Vocabulary · Exercise 7</div><h2>Lifestyles and products</h2><p class="instruction">Complete the sentences with the words in the box.</p><div class="wordbox"><span>active</span><span>energetic</span><span>good value</span><span>popular</span><span>quiet</span><span>stressful</span><span>unhealthy</span><span>unreliable</span></div><div class="example"><strong>Example:</strong> Shopping at the weekend is crowded and <strong>stressful</strong>.</div>
+<div class="task">2 Kieran is really <input class="gap" data-answer="unhealthy">. He eats burgers almost every night and never exercises.</div><div class="task">3 These days, older people are more <input class="gap" data-answer="active"> than in the past and often do sports.</div><div class="task">4 I prefer living in the countryside. It’s so <input class="gap" data-answer="quiet"> compared to the city.</div><div class="task">5 Don’t call that taxi company. They’re so <input class="gap" data-answer="unreliable">. They’re always late or don’t come at all.</div><div class="task">6 It has all the functions of a much more expensive phone but is half the price. It’s very <input class="gap" data-answer="good value">.</div><div class="task">7 These types of phone are very <input class="gap" data-answer="popular"> at the moment. Everyone I know has one.</div><div class="task">8 I need a less <input class="gap" data-answer="energetic"> dog. He wants to go for walks all the time and never gets tired.</div>
+<div class="tools"><button onclick="checkExercise('ex7')">Check exercise</button><button class="hint-btn" onclick="toggleBox(this,'hint')">Hint</button><button class="answer-btn" onclick="toggleBox(this,'answer')">Correct answers</button></div><div class="hint">Use the explanations after each gap: no exercise, sports, countryside, late taxis, half price, everyone has one, and never tired.</div><div class="answer">2 unhealthy · 3 active · 4 quiet · 5 unreliable · 6 good value · 7 popular · 8 energetic</div><div class="result"></div>
+<div class="speaking"><strong>Speaking · Opinion</strong><br>Can a very active lifestyle become stressful? Give an example.</div></section>
+
+<section class="slide hidden" data-slide data-ex="ex8"><span class="section-score">/6</span><div class="eyebrow">Vocabulary · Exercise 8</div><h2>Choose the correct phrase</h2><p class="instruction">Choose a, b or c. Item 1 is the example.</p><div class="example"><strong>1 Ben is taking part in three dance competitions next month. — a</strong></div>
+<div class="task">2 I should <select data-answer="spend more time with"><option value="">choose</option><option>raise money</option><option>spend more time with</option><option>get to know</option></select> my friends, but I’m always so busy.</div><div class="task">3 You have to <select data-answer="experience"><option value="">choose</option><option>experience</option><option>take part in</option><option>attend</option></select> the big market in Istanbul. The sights and smells are incredible.</div><div class="task">4 If you buy <select data-answer="high quality"><option value="">choose</option><option>poor value</option><option>high quality</option><option>good value</option></select> headphones, the music sounds so good.</div><div class="task">5 She <select data-answer="gets on really well"><option value="">choose</option><option>gets on really well</option><option>loses touch with</option><option>takes part in</option></select> with her sister. They go out together all the time.</div><div class="task">6 My new camera is so <select data-answer="easy to use"><option value="">choose</option><option>popular</option><option>poorly designed</option><option>easy to use</option></select> that even my grandmother can take good photos.</div><div class="task">7 Joe has decided to <select data-answer="take up"><option value="">choose</option><option>explore</option><option>keep in touch with</option><option>take up</option></select> a new hobby. He’s learning how to fly a plane.</div>
+<div class="tools"><button onclick="checkExercise('ex8')">Check exercise</button><button class="hint-btn" onclick="toggleBox(this,'hint')">Hint</button><button class="answer-btn" onclick="toggleBox(this,'answer')">Correct answers</button></div><div class="hint">Check the noun after each gap: people, a place, a product feature, a relationship, usability and a new hobby.</div><div class="answer">2 spend more time with · 3 experience · 4 high quality · 5 gets on really well · 6 easy to use · 7 take up</div><div class="result"></div>
+<div class="speaking"><strong>Speaking · Hypothetical</strong><br>If you had time to take up one demanding hobby, what would you choose?</div></section>
+
+<section class="slide hidden" data-slide data-ex="ex9"><span class="section-score">/7</span><div class="eyebrow">Function · Exercise 9</div><h2>Giving directions</h2><p class="instruction">Match the sentence halves. Each menu shows both the letter and the complete ending. Item 1 is the example.</p><div class="example"><strong>1 What’s the quickest — e · way to the supermarket, please?</strong></div>
+<div class="task">2 Opposite the cinema, you cross <select data-answer="d" data-match="directions"></select></div><div class="task">3 The phone shop? It’s next <select data-answer="a" data-match="directions"></select></div><div class="task">4 Excuse me, how do <select data-answer="f" data-match="directions"></select></div><div class="task">5 It’s not too far. It’s about <select data-answer="h" data-match="directions"></select></div><div class="task">6 Can you tell me <select data-answer="c" data-match="directions"></select></div><div class="task">7 You need to walk <select data-answer="b" data-match="directions"></select></div><div class="task">8 After the bank, it’s the <select data-answer="g" data-match="directions"></select></div>
+<div class="tools"><button onclick="checkExercise('ex9')">Check exercise</button><button class="hint-btn" onclick="toggleBox(this,'hint')">Hint</button><button class="answer-btn" onclick="toggleBox(this,'answer')">Correct answers</button></div><div class="hint">First complete the fixed phrases: <em>cross over</em>, <em>next to</em>, <em>how do I get</em>, <em>walk along</em> and <em>the second building</em>.</div><div class="answer">2 d · 3 a · 4 f · 5 h · 6 c · 7 b · 8 g</div><div class="result"></div>
+<div class="speaking"><strong>Speaking · Experience</strong><br>Give directions from your home to one place you visit regularly.</div></section>
+
+<section class="slide hidden" data-slide data-ex="ex10"><span class="section-score">/8</span><div class="eyebrow">Function · Exercise 10</div><h2>Talking about an event</h2><p class="instruction">Complete the conversation with the words in the box.</p><div class="wordbox"><span>amazing</span><span>disappointed</span><span>enjoyed</span><span>found</span><span>good</span><span>guess</span><span>honest</span><span>kind</span><span>think</span></div>
+<div class="text-passage">A: What did you <strong>think</strong> of the music festival last weekend, Karl?<br>B: It was <input class="gap" data-answer="amazing">! How about you, did you like it?<br>A: I really <input class="gap" data-answer="enjoyed"> it too. Did you see The Wonderstruck?<br>B: Hmm. Well, punk rock isn’t my <input class="gap" data-answer="kind"> of thing. I saw The Sweet Symphony instead.<br>A: Were they <input class="gap" data-answer="good">?<br>B: Definitely the best band I’ve seen in ages.<br>A: Wow. Well, I was a bit <input class="gap" data-answer="disappointed"> with Johnny and the Gems.<br>B: Really? Why?<br>A: I <input class="gap" data-answer="found"> them a bit boring.<br>B: Yeah. They were OK, I <input class="gap" data-answer="guess">, but it wasn’t their best concert. What about Mighty Melon and the Seeds?<br>A: I thought they were terrible, to be <input class="gap" data-answer="honest">.<br>B: Oh. Well, it’s a good thing I missed them then.</div>
+<div class="tools"><button onclick="checkExercise('ex10')">Check exercise</button><button class="hint-btn" onclick="toggleBox(this,'hint')">Hint</button><button class="answer-btn" onclick="toggleBox(this,'answer')">Correct answers</button></div><div class="hint">Look for fixed phrases: <em>my kind of thing</em>, <em>disappointed with</em>, <em>I found them…</em>, <em>I guess</em>, and <em>to be honest</em>.</div><div class="answer">2 amazing · 3 enjoyed · 4 kind · 5 good · 6 disappointed · 7 found · 8 guess · 9 honest</div><div class="result"></div>
+<div class="speaking"><strong>Speaking · Personal</strong><br>Describe something you expected to enjoy but found disappointing. What made it a failure rather than a complete debacle?</div></section>
+
+</main>
+<script>
+const slides=[...document.querySelectorAll('[data-slide]')];
+const points={ex4:10,ex5:10,ex6:7,ex7:7,ex8:6,ex9:7,ex10:8};
+const labels=['1 · Film critic','2 · Past vs perfect','3 · City & films','4 · Lifestyles','5 · Phrases','6 · Directions','7 · Event review'];
+const storageKey='natalia_achievement_test_2_units_3_4_v1';
+const checked={};
+const matchOptions={
+  'city-film':[['a','the area outside the city centre where people live'],['b','when vehicles cannot move quickly on roads'],['d','a film set in the past'],['e','a film often set in space with aliens'],['f','a funny film about people in love'],['g','where people on bikes can travel safely'],['h','the shape of a city from a distance']],
+  directions:[['a','to the post office on Broad Street.'],['b','along Abbey Road until you see the statue.'],['c','how to get to the bus station?'],['d','over the road and it’s right in front of you.'],['f','I get to the police station?'],['g','second building on the left.'],['h','ten minutes’ walk.']]
+};
+document.querySelectorAll('[data-match]').forEach(select=>{select.innerHTML='<option value="">Choose an ending</option>'+matchOptions[select.dataset.match].map(([letter,text])=>`<option value="${letter}">${letter} · ${text}</option>`).join('')});
+const tabs=labels.map((label,i)=>{const button=document.createElement('button');button.className='page-tab';button.textContent=label;button.onclick=()=>show(i);document.querySelector('#pageTabs').append(button);return button});
+const fieldHints=[
+  'The clause refers to a finished period in childhood.',
+  'The word “than” requires a comparative form.',
+  'This is the first mention of one singular fashion magazine.',
+  'Use the relative word for a place.',
+  'The sentence compares websites with magazines.',
+  'The sentence already begins with “The”, so do not add another article.',
+  '“Last month” points to the past simple.',
+  'The article is already before the gap: her ___ favourite.',
+  'Both speakers know which website they mean.',
+  'Her negative reaction happened while she wrote the review.',
+  '“When he was a student” is a finished past time.',
+  '“Since then” connects that past visit with now.',
+  'The race is a completed event.',
+  'This was his first experience of that distance before the race.',
+  'The cakes are gone now: focus on the present result.',
+  'Making the cakes was a completed past action.',
+  'Ask about an unspecified time up to now.',
+  'Leaving the watch happened at a particular past moment.',
+  '“Just” links a very recent action to the present.',
+  '“Yet” in a question usually goes with the present perfect.',
+  'This film type is funny and centres on people in love.',
+  'This describes a road problem, not a place.',
+  'Think of imagined future technology or space.',
+  'This is the residential area beyond the city centre.',
+  'You see this overall city shape from a distance.',
+  'This space is reserved for people travelling by bicycle.',
+  'The story is set in an earlier historical period.',
+  'His habits damage his health.',
+  'They do sports rather than sitting all day.',
+  'The countryside has less noise.',
+  'You cannot depend on this taxi company.',
+  'It offers expensive-phone functions for half the price.',
+  'Many people own this type of phone now.',
+  'The dog has a lot of energy and never gets tired.',
+  'The missing phrase must take “my friends” as its object.',
+  'The sights and smells make this a place to encounter directly.',
+  'The clue is excellent sound, not simply a low price.',
+  'Going out together shows a positive relationship.',
+  'Even a beginner can operate the camera.',
+  'Use the phrase for starting a new hobby.',
+  'Complete the fixed phrase “cross over the road”.',
+  'Complete the fixed phrase “next to”.',
+  'The phrase must finish the question “How do I get…?”',
+  'The answer gives the duration of the walk.',
+  'After “tell me”, use an indirect question about the route.',
+  'Complete the instruction “walk along…”.',
+  'The phrase needs an ordinal number before “building”.',
+  'Choose the strongest positive reaction to the festival.',
+  'Use the verb meaning “liked and had a good time”.',
+  'Complete the fixed phrase “my ___ of thing”.',
+  'The question asks for a simple positive evaluation.',
+  'Complete “disappointed with”.',
+  'Use the verb in “I ___ them boring”.',
+  'Complete the soft opinion phrase “I ___”.',
+  'Complete the phrase used to introduce a frank opinion.'
+];
+document.querySelectorAll('.score-chip,.section-score,.hint-btn,.hint').forEach(el=>el.remove());
+document.querySelectorAll('[data-answer]').forEach((field,i)=>{field.id=`at2_${i+1}`;const unit=document.createElement('span');unit.className='gap-unit';field.before(unit);unit.append(field);const button=document.createElement('button');button.type='button';button.className='mini-hint-btn';button.textContent='Hint';const box=document.createElement('span');box.className='mini-hint';box.textContent=fieldHints[i]||'Look at the words immediately before and after the gap.';button.onclick=()=>box.classList.toggle('show');unit.append(button,box)});
+function norm(v){return String(v||'').trim().toLowerCase().replace(/[’‘]/g,"'").replace(/\s+/g,' ')}
+function isCorrect(el){const options=String(el.dataset.answer||'').split('|').map(norm);return options.includes(norm(el.value))}
+function checkExercise(id){const section=document.querySelector(`[data-ex="${id}"]`);const fields=[...section.querySelectorAll('[data-answer]')];let correct=0;fields.forEach(el=>{const ok=isCorrect(el);el.style.borderColor=ok?'#6fa486':'#c56c6c';el.style.background=ok?'#f5fbf7':'#fff7f7';if(ok)correct++});checked[id]=correct;const result=section.querySelector('.result');result.className='result show '+(correct===fields.length?'good':'bad');result.textContent=correct===fields.length?`All ${correct} answers are correct.`:`${correct}/${fields.length} correct. Use the hints, then try again.`;updateProgress();save()}
+function toggleBox(btn,cls){const scope=btn.closest('.task,.slide');const box=scope.querySelector('.'+cls);if(box)box.classList.toggle('show')}
+function updateProgress(){const done=Object.keys(points).filter(id=>Object.prototype.hasOwnProperty.call(checked,id)).length;const percent=Math.round(done/Object.keys(points).length*100);const fill=document.querySelector('#progressFill');fill.style.width=percent+'%';fill.style.background=`hsl(${195-percent*.75} 32% ${66-percent*.12}%)`;slides.forEach((slide,i)=>{const id=slide.dataset.ex;tabs[i].classList.toggle('done',Boolean(id&&Object.prototype.hasOwnProperty.call(checked,id)))})}
+function save(){const fields=[...document.querySelectorAll('input,select')];const values=fields.map(el=>el.value);const used=[...document.querySelectorAll('.wordbox span')].map(el=>el.classList.contains('used'));localStorage.setItem(storageKey,JSON.stringify({values,checked,used,slide:index}))}
+function restore(){try{const data=JSON.parse(localStorage.getItem(storageKey)||'{}');const fields=[...document.querySelectorAll('input,select')];(data.values||[]).forEach((v,i)=>{if(fields[i])fields[i].value=v});Object.assign(checked,data.checked||{});(data.used||[]).forEach((used,i)=>{const pill=document.querySelectorAll('.wordbox span')[i];if(pill)pill.classList.toggle('used',used)});if(Number.isInteger(data.slide))index=data.slide}catch(e){}}
+let index=0;function show(n){index=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,i)=>s.classList.toggle('hidden',i!==index));tabs.forEach((tab,i)=>tab.classList.toggle('active',i===index));tabs[index].scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});updateProgress();save();scrollTo({top:0,behavior:'smooth'})}
+document.addEventListener('keydown',e=>{if(['INPUT','SELECT'].includes(document.activeElement.tagName))return;if(e.key==='ArrowRight')show(index+1);if(e.key==='ArrowLeft')show(index-1)});document.querySelectorAll('input,select').forEach(el=>el.addEventListener('input',save));document.querySelectorAll('.wordbox span').forEach(el=>el.addEventListener('click',()=>{el.classList.toggle('used');save()}));restore();show(index);
+</script></body></html>
