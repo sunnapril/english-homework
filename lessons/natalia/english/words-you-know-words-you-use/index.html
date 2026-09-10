@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Natalia · Words you know → words you use · 11.09.2026</title>
+<style>
+:root{
+  --bg:#f5f7fa; --card:#fff; --ink:#24313d; --muted:#667382; --line:#dfe5eb;
+  --accent:#2f6f8e; --accent-soft:#eaf3f8; --green:#eaf4ee; --sand:#f7f1e7;
+  --rose:#f8eeee; --blue:#eef4fa; --good:#247247; --bad:#a33b3b;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.52}
+.wrap{max-width:980px;margin:auto;padding:28px 18px 70px}
+.hero,.card{border:1px solid var(--line);border-radius:22px}
+.hero{background:linear-gradient(135deg,#fff,#eef5f9);padding:26px 28px;margin-bottom:22px}
+.hero h1{font-size:clamp(28px,4vw,44px);margin:0 0 8px}.hero p{margin:0;color:var(--muted);font-size:17px}
+.progress-wrap{margin-top:18px}.progress{height:9px;background:#dde5eb;border-radius:999px;overflow:hidden}.progress>div{height:100%;width:0;background:var(--accent);transition:.25s}.progress-label{font-size:13px;color:var(--muted);margin-top:5px}
+.card{background:var(--card);padding:22px;margin:16px 0;box-shadow:0 4px 16px rgba(20,35,50,.04)}
+.card h2{margin:0 0 8px;font-size:24px}.intro{color:var(--muted);margin:0 0 16px}
+.tint-blue{background:var(--blue)} .tint-green{background:var(--green)} .tint-sand{background:var(--sand)} .tint-rose{background:var(--rose)}
+.word-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:14px 0}
+.word-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px}
+.word-card strong{color:var(--accent);display:block;font-size:17px;margin-bottom:7px}
+.meaning{display:none;color:var(--muted);font-size:13px;margin-top:7px}
+.q{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px;margin:12px 0}
+.q p{margin:0 0 10px}.context{font-size:15px}.speak{margin-top:10px;padding-top:10px;border-top:1px dashed #cbd5dc}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.chip{border:1px solid #b9c8d3;background:#fff;border-radius:999px;padding:7px 11px;font-size:14px;cursor:pointer}.chip.active{background:var(--accent-soft);border-color:var(--accent);color:#214f67}
+input[type=text],textarea{width:100%;border:1px solid #bfcad4;border-radius:12px;padding:11px 12px;font:inherit;background:#fff;color:var(--ink)}
+textarea{min-height:78px;resize:vertical}
+button{border:0;border-radius:11px;padding:9px 13px;font-weight:600;cursor:pointer;margin:4px 5px 4px 0}
+.check{background:var(--accent);color:#fff}.secondary{background:#eef2f5;color:#30414f}.hint-btn{background:#f2eadc;color:#5f513f}.meaning-btn{background:#eef3f6;color:#36515f;font-size:12px;padding:6px 9px}.write-btn{background:#edf3ed;color:#355a45}
+.feedback{font-size:14px;margin-top:7px;min-height:18px}.good{color:var(--good)}.bad{color:var(--bad)}
+.hint,.answer,.writebox{display:none;margin-top:9px;padding:10px 12px;border-radius:11px;background:#f4f7f9;border-left:4px solid #9eb9c9}.answer{border-left-color:#6b9b7b;background:#f0f7f2}.writebox{border-left-color:#8e9daf;background:#f8fafb}
+.lang{font-weight:700;color:var(--accent)}.note{font-size:13px;color:var(--muted)}
+.inline-bank{background:#fff;border:1px dashed #aebcc8;border-radius:13px;padding:11px;margin:10px 0}
+.option{display:block;width:100%;text-align:left;background:#fff;border:1px solid #c9d3db;border-radius:11px;padding:10px 12px;margin:7px 0;font-weight:500}.option.active{border-color:var(--accent);background:var(--accent-soft)}
+footer{margin-top:28px;color:var(--muted);font-size:13px;text-align:center}
+@media(max-width:600px){.wrap{padding:16px 12px 50px}.card,.hero{padding:17px;border-radius:16px}.card h2{font-size:21px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<section class="hero">
+<h1>Words you know → words you use</h1>
+<p>Natalia · 11 September 2026 · active vocabulary + natural speaking</p>
+<div class="progress-wrap"><div class="progress"><div id="bar"></div></div><div class="progress-label" id="progressText">0 of 8 sections touched</div></div>
+</section>
+
+<section class="card tint-blue section">
+<h2>1. Quick choice — then speak</h2>
+<p class="intro">Choose the word that fits. Open the meaning only if you need it.</p>
+
+<div class="word-grid">
+  <div class="word-card"><strong>compete</strong><button class="meaning-btn">Meaning</button><div class="meaning">try to be more successful than another person or group</div></div>
+  <div class="word-card"><strong>competition</strong><button class="meaning-btn">Meaning</button><div class="meaning">a situation in which people or companies try to win or be more successful</div></div>
+  <div class="word-card"><strong>competence</strong><button class="meaning-btn">Meaning</button><div class="meaning">the ability to do something well</div></div>
+</div>
+
+<div class="q" data-answer="compete">
+<p>Two cafés have opened on the same street. They ______ for the same customers.</p>
+<div class="chips"><button class="chip">competition</button><button class="chip">competence</button><button class="chip">compete</button></div>
+<button class="check">Check</button><div class="feedback"></div>
+</div>
+
+<div class="q" data-answer="competition">
+<p>There is a lot of ______ between them.</p>
+<div class="chips"><button class="chip">compete</button><button class="chip">competition</button><button class="chip">competence</button></div>
+<button class="check">Check</button><div class="feedback"></div>
+<div class="speak"><b>Speak:</b> Both cafés are trying to attract the same customers. Do customers usually benefit from this? How?</div>
+<button class="hint-btn">Hint</button>
+<div class="hint">Think about <b>prices, service, choice</b> or <b>quality</b>. A short answer is enough.</div>
+<button class="write-btn">Write my answer</button><div class="writebox"><textarea placeholder="Optional notes / answer"></textarea></div>
+</div>
+</section>
+
+<section class="card tint-green section">
+<h2>2. Same idea, different shape</h2>
+<p class="intro">Move between verb and noun, then use the idea in speech.</p>
+
+<div class="word-grid">
+  <div class="word-card"><strong>persuade</strong><button class="meaning-btn">Meaning</button><div class="meaning">make someone agree to do or believe something</div></div>
+  <div class="word-card"><strong>persuasion</strong><button class="meaning-btn">Meaning</button><div class="meaning">the act of persuading someone</div></div>
+  <div class="word-card"><strong>take action</strong><button class="meaning-btn">Meaning</button><div class="meaning">do something practical to deal with a problem</div></div>
+</div>
+
+<div class="q" data-answer="persuaded">
+<p>Marta had decided to stay home, but her friends finally ______ her to join them for the weekend.</p>
+<input type="text" placeholder="Type one word">
+<button class="check">Check</button><button class="secondary reveal">Show answer</button>
+<div class="feedback"></div><div class="answer">persuaded</div>
+<div class="speak"><b>Speak:</b> Marta changed her mind. What can make <i>you</i> change your mind about a trip?</div>
+<button class="hint-btn">Hint</button><div class="hint">Weather, price, who is going, comfort, a special event…</div>
+<button class="write-btn">Write my answer</button><div class="writebox"><textarea placeholder="Optional notes / answer"></textarea></div>
+</div>
+
+<div class="q" data-answer="action">
+<p>A small problem has become much worse because nobody did anything. They should have taken ______ earlier.</p>
+<input type="text" placeholder="Type one word"><button class="check">Check</button><button class="secondary reveal">Show answer</button>
+<div class="feedback"></div><div class="answer">action</div>
+</div>
+</section>
+
+<section class="card tint-sand section">
+<h2>3. Suggest — choose what you want to say</h2>
+<p class="intro">Use the pattern that fits your meaning. Open the explanation only if you need it.</p>
+
+<div class="word-grid">
+  <div class="word-card"><strong>suggest doing</strong><button class="meaning-btn">Meaning</button><div class="meaning">recommend an activity: <i>I suggest checking the details again.</i></div></div>
+  <div class="word-card"><strong>suggest that + person + base verb</strong><button class="meaning-btn">Meaning</button><div class="meaning">recommend that somebody do something: <i>She suggested that Mark review the figures.</i></div></div>
+  <div class="word-card"><strong>suggest something to somebody</strong><button class="meaning-btn">Meaning</button><div class="meaning">recommend a thing or idea to a person: <i>He suggested another restaurant to us.</i></div></div>
+</div>
+
+<div class="q" data-answer="review">
+<p>The figures need another review. She suggested that Mark ______ them before lunch.</p>
+<input type="text" placeholder="Type the verb"><button class="check">Check</button><button class="hint-btn">Hint</button>
+<div class="hint">After <span class="lang">suggest that + person</span>, use the base verb here.</div><div class="feedback"></div>
+</div>
+
+<div class="q">
+<p class="context">Your friend has one free afternoon in St Petersburg but no plan.</p>
+<div class="speak"><b>Speak:</b> What would you suggest?</div>
+<button class="hint-btn">Hint</button><div class="hint">You can start with <span class="lang">I suggest…</span> or <span class="lang">I suggest that…</span></div>
+<button class="write-btn">Write my answer</button><div class="writebox"><textarea placeholder="Optional notes / answer"></textarea></div>
+</div>
+
+<div class="q">
+<p class="context">Your family is choosing where to have dinner. One place looks good, but it is usually crowded.</p>
+<div class="speak"><b>Speak:</b> What would you suggest?</div>
+<button class="hint-btn">Hint</button><div class="hint">You can suggest a place, an action or a different time.</div>
+<button class="write-btn">Write my answer</button><div class="writebox"><textarea placeholder="Optional notes / answer"></textarea></div>
+</div>
+</section>
+
+<section class="card section">
+<h2>4. Old words, new situations</h2>
+<p class="intro">These phrases are already in your vocabulary. Meanings are hidden. Use any phrase that feels useful — none is compulsory.</p>
+
+<div class="word-grid">
+  <div class="word-card"><strong>bring back happy memories</strong><button class="meaning-btn">Meaning</button><div class="meaning">make you remember pleasant experiences from the past</div></div>
+  <div class="word-card"><strong>lively</strong><button class="meaning-btn">Meaning</button><div class="meaning">full of energy, people and activity</div></div>
+  <div class="word-card"><strong>rather than</strong><button class="meaning-btn">Meaning</button><div class="meaning">used to show a preference for one thing instead of another</div></div>
+  <div class="word-card"><strong>on the other hand</strong><button class="meaning-btn">Meaning</button><div class="meaning">used to introduce a different or opposite point</div></div>
+  <div class="word-card"><strong>take advantage of</strong><button class="meaning-btn">Meaning</button><div class="meaning">use a good opportunity</div></div>
+</div>
+
+<div class="q">
+<p>You have one free afternoon in St Petersburg. Would you rather visit somewhere new or return to a place you already love?</p>
+<button class="hint-btn">Useful language</button><div class="hint"><span class="lang">rather than</span> · <span class="lang">bring back happy memories</span></div>
+<button class="write-btn">Write my answer</button><div class="writebox"><textarea placeholder="Optional notes / answer"></textarea></div>
+</div>
+
+<div class="q">
+<p>A neighbourhood has great cafés, small shops and people outside until late. Would you enjoy staying there?</p>
+<button class="hint-btn">Useful language</button><div class="hint"><span class="lang">lively</span> · <span class="lang">on the other hand</span></div>
+<button class="write-btn">Write my answer</button><div class="writebox"><textarea placeholder="Optional notes / answer"></textarea></div>
+</div>
+
+<div class="q">
+<p>Your hotel offers a free walking tour, but it starts at 8 a.m. Would you go?</p>
+<button class="hint-btn">Useful language</button><div class="hint"><span class="lang">take advantage of</span></div>
+<button class="write-btn">Write my answer</button><div class="writebox"><textarea placeholder="Optional notes / answer"></textarea></div>
+</div>
+</section>
+
+<section class="card tint-blue section">
+<h2>5. Venue, stage or scene?</h2>
+<p class="intro">Choose the word. If you are not sure, open its meaning first.</p>
+
+<div class="word-grid">
+  <div class="word-card"><strong>venue</strong><button class="meaning-btn">Meaning</button><div class="meaning">the place where an event happens</div></div>
+  <div class="word-card"><strong>stage</strong><button class="meaning-btn">Meaning</button><div class="meaning">the area where actors, singers or musicians perform</div></div>
+  <div class="word-card"><strong>scene</strong><button class="meaning-btn">Meaning</button><div class="meaning">a part of a play, film or story</div></div>
+</div>
+
+<div class="q" data-answer="stage"><p>The actors walked onto the ______.</p><div class="chips"><button class="chip">venue</button><button class="chip">scene</button><button class="chip">stage</button></div><button class="check">Check</button><div class="feedback"></div></div>
+<div class="q" data-answer="venue"><p>The wedding ______ was an old country house.</p><div class="chips"><button class="chip">stage</button><button class="chip">venue</button><button class="chip">scene</button></div><button class="check">Check</button><div class="feedback"></div></div>
+<div class="q" data-answer="scene"><p>My favourite ______ is the conversation at the end of the film.</p><div class="chips"><button class="chip">scene</button><button class="chip">stage</button><button class="chip">venue</button></div><button class="check">Check</button><div class="feedback"></div></div>
+
+<div class="q">
+<p><b>Speak:</b> At a performance, what matters more to you: the venue itself, your seat, or what happens on stage?</p>
+<button class="write-btn">Write my answer</button><div class="writebox"><textarea placeholder="Optional notes / answer"></textarea></div>
+</div>
+</section>
+
+<section class="card tint-rose section">
+<h2>6. Which sounds more natural?</h2>
+<p class="intro">Choose the version that sounds lighter and more natural in everyday English. Then open the explanation if you want.</p>
+
+<div class="q" data-natural="b">
+<p><b>1.</b> Talking about a hotel:</p>
+<button class="option" data-value="a">A. The hotel is situated in a place where it is easy to get to.</button>
+<button class="option" data-value="b">B. The hotel is easy to get to.</button>
+<button class="check-natural check">Check</button>
+<button class="secondary reveal">Why?</button>
+<div class="feedback"></div><div class="answer">B is more natural and direct. <span class="lang">easy to get to</span> is a useful everyday phrase.</div>
+<button class="write-btn">Write my own version</button><div class="writebox"><textarea placeholder="Optional"></textarea></div>
+</div>
+
+<div class="q" data-natural="b">
+<p><b>2.</b> Talking about cafés in a neighbourhood:</p>
+<button class="option" data-value="a">A. There are poorer choices of cafés here.</button>
+<button class="option" data-value="b">B. The choice of cafés is more limited here.</button>
+<button class="check-natural check">Check</button>
+<button class="secondary reveal">Why?</button>
+<div class="feedback"></div><div class="answer">B is the usual collocation: <span class="lang">the choice is limited / more limited</span>.</div>
+<button class="write-btn">Write my own version</button><div class="writebox"><textarea placeholder="Optional"></textarea></div>
+</div>
+
+<div class="q" data-natural="b">
+<p><b>3.</b> Talking about a train connection:</p>
+<button class="option" data-value="a">A. It can happen that the train arrives too late to catch the bus.</button>
+<button class="option" data-value="b">B. The train may arrive too late to catch the bus.</button>
+<button class="check-natural check">Check</button>
+<button class="secondary reveal">Why?</button>
+<div class="feedback"></div><div class="answer">B is shorter and more natural when you mean “this is possible”.</div>
+<button class="write-btn">Write my own version</button><div class="writebox"><textarea placeholder="Optional"></textarea></div>
+</div>
+
+<div class="q" data-natural="b">
+<p><b>4.</b> Talking about a memory:</p>
+<button class="option" data-value="a">A. I remember longest the atmosphere of the place.</button>
+<button class="option" data-value="b">B. I remember the atmosphere of the place longest.</button>
+<button class="check-natural check">Check</button>
+<button class="secondary reveal">Why?</button>
+<div class="feedback"></div><div class="answer">B has the more natural word order.</div>
+<button class="write-btn">Write my own version</button><div class="writebox"><textarea placeholder="Optional"></textarea></div>
+</div>
+</section>
+
+<section class="card tint-green section">
+<h2>7. Small decisions, real answers</h2>
+<p class="intro">No perfect answer needed. Choose what you actually think.</p>
+
+<div class="q">
+<p>You booked a restaurant for tonight, but the weather is beautiful and your friends suggest eating outside somewhere else. What would you prefer?</p>
+<button class="hint-btn">Useful language</button><div class="hint"><span class="lang">suggest</span> · <span class="lang">rather than</span> · <span class="lang">on the other hand</span></div>
+<button class="write-btn">Write my answer</button><div class="writebox"><textarea placeholder="Optional notes / answer"></textarea></div>
+</div>
+
+<div class="q">
+<p>You loved a museum ten years ago, but recent reviews are mixed. Would you go back?</p>
+<button class="hint-btn">Useful language</button><div class="hint"><span class="lang">bring back happy memories</span> · <span class="lang">disappointing</span> · <span class="lang">on the other hand</span></div>
+<button class="write-btn">Write my answer</button><div class="writebox"><textarea placeholder="Optional notes / answer"></textarea></div>
+</div>
+
+<div class="q">
+<p>A friend strongly recommends a new exhibition, but the tickets are quite expensive. What could change your mind?</p>
+<button class="hint-btn">Hint</button><div class="hint">Could anything <span class="lang">persuade</span> you to go?</div>
+<button class="write-btn">Write my answer</button><div class="writebox"><textarea placeholder="Optional notes / answer"></textarea></div>
+</div>
+</section>
+
+<section class="card tint-sand section">
+<h2>8. One more time — no wordbank</h2>
+<p class="intro">No prompts this time. See what comes back naturally.</p>
+
+<div class="q">
+<p>Two local businesses are trying to attract exactly the same customers. What usually happens to prices and service?</p>
+<button class="write-btn">Write my answer</button><div class="writebox"><textarea placeholder="Optional notes / answer"></textarea></div>
+</div>
+<div class="q">
+<p>Your friends want you to change a plan you have already made. What might make you agree?</p>
+<button class="write-btn">Write my answer</button><div class="writebox"><textarea placeholder="Optional notes / answer"></textarea></div>
+</div>
+</section>
+
+<footer>Lesson preview · Natalia · 11.09.2026</footer>
+</div>
+
+<script>
+const sections=[...document.querySelectorAll('.section')], touched=new Set();
+function mark(el){const s=el.closest('.section'); if(!s)return; touched.add(s); bar.style.width=(touched.size/sections.length*100)+'%'; progressText.textContent=`${touched.size} of ${sections.length} sections touched`;}
+document.addEventListener('click',e=>mark(e.target)); document.addEventListener('input',e=>mark(e.target));
+
+document.querySelectorAll('.meaning-btn').forEach(b=>b.onclick=()=>{const m=b.nextElementSibling;m.style.display=m.style.display==='block'?'none':'block';b.textContent=m.style.display==='block'?'Hide meaning':'Meaning';});
+document.querySelectorAll('.chip').forEach(ch=>ch.onclick=e=>{e.preventDefault(); const box=ch.closest('.chips'); box.querySelectorAll('.chip').forEach(x=>x.classList.remove('active')); ch.classList.add('active');});
+document.querySelectorAll('.option').forEach(op=>op.onclick=()=>{const q=op.closest('.q');q.querySelectorAll('.option').forEach(x=>x.classList.remove('active'));op.classList.add('active');});
+
+document.querySelectorAll('.check:not(.check-natural)').forEach(btn=>btn.onclick=()=>{const q=btn.closest('.q'),ans=(q.dataset.answer||'').toLowerCase();let val='';const a=q.querySelector('.chip.active'),i=q.querySelector('input');if(a)val=a.textContent.trim().toLowerCase();if(i)val=i.value.trim().toLowerCase();const fb=q.querySelector('.feedback');if(!val){fb.textContent='Choose or type an answer first.';fb.className='feedback bad';return;}fb.textContent=val===ans?'Correct.':'Not quite. Try again or open the hint/answer.';fb.className='feedback '+(val===ans?'good':'bad');});
+document.querySelectorAll('.check-natural').forEach(btn=>btn.onclick=()=>{const q=btn.closest('.q'),sel=q.querySelector('.option.active'),fb=q.querySelector('.feedback');if(!sel){fb.textContent='Choose A or B first.';fb.className='feedback bad';return;}const ok=sel.dataset.value===q.dataset.natural;fb.textContent=ok?'Yes — this is the more natural version.':'Try the other version.';fb.className='feedback '+(ok?'good':'bad');});
+document.querySelectorAll('.hint-btn').forEach(b=>b.onclick=()=>{const h=b.closest('.q').querySelector('.hint');if(h)h.style.display=h.style.display==='block'?'none':'block';});
+document.querySelectorAll('.reveal').forEach(b=>b.onclick=()=>{const a=b.closest('.q').querySelector('.answer');if(a)a.style.display=a.style.display==='block'?'none':'block';});
+document.querySelectorAll('.write-btn').forEach(b=>b.onclick=()=>{const w=b.closest('.q').querySelector('.writebox');w.style.display=w.style.display==='block'?'none':'block';b.textContent=w.style.display==='block'?'Hide answer box':'Write my answer';});
+</script>
+</body>
+</html>
