@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sonya · Lesson 18 September</title><style>
+:root{
+  --ink:#24303f; --muted:#6c7480; --line:#e8e5df; --paper:#fff;
+  --lilac:#eee9ff; --mint:#e6f5ec; --sky:#e8f4ff; --yellow:#fff3c9; --pink:#ffe8ef;
+  --violet:#6b57c8; --green:#2c805d; --blue:#3376a8; --bad:#b74f4f; --bg:#f7f5f1;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,"Avenir Next",system-ui,-apple-system,Segoe UI,sans-serif}
+.wrap{max-width:1040px;margin:auto;padding:14px}
+.hero,.section{background:#fff;border:1px solid var(--line);border-radius:24px;padding:24px;margin:14px 0;box-shadow:0 8px 24px #3c34290a}
+.hero h1{font-size:clamp(34px,6vw,58px);line-height:1.02;margin:.1em 0}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:900;color:var(--violet)}
+.lead{font-size:18px;color:#485261;max-width:760px}
+.nav{display:flex;flex-wrap:wrap;gap:8px;position:sticky;top:8px;z-index:8;margin:10px 0}
+.nav a{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 12px;text-decoration:none;color:var(--ink);font-weight:800;box-shadow:0 3px 12px #0000000a}
+.nav a:nth-child(4n+1){background:var(--pink)} .nav a:nth-child(4n+2){background:var(--sky)} .nav a:nth-child(4n+3){background:var(--mint)} .nav a:nth-child(4n){background:var(--yellow)}
+h2{font-size:28px;margin:.15em 0 .2em}
+h3{margin:.3em 0}
+.sub{color:var(--muted);margin-top:0}
+.badge{display:inline-block;background:var(--lilac);border-radius:999px;padding:5px 9px;font-weight:800;font-size:13px;margin:4px 5px 4px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.card{border:1px solid var(--line);border-radius:17px;padding:16px;background:#fff}
+.tint-pink{background:linear-gradient(135deg,var(--pink),#fff)} .tint-sky{background:linear-gradient(135deg,var(--sky),#fff)}
+.tint-mint{background:linear-gradient(135deg,var(--mint),#fff)} .tint-yellow{background:linear-gradient(135deg,var(--yellow),#fff)}
+.prompt{font-size:19px;font-weight:900;margin:.3em 0}
+.support{background:var(--yellow);border-radius:15px;padding:13px;margin:10px 0}
+.rule{border-left:5px solid var(--violet);padding:12px 14px;background:#faf9ff;border-radius:10px;margin:10px 0}
+.q{padding:14px 0;border-bottom:1px solid #eee}.q:last-child{border-bottom:0}
+input,textarea,select{font:inherit;border:1px solid #bbb7af;border-radius:11px;padding:9px 10px;background:#fff}
+input{min-width:170px;max-width:100%} textarea{width:100%;min-height:85px}
+button,.btnlink{display:inline-block;border:0;border-radius:11px;padding:9px 13px;font:inherit;font-weight:850;cursor:pointer;margin:5px 5px 5px 0;text-decoration:none}
+.primary{background:var(--ink);color:#fff}.hint-btn{background:var(--lilac);color:#4e3fa0}.answer-btn{background:var(--mint);color:#236246}.check-btn{background:var(--ink);color:#fff}
+.feedback,.hint,.answer{display:none;padding:10px 12px;border-radius:11px;margin-top:7px}
+.feedback.show,.hint.show,.answer.show{display:block}
+.feedback.ok{background:var(--mint);color:#236246}.feedback.bad{background:#ffe7e7;color:#8a3f3f}.hint{background:var(--yellow)}.answer{background:var(--mint)}
+.choices,.bank{display:flex;gap:8px;flex-wrap:wrap;margin:9px 0}
+.choice,.word{background:#fff;border:1px solid #bfb9b0;border-radius:999px;padding:8px 12px;font-weight:750;cursor:pointer}
+.choice.sel{background:var(--lilac);border-color:var(--violet)}.word.used{opacity:.35;text-decoration:line-through}
+details{border:1px dashed #bab1d5;border-radius:14px;padding:11px 13px;background:#fcfbff;margin:9px 0}
+summary{cursor:pointer;font-weight:850}
+.source{font-size:12px;color:var(--muted)}
+.progress{height:8px;background:#e9e5de;border-radius:99px;overflow:hidden;margin:14px 0}.progress span{display:block;height:100%;width:0;background:#73b995}
+.notice{border:1px solid #ecd77f;background:#fff9db;border-radius:14px;padding:12px 14px}
+.big-answer{border:2px dashed #b8b1a7;background:#fffefa;border-radius:16px;padding:14px}
+.footer{text-align:center;color:#777;font-size:12px;padding:12px}
+@media(max-width:650px){.wrap{padding:7px}.hero,.section{padding:17px;border-radius:18px}.nav{top:3px}.prompt{font-size:18px}}
+
+.vocab-card{border:1px solid var(--line);border-radius:15px;padding:13px;background:#fff}
+.vocab-card .term{font-size:18px;font-weight:900}
+.vocab-card .meaning{color:#4d5865;margin:4px 0}
+.vocab-card .example{font-style:italic;margin:5px 0}
+.ru{display:none;background:var(--lilac);padding:7px 9px;border-radius:9px;margin-top:6px}
+.ru.show{display:block}
+.lettergap{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;min-width:130px}
+</style></head>
+<body><main class="wrap">
+<header class="hero">
+  <div class="eyebrow">English · Sonya · 18 September</div>
+  <h1>Say more. Find the clue.</h1>
+  <p class="lead">Today: nationalities listening, useful English, daily routines, a Life Vision video, and longer answers.</p>
+  <span class="badge">Life Vision Elementary</span><span class="badge">A1 → A2 bridge</span><span class="badge">60 min + reserve</span>
+</header>
+
+<nav class="nav">
+<a href="#return">Quick return</a><a href="#listen">Listening</a><a href="#apos">’s detective</a><a href="#video">Video 1</a>
+<a href="#real">Real English</a><a href="#routine">Daily routine</a><a href="#boost">Vocabulary boost</a><a href="#talk">Speak more</a>
+</nav>
+
+<section class="section" id="return">
+<div class="eyebrow">1 · Quick return</div><h2>Use the word — then add one detail</h2>
+<p class="sub">First complete the sentence. Then answer one speaking question in a full sentence.</p>
+<div class="bank"><button class="word">sky</button><button class="word">library</button><button class="word">vehicle</button><button class="word">allow</button><button class="word">busy</button><button class="word">sign</button></div>
+<div class="q text" data-a="vehicle">A bus is a type of <input placeholder="word"><div class="feedback"></div><button class="hint-btn">Hint</button><div class="hint">Car, bus, bike → one general word.</div></div>
+<div class="q text" data-a="busy">I have school, homework and a club today, so I’m very <input placeholder="word"><div class="feedback"></div><button class="hint-btn">Hint</button><div class="hint">Not free; having a lot to do.</div></div>
+<div class="q text" data-a="sign">This road <input placeholder="word"> says “STOP”.<div class="feedback"></div><button class="hint-btn">Hint</button><div class="hint">You see it next to a road.</div></div>
+<div class="q text" data-a="library">You can borrow books from a <input placeholder="word"><div class="feedback"></div><button class="hint-btn">Hint</button><div class="hint">A place with books to read or borrow.</div></div>
+<button class="check-btn check">Check</button>
+<div class="card tint-pink">
+  <div class="prompt">When are you usually busy?</div>
+  <div class="support"><b>Starter:</b> I’m usually busy when … <br><b>Add:</b> Then / After that, I …</div>
+  <details><summary>Words if you need them</summary>school · homework · clubs · family · weekend · evening</details>
+</div>
+</section>
+
+<section class="section" id="listen">
+<div class="eyebrow">2 · Nationalities · listening</div><h2>Countries, nationalities and languages</h2>
+<p class="sub">Do the Test-English listening together. First listen for the main facts. Second listen to check the details.</p>
+<a class="btnlink primary" target="_blank" rel="noopener" href="https://test-english.com/listening/a1/countries-nationalities-and-languages-a1-english-listening-test/">Open the listening ↗</a>
+<div class="notice"><b>Teacher move:</b> after each answer ask: <b>“What word did you hear?”</b> or <b>“Which detail helped you?”</b> — not just “A, B or C?”.</div>
+<div class="grid" style="margin-top:12px">
+  <div class="card tint-sky"><b>After Speaker 1</b><p class="prompt">What country or language do you remember?</p><div class="support">I heard … / The speaker says …</div></div>
+  <div class="card tint-mint"><b>After Speaker 3</b><p class="prompt">Tell me two facts, not one.</p><div class="support">First, … Also, …</div></div>
+  <div class="card tint-yellow"><b>After Speaker 6</b><p class="prompt">Which detail was easiest to catch?</p><div class="support">The easiest detail was … because …</div></div>
+</div>
+<p class="source">External listening: Test-English, A1 “Countries, nationalities, and languages”.</p>
+</section>
+
+<section class="section" id="apos">
+<div class="eyebrow">3 · SB p.6 ex.7 · adapted</div><h2>What does <i>’s</i> mean here?</h2>
+<p class="sub">Choose: <b>P</b> = possessive, <b>I</b> = is, <b>H</b> = has.</p>
+<div class="q mc" data-a="P"><b>1.</b> My dad’s name is Anton.<div class="choices"><button class="choice">P</button><button class="choice">I</button><button class="choice">H</button></div><div class="feedback"></div></div>
+<div class="q mc" data-a="H"><b>2.</b> She’s got her sister’s keys.<div class="choices"><button class="choice">P</button><button class="choice">I</button><button class="choice">H</button></div><div class="feedback"></div></div>
+<div class="q mc" data-a="I"><b>3.</b> That’s my mum’s umbrella.<div class="choices"><button class="choice">P</button><button class="choice">I</button><button class="choice">H</button></div><div class="feedback"></div></div>
+<div class="q mc" data-a="P"><b>4.</b> It’s Zara’s brother’s bag.<div class="choices"><button class="choice">P</button><button class="choice">I</button><button class="choice">H</button></div><div class="feedback"></div></div>
+<button class="check-btn check">Check</button>
+</section>
+
+<section class="section" id="video">
+<div class="eyebrow">4 · Life Vision · Video 1</div><h2>Watch for the big idea first</h2>
+<p class="sub">Reminder for Irina: use <b>Life Vision Elementary Video 1</b> today. Keep Prepare 1 and Life Vision as a mixed video bank.</p>
+<div class="grid">
+<div class="card tint-sky"><div class="prompt">Before</div><p>What do you think the people will talk about?</p><div class="support">I think they’ll talk about …</div></div>
+<div class="card tint-mint"><div class="prompt">First watch</div><p>Who are the people? Where are they? What is the video mainly about?</p></div>
+<div class="card tint-yellow"><div class="prompt">Second watch</div><p>Find <b>three useful phrases</b>. Which one could you use yourself?</p><div class="support">I can use “…” when …</div></div>
+</div>
+</section>
+
+<section class="section" id="real">
+<div class="eyebrow">5 · SB p.9 ex.5 · adapted</div><h2>Real English — what do these phrases mean?</h2>
+<div class="q mc" data-a="a good idea"><b>Why not</b> try something like this?<div class="choices"><button class="choice">a good idea</button><button class="choice">a problem</button><button class="choice">a surprise</button></div><div class="feedback"></div></div>
+<div class="q mc" data-a="well done"><b>Congratulations</b> — you’re a vlogger, like us!<div class="choices"><button class="choice">well done</button><button class="choice">be careful</button><button class="choice">no problem</button></div><div class="feedback"></div></div>
+<div class="q mc" data-a="many"><b>Lots of</b> you want to know how we do it.<div class="choices"><button class="choice">a few</button><button class="choice">many</button><button class="choice">none</button></div><div class="feedback"></div></div>
+<div class="q mc" data-a="amazing">And this is our <b>awesome</b> vlog.<div class="choices"><button class="choice">amazing</button><button class="choice">slow</button><button class="choice">difficult</button></div><div class="feedback"></div></div>
+<button class="check-btn check">Check</button>
+<div class="card tint-pink"><div class="prompt">Use one phrase.</div><div class="support">Why not … ? / Congratulations! / Lots of … / … is awesome.</div></div>
+</section>
+
+<section class="section" id="routine">
+<div class="eyebrow">6 · SB p.9 ex.8 · adapted</div><h2>My typical day</h2>
+<p class="sub">Complete the routine with full collocations. Then read it aloud and tell me which two things are also true for you.</p>
+<div class="bank"><button class="word">have lessons</button><button class="word">do homework</button><button class="word">take the bus</button><button class="word">have a shower</button><button class="word">go home</button><button class="word">get up</button><button class="word">brush my teeth</button><button class="word">go to school</button></div>
+<div class="q text" data-a="get up">I <input placeholder="routine phrase"> at 7.30 a.m.<div class="feedback"></div><button class="hint-btn">Hint</button><div class="hint">The first action when you stop sleeping and start your day.</div></div>
+<div class="q text" data-a="brush my teeth">Then I have breakfast and <input placeholder="routine phrase">.<div class="feedback"></div><button class="hint-btn">Hint</button><div class="hint">You do this with a toothbrush.</div></div>
+<div class="q text" data-a="go to school">My brother and I <input placeholder="routine phrase"> together.<div class="feedback"></div><button class="hint-btn">Hint</button><div class="hint">Where do students go on weekday mornings?</div></div>
+<div class="q text" data-a="take the bus">We <input placeholder="routine phrase"> because school is far away.<div class="feedback"></div><button class="hint-btn">Hint</button><div class="hint">This is public transport.</div></div>
+<div class="q text" data-a="have lessons">At school, we <input placeholder="routine phrase"> until the afternoon.<div class="feedback"></div><button class="hint-btn">Hint</button><div class="hint">What do students have at school: maths, English, science …?</div></div>
+<div class="q text" data-a="go home">Then we <input placeholder="routine phrase">.<div class="feedback"></div><button class="hint-btn">Hint</button><div class="hint">The opposite direction from “go to school”.</div></div>
+<button class="check-btn check">Check</button>
+<div class="card tint-mint"><div class="prompt">Which TWO things are also true for you?</div><div class="support">I also … <br>I also …</div></div>
+</section>
+
+<section class="section" id="boost">
+<div class="eyebrow">7 · SB p.112 ex.3, 5, 6</div><h2>Daily routines — make the language stronger</h2>
+<p class="sub">First recover seven routine verbs from the missing letters. The first letter is already inside the box.</p>
+
+<div class="q text" data-a="drink"><b>1.</b> I <input class="lettergap" value="d _ _ _ _" data-prefix="d" aria-label="drink"> a lot of water every day.<div class="feedback"></div><button class="hint-btn">Hint</button><div class="hint">You do this with water, tea or juice.</div></div>
+<div class="q text" data-a="study"><b>2.</b> What do you <input class="lettergap" value="s _ _ _ _" data-prefix="s"> at the weekend?<div class="feedback"></div><button class="hint-btn">Hint</button><div class="hint">Learn a school subject.</div></div>
+<div class="q text" data-a="read"><b>3.</b> I <input class="lettergap" value="r _ _ _" data-prefix="r"> on my phone all the time.<div class="feedback"></div><button class="hint-btn">Hint</button><div class="hint">You do this with messages, books and websites.</div></div>
+<div class="q text" data-a="have"><b>4.</b> I <input class="lettergap" value="h _ _ _" data-prefix="h"> a shower at 7.30 a.m.<div class="feedback"></div><button class="hint-btn">Hint</button><div class="hint">The verb used in the phrase “… a shower”.</div></div>
+<div class="q text" data-a="check"><b>5.</b> I <input class="lettergap" value="c _ _ _ _" data-prefix="c"> my phone in the morning.<div class="feedback"></div><button class="hint-btn">Hint</button><div class="hint">Look at something to see if there is new information.</div></div>
+<div class="q text" data-a="wake"><b>6.</b> I <input class="lettergap" value="w _ _ _" data-prefix="w"> up before I get out of bed.<div class="feedback"></div><button class="hint-btn">Hint</button><div class="hint">Stop sleeping.</div></div>
+<div class="q text" data-a="get"><b>7.</b> I <input class="lettergap" value="g _ _" data-prefix="g"> home at about four.<div class="feedback"></div><button class="hint-btn">Hint</button><div class="hint">Arrive at a place.</div></div>
+<button class="check-btn check">Check</button>
+
+<h3 style="margin-top:24px">New useful phrases</h3>
+<p class="sub">Read the English meaning and example first. Open Russian only if you still need it.</p>
+<div class="grid">
+<div class="vocab-card"><div class="term">check your timetable</div><div class="meaning">look at your school schedule to see your lessons</div><div class="example">I check my timetable before school.</div><button class="hint-btn ru-btn">Russian</button><div class="ru">проверить расписание</div></div>
+<div class="vocab-card"><div class="term">get out of bed</div><div class="meaning">leave your bed after waking up</div><div class="example">I wake up at seven but get out of bed at seven ten.</div><button class="hint-btn ru-btn">Russian</button><div class="ru">встать / вылезти из кровати</div></div>
+<div class="vocab-card"><div class="term">get ready for tomorrow</div><div class="meaning">prepare the things you need for the next day</div><div class="example">I get my school bag ready for tomorrow.</div><button class="hint-btn ru-btn">Russian</button><div class="ru">подготовиться к завтрашнему дню</div></div>
+<div class="vocab-card"><div class="term">have a lie-in</div><div class="meaning">stay in bed longer than usual in the morning</div><div class="example">I have a lie-in on Sunday.</div><button class="hint-btn ru-btn">Russian</button><div class="ru">поспать подольше утром</div></div>
+<div class="vocab-card"><div class="term">have a rest</div><div class="meaning">stop working or studying and relax for a while</div><div class="example">I have a rest after school.</div><button class="hint-btn ru-btn">Russian</button><div class="ru">отдохнуть</div></div>
+<div class="vocab-card"><div class="term">wake up late</div><div class="meaning">stop sleeping later than usual</div><div class="example">I sometimes wake up late at the weekend.</div><button class="hint-btn ru-btn">Russian</button><div class="ru">проснуться поздно</div></div>
+</div>
+
+<h3 style="margin-top:24px">Speak — answer + one more detail</h3>
+<div class="card tint-pink"><div class="prompt">Where do you have a rest?</div><div class="support">I usually have a rest … <br>When I rest, I …</div><details><summary>Words if you need them</summary>at home · in my room · on the sofa · after school · listen to music · watch videos</details></div>
+<div class="card tint-sky"><div class="prompt">What do you get ready the evening before school?</div><div class="support">I get … ready. <br>I also …</div><details><summary>Words if you need them</summary>my school bag · my clothes · my homework · my timetable</details></div>
+<div class="card tint-mint"><div class="prompt">Do you have a lie-in at the weekend?</div><div class="support">Yes, I do / No, I don’t. <br>At the weekend, I usually …</div><details><summary>Words if you need them</summary>wake up early · wake up late · stay in bed · get up at …</details></div>
+</section>
+
+<section class="section" id="talk">
+<div class="eyebrow">8 · Say more</div><h2>No one-word answers</h2>
+<p class="sub">The answer is finished when it has an answer + one extra detail.</p>
+<div class="grid">
+<div class="card tint-pink"><div class="prompt">What do you usually do after school?</div><div class="support">After school, I usually … <br>Then I …</div><details><summary>Words if you need them</summary>go home · have lunch · relax · do homework · play games · go for a walk</details></div>
+<div class="card tint-sky"><div class="prompt">Which school subject is easiest for you?</div><div class="support">… is easiest for me because … <br>In class, I can …</div><details><summary>Words if you need them</summary>maths · English · science · history · understand · remember · solve · speak</details></div>
+<div class="card tint-yellow"><div class="prompt">What is your favourite time of day?</div><div class="support">My favourite time of day is … because … <br>Usually, I …</div><details><summary>Words if you need them</summary>morning · afternoon · evening · after school · before bed · free time</details></div>
+</div>
+</section>
+
+<div class="footer">Sources adapted for classroom use: Life Vision Elementary SB pp.6, 9, 112; Test-English A1 listening. Video reminder: Life Vision Video 1.</div>
+</main>
+<script>
+const norm=s=>(s||'').trim().toLowerCase().replace(/[’]/g,"'").replace(/[.!?]+$/,'').replace(/\s+/g,' ');
+document.querySelectorAll('.choice').forEach(b=>b.onclick=()=>{b.parentElement.querySelectorAll('.choice').forEach(x=>x.classList.remove('sel'));b.classList.add('sel')});
+document.querySelectorAll('.hint-btn').forEach(b=>b.onclick=()=>b.nextElementSibling.classList.toggle('show'));
+document.querySelectorAll('.word').forEach(b=>b.onclick=()=>b.classList.toggle('used'));
+document.querySelectorAll('.ru-btn').forEach(b=>b.onclick=()=>b.nextElementSibling.classList.toggle('show'));
+document.querySelectorAll('.q[data-a]').forEach(q=>{const b=document.createElement('button'),a=document.createElement('div');b.type='button';b.className='answer-btn';b.textContent='Show answer';a.className='answer';b.onclick=()=>{a.innerHTML='<b>Answer:</b> '+q.dataset.a.split('||').join(' / ');a.classList.add('show')};q.append(b,a)});
+document.querySelectorAll('.lettergap').forEach(inp=>{inp.addEventListener('focus',()=>{if(inp.value.includes('_')) inp.value=inp.dataset.prefix});});
+
+function val(q){let v=q.querySelector('.choice.sel')?.textContent||q.querySelector('input,textarea')?.value||'';return v.replace(/\s*_\s*/g,'').trim()}
+function check(q){const ok=q.dataset.a.split('||').map(norm).includes(norm(val(q)));let fb=q.querySelector('.feedback');fb.textContent=ok?'✓ Correct':'Not quite — open the hint, try again, or show the answer.';fb.className='feedback show '+(ok?'ok':'bad');return ok}
+document.querySelectorAll('.check').forEach(b=>b.onclick=()=>b.closest('.section').querySelectorAll('.q[data-a]').forEach(check));
+</script></body></html>
