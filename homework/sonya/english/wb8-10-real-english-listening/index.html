@@ -1,0 +1,132 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sonya · Homework for 25.09.2026 · v4</title><style>
+:root{--ink:#273447;--muted:#687386;--line:#dde4ec;--mint:#e9f7ef;--blue:#edf5ff;--lilac:#f3efff;--peach:#fff1df;--yellow:#fff8d9;--green:#2f7658;--amber:#8a6428}
+*{box-sizing:border-box}body{margin:0;background:#f6f7fb;color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.52}
+.wrap{max-width:980px;margin:auto;padding:24px 14px 72px}.hero,.sec{background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 7px 24px #25324a0b}.hero{padding:28px;margin-bottom:16px}.sec{padding:24px;margin:16px 0}.mint{border-top:6px solid #9bd6b5}.blue{border-top:6px solid #a8cdf7}.lilac{border-top:6px solid #c8b8f3}.peach{border-top:6px solid #efc18d}
+h1{margin:0 0 8px;font-size:clamp(28px,5vw,43px)}h2{font-size:25px;margin:3px 0 10px}.sub{color:var(--muted);margin:0}.eye{text-transform:uppercase;letter-spacing:.08em;font-size:12px;font-weight:900;color:#6d7280}
+.q{padding:15px 0;border-top:1px solid #edf0f4}.q:first-of-type{border-top:0}.prompt{font-size:18px;font-weight:850;margin:3px 0 8px}
+input[type=text],textarea{width:100%;border:1.5px solid #cbd3dd;border-radius:12px;padding:11px 12px;font:inherit}textarea{min-height:88px}
+.btn,.hintbtn,.answerbtn{border:0;border-radius:11px;padding:9px 13px;font-weight:850;cursor:pointer;margin:7px 5px 0 0}.btn{background:#29364a;color:#fff}.hintbtn{background:var(--lilac);color:#55439c}.answerbtn{background:var(--yellow);color:#6d5919}.answerbtn[disabled]{opacity:.42;cursor:not-allowed}
+.hint,.answer{display:none;margin-top:8px;padding:10px 12px;border-radius:12px;font-size:14px}.hint{background:#f7f3ff}.answer{background:#fff8dd}.show{display:block}
+.feedback{font-size:14px;font-weight:850;margin-top:7px}.ok{color:var(--green)}.bad{color:var(--amber)}
+.choices{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.choice{border:1px solid #bcc6d1;background:#fff;border-radius:12px;padding:8px 12px;font:inherit;font-weight:750;cursor:pointer}.choice.sel{background:var(--blue);border-color:#8bb7e7}
+.wordbank{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.word{border:1px solid #b8c2ce;background:#fff;border-radius:999px;padding:7px 11px;font-weight:800;cursor:pointer}.word.used{text-decoration:line-through;opacity:.45}
+.teacher{background:var(--mint);padding:16px 18px;border-radius:16px;margin:14px 0}.teacher-title{font-weight:950;font-size:18px}.starter{display:block;width:fit-content;max-width:100%;margin-top:12px;background:#f7f9fc;border-left:5px solid #adc0d9;border-radius:0 13px 13px 0;padding:10px 14px}.starter b{color:#425a78;margin-right:7px}
+.audio{border:1.5px solid #b9c7d9;border-radius:15px;padding:14px;background:#f8fafc;margin:12px 0}.audio audio{width:100%;margin-top:9px}.script{margin-top:9px}.script summary{font-weight:850;cursor:pointer}.script div{white-space:pre-line;background:#fff;padding:12px;border-radius:12px;margin-top:8px;border:1px solid #e2e7ed}
+.bookpic{display:block;max-width:430px;width:100%;margin:14px auto;border-radius:16px;border:1px solid #dce3eb}
+.dialogue{background:#f8fafc;border-radius:15px;padding:15px;margin:12px 0}.line{margin:9px 0}.inline{width:180px!important;display:inline-block!important;padding:7px 9px!important}
+.blockcheck{background:#273447;color:#fff;border:0;border-radius:12px;padding:11px 16px;font-weight:900;cursor:pointer;margin-top:14px}.item-answer{display:none}.item-answer.ready{display:inline-block}.answerbox{display:none;background:#fff8dd;border-radius:11px;padding:8px 10px;margin-top:7px}.answerbox.show{display:block}
+.note{background:#fff8d9;padding:13px 15px;border-radius:14px;margin:12px 0}.questlink{display:inline-block;text-decoration:none;background:#29364a;color:#fff;padding:11px 15px;border-radius:12px;font-weight:900}
+@media(max-width:650px){.sec,.hero{padding:18px}.inline{width:145px!important}}
+
+.inline-status{display:inline-flex;align-items:center;gap:6px;margin-left:8px;font-size:14px;font-weight:900}
+.inline-status.ok{color:#2f7658}.inline-status.bad{color:#8a6428}
+.minihint{display:none;margin:7px 0 0;padding:8px 10px;border-radius:10px;background:#f7f3ff;font-size:14px}
+.minihint.show{display:block}
+.itemtools{display:none;gap:7px;flex-wrap:wrap;margin-top:7px}.itemtools.show{display:flex}
+.itemtools button{border:0;border-radius:10px;padding:7px 10px;font-weight:850;cursor:pointer}
+.itemtools .ihint{background:#f3efff;color:#55439c}.itemtools .ianswer{background:#fff8d9;color:#6d5919}
+.itemanswer{display:none;margin-top:7px;padding:8px 10px;background:#fff8dd;border-radius:10px;font-size:14px}.itemanswer.show{display:block}
+.tf{display:inline-flex;gap:6px;margin-left:10px;vertical-align:middle}.tf button{border:1px solid #bcc6d1;background:#fff;border-radius:10px;padding:6px 11px;font-weight:850;cursor:pointer}.tf button.sel{background:#edf5ff;border-color:#8bb7e7}
+.crop-photo{max-width:430px;margin:14px auto;border-radius:16px;overflow:hidden;border:1px solid #dce3eb;background:#fff}
+.crop-photo img{display:block;width:100%;height:auto}
+.crop-molly img{margin-top:-10%;margin-bottom:-8%;width:100%}
+.gapwrap{display:inline-block;vertical-align:middle;min-width:190px;margin:2px 3px}.gapwrap input{width:180px!important;display:inline-block!important;padding:7px 9px!important}
+</style></head><body><main class="wrap">
+<section class="hero"><div class="eye">Sonya · Homework · for 25 September</div><h1>Life Vision · Workbook pp.8 & 10</h1><p class="sub">The Workbook tasks are kept in their original structure. Finish each block first → Check → then open correct answers.</p></section>
+
+<section class="sec mint"><div class="eye">1 · WB p.8 ex.5</div><h2>Real English — complete the dialogues</h2>
+<div class="wordbank"><button class="word">awesome</button><button class="word">congratulations</button><button class="word">don't worry about it</button><button class="word">guys</button><button class="word">lots of</button><button class="word">why not</button></div>
+<div class="dialogue">
+<div class="q gapitem" data-answer="guys"><div class="line">1 ‘Hi, <input class="inline" type="text">. I’m Zac!’<br>‘Hi Zac.’</div><span class="inline-status"></span><div class="itemtools"><button class="ihint" type="button">Hint</button><button class="ianswer" type="button">Show correct answer</button></div><div class="minihint">Use one phrase from the word bank.</div><div class="itemanswer">guys</div></div>
+<div class="q gapitem" data-answer="why not"><div class="line">2 ‘We’re bored.’<br>‘So <input class="inline" type="text"> make a vlog? It’s easy.’</div><span class="inline-status"></span><div class="itemtools"><button class="ihint" type="button">Hint</button><button class="ianswer" type="button">Show correct answer</button></div><div class="minihint">Use one phrase from the word bank.</div><div class="itemanswer">why not</div></div>
+<div class="q gapitem" data-answer="don't worry about it"><div class="line">3 ‘Is it time to go home now?’<br>‘No, <input class="inline" type="text"> – we’ve got lots of time.’</div><span class="inline-status"></span><div class="itemtools"><button class="ihint" type="button">Hint</button><button class="ianswer" type="button">Show correct answer</button></div><div class="minihint">Use one phrase from the word bank.</div><div class="itemanswer">don't worry about it</div></div>
+<div class="q gapitem" data-answer="awesome"><div class="line">4 ‘I love this video!’<br>‘Me too. I think it’s <input class="inline" type="text">.’</div><span class="inline-status"></span><div class="itemtools"><button class="ihint" type="button">Hint</button><button class="ianswer" type="button">Show correct answer</button></div><div class="minihint">Use one phrase from the word bank.</div><div class="itemanswer">awesome</div></div>
+<div class="q gapitem" data-answer="lots of"><div class="line">5 ‘Is your brother’s vlog popular?’<br>‘Yes, <input class="inline" type="text"> people watch it.’</div><span class="inline-status"></span><div class="itemtools"><button class="ihint" type="button">Hint</button><button class="ianswer" type="button">Show correct answer</button></div><div class="minihint">Use one phrase from the word bank.</div><div class="itemanswer">lots of</div></div>
+<div class="q gapitem" data-answer="congratulations"><div class="line">6 ‘<input class="inline" type="text">! Your video is amazing.’<br>‘Thank you.’</div><span class="inline-status"></span><div class="itemtools"><button class="ihint" type="button">Hint</button><button class="ianswer" type="button">Show correct answer</button></div><div class="minihint">Use one phrase from the word bank.</div><div class="itemanswer">congratulations</div></div>
+</div>
+<button class="btn check-items" type="button">Check</button></section>
+
+<section class="sec blue"><div class="eye">2 · WB p.10 ex.2–3</div><h2>Easy Yoga in the park</h2>
+<div class="audio"><b>Track 1.03 · Ex.3</b><audio controls preload="metadata"><source src="audio/wb_track_1_03.mp3" type="audio/mpeg"></audio><details class="script"><summary>Transcript — open only if needed</summary><div>Molly: Hi guys. I’m Molly and this is my vlog, Easy Yoga in the park. Congratulations – you want to know how to do yoga. That’s awesome! Before we start our first lesson, I want to tell you why I love yoga.</div></details></div>
+<div class="q"><div class="prompt">Listen to Molly's introduction once.</div><p class="sub">What is her vlog about? You don't need to write anything here.</p></div></section>
+
+<section class="sec blue"><div class="eye">3 · WB p.10 ex.4</div>
+<h2>Listen and choose A, B or C</h2>
+<div class="note"><b>Adapted from WB p.10 ex.4.</b></div>
+<div class="audio"><b>Track 1.04</b><audio controls preload="metadata"><source src="audio/wb_track_1_04.mp3" type="audio/mpeg"></audio>
+<details class="script"><summary>Transcript — open only if needed</summary><div>Molly: Yoga is part of my daily routine. I do it for ten minutes in my bedroom when I get up in the morning. Then I have a shower, get dressed, have some breakfast and go to school. And I’m ready to study!
+
+After school, I have lots of things to do: piano lessons on Tuesdays and tennis lessons on Thursdays. Then, in the evening, I have dinner and do my homework in the dining room. There’s no time to watch TV!
+
+I’m always tired after my busy day, but I can’t relax. That’s when I do more yoga. I do it for 30 minutes before I go to bed, and then it’s easy to sleep!
+
+Now, it’s time for you to do some yoga … You’re probably new to yoga, but don’t worry about it … just watch, listen and copy me …</div></details></div>
+<div class="q mcitem" data-answer="B">
+<div class="prompt">1. Yoga is a ______ routine for Molly.</div>
+<div class="choices"><button class="choice" type="button" data-v="A">A weekly</button><button class="choice" type="button" data-v="B">B daily</button><button class="choice" type="button" data-v="C">C weekend</button></div><span class="inline-status"></span>
+<div class="itemtools"><button class="ihint" type="button">Hint</button><button class="ianswer" type="button">Show correct answer</button></div>
+<div class="minihint">Listen for the word Molly uses before “routine”.</div><div class="itemanswer">B · daily</div></div><div class="q mcitem" data-answer="A">
+<div class="prompt">2. She does yoga for ______ in her bedroom.</div>
+<div class="choices"><button class="choice" type="button" data-v="A">A 10 minutes</button><button class="choice" type="button" data-v="B">B 20 minutes</button><button class="choice" type="button" data-v="C">C 30 minutes</button></div><span class="inline-status"></span>
+<div class="itemtools"><button class="ihint" type="button">Hint</button><button class="ianswer" type="button">Show correct answer</button></div>
+<div class="minihint">Listen for the number in Molly’s morning routine.</div><div class="itemanswer">A · 10 minutes</div></div><div class="q mcitem" data-answer="C">
+<div class="prompt">3. Molly has ______ before she goes to school.</div>
+<div class="choices"><button class="choice" type="button" data-v="A">A tea</button><button class="choice" type="button" data-v="B">B coffee</button><button class="choice" type="button" data-v="C">C breakfast</button></div><span class="inline-status"></span>
+<div class="itemtools"><button class="ihint" type="button">Hint</button><button class="ianswer" type="button">Show correct answer</button></div>
+<div class="minihint">What does she have after she gets dressed?</div><div class="itemanswer">C · breakfast</div></div><div class="q mcitem" data-answer="A">
+<div class="prompt">4. She has ______ lessons.</div>
+<div class="choices"><button class="choice" type="button" data-v="A">A piano and tennis</button><button class="choice" type="button" data-v="B">B guitar</button><button class="choice" type="button" data-v="C">C dance</button></div><span class="inline-status"></span>
+<div class="itemtools"><button class="ihint" type="button">Hint</button><button class="ianswer" type="button">Show correct answer</button></div>
+<div class="minihint">Listen for the two activities after school.</div><div class="itemanswer">A · piano and tennis</div></div><div class="q mcitem" data-answer="B">
+<div class="prompt">5. She has no time to watch ______ in the evening.</div>
+<div class="choices"><button class="choice" type="button" data-v="A">A films</button><button class="choice" type="button" data-v="B">B TV</button><button class="choice" type="button" data-v="C">C videos</button></div><span class="inline-status"></span>
+<div class="itemtools"><button class="ihint" type="button">Hint</button><button class="ianswer" type="button">Show correct answer</button></div>
+<div class="minihint">Listen for “There’s no time to watch …”.</div><div class="itemanswer">B · TV</div></div><div class="q mcitem" data-answer="C">
+<div class="prompt">6. Molly feels ______ after a busy day.</div>
+<div class="choices"><button class="choice" type="button" data-v="A">A bored</button><button class="choice" type="button" data-v="B">B happy</button><button class="choice" type="button" data-v="C">C tired</button></div><span class="inline-status"></span>
+<div class="itemtools"><button class="ihint" type="button">Hint</button><button class="ianswer" type="button">Show correct answer</button></div>
+<div class="minihint">How does Molly say she feels after her busy day?</div><div class="itemanswer">C · tired</div></div><button class="btn check-items" type="button">Check</button></section>
+
+<section class="sec peach"><div class="eye">4 · WB p.10 ex.5</div><h2>Listen again. Choose A, B or C.</h2><div class="q mcitem" data-answer="A"><div class="prompt">1. Every morning, Molly ______ and then does some yoga.</div><div class="choices"><button class="choice" type="button" data-v="A">A gets up</button><button class="choice" type="button" data-v="B">B gets dressed</button><button class="choice" type="button" data-v="C">C has a shower</button></div><span class="inline-status"></span>
+<div class="itemtools"><button class="ihint" type="button">Hint</button><button class="ianswer" type="button">Show correct answer</button></div><div class="minihint">What happens first in Molly's morning routine?</div><div class="itemanswer">A · gets up</div></div><div class="q mcitem" data-answer="B"><div class="prompt">2. She has a tennis lesson every week ______.</div><div class="choices"><button class="choice" type="button" data-v="A">A at lunchtime</button><button class="choice" type="button" data-v="B">B after school</button><button class="choice" type="button" data-v="C">C on Tuesdays</button></div><span class="inline-status"></span>
+<div class="itemtools"><button class="ihint" type="button">Hint</button><button class="ianswer" type="button">Show correct answer</button></div><div class="minihint">Listen to the part beginning “After school …”.</div><div class="itemanswer">B · after school</div></div><div class="q mcitem" data-answer="C"><div class="prompt">3. She does her homework ______.</div><div class="choices"><button class="choice" type="button" data-v="A">A on Tuesdays and Thursdays</button><button class="choice" type="button" data-v="B">B in her bedroom</button><button class="choice" type="button" data-v="C">C in the dining room</button></div><span class="inline-status"></span>
+<div class="itemtools"><button class="ihint" type="button">Hint</button><button class="ianswer" type="button">Show correct answer</button></div><div class="minihint">Listen for the room where she does homework.</div><div class="itemanswer">C · in the dining room</div></div><div class="q mcitem" data-answer="B"><div class="prompt">4. She does yoga again at night because she can't ______.</div><div class="choices"><button class="choice" type="button" data-v="A">A watch TV</button><button class="choice" type="button" data-v="B">B relax</button><button class="choice" type="button" data-v="C">C vlog</button></div><span class="inline-status"></span>
+<div class="itemtools"><button class="ihint" type="button">Hint</button><button class="ianswer" type="button">Show correct answer</button></div><div class="minihint">What problem does she have after her busy day?</div><div class="itemanswer">B · relax</div></div><div class="q mcitem" data-answer="C"><div class="prompt">5. She does yoga for ______ and then goes to bed.</div><div class="choices"><button class="choice" type="button" data-v="A">A a few minutes</button><button class="choice" type="button" data-v="B">B ten minutes</button><button class="choice" type="button" data-v="C">C half an hour</button></div><span class="inline-status"></span>
+<div class="itemtools"><button class="ihint" type="button">Hint</button><button class="ianswer" type="button">Show correct answer</button></div><div class="minihint">30 minutes = ?</div><div class="itemanswer">C · half an hour</div></div><div class="q mcitem" data-answer="B"><div class="prompt">6. Molly's vlog is for ______.</div><div class="choices"><button class="choice" type="button" data-v="A">A other vloggers</button><button class="choice" type="button" data-v="B">B yoga students</button><button class="choice" type="button" data-v="C">C her friends</button></div><span class="inline-status"></span>
+<div class="itemtools"><button class="ihint" type="button">Hint</button><button class="ianswer" type="button">Show correct answer</button></div><div class="minihint">At the start she says: “you want to know how to do yoga”.</div><div class="itemanswer">B · yoga students</div></div><button class="btn check-items" type="button">Check</button></section>
+
+<section class="sec lilac"><div class="eye">5 · One last question</div><h2>About you</h2>
+<div class="q"><div class="prompt">What helps you relax after a busy day?</div>
+<button class="hintbtn" type="button">Ideas if you need them</button>
+<div class="hint">listen to music · watch something · play a game · read · talk to a friend · spend time with my pet · go for a walk</div>
+<div class="note"><b>STARTER</b> After a busy day, I ______ because ______.</div>
+<textarea id="finalOpen" placeholder="Write 1–2 sentences."></textarea></div></section>
+<section class="sec mint"><h2>Send your homework</h2><p class="sub">Your answers stay saved on this device too.</p><button class="btn" id="submitHW">Submit homework</button><div id="submitStatus" class="feedback"></div>
+<form id="sendform" method="POST" target="sink" action="https://script.google.com/macros/s/AKfycbx0FbfDQdzYU_O856vmG7XoW4zkjCJHZ3Yo_Ys0qwrCN6PSjVOYWNFQ-i5KrFjevy64/exec" style="display:none"></form><iframe id="sink" name="sink" style="display:none"></iframe></section>
+</main><script>
+const N=s=>(s||'').trim().toLowerCase().replace(/[’']/g,"'");
+document.querySelectorAll('.word').forEach(b=>b.onclick=()=>b.classList.toggle('used'));
+document.querySelectorAll('.choice').forEach(b=>b.onclick=()=>{let q=b.closest('.q');q.querySelectorAll('.choice').forEach(x=>x.classList.remove('sel'));b.classList.add('sel')});
+document.querySelectorAll('.hintbtn').forEach(b=>b.onclick=()=>b.nextElementSibling.classList.toggle('show'));
+document.querySelectorAll('.answerbtn').forEach(b=>b.onclick=()=>{if(!b.disabled)b.nextElementSibling.classList.toggle('show')});
+document.querySelectorAll('.blockcheck').forEach(btn=>btn.onclick=()=>{let sec=btn.closest('.sec');sec.querySelectorAll('.item-answer').forEach(x=>x.classList.add('ready'));btn.textContent='Checked — correct answers are available below';btn.disabled=true;});
+
+const KEY='sonya_hw_for_2026_09_25_v4';let started=localStorage.getItem(KEY+':started')||new Date().toISOString();localStorage.setItem(KEY+':started',started);
+function collect(){return {texts:[...document.querySelectorAll('input[type=text],textarea')].map(x=>x.value),choices:[...document.querySelectorAll('.choices')].map(g=>g.querySelector('.choice.sel')?.textContent||'')}}
+function save(){localStorage.setItem(KEY,JSON.stringify(collect()))}document.addEventListener('input',save);document.addEventListener('click',()=>setTimeout(save,50));
+const ENDPOINT='https://script.google.com/macros/s/AKfycbx0FbfDQdzYU_O856vmG7XoW4zkjCJHZ3Yo_Ys0qwrCN6PSjVOYWNFQ-i5KrFjevy64/exec';
+function submissionResult(){let correct=0,total=0,mistakes=[],answers=[];document.querySelectorAll('.gapitem,.mcitem').forEach((it,i)=>{total++;let v='';if(it.classList.contains('gapitem'))v=it.querySelector('input[type=text]')?.value||'';else v=it.querySelector('.choice.sel')?.dataset.v||'';let ok=N(v)===N(it.dataset.answer);if(ok)correct++;else mistakes.push(String(i+1));answers.push(`${i+1}: ${v||'[blank]'} — ${ok?'correct':'incorrect'}`)});return{correct,total,mistakes,answers}}
+let submitTries=0,submitTimer=null;
+document.getElementById('submitHW').onclick=()=>{save();let f=document.getElementById('sendform');f.innerHTML='';let attemptId=localStorage.getItem(KEY+':attempt')||((crypto.randomUUID&&crypto.randomUUID())||('SONYA-'+Date.now()));localStorage.setItem(KEY+':attempt',attemptId);let finishedAt=new Date().toISOString(),r=submissionResult();let p={apiVersion:'v2-test',student:'Sonya',homework:'2026-09-25 Life Vision WB p8-10',score:`${r.correct}/${r.total}`,percent:r.total?Math.round(r.correct/r.total*100):0,mistakes:r.mistakes.join(', '),answers:r.answers.join('\n'),openAnswers:JSON.stringify([...document.querySelectorAll('textarea')].map(x=>x.value)),attemptId,startedAt:started,finishedAt,durationSeconds:Math.max(0,Math.round((new Date(finishedAt).getTime()-new Date(started).getTime())/1000))};for(let [k,v] of Object.entries(p)){let i=document.createElement('input');i.name=k;i.value=v;f.appendChild(i)}document.getElementById('submitStatus').textContent='Sending…';document.getElementById('submitHW').disabled=true;submitTries=0;f.submit();setTimeout(checkSonyaReceived,900)};
+window.sonyaSubmissionStatus=data=>{document.getElementById('sonya-v2-check')?.remove();if(data&&data.ok&&data.received===true){clearTimeout(submitTimer);document.getElementById('submitStatus').textContent='✓ Received by Irina';document.getElementById('submitHW').disabled=false;return}if(++submitTries<8)submitTimer=setTimeout(checkSonyaReceived,900);else{document.getElementById('submitStatus').textContent='Not confirmed. Your answers are still saved on this device. Try again.';document.getElementById('submitHW').disabled=false}};
+function checkSonyaReceived(){document.getElementById('sonya-v2-check')?.remove();const sc=document.createElement('script');sc.id='sonya-v2-check';sc.onerror=()=>{sc.remove();if(++submitTries<8)submitTimer=setTimeout(checkSonyaReceived,900);else{document.getElementById('submitStatus').textContent='Not confirmed. Your answers are still saved on this device. Try again.';document.getElementById('submitHW').disabled=false}};sc.src=ENDPOINT+'?apiVersion=v2-check&attemptId='+encodeURIComponent(localStorage.getItem(KEY+':attempt'))+'&callback=sonyaSubmissionStatus&_='+Date.now();document.body.appendChild(sc)}
+
+document.querySelectorAll('.check-items').forEach(btn=>btn.onclick=()=>{
+ const sec=btn.closest('.sec');let all=true;
+ sec.querySelectorAll('.gapitem').forEach(it=>{let inp=it.querySelector('input[type=text]');if(!inp)return;let ok=N(inp.value)===N(it.dataset.answer),st=it.querySelector('.inline-status');st.textContent=ok?'✓ Correct':'× Try again';st.className='inline-status '+(ok?'ok':'bad');it.querySelector('.itemtools')?.classList.toggle('show',!ok);if(!ok)all=false});
+ sec.querySelectorAll('.mcitem').forEach(it=>{let v=it.querySelector('.choice.sel')?.dataset.v||'',ok=N(v)===N(it.dataset.answer),st=it.querySelector('.inline-status');st.textContent=ok?'✓ Correct':'× Try again';st.className='inline-status '+(ok?'ok':'bad');it.querySelector('.itemtools').classList.toggle('show',!ok);if(!ok)all=false});
+ btn.textContent=all?'✓ All correct':'Check again';
+});
+document.querySelectorAll('.ihint').forEach(b=>b.onclick=()=>b.closest('.q,.gapitem,.mcitem').querySelector('.minihint')?.classList.toggle('show'));
+document.querySelectorAll('.ianswer').forEach(b=>b.onclick=()=>b.closest('.q,.gapitem,.mcitem').querySelector('.itemanswer')?.classList.toggle('show'));
+</script></body></html>

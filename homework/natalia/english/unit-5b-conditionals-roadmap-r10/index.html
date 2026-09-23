@@ -1,0 +1,130 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Natalia Homework</title><style>
+:root{--ink:#263747;--plum:#5f5968;--berry:#9b6b72;--teal:#587f7c;--gold:#b99758;--sky:#7189a2;--mint:#f1f6f4;--rose:#faf2f2;--sun:#faf7ed;--lilac:#f5f3f7;--line:#c7d1d7}
+*{box-sizing:border-box}body{margin:0;background:#f4f1f5;color:var(--ink);font:17px/1.5 Arial,sans-serif}
+main{max-width:1020px;margin:auto;background:#fff;padding:28px 32px 72px;min-height:100vh}
+.hero{border-radius:24px;padding:24px 26px;background:#f6f3f5;border:2px solid #d8c3d7}
+h1{font-size:32px;margin:0 0 5px;color:#533f58}h2{font-size:24px;margin:30px 0 12px;color:#5b4770}
+.num{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#f3d487;color:#493d25;margin-right:8px}
+.card{border:2px solid var(--line);border-radius:20px;padding:17px 18px;margin:13px 0;background:#fff}
+.grammar{background:var(--lilac);border-color:#c4abd0}.speak{background:var(--mint);border-color:#83b8aa}.notice{background:var(--sun);border-color:#e0bd70}.pink{background:var(--rose);border-color:#dca5af}
+.rule{font-size:19px}.pattern{display:inline-block;background:white;border:2px solid #9f83ad;border-radius:12px;padding:6px 10px;font-weight:700;margin:5px 0}
+.target{color:#6b4f76;font-weight:700}
+.choice{display:inline-flex;gap:6px;vertical-align:middle;flex-wrap:wrap}.choice button{margin:0;background:#fff;border:2px solid #879da8}
+button{font:inherit;border-radius:10px;padding:7px 11px;margin:7px 6px 3px 0;cursor:pointer;font-weight:700;border:2px solid #8ba09c;background:#f7fbfa}
+.check{background:#dff2e9}.hint{background:#eaf0fb;border-color:#7f99bd}.answer{background:#fff1d4;border-color:#c89b42}
+input{font:inherit;border:2px solid #8fa7b2;border-radius:9px;padding:6px 8px;width:190px;max-width:100%}
+textarea{font:inherit;width:100%;min-height:60px;border:2px solid #8fa7b2;border-radius:11px;padding:9px;resize:vertical}
+details{background:#fff;border:1.5px solid #c4cdd2;border-radius:12px;padding:9px 12px;margin:8px 0}summary{font-weight:700;cursor:pointer}
+.fb{font-weight:700;margin-left:5px}.micro{font-size:14px;color:#657681}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.word{border:2px solid #ddb563;border-radius:15px;padding:12px;background:#fffaf0}.word b{color:#7d4f27;font-size:18px}
+.audio{background:#edf4fb;border:2px solid #9cb8d3;border-radius:18px;padding:15px}.audio audio{width:100%;margin:8px 0}
+.submit{background:#72516f;color:#fff;border-color:#72516f;padding:10px 18px}
+@media(max-width:700px){main{padding:17px 13px}.grid{grid-template-columns:1fr}.choice{display:inline-flex}h1{font-size:27px}}
+</style></head><body><main>
+<div class="hero"><h1>Homework — connect & use</h1><div>Review of Tuesday + 22 September + preparation for Friday</div></div>
+
+<h2><span class="num">1</span>Choose at the gap</h2>
+<div class="card notice">
+1. <span class="choice"><button onclick="pick(this,true,'h1')">When</button><button onclick="pick(this,false,'h1')">Unless</button></span> I have an early meeting, I usually prepare everything the night before. <span id="h1" class="fb"></span><br><br>
+2. <span class="choice"><button onclick="pick(this,false,'h2')">If</button><button onclick="pick(this,true,'h2')">Unless</button></span> it starts raining, we’ll have lunch outside. <span id="h2" class="fb"></span><br><br>
+3. If the price <span class="choice"><button onclick="pick(this,true,'h3')">goes up</button><button onclick="pick(this,false,'h3')">will go up</button></span> again, I may wait before buying it. <span id="h3" class="fb"></span><br><br>
+4. If Lena finishes early, she <span class="choice"><button onclick="pick(this,true,'h4')">can join</button><button onclick="pick(this,false,'h4')">can to join</button></span> us. <span id="h4" class="fb"></span>
+</div>
+
+<h2><span class="num">2</span>Bring the words back</h2>
+<div class="card"><b>Use:</b> <b>based on</b> · <b>rather than</b> · <b>take advantage of</b> · <b>go up</b><br><br>
+1. The decision was <input id="w1"> the information we had at the time.<button class="check" onclick="chk('w1',['based on'],'wf1')">Check</button><button class="hint" onclick="show('wf1','Two words: the first begins with B.')">Hint</button><button class="answer" onclick="show('wf1','based on')">Correct answer</button><span id="wf1" class="fb"></span><br><br>
+2. I’d walk <input id="w2"> wait twenty minutes for a bus.<button class="check" onclick="chk('w2',['rather than'],'wf2')">Check</button><button class="hint" onclick="show('wf2','Use the phrase for choosing A instead of B.')">Hint</button><button class="answer" onclick="show('wf2','rather than')">Correct answer</button><span id="wf2" class="fb"></span><br><br>
+3. When prices <input id="w3">, I usually compare several options.<button class="check" onclick="chk('w3',['go up'],'wf3')">Check</button><button class="hint" onclick="show('wf3','Two-word phrasal verb meaning increase.')">Hint</button><button class="answer" onclick="show('wf3','go up')">Correct answer</button><span id="wf3" class="fb"></span><br><br>
+4. We had a free afternoon, so we decided to <input id="w4"> the good weather.<button class="check" onclick="chk('w4',['take advantage of'],'wf4')">Check</button><button class="hint" onclick="show('wf4','Three words: use an opportunity for a benefit.')">Hint</button><button class="answer" onclick="show('wf4','take advantage of')">Correct answer</button><span id="wf4" class="fb"></span></div>
+
+<h2><span class="num">3</span>Repair, don't rewrite</h2>
+<div class="card"><b>Write only the part that needs changing — not the whole sentence.</b><br><br>
+1. If Tom will call tonight, I’ll tell him. → <input id="e1"><button class="check" onclick="chk('e1',['calls'],'ef1')">Check</button><button class="hint" onclick="show('ef1','After IF, use Present Simple for the condition.')">Hint</button><button class="answer" onclick="show('ef1','calls')">Correct answer</button><span id="ef1" class="fb"></span><br><br>
+2. Unless the café doesn't close early, we can meet there. → <input id="e2" style="width:230px"><button class="check" onclick="chk('e2',['closes'],'ef2')">Check</button><button class="hint" onclick="show('ef2','UNLESS = IF ... NOT, so do not add another NOT.')">Hint</button><button class="answer" onclick="show('ef2','closes')">Correct answer</button><span id="ef2" class="fb"></span><br><br>
+3. If we finish before six, we may to have time for coffee. → <input id="e3" style="width:230px"><button class="check" onclick="chk('e3',['may have'],'ef3')">Check</button><button class="hint" onclick="show('ef3','After MAY, use the base verb without TO.')">Hint</button><button class="answer" onclick="show('ef3','may have')">Correct answer</button><span id="ef3" class="fb"></span>
+</div>
+
+<h2><span class="num">4</span>Vocabulary — use it</h2>
+<div class="card speak"><b>Finish each sentence with your own idea. There is no single correct answer.</b><br>
+<span class="micro">Keep your answer simple, but make it true for you.</span><br><br>
+1. I last ate <b>shrimp / prawns</b> when <input style="width:55%"><br><br>
+2. I would / wouldn’t buy <b>marrow</b> because <input style="width:55%"><br><br>
+3. If I see fresh <b>chanterelles</b>, <input style="width:55%"><br><br>
+4. I enjoy <b>silence</b> when <input style="width:55%"></div>
+
+<h2><span class="num">5</span>Listening — choose an event</h2>
+<div class="card">
+<p><b>Source:</b> Roadmap B1 · Student’s Book · Unit 5 · Recording 10 · SB p.100. Audio: RM_B1_SB_U05_R10.mp3.</p>
+<p><b>Listen twice.</b> You will hear announcements about activities at a food event. Don’t try to catch every word.</p>
+<audio id="roadmapAudio" controls preload="metadata" style="width:100%"><source src="RM_B1_SB_U05_R10.mp3" type="audio/mpeg"></audio>
+<button class="hint" onclick="let a=document.getElementById('roadmapAudio');a.currentTime=Math.max(0,a.currentTime-5)">↶ 5 sec</button>
+<h3>First listen — main idea</h3>
+<p>Which activity would you personally be most likely to choose? Write the activity only.</p>
+<input id="l1" style="width:min(100%,520px)" placeholder="Activity: ...">
+<button class="hint" onclick="show('lf1','Listen for the type of activity, not every detail.')">Hint</button><span id="lf1" class="fb"></span>
+<h3>Second listen — complete the table</h3>
+<p class="micro">Write short notes. You do not need full sentences.</p>
+<div style="overflow-x:auto">
+<table style="width:100%;border-collapse:collapse;table-layout:fixed">
+<tr>
+<th style="text-align:left;padding:9px;border-bottom:1px solid #ccd3d6">What</th>
+<th style="text-align:left;padding:9px;border-bottom:1px solid #ccd3d6">When</th>
+<th style="text-align:left;padding:9px;border-bottom:1px solid #ccd3d6">Where</th>
+<th style="text-align:left;padding:9px;border-bottom:1px solid #ccd3d6">Other info</th>
+</tr>
+<tr>
+<td style="padding:7px"><textarea id="l2a" rows="3" style="min-height:76px;resize:vertical" placeholder="event / activity"></textarea></td>
+<td style="padding:7px"><textarea id="l2b" rows="3" style="min-height:76px;resize:vertical"></textarea></td>
+<td style="padding:7px"><textarea id="l2c" rows="3" style="min-height:76px;resize:vertical"></textarea></td>
+<td style="padding:7px"><textarea id="l2d" rows="3" style="min-height:76px;resize:vertical"></textarea></td>
+</tr>
+<tr>
+<td style="padding:7px"><textarea id="l3a" rows="3" style="min-height:76px;resize:vertical" placeholder="event / activity"></textarea></td>
+<td style="padding:7px"><textarea id="l3b" rows="3" style="min-height:76px;resize:vertical"></textarea></td>
+<td style="padding:7px"><textarea id="l3c" rows="3" style="min-height:76px;resize:vertical"></textarea></td>
+<td style="padding:7px"><textarea id="l3d" rows="3" style="min-height:76px;resize:vertical"></textarea></td>
+</tr>
+</table>
+</div>
+<p><b>After listening:</b> Which of the two events would you choose? Why?</p>
+<textarea id="l4" placeholder="I’d choose ... because ..."></textarea>
+<details open><summary>Script — check after listening</summary>
+<p><b>Announcement 1</b><br>
+Join one of our walks with expert Tom Bennett. Learn how to find safe mushrooms and other wild food. Walks last one hour and tickets cost £8. The 1.30–2.30 session is sold out. There are only a few places left on the 3.30–4.30 session, so hurry and get your tickets. You can buy them at the Organisers’ Tent. Meet your guide at the entrance to TreeZone at 3.30 and start your wild adventure.</p>
+<p><b>Announcement 2</b><br>
+Best-selling TV cook and writer Sarah Conran will sign copies of her new book at 3 p.m. Join Sarah in the Restaurant Tent in the Food and Drink area at 3 o’clock and get your own personal signed copy of <i>Quick and Easy Recipes</i>. Sarah’s latest book is a must for all of us who live busy lives. It’s full of healthy and delicious dishes and the good news is you can make them all in only fifteen minutes!</p>
+<p><b>Announcement 3</b><br>
+We hope you’re all enjoying our great programme of live music today. At 5 p.m. on the Live Music Stage we have Andy Carson. Andy’s a young singer and rap artist with a great future ahead of him. Give him a big welcome on the Live Stage. He’s on from five til six. If you prefer the sounds of the 60s and 70s, we have the Swindon Soul Sisters. Enjoy pop and soul from 5 p.m. til 6 p.m. live in the Music Tent with the Swindon Soul Sisters.</p>
+<p class="micro"><b>Source:</b> Roadmap B1 · Student’s Book · Unit 5 · Recording 10 · p.100.</p>
+</details>
+</div>
+<h2><span class="num">6</span>One supported answer</h2>
+<div class="card speak"><b>You have a free Saturday afternoon. Build your answer in three small steps.</b><br><br>
+Choose: <span class="choice"><button>go somewhere</button><button>meet someone</button><button>stay at home</button></span><br><br>
+Condition: <span class="choice"><button>If the weather is good, ...</button><button>Unless I’m tired, ...</button><button>If a friend is free, ...</button></span><br><br>
+Your complete answer:<textarea></textarea>
+<details><summary>Useful language from your vocabulary — choose 1–2 only if they fit</summary>
+<b>take advantage of</b> the good weather · <b>rather than</b> stay at home · choose somewhere <b>lively</b> · <b>suggest</b> meeting somewhere · it <b>depends on</b> the weather · <b>on the other hand</b>, …<br>
+<span class="micro">You can also use <b>I’ll / I might / I can</b>, but the aim is to bring some of your older vocabulary into a real answer.</span>
+</details></div>
+
+<div class="card notice"><b>Before sending:</b> check that every open field you wanted to answer is complete. Your answers are saved automatically on this device.<br>
+<button class="submit" onclick="submitHW()">Submit / prepare answers for Irina</button>
+<div class="micro">The button saves your work and prepares the answers for sending.</div></div>
+<script>
+function norm(x){return x.trim().toLowerCase().replace(/[’']/g,"'").replace(/\s+/g,' ')}
+function pick(b,ok,id){b.parentNode.querySelectorAll('button').forEach(x=>x.style.background='#fff');b.style.background=ok?'#dff2e9':'#ffe3e5';document.getElementById(id).textContent=ok?' ✓':' Try again'}
+function chk(id,answers,out){let e=document.getElementById(id),ok=answers.map(norm).includes(norm(e.value));e.style.borderColor=ok?'#4b9475':'#c66066';document.getElementById(out).textContent=ok?' ✓':' Try again'}
+function show(id,t){document.getElementById(id).textContent=' '+t}
+function back5(){let a=document.getElementById('aud');a.currentTime=Math.max(0,a.currentTime-5)}
+function save(){document.querySelectorAll('input,textarea').forEach((e,i)=>localStorage.setItem('nat_hw_'+i,e.value));}
+function restore(){document.querySelectorAll('input,textarea').forEach((e,i)=>{let v=localStorage.getItem('nat_hw_'+i);if(v!==null)e.value=v});}
+function submitHW(){
+ save();
+ let rows=[];document.querySelectorAll('input,textarea').forEach((e,i)=>{if(e.value.trim())rows.push((i+1)+'. '+e.value.trim())});
+ let text='Natalia — homework\\n\\n'+rows.join('\\n');
+ navigator.clipboard.writeText(text).then(()=>alert('Answers are saved and copied. Paste them into your message to Irina.')).catch(()=>alert('Answers are saved on this device.'));
+}
+window.addEventListener('load',restore);document.addEventListener('input',save);
+</script></main></body></html>

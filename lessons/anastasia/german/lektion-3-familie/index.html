@@ -1,0 +1,134 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Anastasia · Deutsch A1 · Lektion 3 v2</title>
+<style>
+:root{--bg:#f5f3ee;--card:#fff;--ink:#242424;--muted:#696761;--line:#ddd8ce;--blue:#435f7d;--soft:#edf2f6;--vio:#eee9f4;--ok:#39724f;--bad:#9a4d4d;--warm:#fff8ed}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16.5px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+main{max-width:920px;margin:auto;padding:20px 14px 70px}.hero{background:#293c50;color:white;padding:24px;border-radius:20px}.hero h1{font-size:38px;margin:4px 0}.small{font-size:13px;color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:19px;margin:14px 0;box-shadow:0 2px 10px #00000008}h2{font-size:24px;margin:0 0 5px}.sub{color:var(--muted);margin:0 0 14px}
+.tag{display:inline-block;padding:3px 8px;border-radius:999px;background:var(--soft);font-size:12px;margin-right:4px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.item{border:1px solid var(--line);border-radius:13px;padding:13px}.item p{margin:6px 0}.compact{margin:7px 0}
+button{border:0;border-radius:9px;padding:8px 11px;font-weight:650;cursor:pointer;background:#e7edf3;color:#2e4761;margin:4px 4px 4px 0}.primary{background:var(--blue);color:#fff}.help{background:var(--vio);color:#594974}.answer{display:none}
+input,select,textarea{font:inherit;border:1px solid #cfc9c0;border-radius:9px;padding:9px 10px;background:#fff}input{width:min(100%,220px)}textarea{width:100%;min-height:88px}
+.hint,.ans,.meaning,.ru{display:none;border-radius:9px;padding:9px 11px;margin-top:7px}.hint{background:#f3eef7;color:#594a70}.ans{background:#eef3f7}.meaning{background:#f4f6f7}.ru{background:#f5f1ea}
+.feedback{font-weight:650;min-height:22px;margin-top:6px}.ok{color:var(--ok)}.bad{color:var(--bad)}
+.rule{background:#f1f5f8;border-left:5px solid #68809b;border-radius:12px;padding:14px;margin:12px 0}.rule table{width:100%;border-collapse:collapse}.rule th,.rule td{padding:6px;text-align:left;border-bottom:1px solid #dfe4e8}
+.teacher{background:var(--warm);border-left:5px solid #b38a54}.writebox{margin-top:10px}
+.syllable{font-size:18px;min-width:55px;background:#f1f2f3;color:#252525;transition:.15s}.syllable.stressed{font-size:26px;font-weight:800;background:#e4ebf2;transform:translateY(-1px)}
+.tree{display:grid;grid-template-columns:repeat(12,1fr);gap:8px;align-items:center;margin:14px 0}.person{background:#f4f1eb;border:1px solid #ded8cd;border-radius:13px;text-align:center;padding:10px 5px;min-height:64px}.p1{grid-column:2/5}.p2{grid-column:9/12}.p3{grid-column:1/4}.p4{grid-column:4/7}.p5{grid-column:7/10}.p6{grid-column:10/13}.line{height:2px;background:#c6bfb3;grid-column:3/11}.jan{outline:2px solid #6f879f}
+.scale{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}.scale div{text-align:center;border-radius:14px;padding:13px 6px;background:#f2f4f5}.dots{font-size:24px;letter-spacing:1px;color:#536f8b}
+details{border-top:1px solid var(--line);padding-top:9px;margin-top:10px}summary{font-weight:650;cursor:pointer}
+@media(max-width:650px){.grid2,.scale{grid-template-columns:1fr}.tree{display:grid;grid-template-columns:1fr 1fr}.person,.p1,.p2,.p3,.p4,.p5,.p6,.line{grid-column:auto}.line{display:none}.hero h1{font-size:31px}}
+.wordstress{display:flex;align-items:baseline;gap:0}.wordstress .syllable{background:transparent;color:#252525;margin:0;padding:2px 1px;min-width:0;font-size:21px;font-weight:500}.wordstress .syllable.stressed{font-size:29px;font-weight:800;color:#435e7c}.wordstress .syllable.wrong{text-decoration:underline;text-decoration-color:#a14f4f;text-decoration-thickness:2px}
+.familytree{margin:16px auto;max-width:800px}.generation{display:flex;justify-content:space-around;gap:28px}.couplebox,.childgroup{display:flex;align-items:center;justify-content:center;gap:8px}.familytree .person{min-width:120px}.familytree .person span{display:block;color:#6d6a65}.pairline{width:28px;height:2px;background:#aaa298}.downline{height:22px;width:2px;background:#aaa298;margin:auto}.splitline{height:2px;background:#aaa298;width:55%;margin:auto}.childrenlines{display:grid;grid-template-columns:1fr 1fr}.childrenlines div{height:22px;width:2px;background:#aaa298;margin:auto}.focus{outline:2px solid #6f879f}
+.grammargrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.grammargrid>div{background:white;border:1px solid #d9e0e5;border-radius:10px;padding:10px}.ending{font-weight:900;color:#77558b;font-size:1.12em}.qrow{padding:12px 0;border-top:1px solid #ece7df}.qrow:first-child{border-top:0}.localfb{font-size:14px;margin-top:5px}.localhint,.localans{display:none;margin-top:6px;padding:7px 9px;border-radius:8px}.localhint{background:#f3eef7}.localans{background:#eef3f7}.dochword{font-size:1.2em;font-weight:900;color:#77558b}.scale{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.scale div{text-align:center;background:#f1f4f6;border-radius:13px;padding:12px 5px}.dots{font-size:22px;color:#536f8b}@media(max-width:650px){.grammargrid,.scale{grid-template-columns:1fr}.generation{gap:8px}.familytree .person{min-width:95px}}
+.qgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.qgrid .qrow{border:1px solid #ece7df;border-radius:12px;padding:12px}.articlemark{font-weight:900;color:#77558b;background:#f1eaf5;border-radius:5px;padding:1px 4px}@media(max-width:650px){.qgrid{grid-template-columns:1fr}}
+</style></head><body><main>
+<section class="hero"><div class="small" style="color:#dce5ef">Anastasia · Deutsch A1 · Momente A1 · KB S. 19–28</div><h1>Das ist meine Schwester.</h1><div>Familie · mein/dein · ja/nein/doch · Sprachen · Wortakzent</div></section>
+
+<section class="card"><span class="tag">WIEDERHOLUNG</span><h2>Kurz zurück</h2><p class="sub">Erinnern Sie sich an die Wörter aus der letzten Stunde.</p>
+<div class="grid2">
+<div class="item"><b>1.</b> Wo arbeitet eine Juristin?<p><input id="r1" placeholder="K..."></p><button class="help" onclick="tog('h1')">Hinweis</button><div class="hint" id="h1">Ein Büro für Rechtsanwälte und Juristen.</div></div>
+<div class="item"><b>2.</b> 12 = ?<p><input id="r2"></p><button class="help" onclick="tog('h2')">Hinweis</button><div class="hint" id="h2">Das Wort beginnt mit <b>zw-</b>.</div></div>
+<div class="item"><b>3.</b> ein Bild → zwei …<p><input id="r3"></p><button class="help" onclick="tog('h3')">Hinweis</button><div class="hint" id="h3">Plural: Bild + <b>-er</b>.</div></div>
+<div class="item"><b>4.</b> to play = ?<p><input id="r4"></p><button class="help" onclick="tog('h4')">Hinweis</button><div class="hint" id="h4">sp…en</div></div>
+</div>
+<button class="primary" onclick="retr()">Prüfen</button><button class="answer" id="rab" onclick="tog('rans')">Antworten zeigen</button><div id="rf" class="feedback"></div><div id="rans" class="ans">Kanzlei · zwölf · Bilder · spielen</div>
+<p class="small">Keine deutsche Tastatur? ä = ae · ö = oe · ü = ue ist auch richtig.</p></section>
+
+<section class="card"><span class="tag">AUSSPRACHE</span><h2>Wo ist der Wortakzent?</h2><p class="sub">Klicken Sie auf die betonte Silbe. Erst nach dem Klick wird sie größer.</p>
+<div class="grid2">
+<div class="item"><div class="wordstress"><button class="syllable" onclick="stress(this,true)">spiel</button><button class="syllable" onclick="stress(this,false)">en</button></div></div>
+<div class="item"><div class="wordstress"><button class="syllable" onclick="stress(this,false)">stu</button><button class="syllable" onclick="stress(this,true)">die</button><button class="syllable" onclick="stress(this,false)">ren</button></div></div>
+<div class="item"><div class="wordstress"><button class="syllable" onclick="stress(this,true)">Früh</button><button class="syllable" onclick="stress(this,false)">stück</button></div></div>
+<div class="item"><div class="wordstress"><button class="syllable" onclick="stress(this,false)">Kanz</button><button class="syllable" onclick="stress(this,true)">lei</button></div></div>
+<div class="item"><div class="wordstress"><button class="syllable" onclick="stress(this,false)">Fa</button><button class="syllable" onclick="stress(this,true)">mi</button><button class="syllable" onclick="stress(this,false)">lie</button></div></div>
+<div class="item"><div class="wordstress"><button class="syllable" onclick="stress(this,true)">Ös</button><button class="syllable" onclick="stress(this,false)">ter</button><button class="syllable" onclick="stress(this,false)">reich</button></div></div>
+</div>
+<div class="rule"><b>Merken</b><div class="compact">Viele einfache deutsche Wörter haben den Akzent am Anfang. Bei Verben auf <b>-ieren</b> ist <b>-ier-</b> betont: studieren.</div></div>
+<div class="teacher card"><b>MIT DER LEHRERIN · Sprechchallenge</b><p>Spielen Spieler Spiele? — Ja, Spieler spielen Spiele.</p><textarea class="writebox" placeholder="Notizen / Aussprache / ein schwieriges Wort"></textarea></div></section>
+
+<section class="card"><span class="tag">KB S. 19–20</span><h2>Jans Familie</h2><p class="sub">Wer ist wer? Sprechen Sie zuerst über das Bild.</p>
+<div class="familytree">
+<div class="generation grandparents"><div class="couplebox"><div class="person"><b>Dorothea</b><span>Großmutter / Oma</span></div><div class="pairline"></div><div class="person"><b>Otto</b><span>Großvater / Opa</span></div></div></div>
+<div class="downline"></div>
+<div class="generation adults"><div class="couplebox"><div class="person"><b>Aleksandra</b><span>Mutter</span></div><div class="pairline"></div><div class="person"><b>Frank</b><span>Vater</span></div></div></div>
+<div class="downline"></div>
+<div class="generation children"><div class="childgroup"><div class="person focus"><b>Jan</b><span>ich</span></div><div class="person"><b>Line</b><span>Schwester</span></div></div></div>
+</div>
+<div class="rule"><b>Familien-Wortschatz · zusätzlich</b><div class="grid2" style="margin-top:9px"><div>Bruder/Schwester von Mutter oder Vater → <b>Onkel / Tante</b></div><div>Sohn/Tochter von Bruder oder Schwester → <b>Neffe / Nichte</b></div><div>Sohn/Tochter des eigenen Kindes → <b>Enkel / Enkelin</b></div><div>Vater/Mutter von Mutter oder Vater → <b>Großvater / Großmutter</b></div></div></div>
+<p class="small">Eigene schematische Darstellung nach Momente A1, Lektion 3.</p>
+<p><b>Sagen Sie:</b> Ich glaube, Dorothea ist Jans Oma. · Line ist Jans …</p>
+<div class="grid2">
+<div class="item"><b>der Großvater / Opa</b><button onclick="tog('m1')">Bedeutung</button><div class="meaning" id="m1">grandfather<button onclick="tog('ru1')">Русский</button><div class="ru" id="ru1">дедушка</div></div></div>
+<div class="item"><b>die Großmutter / Oma</b><button onclick="tog('m2')">Bedeutung</button><div class="meaning" id="m2">grandmother<button onclick="tog('ru2')">Русский</button><div class="ru" id="ru2">бабушка</div></div></div>
+<div class="item"><b>die Tante</b><button onclick="tog('m3')">Bedeutung</button><div class="meaning" id="m3">aunt<button onclick="tog('ru3')">Русский</button><div class="ru" id="ru3">тётя</div></div></div>
+<div class="item"><b>der Neffe</b><button onclick="tog('m4')">Bedeutung</button><div class="meaning" id="m4">nephew<button onclick="tog('ru4')">Русский</button><div class="ru" id="ru4">племянник</div></div></div>
+<div class="item"><b>die Nichte</b><button onclick="tog('m5')">Bedeutung</button><div class="meaning" id="m5">niece<button onclick="tog('ru5')">Русский</button><div class="ru" id="ru5">племянница</div></div></div>
+<div class="item"><b>der Enkel / die Enkelin</b><button onclick="tog('m6')">Bedeutung</button><div class="meaning" id="m6">grandson / granddaughter<button onclick="tog('ru6')">Русский</button><div class="ru" id="ru6">внук / внучка</div></div></div>
+</div>
+<p class="small">Eigene schematische Darstellung nach Momente A1, Lektion 3, S. 19–20. Keine Buchabbildung kopiert.</p></section>
+
+<section class="card"><span class="tag">GRAMMATIK</span><h2>mein oder meine? dein oder deine?</h2>
+<div class="rule"><b>Das Prinzip</b><div class="grammargrid"><div><strong>maskulin</strong><br>mein Vater<br>dein Vater<br><span class="small">Endung: Ø</span></div><div><strong>feminin</strong><br>mein<span class="ending">e</span> Schwester<br>dein<span class="ending">e</span> Schwester<br><span class="ending">-e</span></div><div><strong>Plural</strong><br>mein<span class="ending">e</span> Eltern<br>dein<span class="ending">e</span> Kinder<br><span class="ending">-e</span></div></div></div>
+<div id="poss" class="qgrid">
+<div class="qrow">1. Ist das <select data-a="dein"><option></option><option>dein</option><option>deine</option></select> Vater?<div class="localfb"></div><div class="localhint">Vater = maskulin → keine Endung.</div><div class="localans">Richtig: <b>dein Vater</b></div></div>
+<div class="qrow">2. Das ist <select data-a="meine"><option></option><option>mein</option><option>meine</option></select> Schwester.<div class="localfb"></div><div class="localhint">Schwester = feminin → <b>-e</b>.</div><div class="localans">Richtig: <b>meine Schwester</b></div></div>
+<div class="qrow">3. Sind das <select data-a="deine"><option></option><option>dein</option><option>deine</option></select> Eltern?<div class="localfb"></div><div class="localhint">Eltern = Plural → <b>-e</b>.</div><div class="localans">Richtig: <b>deine Eltern</b></div></div>
+<div class="qrow">4. Das ist <select data-a="mein"><option></option><option>mein</option><option>meine</option></select> Onkel.<div class="localfb"></div><div class="localhint">Onkel = maskulin → keine Endung.</div><div class="localans">Richtig: <b>mein Onkel</b></div></div></div>
+<button class="primary" onclick="checkRows('poss')">Prüfen</button></section>
+
+<section class="card"><span class="tag">KB S. 21</span><h2>Ja, nein oder <span class="dochword">DOCH</span>?</h2>
+<div class="rule"><p><b>Positive Frage:</b> Ist das deine Schwester? → <b>Ja.</b> / <b>Nein.</b></p><p><b>Negative Frage / Aussage:</b> Du bist nicht verheiratet, oder?</p><p><span class="dochword">Doch!</span> = Die negative Aussage ist falsch. Sie widersprechen.</p></div>
+<div id="dochq">
+<div class="qrow">1. Ist Otto dein Vater? — <select data-a="nein"><option></option><option>ja</option><option>nein</option><option>doch</option></select>, das ist mein Opa.<div class="localfb"></div><div class="localhint">Positive Frage, aber die Information ist falsch.</div><div class="localans">Richtig: <b>Nein.</b></div></div>
+<div class="qrow">2. Ist Line deine Schwester? — <select data-a="ja"><option></option><option>ja</option><option>nein</option><option>doch</option></select>, das ist meine Schwester.<div class="localfb"></div><div class="localhint">Positive Frage + richtige Information.</div><div class="localans">Richtig: <b>Ja.</b></div></div>
+<div class="qrow">3. Du sprichst nicht Englisch, oder? — <select data-a="doch"><option></option><option>ja</option><option>nein</option><option>doch</option></select>, ich spreche Englisch.<div class="localfb"></div><div class="localhint">Sie widersprechen einer negativen Aussage.</div><div class="localans">Richtig: <b>Doch.</b></div></div>
+<div class="qrow">4. Ist Martin dein Bruder? — <select data-a="nein"><option></option><option>ja</option><option>nein</option><option>doch</option></select>, das ist mein Onkel.<div class="localfb"></div><div class="localhint">Positive Frage, falsche Beziehung.</div><div class="localans">Richtig: <b>Nein.</b></div></div></div>
+<button class="primary" onclick="checkRows('dochq')">Prüfen</button>
+<div class="teacher card" style="margin-bottom:0"><b>MIT DER LEHRERIN</b><p>Antworten Sie spontan mit <b>ja</b>, <b>nein</b> oder <b>doch</b>. Dann schreiben wir einen guten ganzen Satz.</p>
+<div class="grid2"><div class="item">Sie lernen nicht Englisch, oder?</div><div class="item">Sie lernen auch Deutsch, oder?</div><div class="item">Sie sprechen sechs Sprachen, oder?</div><div class="item">Sie arbeiten nicht als Juristin, oder?</div></div>
+<textarea placeholder="Antworten / Korrekturen / neue Wörter"></textarea></div>
+
+<section class="card"><span class="tag">SPRECHEN</span><h2>Meine Familie — ohne Mustertext</h2><p class="sub">Wählen Sie eine echte oder erfundene Person. Sagen Sie 3–4 Informationen.</p>
+<p>💬 Name · Familie · Alter · Beruf · Wohnort</p><textarea placeholder="Das ist ..."></textarea><button class="help" onclick="tog('famhelp')">Hinweis</button><div id="famhelp" class="hint">Das ist mein/meine … · Er/Sie ist … Jahre alt. · Er/Sie arbeitet als … · Er/Sie wohnt in …</div>
+<details><summary>Beispiel erst nach dem Sprechen zeigen</summary><p>Das ist meine Schwester. Sie ist 31 Jahre alt. Sie wohnt in Wien und arbeitet als Lehrerin.</p></details></section>
+
+<section class="card"><span class="tag">KB S. 22</span><h2>Welche Sprachen sprechen Sie?</h2>
+<div class="rule"><b>sprechen</b><p>ich <b>spreche</b> · du <b>sprichst</b> · er/sie <b>spricht</b> · Sie <b>sprechen</b></p></div>
+<h3>Wie gut?</h3><div class="scale"><div><div class="dots">●●●●</div><b>sehr gut</b></div><div><div class="dots">●●●○</div><b>gut</b></div><div><div class="dots">●●○○</div><b>ein bisschen</b></div><div><div class="dots">○○○○</div><b>gar nicht</b></div></div>
+<h3>Von Daten zu Sätzen</h3><div id="langs" class="qgrid">
+<div class="qrow">Marta: 🇩🇪 ●●●● · 🇬🇧 ●●○○<br><input data-a="spricht sehr gut deutsch und ein bisschen englisch" placeholder="Marta ..."><div class="localfb"></div><div class="localhint">Niveau + Sprache: <b>sehr gut Deutsch</b>.</div><div class="localans">Marta <b>spricht sehr gut Deutsch und ein bisschen Englisch.</b></div></div>
+<div class="qrow">Leo: 🇩🇪 ●●●○ · 🇫🇷 ○○○○<br><input data-a="spricht gut deutsch und gar nicht franzoesisch" placeholder="Leo ..."><div class="localfb"></div><div class="localhint">Deutsch: gut. Französisch: gar nicht.</div><div class="localans">Leo <b>spricht gut Deutsch und gar nicht Französisch.</b></div></div></div>
+<button class="primary" onclick="checkTextRows('langs')">Prüfen</button>
+<div class="teacher card" style="margin-bottom:0"><b>MIT DER LEHRERIN</b><p><b>Welche Sprachen sprechen Sie? Wie gut?</b></p><textarea placeholder="Ich spreche ..."></textarea></div>
+
+<section class="card"><span class="tag">KB S. 23</span><h2>Drei Profile</h2><p class="sub">Lesen Sie Daten statt fertiger Sätze. Stellen Sie eine Person vor.</p>
+<div class="grid2">
+<div class="item"><b>Shirin</b><p><b>Alter:</b> 24<br><b>Herkunft:</b> Hamburg<br><b>Wohnort:</b> Schweden<br><b>Studium:</b> Robotik<br><b>Sprachen:</b> Deutsch, Englisch, ein bisschen Schwedisch</p></div>
+<div class="item"><b>Josef</b><p><b>Alter:</b> 28<br><b>Herkunft:</b> Aachen<br><b>Wohnort:</b> Sydney<br><b>Beruf:</b> Ingenieur<br><b>Familie:</b> verheiratet, keine Kinder</p></div>
+<div class="item"><b>Saliha</b><p><b>Alter:</b> 21<br><b>Herkunft:</b> Kanada<br><b>Wohnort:</b> <span class="articlemark">die</span> Schweiz<br><b>Ausbildung:</b> Konditorin / Chocolatière<br><b>Sprachen:</b> Französisch, Englisch, Deutsch, Türkisch</p></div>
+<div class="item"><b>Notizen</b><textarea placeholder="Schreibweise / Aussprache / Korrekturen"></textarea></div></div>
+<div class="rule"><b>Länder: kleine Beobachtung</b><p>Deutschland → <b>in Deutschland</b><br>Österreich → <b>in Österreich</b><br><b>die Schweiz</b> → <b>in der Schweiz</b> / <b>aus der Schweiz</b></p><p class="small">Heute als feste Verbindung lernen — noch keine große Dativ-Regel.</p></div>
+<div class="teacher card" style="margin-bottom:0"><b>MIT DER LEHRERIN · Informationen finden</b><p>Hören Sie die Frage Ihrer Lehrerin und finden Sie die Information im richtigen Profil. Antworten Sie kurz.</p>
+<div class="grid2"><div class="item">Wo wohnt Saliha?</div><div class="item">Wer studiert Robotik?</div><div class="item">Welche Sprachen spricht Shirin?</div><div class="item">Wer ist verheiratet?</div></div>
+<textarea placeholder="Neue Wörter / Korrekturen"></textarea></div>
+
+<section class="card"><span class="tag">KB S. 24–26</span><span class="tag">RESERVE</span><h2>Menschen, Berufe, Familiennamen</h2><p class="sub">Keine Geografie-Abfrage. Wir verbinden Bekanntes mit einer kleinen kulturellen Entdeckung.</p>
+<p><b>Welche Wörter kennen Sie als Beruf?</b></p><div id="names" class="grid2">
+<label class="item"><input type="checkbox" data-good="1"> Müller</label><label class="item"><input type="checkbox" data-good="1"> Fischer</label><label class="item"><input type="checkbox" data-good="1"> Schneider</label><label class="item"><input type="checkbox" data-good="1"> Weber</label><label class="item"><input type="checkbox" data-good="1"> Schmied</label><label class="item"><input type="checkbox" data-good="0"> Hansen</label></div>
+<button class="primary" onclick="names()">Prüfen</button><button onclick="tog('nans')">Antworten zeigen</button><div id="nf" class="feedback"></div><div id="nans" class="ans">Müller · Fischer · Schneider · Weber · Schmied. Diese alten Berufsbezeichnungen kommen auch als Familiennamen vor.</div></section>
+
+<section class="card"><span class="tag">ABSCHLUSS</span><h2>Heute kann ich …</h2><label><input type="checkbox"> über Familie sprechen</label><br><label><input type="checkbox"> mein/dein wählen</label><br><label><input type="checkbox"> ja/nein/doch unterscheiden</label><br><label><input type="checkbox"> über Sprachen sprechen</label><br><label><input type="checkbox"> Wortakzent bewusster hören</label></section>
+</main>
+<script>
+function norm(s){return s.trim().toLowerCase().replaceAll("ä","ae").replaceAll("ö","oe").replaceAll("ü","ue").replaceAll("ß","ss")}
+function tog(id){let e=document.getElementById(id);e.style.display=e.style.display==="block"?"none":"block"}
+function retr(){let ok=norm(r1.value)=="kanzlei"&&norm(r2.value)=="zwoelf"&&norm(r3.value)=="bilder"&&norm(r4.value)=="spielen";rf.textContent=ok?"✓ Richtig.":"Noch nicht alles. Nutzen Sie die Hinweise oder zeigen Sie die Antworten.";rf.className="feedback "+(ok?"ok":"bad");if(!ok)rab.style.display="inline-block"}
+function stress(b,ok){let group=b.parentElement.querySelectorAll(".syllable");group.forEach(x=>x.classList.remove("stressed"));if(ok)b.classList.add("stressed");else{b.style.outline="2px solid #9a4d4d";setTimeout(()=>b.style.outline="",500)}}
+function sel(id,f,b){let ok=true;document.querySelectorAll("#"+id+" select").forEach(x=>{if(x.value!==x.dataset.a)ok=false});let e=document.getElementById(f);e.textContent=ok?"✓ Richtig.":"Noch einmal versuchen.";e.className="feedback "+(ok?"ok":"bad");if(!ok)document.getElementById(b).style.display="inline-block"}
+function speak(){let ok=norm(s1.value)=="spreche"&&norm(s2.value)=="spricht";sf.textContent=ok?"✓ Richtig.":"Prüfen Sie die Person: ich / sie.";sf.className="feedback "+(ok?"ok":"bad");if(!ok)sab.style.display="inline-block"}
+function names(){let ok=true;document.querySelectorAll("#names input").forEach(x=>{if(x.checked!=(x.dataset.good=="1"))ok=false});nf.textContent=ok?"✓ Richtig.":"Noch nicht ganz. Sie können die Antworten zeigen.";nf.className="feedback "+(ok?"ok":"bad")}
+function addAnswerButton(f,a){if(f.querySelector("button"))return;let b=document.createElement("button");b.textContent="Antwort zeigen";b.onclick=()=>a.style.display="block";f.appendChild(b)}
+function checkRows(id){document.querySelectorAll("#"+id+" .qrow").forEach(r=>{let x=r.querySelector("select"),f=r.querySelector(".localfb"),h=r.querySelector(".localhint"),a=r.querySelector(".localans"),ok=x.value===x.dataset.a;f.innerHTML=ok?"✓ Richtig.":"Noch nicht. ";f.className="localfb "+(ok?"ok":"bad");h.style.display=ok?"none":"block";a.style.display="none";if(!ok)addAnswerButton(f,a)})}
+function checkTextRows(id){document.querySelectorAll("#"+id+" .qrow").forEach(r=>{let x=r.querySelector("input"),f=r.querySelector(".localfb"),h=r.querySelector(".localhint"),a=r.querySelector(".localans"),ok=norm(x.value)===norm(x.dataset.a);f.innerHTML=ok?"✓ Richtig.":"Noch nicht. ";f.className="localfb "+(ok?"ok":"bad");h.style.display=ok?"none":"block";a.style.display="none";if(!ok)addAnswerButton(f,a)})}
+</script></body></html>

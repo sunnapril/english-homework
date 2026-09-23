@@ -1,0 +1,99 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Natalia Friday</title><style>
+:root{--ink:#263747;--plum:#5f5968;--berry:#9b6b72;--teal:#587f7c;--gold:#b99758;--sky:#7189a2;--mint:#f1f6f4;--rose:#faf2f2;--sun:#faf7ed;--lilac:#f5f3f7;--line:#c7d1d7}
+*{box-sizing:border-box}body{margin:0;background:#f4f1f5;color:var(--ink);font:17px/1.5 Arial,sans-serif}
+main{max-width:1020px;margin:auto;background:#fff;padding:28px 32px 72px;min-height:100vh}
+.hero{border-radius:24px;padding:24px 26px;background:#f6f3f5;border:2px solid #d8c3d7}
+h1{font-size:32px;margin:0 0 5px;color:#533f58}h2{font-size:24px;margin:30px 0 12px;color:#5b4770}
+.num{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#f3d487;color:#493d25;margin-right:8px}
+.card{border:2px solid var(--line);border-radius:20px;padding:17px 18px;margin:13px 0;background:#fff}
+.grammar{background:var(--lilac);border-color:#c4abd0}.speak{background:var(--mint);border-color:#83b8aa}.notice{background:var(--sun);border-color:#e0bd70}.pink{background:var(--rose);border-color:#dca5af}
+.rule{font-size:19px}.pattern{display:inline-block;background:white;border:2px solid #9f83ad;border-radius:12px;padding:6px 10px;font-weight:700;margin:5px 0}
+.target{color:#6b4f76;font-weight:700}
+.choice{display:inline-flex;gap:6px;vertical-align:middle;flex-wrap:wrap}.choice button{margin:0;background:#fff;border:2px solid #879da8}
+button{font:inherit;border-radius:10px;padding:7px 11px;margin:7px 6px 3px 0;cursor:pointer;font-weight:700;border:2px solid #8ba09c;background:#f7fbfa}
+.check{background:#dff2e9}.hint{background:#eaf0fb;border-color:#7f99bd}.answer{background:#fff1d4;border-color:#c89b42}
+input{font:inherit;border:2px solid #8fa7b2;border-radius:9px;padding:6px 8px;width:190px;max-width:100%}
+textarea{font:inherit;width:100%;min-height:60px;border:2px solid #8fa7b2;border-radius:11px;padding:9px;resize:vertical}
+details{background:#fff;border:1.5px solid #c4cdd2;border-radius:12px;padding:9px 12px;margin:8px 0}summary{font-weight:700;cursor:pointer}
+.fb{font-weight:700;margin-left:5px}.micro{font-size:14px;color:#657681}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.word{border:2px solid #ddb563;border-radius:15px;padding:12px;background:#fffaf0}.word b{color:#7d4f27;font-size:18px}
+.audio{background:#edf4fb;border:2px solid #9cb8d3;border-radius:18px;padding:15px}.audio audio{width:100%;margin:8px 0}
+.submit{background:#72516f;color:#fff;border-color:#72516f;padding:10px 18px}
+@media(max-width:700px){main{padding:17px 13px}.grid{grid-template-columns:1fr}.choice{display:inline-flex}h1{font-size:27px}}
+</style></head><body><main>
+<div class="hero"><h1>Real choices, real results</h1><div>Friday · Roadmap B1 grammar core · 0 & 1 conditionals → when / unless → modal results</div></div>
+
+<h2><span class="num">1</span>Start with a choice <span class="micro">6–7 min</span></h2>
+<div class="card speak"><b>Choose the option closest to you. Then change one detail so the sentence is exactly true for you.</b><br><br>
+A. If I get a free evening this week, <span class="choice"><button>I’ll stay in.</button><button>I’ll meet someone.</button><button>I might go out.</button></span><br>
+<textarea placeholder="Make one detail true: If I get a free evening this week, ..."></textarea><br>
+B. If something I buy regularly goes up in price, <span class="choice"><button>I compare prices.</button><button>I buy it less often.</button><button>I look for an alternative.</button></span><br>
+<textarea placeholder="Make one detail true: If ..., ..."></textarea>
+<details><summary>Useful language</summary>rather than · take advantage of · it depends on · a cheaper alternative</details></div>
+
+<h2><span class="num">2</span>Complete the grammar map <span class="micro">12 min</span></h2>
+<div class="card grammar rule"><b>ZERO CONDITIONAL — habits & general results</b><br>
+<span class="pattern"><span class="target">if / when + Present Simple</span> → <span class="target">Present Simple</span></span><br>
+<span class="target">When I buy fresh mushrooms</span>, <span class="target">I cook them the same day.</span><br>
+<span class="micro"><b>when</b> works well when the situation is expected/repeated: “every time this happens”.</span></div>
+<div class="card grammar rule"><b>FIRST CONDITIONAL — a real future possibility</b><br>
+<span class="pattern"><span class="target">if / unless + Present Simple</span> → <span class="target">will / can / may / might + infinitive</span></span><br>
+<span class="target">If the weather is good tomorrow</span>, <span class="target">we might go to the market.</span><br>
+<span class="target">Unless I finish late</span>, <span class="target">I’ll call you.</span> = If I <b>don’t</b> finish late, I’ll call you.</div>
+<div class="card pink"><b>One rule to protect:</b> no <b>will</b> in the condition after <b>if / unless / when</b>.<br>
+✓ If she <span class="target">has</span> time, she’ll come. &nbsp; ✗ If she <b>will have</b> time…</div>
+
+<div class="card notice"><b>Choose at the gap.</b><br><br>
+1. <span class="choice"><button onclick="pick(this,true,'a1')">When</button><button onclick="pick(this,false,'a1')">Unless</button></span> I’m tired after work, I usually make a very simple dinner. <span id="a1" class="fb"></span><br><br>
+2. <span class="choice"><button onclick="pick(this,false,'a2')">If</button><button onclick="pick(this,true,'a2')">Unless</button></span> the train is badly delayed, we won’t arrive before eight. <span id="a2" class="fb"></span><br><br>
+3. If the shop <span class="choice"><button onclick="pick(this,true,'a3')">has</button><button onclick="pick(this,false,'a3')">will have</button></span> fresh chanterelles tomorrow, I might buy some. <span id="a3" class="fb"></span><br><br>
+4. If I finish early, I <span class="choice"><button onclick="pick(this,true,'a4')">can meet</button><button onclick="pick(this,false,'a4')">can to meet</button></span> you before the concert. <span id="a4" class="fb"></span>
+</div>
+
+<h2><span class="num">3</span>Which meaning do you hear? <span class="micro">8 min</span></h2>
+<div class="card"><b>Choose the meaning — don't change the sentence.</b><br><br>
+1. When I have guests, I usually cook more than I need. <span class="choice"><button onclick="pick(this,true,'b1')">habit</button><button onclick="pick(this,false,'b1')">one future plan</button></span> <span id="b1" class="fb"></span><br><br>
+2. If I have enough time on Friday, I might stop at the market. <span class="choice"><button onclick="pick(this,false,'b2')">habit</button><button onclick="pick(this,true,'b2')">future possibility</button></span> <span id="b2" class="fb"></span><br><br>
+3. Unless I hear from Anna tonight, I’ll go alone. <span class="choice"><button onclick="pick(this,true,'b3')">if Anna doesn’t contact me</button><button onclick="pick(this,false,'b3')">when Anna contacts me</button></span> <span id="b3" class="fb"></span>
+</div>
+
+<h2><span class="num">4</span>Repair three new messages <span class="micro">10 min</span></h2>
+<div class="card">
+1. If the museum will be open late, we might go after dinner. → <input id="r1"><button class="check" onclick="chk('r1',['is'],'rf1')">Check</button><button class="hint" onclick="show('rf1','Look at the verb after IF.')">Hint</button><button class="answer" onclick="show('rf1','is')">Correct answer</button><span id="rf1" class="fb"></span><br><br>
+2. Unless Maya doesn't cancel, we’ll meet at seven. → <input id="r2" style="width:250px"><button class="check" onclick="chk('r2',['cancels'],'rf2')">Check</button><button class="hint" onclick="show('rf2','UNLESS already contains the idea “if not”.')">Hint</button><button class="answer" onclick="show('rf2','cancels')">Correct answer</button><span id="rf2" class="fb"></span><br><br>
+3. If the tickets are still available, we might to book them tonight. → <input id="r3" style="width:250px"><button class="check" onclick="chk('r3',['might book'],'rf3')">Check</button><button class="hint" onclick="show('rf3','After MIGHT: base verb, no TO.')">Hint</button><button class="answer" onclick="show('rf3','might book')">Correct answer</button><span id="rf3" class="fb"></span>
+</div>
+
+<h2><span class="num">5</span>Build before you speak <span class="micro">10 min</span></h2>
+<div class="card speak"><b>Situation: Saturday plans.</b><br>
+Step 1 — choose a starter:<br>
+<span class="choice"><button>If the weather is good, ...</button><button>Unless I’m too tired, ...</button><button>If my friend is free, ...</button></span><br>
+Step 2 — choose how certain you are: <span class="choice"><button>I’ll...</button><button>I might...</button><button>I can...</button></span><br>
+Step 3 — complete your idea.<textarea placeholder="Write the sentence here"></textarea>
+<details><summary>Useful language</summary>go to an exhibition · meet for coffee · go for a walk · stay in · book tickets · rather than · take advantage of</details></div>
+
+<h2><span class="num">6</span>Three short speaking cards <span class="micro">10–12 min</span></h2>
+<div class="card speak"><b>A. A concert you want to see is almost sold out. What will you do?</b><textarea placeholder="Start with: If / Unless..."></textarea><details><summary>Useful language</summary>book now · wait for a friend · might · unless · available</details></div>
+<div class="card speak"><b>B. A product you often buy suddenly becomes much more expensive. What do you usually do?</b><textarea placeholder="Start with: When / If..."></textarea><details><summary>Useful language</summary>go up · compare prices · choose an alternative · rather than</details></div>
+<div class="card speak"><b>C. You have tickets for an outdoor event, but the forecast says heavy rain. What will you do?</b><textarea placeholder="Start with: If... / Unless..."></textarea><details><summary>Useful language</summary>check the forecast again · take an umbrella · change the plan · might · unless</details></div>
+
+<h2><span class="num">+</span>Reserve — make the result stronger or weaker</h2>
+<div class="card notice">Base: <b>If I finish early, I’ll go out.</b><br><br>
+<b>1. Make the result less certain.</b><textarea placeholder="Write the complete new sentence."></textarea>
+<b>2. Make the condition mean “if not”.</b><textarea placeholder="Write the complete new sentence."></textarea></div>
+<script>
+function norm(x){return x.trim().toLowerCase().replace(/[’']/g,"'").replace(/\s+/g,' ')}
+function pick(b,ok,id){b.parentNode.querySelectorAll('button').forEach(x=>x.style.background='#fff');b.style.background=ok?'#dff2e9':'#ffe3e5';document.getElementById(id).textContent=ok?' ✓':' Try again'}
+function chk(id,answers,out){let e=document.getElementById(id),ok=answers.map(norm).includes(norm(e.value));e.style.borderColor=ok?'#4b9475':'#c66066';document.getElementById(out).textContent=ok?' ✓':' Try again'}
+function show(id,t){document.getElementById(id).textContent=' '+t}
+function back5(){let a=document.getElementById('aud');a.currentTime=Math.max(0,a.currentTime-5)}
+function save(){document.querySelectorAll('input,textarea').forEach((e,i)=>localStorage.setItem('nat_hw_'+i,e.value));}
+function restore(){document.querySelectorAll('input,textarea').forEach((e,i)=>{let v=localStorage.getItem('nat_hw_'+i);if(v!==null)e.value=v});}
+function submitHW(){
+ save();
+ let rows=[];document.querySelectorAll('input,textarea').forEach((e,i)=>{if(e.value.trim())rows.push((i+1)+'. '+e.value.trim())});
+ let text='Natalia — homework\\n\\n'+rows.join('\\n');
+ navigator.clipboard.writeText(text).then(()=>alert('Answers are saved and copied. Paste them into your message to Irina.')).catch(()=>alert('Answers are saved on this device.'));
+}
+window.addEventListener('load',restore);document.addEventListener('input',save);
+</script><details><summary>Teacher note</summary>This lesson keeps the B1 grammar target but gives extra scaffolding for spoken production: recognise → choose → complete → produce.</details></main></body></html>
