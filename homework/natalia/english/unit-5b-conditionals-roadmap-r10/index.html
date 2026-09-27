@@ -114,17 +114,21 @@ Your complete answer:<textarea></textarea>
 <div class="micro">The button saves your work and prepares the answers for sending.</div></div>
 <script>
 function norm(x){return x.trim().toLowerCase().replace(/[’']/g,"'").replace(/\s+/g,' ')}
-function pick(b,ok,id){b.parentNode.querySelectorAll('button').forEach(x=>x.style.background='#fff');b.style.background=ok?'#dff2e9':'#ffe3e5';document.getElementById(id).textContent=ok?' ✓':' Try again'}
+function pick(b,ok,id){b.parentNode.querySelectorAll('button').forEach(x=>{x.style.background='#fff';x.dataset.selected='0'});b.dataset.selected='1';b.dataset.correct=ok?'1':'0';b.style.background=ok?'#dff2e9':'#ffe3e5';document.getElementById(id).textContent=ok?' ✓':' Try again';save()}
 function chk(id,answers,out){let e=document.getElementById(id),ok=answers.map(norm).includes(norm(e.value));e.style.borderColor=ok?'#4b9475':'#c66066';document.getElementById(out).textContent=ok?' ✓':' Try again'}
 function show(id,t){document.getElementById(id).textContent=' '+t}
 function back5(){let a=document.getElementById('aud');a.currentTime=Math.max(0,a.currentTime-5)}
 function save(){document.querySelectorAll('input,textarea').forEach((e,i)=>localStorage.setItem('nat_hw_'+i,e.value));}
 function restore(){document.querySelectorAll('input,textarea').forEach((e,i)=>{let v=localStorage.getItem('nat_hw_'+i);if(v!==null)e.value=v});}
-function submitHW(){
- save();
- let rows=[];document.querySelectorAll('input,textarea').forEach((e,i)=>{if(e.value.trim())rows.push((i+1)+'. '+e.value.trim())});
- let text='Natalia — homework\\n\\n'+rows.join('\\n');
- navigator.clipboard.writeText(text).then(()=>alert('Answers are saved and copied. Paste them into your message to Irina.')).catch(()=>alert('Answers are saved on this device.'));
-}
+const ENDPOINT='https://script.google.com/macros/s/AKfycbx0FbfDQdzYU_O856vmG7XoW4zkjCJHZ3Yo_Ys0qwrCN6PSjVOYWNFQ-i5KrFjevy64/exec';
+const V2KEY='natalia-u5b-r10-v2', STARTKEY=V2KEY+'-started', ATTEMPTKEY=V2KEY+'-attempt';
+if(!localStorage.getItem(STARTKEY))localStorage.setItem(STARTKEY,new Date().toISOString());
+if(!localStorage.getItem(ATTEMPTKEY))localStorage.setItem(ATTEMPTKEY,(crypto.randomUUID?crypto.randomUUID():(Date.now().toString(36)+'-'+Math.random().toString(36).slice(2))));
+function scoredResult(){const expected={w1:['based on'],w2:['rather than'],w3:['go up'],w4:['take advantage of'],e1:['calls'],e2:['closes'],e3:['may have']};let c=0,t=0,wrong=[],ans=[];document.querySelectorAll('.choice').forEach((g,i)=>{if(i<4){t++;const b=[...g.querySelectorAll('button')].find(x=>x.dataset.selected==='1'),ok=!!b&&b.dataset.correct==='1';if(ok)c++;else wrong.push('choice'+(i+1));ans.push('choice'+(i+1)+': '+(b?b.textContent.trim():'[blank]')+' — '+(ok?'correct':'incorrect'))}});Object.entries(expected).forEach(([id,vals])=>{t++;const e=document.getElementById(id),v=e?e.value:'',ok=vals.map(norm).includes(norm(v));if(ok)c++;else wrong.push(id);ans.push(id+': '+(v.trim()||'[blank]')+' — '+(ok?'correct':'incorrect'))});return{c,t,wrong,ans}}
+function openAnswerText(){let rows=[];document.querySelectorAll('input:not(#w1):not(#w2):not(#w3):not(#w4):not(#e1):not(#e2):not(#e3),textarea').forEach((e,i)=>rows.push((e.id||('open'+(i+1)))+': '+(e.value.trim()||'[blank]')));return rows.join('\n')}
+let v2tries=0,v2timer=null;
+function submitHW(){save();const r=scoredResult(),finished=new Date(),started=new Date(localStorage.getItem(STARTKEY));fScore.value=r.c+'/'+r.t;fPercent.value=r.t?Math.round(r.c/r.t*100):0;fMistakes.value=r.wrong.join(', ');fAnswers.value=r.ans.join('\n');fOpen.value=openAnswerText();fAttempt.value=localStorage.getItem(ATTEMPTKEY);fStarted.value=started.toISOString();fFinished.value=finished.toISOString();fDuration.value=Math.max(0,Math.round((finished-started)/1000));submissionStatus.textContent='Sending…';v2tries=0;postForm.submit();setTimeout(checkReceived,900)}
+window.submissionStatus=data=>{document.getElementById('jsonp-check')?.remove();if(data&&data.ok&&data.received){clearTimeout(v2timer);submissionStatus.textContent='✓ Received by Irina';return}if(++v2tries<8)v2timer=setTimeout(checkReceived,900);else submissionStatus.textContent='Not confirmed. Your answers are still saved on this device. Try again.'};
+function checkReceived(){document.getElementById('jsonp-check')?.remove();const s=document.createElement('script');s.id='jsonp-check';s.onerror=()=>{s.remove();if(++v2tries<8)v2timer=setTimeout(checkReceived,900);else submissionStatus.textContent='Not confirmed. Your answers are still saved on this device. Try again.'};s.src=ENDPOINT+'?apiVersion=v2-check&attemptId='+encodeURIComponent(localStorage.getItem(ATTEMPTKEY))+'&callback=submissionStatus&_='+Date.now();document.body.appendChild(s)}
 window.addEventListener('load',restore);document.addEventListener('input',save);
-</script></main></body></html>
+</script><div id="submissionStatus" class="micro" aria-live="polite"></div><form id="postForm" method="POST" action="https://script.google.com/macros/s/AKfycbx0FbfDQdzYU_O856vmG7XoW4zkjCJHZ3Yo_Ys0qwrCN6PSjVOYWNFQ-i5KrFjevy64/exec" target="sink" hidden><input name="apiVersion" value="v2-test"><input name="student" value="Natalia"><input name="homework" value="Roadmap B1 · Unit 5B conditionals + Recording 10 · 25.09.2026"><input name="score" id="fScore"><input name="percent" id="fPercent"><input name="mistakes" id="fMistakes"><input name="answers" id="fAnswers"><input name="openAnswers" id="fOpen"><input name="attemptId" id="fAttempt"><input name="startedAt" id="fStarted"><input name="finishedAt" id="fFinished"><input name="durationSeconds" id="fDuration"></form><iframe name="sink" hidden></iframe></main></body></html>
