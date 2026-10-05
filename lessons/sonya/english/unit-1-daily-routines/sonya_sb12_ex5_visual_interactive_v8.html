@@ -1,0 +1,52 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AT · ON · IN — interactive visual</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f4f1ec;color:#202838;font-family:Arial,sans-serif}
+.wrap{max-width:850px;margin:auto;padding:22px}
+.board{position:relative;overflow:hidden;background:#fbfaf7;border:1px solid #ddd7cf;border-radius:28px;padding:28px;box-shadow:0 18px 50px rgba(36,42,54,.10)}
+.board:before{content:"";position:absolute;width:170px;height:170px;border-radius:50%;background:#dfe9ff;right:-45px;top:-50px;opacity:.8}
+.board:after{content:"";position:absolute;width:150px;height:150px;border-radius:50%;background:#f7d9c8;left:-55px;bottom:-65px;opacity:.75}
+.kicker{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:#667085}
+h1{font-size:34px;margin:6px 0 4px;position:relative}
+.sub{color:#667085;margin:0 0 22px}
+.collage{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:14px;align-items:end;margin:18px 0 22px}
+.card{position:relative;border-radius:22px;padding:16px;border:1px solid rgba(43,55,72,.14);box-shadow:0 9px 22px rgba(43,55,72,.08)}
+.at{background:#fff0b9;min-height:180px;transform:rotate(-1.2deg)}
+.on{background:#dceaff;min-height:245px;transform:translateY(-8px) rotate(.7deg)}
+.in{background:#dff1e6;min-height:305px;transform:rotate(-.6deg)}
+.tape{position:absolute;top:-10px;left:50%;transform:translateX(-50%) rotate(-2deg);width:74px;height:22px;background:rgba(255,255,255,.68);border:1px solid rgba(0,0,0,.05)}
+.icon{font-size:30px;line-height:1;margin:3px 0 12px}
+.label{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:#596474;font-weight:800}
+input{display:block;width:105px;margin:8px 0 12px;padding:10px 12px;border:2px solid #7f8ea1;border-radius:12px;background:#fff;font:800 20px Arial;text-align:center;color:#202838}
+.examples{line-height:1.65;font-size:15px}.examples b{display:block;font-size:17px;margin-bottom:4px}
+.check{background:#202838;color:#fff;border:0;border-radius:12px;padding:11px 17px;font:800 16px Arial;cursor:pointer}
+.state{margin-top:10px;font-weight:800}.ok{outline:3px solid rgba(78,151,108,.35)}.softbad{outline:3px solid rgba(218,161,78,.35)}
+.tools{display:none;margin-top:10px}.tools button{border:0;border-radius:10px;padding:7px 10px;font-weight:800;margin-right:5px;cursor:pointer}.hint{background:#eee7ff}.answer{background:#fff3c9}.reveal{display:none;margin-top:7px;color:#536071;font-size:14px}
+.rule{position:relative;z-index:1;background:#fff;border:1px solid #dddfe4;border-radius:18px;padding:15px 17px;line-height:1.6}
+@media(max-width:680px){.collage{grid-template-columns:1fr}.at,.on,.in{min-height:0;transform:none}.wrap{padding:10px}.board{padding:20px}h1{font-size:28px}}
+</style></head>
+<body><main class="wrap"><section class="board">
+<div class="kicker">SB p.12 · Ex.5 · interactive</div>
+<h1>When does it happen?</h1>
+<p class="sub">Complete the three cards with <b>at</b>, <b>on</b> or <b>in</b>.</p>
+<div class="collage">
+ <article class="card at"><div class="tape"></div><div class="icon">◷</div><div class="label">exact time</div><input data-a="at" aria-label="exact time preposition"><div class="examples"><b>11 o’clock</b>7:30 · night · the weekend</div><div class="state"></div><div class="tools"><button class="hint">Hint</button><button class="answer">Show answer</button><div class="reveal hinttext">Think: a precise point in time.</div><div class="reveal anstext"><b>at</b></div></div></article>
+ <article class="card on"><div class="tape"></div><div class="icon">▦</div><div class="label">day / date</div><input data-a="on" aria-label="day date preposition"><div class="examples"><b>Monday</b>25 June · school days · Sunday evening</div><div class="state"></div><div class="tools"><button class="hint">Hint</button><button class="answer">Show answer</button><div class="reveal hinttext">Think: a day or a date.</div><div class="reveal anstext"><b>on</b></div></div></article>
+ <article class="card in"><div class="tape"></div><div class="icon">◫</div><div class="label">longer period</div><input data-a="in" aria-label="longer period preposition"><div class="examples"><b>the morning</b>May · summer · 2026 · the week</div><div class="state"></div><div class="tools"><button class="hint">Hint</button><button class="answer">Show answer</button><div class="reveal hinttext">Think: inside a longer period of time.</div><div class="reveal anstext"><b>in</b></div></div></article>
+</div>
+<button class="check">Check</button>
+<div class="rule"><b>Look at the shape:</b> exact point → day/date → longer period. The cards get taller as the time period gets bigger.</div>
+</section></main>
+<script>
+const n=s=>(s||'').trim().toLowerCase();
+document.querySelector('.check').onclick=()=>document.querySelectorAll('.card').forEach(c=>{
+ const i=c.querySelector('input'), ok=n(i.value)===i.dataset.a;
+ c.classList.toggle('ok',ok); c.classList.toggle('softbad',!ok);
+ c.querySelector('.state').textContent=ok?'✓ Correct':'Try again';
+ c.querySelector('.tools').style.display=ok?'none':'block';
+});
+document.querySelectorAll('.hint').forEach(b=>b.onclick=()=>{const x=b.parentElement.querySelector('.hinttext');x.style.display=x.style.display==='block'?'none':'block'});
+document.querySelectorAll('.answer').forEach(b=>b.onclick=()=>{const x=b.parentElement.querySelector('.anstext');x.style.display=x.style.display==='block'?'none':'block'});
+</script></body></html>
