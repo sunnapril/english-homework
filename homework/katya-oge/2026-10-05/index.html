@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Katya OGE · Homework 1</title>
+<style>
+:root{--bg:#f5f7f8;--card:#fff;--ink:#1f2933;--muted:#66737f;--line:#dce4e8;--green:#23855b;--green2:#eaf7f0;--amber:#fff7df;--red:#b54747;--blue:#eef5ff}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+.progress-wrap{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);padding:8px 0}
+.progress{max-width:960px;margin:auto;height:8px;background:#e7ecef;border-radius:20px;overflow:hidden}
+.progress>div{height:100%;width:0;background:var(--green);transition:.2s}
+main{max-width:960px;margin:24px auto 60px;padding:0 16px}
+header{background:linear-gradient(135deg,#eaf7f0,#fff);border:1px solid #cfe8db;border-radius:20px;padding:24px;margin-bottom:18px}
+h1{font-size:30px;margin:0 0 6px} h2{font-size:22px;margin:0 0 12px} h3{font-size:17px;margin:18px 0 8px}
+.sub{color:var(--muted)} .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin:16px 0;box-shadow:0 2px 8px rgba(30,50,60,.04)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.item{padding:12px;border:1px solid var(--line);border-radius:12px;background:#fbfcfc}
+.wordbank{position:sticky;top:25px;z-index:10;background:#fff;border:1px solid #cfe8db;border-radius:14px;padding:10px;margin:10px 0 14px;box-shadow:0 3px 12px rgba(30,50,60,.07)}
+.chip{display:inline-block;border:1px solid #b9c9c0;border-radius:999px;padding:5px 10px;margin:3px;background:#f6fbf8;cursor:pointer}.chip.used{text-decoration:line-through;opacity:.45}
+input[type=text]{min-width:110px;max-width:100%;border:0;border-bottom:2px solid #9aabb4;background:#f8fafb;padding:6px 8px;font:inherit;border-radius:7px 7px 0 0}
+.short{width:120px}.medium{width:190px}.wide{width:100%}
+textarea{width:100%;min-height:100px;border:1px solid #aebbc3;border-radius:10px;padding:10px;font:inherit;resize:vertical;background:#fcfdfd}
+button,.btn{border:0;border-radius:10px;padding:9px 13px;font-weight:650;cursor:pointer;background:var(--green);color:white;margin:6px 6px 0 0}
+button.secondary{background:#eef3f5;color:#263640;border:1px solid #d2dde2}
+button.answer{background:#f1f3f5;color:#34434c;border:1px solid #d8e0e4}
+.feedback{margin-top:8px;font-weight:650}.ok{color:var(--green)}.bad{color:var(--red)}
+details{margin-top:8px;border:1px solid var(--line);border-radius:10px;background:#fafcfc;padding:8px 10px}summary{cursor:pointer;font-weight:650}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{border:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}th{background:#f1f6f3}
+.note{background:var(--amber);border-radius:12px;padding:10px 12px}
+.tense-table th:nth-child(1){background:#eaf7f0}.tense-table tr:nth-child(2) td:first-child{background:#eef8f2;border-left:4px solid #58a77d}
+.tense-table tr:nth-child(3) td:first-child{background:#eef5ff;border-left:4px solid #6b95d8}
+.tense-table tr:nth-child(4) td:first-child{background:#fff5e8;border-left:4px solid #d89a52}
+.tense-table tr:nth-child(5) td:first-child{background:#f5efff;border-left:4px solid #9270c7}
+.tf-t{color:#23855b;font-weight:800}.tf-f{color:#b54747;font-weight:800}.tf-correct{color:#8a5a13;font-weight:800}
+.suffix{color:#b45b2a;font-weight:800;background:#fff0e6;border-radius:5px;padding:0 2px}
+.support summary{color:#3e6f5a}.support:nth-of-type(2) summary{color:#3d6da8}.support:nth-of-type(3) summary{color:#9a651f}.support:nth-of-type(4) summary{color:#7955a5}
+.script{max-height:260px;overflow:auto;white-space:pre-line}
+.oge{background:var(--blue);border-radius:12px;padding:12px}
+.audio{width:100%;margin:8px 0}.choice label{display:block;margin:7px 0;padding:7px;border-radius:8px}.choice label:hover{background:#f5f8f9}
+.inline-label{font-size:13px;color:var(--muted);font-weight:700}.support p{margin:5px 0}
+.footer-actions{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin-top:20px}
+.score{font-size:18px;font-weight:750;margin-top:10px}
+@media(max-width:700px){.grid2{grid-template-columns:1fr}h1{font-size:25px}.card{padding:15px}.wordbank{top:24px}input[type=text]{width:100%}}
+</style>
+</head>
+<body>
+<div class="progress-wrap"><div class="progress"><div id="bar"></div></div></div>
+<main>
+<header>
+  <h1>Katya OGE · Homework 1</h1>
+  <div class="sub">After Lesson 1 · Build the base</div>
+</header>
+
+<section class="card task" data-task="1">
+<h2>1 · Bring the words back</h2>
+<div class="subtask" id="1A"><h3>A. Complete the phrases.</h3>
+<div class="wordbank">
+<span class="chip">progress</span><span class="chip">good</span><span class="chip">competition</span><span class="chip">homework</span>
+<span class="chip">part</span><span class="chip">time</span><span class="chip">exams</span><span class="chip">interested</span>
+</div>
+<div class="grid2">
+<div class="item">prepare for <input data-a="exams" type="text"></div>
+<div class="item">take <input data-a="part" type="text"> in</div>
+<div class="item">be <input data-a="interested" type="text"> in</div>
+<div class="item">be <input data-a="good" type="text"> at</div>
+<div class="item">spend <input data-a="time" type="text"></div>
+<div class="item">make <input data-a="progress" type="text"></div>
+<div class="item">win a <input data-a="competition" type="text"></div>
+<div class="item">do <input data-a="homework" type="text"></div>
+</div>
+<button onclick="checkInputs(this)">Check</button><button class="answer" onclick="showInputs(this)">Show answers</button>
+<div class="feedback"></div>
+
+</div><div class="subtask" id="1B"><h3>B. Choose the best word.</h3>
+<div class="wordbank">
+<span class="chip">whole</span><span class="chip">future</span><span class="chip">our</span><span class="chip">train</span>
+<span class="chip">own</span><span class="chip">enjoy</span><span class="chip">yet</span><span class="chip">useful</span>
+</div>
+<div class="grid2">
+<div class="item">1. A dictionary is <input data-a="useful" type="text"> when I don't know a word.</div>
+<div class="item">2. I <input data-a="enjoy" type="text"> spending time with my friends at weekends.</div>
+<div class="item">3. Young athletes often <input data-a="train" type="text"> before and after school.</div>
+<div class="item">4. We haven't chosen a topic for the project <input data-a="yet" type="text">.</div>
+<div class="item">5. They spent the <input data-a="whole" type="text"> afternoon at the shopping centre.</div>
+<div class="item">6. My cousin wants to start her <input data-a="own" type="text"> business one day.</div>
+<div class="item">7. <input data-a="our" type="text"> class is planning a trip for spring.</div>
+<div class="item">8. He isn't sure what job he wants to do in the <input data-a="future" type="text">.</div>
+</div>
+<button onclick="checkInputs(this)">Check</button><button class="answer" onclick="showInputs(this)">Show answers</button>
+<div class="feedback"></div>
+
+</div><h3>C. Make it true for you.</h3>
+<p>Choose <b>two</b> expressions from A or B and write true sentences about yourself.</p>
+<textarea placeholder="1. ...&#10;2. ..."></textarea>
+</section>
+
+<section class="card task" data-task="2">
+<h2>2 · Which time?</h2>
+<table class="tense-table">
+<tr><th>Tense</th><th>Form</th><th>When?</th><th>Useful markers</th></tr>
+<tr><td><b>Present Simple</b></td><td>I/you/we/they + <b>V</b><br>he/she/it + <b>V-s</b></td><td>routine, facts</td><td>usually, often, every day/week</td></tr>
+<tr><td><b>Present Continuous</b></td><td><b>am/is/are + V-ing</b></td><td>now, temporary situations</td><td>now, right now, at the moment, <b>this week/month/year</b></td></tr>
+<tr><td><b>Past Simple</b></td><td><b>V2 / V-ed</b></td><td>finished past</td><td>yesterday, last…, … ago, in 2025</td></tr>
+<tr><td><b>Present Perfect</b></td><td><b>have/has + V3</b></td><td>past + connection with now</td><td>already, just, yet, ever, never, since, for</td></tr>
+</table>
+
+<div class="subtask" id="2A"><h3>A. Sort the markers.</h3>
+<p>Write: <b>PS</b> (Present Simple), <b>PC</b> (Present Continuous), <b>Past</b> or <b>PP</b> (Present Perfect).</p>
+<div class="grid2">
+<div class="item">this month → <input data-a="PC|Present Continuous" type="text"></div>
+<div class="item">two days ago → <input data-a="Past|Past Simple" type="text"></div>
+<div class="item">already → <input data-a="PP|Present Perfect" type="text"></div>
+<div class="item">every Saturday → <input data-a="PS|Present Simple" type="text"></div>
+<div class="item">at the moment → <input data-a="PC|Present Continuous" type="text"></div>
+<div class="item">in 2024 → <input data-a="Past|Past Simple" type="text"></div>
+<div class="item">never → <input data-a="PP|Present Perfect" type="text"></div>
+<div class="item">usually → <input data-a="PS|Present Simple" type="text"></div>
+</div>
+<button onclick="checkInputs(this)">Check</button><button class="answer" onclick="showInputs(this)">Show answers</button>
+<div class="feedback"></div>
+
+</div><div class="subtask" id="2B"><h3>B. Complete the sentences.</h3>
+<div class="grid2">
+<div class="item">1. My sister usually <input data-a="chooses" type="text"> (CHOOSE) her clothes the night before school.</div>
+<div class="item">2. We <input data-a="are working|'re working" type="text"> (WORK) on a big school project this month.</div>
+<div class="item">3. My parents <input data-a="bought" type="text"> (BUY) a new table two days ago.</div>
+<div class="item">4. I <input data-a="have done|'ve done" type="text"> (DO) two English exercises already today.</div>
+<div class="item">5. Anna <input data-a="is waiting|'s waiting" type="text"> (WAIT) for her friend at the moment.</div>
+<div class="item">6. My best friend <input data-a="has flown|'s flown" type="text"> (FLY) abroad before.</div>
+<div class="item">7. Our teacher <input data-a="gave" type="text"> (GIVE) us a difficult test in 2024.</div>
+<div class="item">8. I often <input data-a="spend" type="text"> (SPEND) Saturday evenings with my friends.</div>
+</div>
+<button onclick="checkInputs(this)">Check</button><button class="answer" onclick="showInputs(this)">Show answers</button>
+<div class="feedback"></div>
+
+</div><div class="subtask" id="2C"><h3>C. Which form is missing?</h3>
+<div class="grid2">
+<div class="item">take → <input data-a="took" type="text"> → taken</div>
+<div class="item">see → saw → <input data-a="seen" type="text"></div>
+</div>
+<button onclick="checkInputs(this)">Check</button><button class="answer" onclick="showInputs(this)">Show answers</button>
+<div class="feedback"></div>
+</div></section>
+
+<section class="card task" data-task="3">
+<div class="subtask"><h2>3 · One situation, different time</h2>
+<p>Change the sentence when the time changes.</p>
+<div class="item"><b>1.</b> I talk to my friends online every evening.<br><span class="inline-label">at the moment →</span> <input class="wide" data-a="I am talking to my friends online at the moment.|I'm talking to my friends online at the moment." type="text"></div>
+<div class="item"><b>2.</b> My brother is staying with our grandparents this month.<br><span class="inline-label">usually / at home →</span> <input class="wide" data-a="My brother usually stays at home." type="text"></div>
+<div class="item"><b>3.</b> I haven't finished this book yet.<br><span class="inline-label">last night →</span> <input class="wide" data-a="I didn't finish this book last night.|I did not finish this book last night." type="text"></div>
+<div class="item"><b>4.</b> We visited this place two years ago.<br><span class="inline-label">already →</span> <input class="wide" data-a="We have already visited this place.|We've already visited this place." type="text"></div>
+<button onclick="checkInputs(this)">Check</button><button class="answer" onclick="showInputs(this)">Show answers</button>
+<div class="feedback"></div>
+</div></section>
+
+<section class="card task" data-task="4">
+<h2>4 · Listening</h2>
+<p><b>Life Vision Elementary · Student Book · p.38 · Track 3.10</b></p>
+<audio class="audio" controls preload="metadata">
+<source src="life-vision-elementary-sb-track-3.10.mp3" type="audio/mpeg">
+</audio>
+
+<h3>Before you listen</h3>
+<p>Jake wants to post a photo online. What problems can this cause? Write one or two ideas.</p>
+<textarea placeholder="I think ..."></textarea>
+
+<h3>First listen · Main idea</h3>
+<p><b>Why does Olly think Jake should not share the photo online?</b> Write two reasons you hear.</p>
+<textarea placeholder="1. ...&#10;2. ..."></textarea>
+<details><summary>Need a hint?</summary><p>Listen for what may happen to the photo later and what people can learn from it now.</p></details>
+
+<h3>Listen again · Exercise 6</h3>
+<p>Are the sentences <span class="tf-t">true (T)</span> or <span class="tf-f">false (F)</span>? <span class="tf-correct">Correct the false ones.</span>
+<br><span class="sub">The T/F choice is checked automatically. Your corrections will be checked by your teacher.</span></p>
+<div class="grid2">
+<div class="item choice" data-tf="T"><b>1.</b> Jake is posting his photo online.<br><label><input type="radio" name="tf1" value="T"> T</label><label><input type="radio" name="tf1" value="F"> F</label><input class="wide correction" type="text" placeholder="Correction if false"></div>
+<div class="item choice" data-tf="F"><b>2.</b> Jake asks Olly if he can share his photo.<br><label><input type="radio" name="tf2" value="T"> T</label><label><input type="radio" name="tf2" value="F"> F</label><input class="wide correction" type="text" placeholder="Correct the false sentence"></div>
+<div class="item choice" data-tf="F"><b>3.</b> They're wearing jeans and a T-shirt.<br><label><input type="radio" name="tf3" value="T"> T</label><label><input type="radio" name="tf3" value="F"> F</label><input class="wide correction" type="text" placeholder="Correct the false sentence"></div>
+<div class="item choice" data-tf="F"><b>4.</b> They want everybody to find their photo.<br><label><input type="radio" name="tf4" value="T"> T</label><label><input type="radio" name="tf4" value="F"> F</label><input class="wide correction" type="text" placeholder="Correct the false sentence"></div>
+<div class="item choice" data-tf="F"><b>5.</b> Nobody can see Jake's photos.<br><label><input type="radio" name="tf5" value="T"> T</label><label><input type="radio" name="tf5" value="F"> F</label><input class="wide correction" type="text" placeholder="Correct the false sentence"></div>
+<div class="item choice" data-tf="T"><b>6.</b> Other people can download his photos.<br><label><input type="radio" name="tf6" value="T"> T</label><label><input type="radio" name="tf6" value="F"> F</label><input class="wide correction" type="text" placeholder="Correction if false"></div>
+<div class="item choice" data-tf="F"><b>7.</b> Olly wants to tell people they aren't at home.<br><label><input type="radio" name="tf7" value="T"> T</label><label><input type="radio" name="tf7" value="F"> F</label><input class="wide correction" type="text" placeholder="Correct the false sentence"></div>
+<div class="item choice" data-tf="T"><b>8.</b> Jake decides to delete his post.<br><label><input type="radio" name="tf8" value="T"> T</label><label><input type="radio" name="tf8" value="F"> F</label><input class="wide correction" type="text" placeholder="Correction if false"></div>
+</div>
+<button onclick="checkTF(this)">Check</button>
+<button class="answer" onclick="showTF(this)">Show answers</button>
+<div class="feedback"></div>
+<details><summary>Script · open after listening</summary>
+<div class="script">Jake: Right. I’m taking a photo of us before we go to the school costume party.
+
+Olly: Let’s see it! Wow! We look so good in these costumes. Um, what are you doing, Jake?
+
+Jake: I’m sharing it on my social media page right now.
+
+Olly: Jake, stop! I don’t want you to share that photo online.
+
+Jake: Why not, Olly?
+
+Olly: Lots of reasons. Firstly, because we’re wearing these cat costumes!
+
+Jake: So? I think we look really funny!
+
+Olly: Me too, but think about the future. Do you want people to find this photo of you in five years’ time? For example, a university or a business?
+
+Jake: And see me in this costume? Um, no, not really. But only my friends and family can see my photos.
+
+Olly: What if one of your friends downloads our photo and posts it on their social media?
+
+Jake: Oh, I guess you’re right.
+
+Olly: And another thing. Now everybody knows that we’re going out this evening, and we aren’t at home!
+
+Jake: Why is that a problem?
+
+Olly: Think about it. In this photo, we’re standing here in your bedroom, and everybody can see all your expensive things, like your volleyball medals, for example.
+
+Jake: Ah … you’re right! I’m deleting it now!
+
+Olly: Thanks, Jake.</div>
+</details>
+
+<h3>OGE transfer</h3>
+<div class="oge">
+<p><b>1. Why doesn't Olly want Jake to share the photo?</b></p>
+<div class="choice" data-mcq="B"><label><input type="radio" name="q1" value="A"> A. He doesn't like the photo.</label><label><input type="radio" name="q1" value="B"> B. He is worried about what may happen later.</label><label><input type="radio" name="q1" value="C"> C. He doesn't use social media.</label></div>
+<p><b>2. Who can currently see Jake's photos?</b></p>
+<div class="choice" data-mcq="B"><label><input type="radio" name="q2" value="A"> A. Everybody.</label><label><input type="radio" name="q2" value="B"> B. His friends and family.</label><label><input type="radio" name="q2" value="C"> C. Only his classmates.</label></div>
+<p><b>3. What does Jake finally do?</b></p>
+<div class="choice" data-mcq="C"><label><input type="radio" name="q3" value="A"> A. He changes the photo.</label><label><input type="radio" name="q3" value="B"> B. He sends it to his friends.</label><label><input type="radio" name="q3" value="C"> C. He deletes the post.</label></div>
+<button onclick="checkMCQ(this)">Check</button><button class="answer" onclick="showMCQ(this)">Show answers</button><div class="feedback"></div>
+</div>
+
+<h3>Take from the audio</h3>
+<div class="grid2">
+<div class="item"><b>right now</b><br><span class="sub">often points to Present Continuous</span></div>
+<div class="item"><b>I think ...</b><br><span class="sub">give your opinion</span></div>
+<div class="item"><b>For example, ...</b><br><span class="sub">add a supporting example</span></div>
+</div>
+<p><b>Should teenagers post photos online?</b></p>
+<textarea placeholder="I think ... because ... For example, ..."></textarea>
+</section>
+
+<section class="card task" data-task="5">
+<h2>5 · Word formation from zero</h2>
+<div class="note"><b>4 steps:</b> Read the whole sentence → decide what kind of word is missing → change the word → read the sentence again.</div>
+<p><b>Noun</b> = a person, thing or idea. &nbsp; <b>Adjective</b> = describes a person or thing.</p>
+<p><code>use → use<span class="suffix">ful</span></code> &nbsp;
+<code>care → care<span class="suffix">ful</span></code> &nbsp;
+<code>success → success<span class="suffix">ful</span></code></p>
+
+<div class="subtask" id="5A"><h3>A. What kind of word is missing?</h3>
+<p>Write <b>NOUN</b>, <b>ADJECTIVE</b> or <b>VERB</b>. Do not change the word yet.</p>
+<div class="grid2">
+<div class="item">1. Mia is always ___ with her little brother. <b>CARE</b><br>We need an <input data-a="ADJECTIVE" type="text">.</div>
+<div class="item">2. Winning the final was a great ___. <b>SUCCEED</b><br>We need a <input data-a="NOUN" type="text">.</div>
+<div class="item">3. This website has lots of ___ information for students. <b>USE</b><br>We need an <input data-a="ADJECTIVE" type="text">.</div>
+</div>
+<button onclick="checkInputs(this)">Check</button><button class="answer" onclick="showInputs(this)">Show answers</button><div class="feedback"></div>
+
+</div><div class="subtask" id="5B"><h3>B. Now change the word.</h3>
+<div class="grid2">
+<div class="item">1. Please be <input data-a="careful" type="text"> when you carry the glasses. <b>CARE</b></div>
+<div class="item">2. The school project was very <input data-a="successful" type="text">. <b>SUCCESS</b></div>
+<div class="item">3. This app is quite <input data-a="useful" type="text"> for learning new words. <b>USE</b></div>
+</div>
+<button onclick="checkInputs(this)">Check</button><button class="answer" onclick="showInputs(this)">Show answers</button><div class="feedback"></div>
+</div></section>
+
+<section class="card task" data-task="6">
+<h2>6 · Your English</h2>
+<h3>1. How do you usually prepare for an important test or exam?</h3>
+<p>Write 2–3 sentences.</p>
+<textarea></textarea>
+<details class="support"><summary>Start your answer</summary><p>I usually ...</p><p>Before an important test, I ...</p><p>When I need to prepare for ..., I ...</p></details>
+<details class="support"><summary>Useful phrases</summary><p>prepare for an exam</p><p>spend time doing sth</p><p>do homework</p><p>make progress</p><p>be good at sth</p></details>
+<details class="support"><summary>Useful words</summary><p>usually · difficult · useful · before · after · because</p></details>
+
+<h3>2. Tell me about a competition, performance or another important event you took part in.</h3>
+<p>Write 3–4 sentences.</p>
+<textarea></textarea>
+<details class="support"><summary>Start your answer</summary><p>Last ... I ...</p><p>The event took place ...</p><p>I decided to ...</p></details>
+<details class="support"><summary>Useful phrases</summary><p>take part in</p><p>prepare for</p><p>win a competition</p><p>spend the whole ...</p><p>be interested in</p></details>
+<details class="support"><summary>Useful words</summary><p>competition · event · nervous · excited · difficult · successful</p></details>
+<details class="support"><summary>Grammar help</summary><p>Finished past → Past Simple → V2 / V-ed.</p></details>
+</section>
+
+<div class="footer-actions">
+<button onclick="finish()">Finish homework</button>
+<button class="secondary" onclick="restart()">Start again</button>
+<div id="finalScore" class="score"></div>
+<p class="sub">Open answers are not included in the automatic score.</p>
+</div>
+</main>
+<script>
+const norm=s=>s.trim().toLowerCase().replace(/[.!?]+$/,'').replace(/\s+/g,' ');
+function accepted(el){return (el.dataset.a||'').split('|').map(norm)}
+function sectionOf(btn){return btn.closest('.subtask')||btn.closest('.card')||btn.parentElement}
+function checkInputs(btn){
+ const box=sectionOf(btn), inputs=[...box.querySelectorAll('input[data-a]')];
+ let ok=0,done=0;
+ inputs.forEach(i=>{if(i.value.trim())done++; const good=accepted(i).includes(norm(i.value)); i.style.borderBottomColor=good?'#23855b':'#b54747'; if(good)ok++;});
+ const f=btn.parentElement.querySelector('.feedback')||box.querySelector('.feedback');
+ if(f){f.className='feedback '+(ok===inputs.length?'ok':'bad');f.textContent=`${ok}/${inputs.length} correct`;}
+ updateProgress();
+}
+function showInputs(btn){
+ const box=sectionOf(btn), inputs=[...box.querySelectorAll('input[data-a]')];
+ inputs.forEach(i=>{i.value=(i.dataset.a||'').split('|')[0];i.style.borderBottomColor='#23855b'}); updateProgress();
+}
+function checkTF(btn){
+ const box=sectionOf(btn); let ok=0,total=0;
+ box.querySelectorAll('[data-tf]').forEach(x=>{total++;const r=x.querySelector('input[type=radio]:checked');const good=r&&r.value===x.dataset.tf;x.style.borderColor=good?'#23855b':'#b54747';if(good)ok++;});
+ const f=btn.parentElement.querySelector('.feedback'); f.className='feedback '+(ok===total?'ok':'bad');f.textContent=`${ok}/${total} correct`;updateProgress();
+}
+function showTF(btn){
+ const box=sectionOf(btn);
+ [...box.querySelectorAll('[data-tf]')].forEach(x=>{
+   const r=x.querySelector(`input[value="${x.dataset.tf}"]`);
+   if(r) r.checked=true;
+   x.style.borderColor='#23855b';
+ });
+ updateProgress();
+}
+function checkMCQ(btn){
+ const box=btn.closest('.oge');let ok=0,total=0;
+ box.querySelectorAll('[data-mcq]').forEach(x=>{total++;const r=x.querySelector('input:checked');const good=r&&r.value===x.dataset.mcq;x.style.outline=good?'2px solid #23855b':r?'2px solid #b54747':'none';if(good)ok++;});
+ const f=box.querySelector('.feedback');f.className='feedback '+(ok===total?'ok':'bad');f.textContent=`${ok}/${total} correct`;updateProgress();
+}
+function showMCQ(btn){
+ const box=btn.closest('.oge');box.querySelectorAll('[data-mcq]').forEach(x=>{x.querySelector(`input[value="${x.dataset.mcq}"]`).checked=true;x.style.outline='2px solid #23855b'});updateProgress();
+}
+document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>c.classList.toggle('used'));
+function updateProgress(){
+ const controls=[...document.querySelectorAll('input[type=text],textarea')];
+ const radios=[...new Set([...document.querySelectorAll('input[type=radio]')].map(r=>r.name))];
+ let done=controls.filter(x=>x.value.trim()).length;
+ done+=radios.filter(n=>document.querySelector(`input[name="${n}"]:checked`)).length;
+ const total=controls.length+radios.length;
+ document.getElementById('bar').style.width=Math.min(100,Math.round(done/total*100))+'%';
+}
+document.querySelectorAll('input,textarea').forEach(x=>{x.addEventListener('input',updateProgress);x.addEventListener('change',updateProgress)});
+function finish(){
+ const auto=[...document.querySelectorAll('input[data-a]')];let correct=auto.filter(i=>accepted(i).includes(norm(i.value))).length,total=auto.length;
+ document.querySelectorAll('[data-tf]').forEach(x=>{total++;const r=x.querySelector('input:checked');if(r&&r.value===x.dataset.tf)correct++});
+ document.querySelectorAll('[data-mcq]').forEach(x=>{total++;const r=x.querySelector('input:checked');if(r&&r.value===x.dataset.mcq)correct++});
+ const pct=Math.round(correct/total*100);document.getElementById('finalScore').textContent=`Automatic tasks: ${correct}/${total} (${pct}%). Remember to check your open answers too.`;window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function restart(){if(!confirm('Clear all answers and start again?'))return;document.querySelectorAll('input[type=text],textarea').forEach(x=>{x.value='';x.style.borderBottomColor=''});document.querySelectorAll('input[type=radio]').forEach(x=>x.checked=false);document.querySelectorAll('.item,.choice').forEach(x=>{x.style.borderColor='';x.style.outline=''});document.querySelectorAll('.feedback').forEach(x=>x.textContent='');document.querySelectorAll('.chip').forEach(x=>x.classList.remove('used'));document.getElementById('finalScore').textContent='';updateProgress();window.scrollTo({top:0,behavior:'smooth'});}
+updateProgress();
+</script>
+<section class="card"><h2>Send your work</h2><p>When you have finished, send your answers to Irina.</p><button id="sendHomework" type="button">Send answers</button><div id="submissionStatus"></div></section><script>window.HOMEWORK_SUBMISSION_CONFIG={student:"Katya",homework:"OGE · Homework 1 · after 05.10.2026",submitButtonSelector:"#sendHomework",statusSelector:"#submissionStatus",closedSelector:"input[data-a]",openSelector:"textarea",allAnswersSelector:"input,select,textarea"};</script><script src="/assets/homework-submission.js"></script></body>
+</html>
