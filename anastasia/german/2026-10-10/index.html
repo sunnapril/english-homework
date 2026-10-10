@@ -1,0 +1,44 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Anastasia · Deutsch A1 · 10.10.2026</title>
+<style>
+:root{--navy:#123d5a;--blue:#26779d;--orange:#ed744f;--gold:#e5a72f;--bg:#edf3f6;--ink:#172832}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.48 Arial,sans-serif}.w{max-width:980px;margin:auto;padding:22px}.c,.hero{border-radius:17px;padding:19px;margin-bottom:14px;box-shadow:0 3px 14px #0001}.c{background:#fff;border:1px solid #cadde6}.hero{background:linear-gradient(120deg,var(--navy),var(--blue));color:#fff}h1,h2{margin-top:0}h2{color:var(--navy)}.g2,.g3{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.g3{grid-template-columns:repeat(3,1fr)}.i{border:2px solid #aecbd9;border-radius:12px;padding:12px;background:#fbfdfe}.gap{width:135px;border:2px solid var(--blue);border-radius:8px;padding:7px 9px;font:inherit;background:#fff}.bank{display:flex;gap:7px;flex-wrap:wrap}.chip{border:2px solid var(--gold);border-radius:999px;padding:6px 10px;background:#fff8e7;font-weight:700;cursor:pointer}.chip.used{text-decoration:line-through;opacity:.4}.ans{display:none;margin-top:6px;padding:7px;border-radius:7px;background:#eaf3f8}button{font:inherit;border:0;border-radius:8px;padding:7px 10px;background:#e4f0f5;color:var(--navy);cursor:pointer}.stress{text-align:center;font-size:1.18rem}.stress button{padding:0;border:0;background:transparent;color:inherit;font-size:inherit}.stress .hit{font-size:1.42em;font-weight:800;color:var(--orange)}.oral{border-left:5px solid var(--orange)}.go{display:block;background:var(--navy);color:#fff;text-decoration:none;text-align:center;font-weight:800;padding:14px;border-radius:11px}.fb{font-weight:700;margin-top:6px}.small{font-size:.9rem;color:#61727c}@media(max-width:680px){.g2,.g3{grid-template-columns:1fr}.gap{width:100%}}</style></head><body><div class=w>
+<section class=hero><h1>Das ist meine Schwester · weiter</h1><p>10.10.2026 · aktivieren → kurz wiederholen → weiterlernen</p></section>
+
+<section class=c><h2>0 · Welches Wort passt zur Situation?</h2><p>Wörter aus früheren Stunden: Schreiben Sie das passende Wort.</p>
+<div class=bank><span class=chip onclick="this.classList.toggle('used')">Kanzlei</span><span class=chip onclick="this.classList.toggle('used')">Ausbildung</span><span class=chip onclick="this.classList.toggle('used')">Frühstück</span><span class=chip onclick="this.classList.toggle('used')">freundlich</span><span class=chip onclick="this.classList.toggle('used')">Bücher</span><span class=chip onclick="this.classList.toggle('used')">Stelle</span></div>
+<div class=g3 style="margin-top:10px">
+<div class=i>Eine Person sucht Arbeit. Sie sucht eine neue <input class=gap data-a="Stelle">.</div>
+<div class=i>Eine Person lernt einen Beruf. Sie macht eine <input class=gap data-a="Ausbildung">.</div>
+<div class=i>Eine Person arbeitet als Juristin. Ihr Arbeitsort kann eine <input class=gap data-a="Kanzlei"> sein.</div></div>
+<button onclick="exact(this)">Prüfen</button><div class=fb></div>
+<p><b>Dann mündlich:</b> Wählen Sie eines der übrigen Wörter und machen Sie einen kurzen Satz.</p></section>
+
+<section class=c><h2>1 · Familie in 60 Sekunden</h2><p>Lesen Sie die Beschreibung und sagen Sie das passende Familienwort. Dann zeigen Sie die Antwort.</p><div class=g2>
+<div class=i>Sohn von meinem Bruder / meiner Schwester<br><button onclick="show(this)">Antwort zeigen</button><div class=ans><b>Neffe</b></div></div>
+<div class=i>Tochter von meinem Bruder / meiner Schwester<br><button onclick="show(this)">Antwort zeigen</button><div class=ans><b>Nichte</b></div></div>
+<div class=i>Sohn von meinem Sohn / meiner Tochter<br><button onclick="show(this)">Antwort zeigen</button><div class=ans><b>Enkel</b></div></div>
+<div class=i>Tochter von meinem Sohn / meiner Tochter<br><button onclick="show(this)">Antwort zeigen</button><div class=ans><b>Enkelin</b></div></div></div></section>
+
+<section class=c><h2>2 · mein/meine · dein/deine</h2><div class=g2>
+<div class=i><input class=gap data-a="meine|deine"> Eltern</div><div class=i><input class=gap data-a="mein|dein"> Neffe</div>
+<div class=i><input class=gap data-a="meine|deine"> Familie</div><div class=i><input class=gap data-a="meine|deine"> Enkelin</div></div><button onclick="forms(this)">Prüfen</button><div class=fb></div></section>
+
+<section class=c><h2>3 · JA, NEIN oder <span style="color:var(--orange)">DOCH</span> — blitzschnell</h2><p>Antworten Sie mündlich über sich.</p><div class=g2>
+<div class="i oral">Du hast keinen Bruder, oder?</div><div class="i oral">Du wohnst nicht in Toljatti, oder?</div>
+<div class="i oral">Du hast ein Haustier, oder?</div><div class="i oral">Deine Eltern wohnen nicht in Toljatti, oder?</div></div></section>
+
+<section class=c><h2>4 · Wo ist der Wortakzent?</h2><p>Klicken Sie auf die betonte Silbe.</p><div class=g3>
+<div class="i stress"><button onclick="stress(this,0)">Fa</button><button onclick="stress(this,1)">mi</button><button onclick="stress(this,0)">lie</button></div>
+<div class="i stress"><button onclick="stress(this,1)">El</button><button onclick="stress(this,0)">tern</button></div>
+<div class="i stress"><button onclick="stress(this,1)">ein</button><button onclick="stress(this,0)">fach</button></div>
+<div class="i stress"><button onclick="stress(this,0)">er</button><button onclick="stress(this,1)">in</button><button onclick="stress(this,0)">nern</button></div>
+<div class="i stress"><button onclick="stress(this,1)">En</button><button onclick="stress(this,0)">kel</button><button onclick="stress(this,0)">in</button></div>
+<div class="i stress"><button onclick="stress(this,1)">Stun</button><button onclick="stress(this,0)">de</button></div></div></section>
+
+<section class=c><h2>5 · Welches Wort passt?</h2><p>Schreiben Sie selbst. Klicken Sie auf ein Wort nur, um es durchzustreichen.</p>
+<div class=bank><span class=chip onclick="this.classList.toggle('used')">sich erinnern</span><span class=chip onclick="this.classList.toggle('used')">merken</span><span class=chip onclick="this.classList.toggle('used')">glauben</span><span class=chip onclick="this.classList.toggle('used')">zuerst</span></div>
+<div class=g2 style="margin-top:10px"><div class=i>Ich weiß noch, was wir letzte Woche gemacht haben. Ich kann mich daran <input class=gap data-a="erinnern">.</div><div class=i>Die Nummer ist wichtig. Ich muss sie mir <input class=gap data-a="merken">.</div><div class=i>Ich bin nicht sicher, aber ich <input class=gap data-a="glaube">, die Antwort ist richtig.</div><div class=i><input class=gap data-a="Zuerst"> lese ich die Aufgabe. Dann antworte ich.</div></div><button onclick="exact(this)">Prüfen</button><div class=fb></div></section>
+
+<a class=go href="https://irina-english-homework.netlify.app/lessons/anastasia/german/lektion-3-familie/" target="_blank" rel="noopener">HEUTE GEHT ES WEITER →</a>
+</div><script>
+function show(b){let x=b.nextElementSibling;x.style.display=x.style.display==='block'?'none':'block'}function n(s){return s.trim().toLowerCase().replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue')}function stress(b,o){b.parentElement.querySelectorAll('button').forEach(x=>x.classList.remove('hit'));if(o)b.classList.add('hit')}function forms(b){let s=b.closest('.c'),x=[...s.querySelectorAll('input[data-a]')],k=0;x.forEach(i=>{let ok=i.dataset.a.split('|').map(n).includes(n(i.value));i.style.borderColor=ok?'#4e9b69':'#d65d5d';if(ok)k++});s.querySelector('.fb').textContent=k+'/'+x.length+' richtig'}function exact(b){let s=b.closest('.c'),x=[...s.querySelectorAll('input[data-a]')],k=0;x.forEach(i=>{let ok=n(i.value)==n(i.dataset.a);i.style.borderColor=ok?'#4e9b69':'#d65d5d';if(ok)k++});s.querySelector('.fb').textContent=k+'/'+x.length+' richtig'}</script></body></html>
