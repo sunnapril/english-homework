@@ -102,7 +102,7 @@ Now, it’s time for you to do some yoga … You’re probably new to yoga, but 
 <div class="note"><b>STARTER</b> After a busy day, I ______ because ______.</div>
 <textarea id="finalOpen" placeholder="Write 1–2 sentences."></textarea></div></section>
 <section class="sec mint"><h2>Send your homework</h2><p class="sub">Your answers stay saved on this device too.</p><button class="btn" id="submitHW">Submit homework</button><div id="submitStatus" class="feedback"></div>
-<form id="sendform" method="POST" target="sink" action="https://script.google.com/macros/s/AKfycbx0FbfDQdzYU_O856vmG7XoW4zkjCJHZ3Yo_Ys0qwrCN6PSjVOYWNFQ-i5KrFjevy64/exec" style="display:none"></form><iframe id="sink" name="sink" style="display:none"></iframe></section>
+</section>
 </main><script>
 const N=s=>(s||'').trim().toLowerCase().replace(/[’']/g,"'");
 document.querySelectorAll('.word').forEach(b=>b.onclick=()=>b.classList.toggle('used'));
@@ -114,12 +114,12 @@ document.querySelectorAll('.blockcheck').forEach(btn=>btn.onclick=()=>{let sec=b
 const KEY='sonya_hw_for_2026_09_25_v4';let started=localStorage.getItem(KEY+':started')||new Date().toISOString();localStorage.setItem(KEY+':started',started);
 function collect(){return {texts:[...document.querySelectorAll('input[type=text],textarea')].map(x=>x.value),choices:[...document.querySelectorAll('.choices')].map(g=>g.querySelector('.choice.sel')?.textContent||'')}}
 function save(){localStorage.setItem(KEY,JSON.stringify(collect()))}document.addEventListener('input',save);document.addEventListener('click',()=>setTimeout(save,50));
-const ENDPOINT='https://script.google.com/macros/s/AKfycbx0FbfDQdzYU_O856vmG7XoW4zkjCJHZ3Yo_Ys0qwrCN6PSjVOYWNFQ-i5KrFjevy64/exec';
-function submissionResult(){let correct=0,total=0,mistakes=[],answers=[];document.querySelectorAll('.gapitem,.mcitem').forEach((it,i)=>{total++;let v='';if(it.classList.contains('gapitem'))v=it.querySelector('input[type=text]')?.value||'';else v=it.querySelector('.choice.sel')?.dataset.v||'';let ok=N(v)===N(it.dataset.answer);if(ok)correct++;else mistakes.push(String(i+1));answers.push(`${i+1}: ${v||'[blank]'} — ${ok?'correct':'incorrect'}`)});return{correct,total,mistakes,answers}}
-let submitTries=0,submitTimer=null;
-document.getElementById('submitHW').onclick=()=>{save();let f=document.getElementById('sendform');f.innerHTML='';let attemptId=localStorage.getItem(KEY+':attempt')||((crypto.randomUUID&&crypto.randomUUID())||('SONYA-'+Date.now()));localStorage.setItem(KEY+':attempt',attemptId);let finishedAt=new Date().toISOString(),r=submissionResult();let p={apiVersion:'v2-test',student:'Sonya',homework:'2026-09-25 Life Vision WB p8-10',score:`${r.correct}/${r.total}`,percent:r.total?Math.round(r.correct/r.total*100):0,mistakes:r.mistakes.join(', '),answers:r.answers.join('\n'),openAnswers:JSON.stringify([...document.querySelectorAll('textarea')].map(x=>x.value)),attemptId,startedAt:started,finishedAt,durationSeconds:Math.max(0,Math.round((new Date(finishedAt).getTime()-new Date(started).getTime())/1000))};for(let [k,v] of Object.entries(p)){let i=document.createElement('input');i.name=k;i.value=v;f.appendChild(i)}document.getElementById('submitStatus').textContent='Sending…';document.getElementById('submitHW').disabled=true;submitTries=0;f.submit();setTimeout(checkSonyaReceived,900)};
-window.sonyaSubmissionStatus=data=>{document.getElementById('sonya-v2-check')?.remove();if(data&&data.ok&&data.received===true){clearTimeout(submitTimer);document.getElementById('submitStatus').textContent='✓ Received by Irina';document.getElementById('submitHW').disabled=false;return}if(++submitTries<8)submitTimer=setTimeout(checkSonyaReceived,900);else{document.getElementById('submitStatus').textContent='Not confirmed. Your answers are still saved on this device. Try again.';document.getElementById('submitHW').disabled=false}};
-function checkSonyaReceived(){document.getElementById('sonya-v2-check')?.remove();const sc=document.createElement('script');sc.id='sonya-v2-check';sc.onerror=()=>{sc.remove();if(++submitTries<8)submitTimer=setTimeout(checkSonyaReceived,900);else{document.getElementById('submitStatus').textContent='Not confirmed. Your answers are still saved on this device. Try again.';document.getElementById('submitHW').disabled=false}};sc.src=ENDPOINT+'?apiVersion=v2-check&attemptId='+encodeURIComponent(localStorage.getItem(KEY+':attempt'))+'&callback=sonyaSubmissionStatus&_='+Date.now();document.body.appendChild(sc)}
+// Restore existing legacy drafts, then hand transport to the same P0 candidate.
+try {const draft=JSON.parse(localStorage.getItem(KEY)||'null');if(draft){[...document.querySelectorAll('input[type=text],textarea')].forEach((el,i)=>el.value=draft.texts?.[i]||'');[...document.querySelectorAll('.choices')].forEach((group,i)=>{const value=draft.choices?.[i];if(value)[...group.querySelectorAll('.choice')].find(b=>b.textContent===value)?.click();});}
+const legacyId=localStorage.getItem(KEY+':attempt');if(legacyId&&!localStorage.getItem(KEY+':attemptId'))localStorage.setItem(KEY+':attemptId',legacyId);
+if(!localStorage.getItem(KEY+':startedAt'))localStorage.setItem(KEY+':startedAt',started);
+} catch(ignore) {}
+window.HOMEWORK_SUBMISSION_CONFIG={student:'Sonya',homework:'2026-09-25 Life Vision WB p8-10',storageKey:KEY,submitButtonSelector:'#submitHW',statusSelector:'#submitStatus',closedSelector:'.gapitem,.mcitem',openSelector:'textarea',allAnswersSelector:'input,select,textarea',choiceGroupSelector:'.mcitem',choiceButtonSelector:'.choice',selectedChoiceSelector:'.sel',normalizeAnswer:N};
 
 document.querySelectorAll('.check-items').forEach(btn=>btn.onclick=()=>{
  const sec=btn.closest('.sec');let all=true;
@@ -129,4 +129,5 @@ document.querySelectorAll('.check-items').forEach(btn=>btn.onclick=()=>{
 });
 document.querySelectorAll('.ihint').forEach(b=>b.onclick=()=>b.closest('.q,.gapitem,.mcitem').querySelector('.minihint')?.classList.toggle('show'));
 document.querySelectorAll('.ianswer').forEach(b=>b.onclick=()=>b.closest('.q,.gapitem,.mcitem').querySelector('.itemanswer')?.classList.toggle('show'));
-</script></body></html>
+</script><script src="/assets/homework-submission.js"></script>
+</body></html>
