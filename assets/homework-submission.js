@@ -90,7 +90,9 @@ if(confirmed){setStatus('✓ Received by Irina. Start again for a new attempt.',
 if(!storageHealthy){setStatus('Cannot save submission locally. Do not close this page.','failed');return}
 sending=true;button.disabled=true;saveDraft();let pending;try{pending=JSON.parse(read(pendingKey)||'null')}catch(e){}
 if(pending&&(!pending.attemptId||pending.attemptId!==attemptId||pending.student!==cfg.student||pending.homework!==cfg.homework)){setStatus('Saved submission is invalid. Keep this page open and contact Irina.','failed');button.disabled=false;sending=false;return}
-// Never silently replace an already staged attempt with different answers.
+// If the student changed answers after an unconfirmed send, send the CURRENT answers as a new attempt
+// (new attemptId, so the server never sees two different payloads under one id).
+if(pending){const now=payloadNow();if(!['score','mistakes','answers','openAnswers'].every(k=>String(pending[k]??'')===String(now[k]??''))){attemptId=uuid();if(!write(attemptKey,attemptId)){setStatus('Cannot save submission locally. Do not close this page.','failed');button.disabled=false;sending=false;return}remove(pendingKey);pending=null}}
 if(!pending){pending=payloadNow();if(!write(pendingKey,JSON.stringify(pending))){setStatus('Cannot save submission locally. Do not close this page.','failed');button.disabled=false;sending=false;return}}
 try{const calculated=await digestPayload(pending);if(pending.payloadDigest&&pending.payloadDigest!==calculated)throw Error('Saved payload digest mismatch');pending.payloadDigest=calculated;if(!write(pendingKey,JSON.stringify(pending)))throw Error('Cannot save payload digest')}catch(e){setStatus('Cannot prepare the saved submission. Keep this page open and contact Irina.','failed');button.disabled=false;sending=false;return}
 if(navigator.onLine===false){setStatus('You are offline. Your answers are saved. Click Retry when online.','failed');button.textContent='Retry';button.disabled=false;sending=false;return}
