@@ -199,7 +199,7 @@ checkBtn.addEventListener('click',()=>{
  if(!name){sendStatus.textContent='Please enter your name above and press “Check my work” again.';return}
  formStudent.value=name;formHomework.value='Roadmap A2+ · Unit 5A Relative Clauses · Complete Homework';formScore.value=`${correct}/${closedTotal}`;formPercent.value=pct;formMistakes.value=wrong.join(', ');
  formAnswers.value=[details.length?`Closed: ${details.join(' | ')}`:'Closed: all correct',`Open: ${open.join(' | ')}`,`Spoken aloud: ${spoken.map((s,i)=>`${31+i}=${s.checked?'yes':'no'}`).join(', ')}`].join(' || ');
- resultForm.submit();sendStatus.textContent='Your result has been sent. Your answers will stay saved on this device.';saveDraft();
+ resultForm.submit();sendStatus.textContent='Your answers were sent, but this page cannot confirm that your teacher received them. They stay saved on this device, so you can send them again if needed.';saveDraft();
 });
 resetBtn.addEventListener('click',()=>{if(!confirm('Clear all saved answers and start again?'))return;hwForm.reset();studentName.value='Anastasia';answers.forEach(el=>{const q=el.closest('.q');q.classList.remove('correct','incorrect');q.querySelector('.feedback').textContent=''});matchStarts.forEach(b=>{b.disabled=false;b.classList.remove('active','matched','wrong')});matchEnds.forEach(b=>{b.disabled=false;b.classList.remove('matched','wrong')});activeMatchStart=null;localStorage.removeItem(storageKey);result.classList.remove('show');saveNote.textContent='Your answers are saved automatically on this device.';updateProgress();scrollTo({top:0,behavior:'smooth'})});
 restoreDraft();hydrateMatching();updateProgress();
