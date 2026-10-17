@@ -240,7 +240,7 @@ send.onclick=()=>{save();const r=rows(),closed=r.filter(x=>!x.manual),n=closed.f
 score.value=n+'/'+closed.length;percent.value=Math.round(n/closed.length*100);mistakes.value=closed.filter(x=>!x.ok).map(x=>x.n).join(', ');
 answers.value=r.map(x=>`${x.n}. ${x.a||'—'}${x.manual?' — teacher review':x.ok?' — correct':' — incorrect'}`).join('\n');
 openAnswers.value=JSON.stringify(r.filter(x=>x.manual));attemptId.value=id;startedAt.value=start.toISOString();finishedAt.value=new Date().toISOString();durationSeconds.value=Math.round((Date.now()-start)/1000);
-form.submit();sendStatus.textContent=' Saved and sent.'};
+form.submit();sendStatus.textContent='Submission attempted, but receipt is not confirmed. Keep this page and your saved answers until Irina confirms.'};
 restart.onclick=()=>{if(confirm('Clear all saved answers and start again?')){localStorage.removeItem(KEY);localStorage.removeItem(KEY+'-attempt');location.reload()}};
 load();
 </script></body></html>
