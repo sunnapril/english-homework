@@ -31,7 +31,8 @@ function restore(){let data;try{data=JSON.parse(read(draftKey)||'null')}catch(e)
 }
 let saveTimer;
 function saveDraft(){clearTimeout(saveTimer);if(!write(draftKey,JSON.stringify(snapshot())))setStatus('Autosave unavailable — keep this page open.','failed');}
-function setStatus(message,kind){status.textContent=message;status.dataset.submissionState=kind||'';}
+function setStatus(message,kind){status.textContent=message;status.dataset.submissionState=kind||'';// Some pages hide the status box with CSS; always show a non-empty message.
+if(message){status.hidden=false;status.style.display='block';}}
 restore();
 document.addEventListener('input',()=>{clearTimeout(saveTimer);saveTimer=setTimeout(saveDraft,150)},true);
 document.addEventListener('change',saveDraft,true);
