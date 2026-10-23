@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sergey · Roadmap B2 · Unit 5A Splashing out</title>
+<style>:root{--green:#2d7d70;--ink:#223432;--cream:#fbf8f1;--mint:#e7f1ed;--line:#bfd2cd;--red:#a84e49;--purple:#675f98;--gold:#9a6a20}*{box-sizing:border-box}body{margin:0;background:#eef4f2;color:var(--ink);font:18px/1.5 Arial,sans-serif}h1{font-size:2.15rem;line-height:1.12}h2{font-size:1.65rem;margin:.2em 0 .65em}h3{margin:1.2em 0 .4em}.slide{display:none;min-height:100vh;padding:82px max(24px,6vw) 86px;background:#fff}.slide.active{display:block}.top{position:fixed;z-index:20;left:0;right:0;top:0;height:62px;display:flex;gap:7px;align-items:center;padding:8px 16px;background:#f8fbfa;border-bottom:1px solid var(--line)}.top button,.nav-btn{border:1.5px solid #78aaa1;background:#fff;border-radius:12px;padding:8px 12px;font:inherit;font-weight:700;color:var(--ink);cursor:pointer}.top button.active{background:#d8eee7}.btn{font:inherit;font-weight:750;cursor:pointer}.hint-btn{display:block;width:max-content;margin-top:10px;border:1px solid #d6b774;background:#fff8e8;color:#745019;border-radius:999px;padding:4px 10px;font-size:.84em}.toggle-btn{display:block;width:max-content;margin-top:10px;border:1px solid #a8a0ca;background:#f5f2ff;color:#51477e;border-radius:10px;padding:7px 11px}.check-btn{display:block;margin-top:14px;border:0;background:#3d4f78;color:#fff;border-radius:10px;padding:9px 16px}.progress{height:8px;background:#d9e8e4;flex:1;border-radius:8px;overflow:hidden}.bar{height:100%;background:var(--green)}.tag{color:var(--green);font-weight:800;text-transform:uppercase;letter-spacing:.03em}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.card,.item,.rule{border:1.5px solid var(--line);border-radius:17px;background:var(--cream);padding:16px;margin:11px 0}.rule{background:var(--mint)}.person{border-left:7px solid var(--purple)}.target,.useful{color:#176b60;font-weight:800}.hint,.answer,.support{display:none;margin-top:9px;padding:11px 13px;border-radius:11px;background:#edf3f1}.answer{background:#e4f5eb;color:#165c47;font-weight:700}.feedback{margin-top:9px;font-weight:800}.ok{color:#167057}.bad{color:var(--red)}.bottom{position:fixed;right:20px;bottom:16px;display:flex;gap:8px}.word-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.word-card{padding:12px;border:1px solid var(--line);border-radius:13px;background:#fff;text-align:center;font-weight:800;cursor:pointer}.word-card.used{text-decoration:line-through;opacity:.45}.glosses{display:grid;gap:9px}.gloss{border-left:5px solid #9abeb6;padding:10px 13px;background:#f3f7f6}.question{border-left:6px solid #86ada5}.lead{font-size:1.08em}.inline-select,.inline-input{font:inherit;color:var(--ink);background:#fff;border:1.5px solid #8eb4ad;border-radius:9px;padding:5px 8px}.inline-input{width:min(255px,75vw)}.item.correct{background:#eaf8f1;border-color:#278366}.item.wrong{background:#fff0ee;border-color:#ba5b54}.source{color:#657572;font-size:.92em}@media(max-width:760px){body{font-size:16px}.grid,.word-grid{grid-template-columns:1fr}.slide{padding:75px 17px 80px}.top .jump{display:none}}</style>
+<style>.story-text{font-size:1.03em;line-height:1.85}.story-line{margin:0 0 15px}.story-gap.item{display:inline;border:0;background:transparent;padding:2px;margin:0;border-radius:8px}.story-gap.item.correct{background:#eaf8f1}.story-gap.item.wrong{background:#fff0ee}.story-gap .hint-btn{display:inline-block;margin:0 4px;padding:2px 7px;font-size:.7em}.story-gap .feedback{display:inline;margin-left:4px}.story-gap .hint,.story-gap .answer{display:none;margin:8px 0 12px}</style>
+</head>
+<body>
+<nav class="top">
+<button onclick="go(-1)">←</button>
+<div class="progress">
+<div class="bar">
+</div>
+</div>
+<button class="jump" onclick="jump(0)">Start</button>
+<button class="jump" onclick="jump(1)">Texts</button>
+<button class="jump" onclick="jump(2)">Questions</button>
+<button class="jump" onclick="jump(3)">False economy</button>
+<button class="jump" onclick="jump(4)">Review</button>
+<button class="jump" onclick="jump(5)">Discuss</button>
+<button class="jump" onclick="jump(6)">Language</button>
+<button class="jump" onclick="jump(7)">Meaning</button>
+<button class="jump" onclick="jump(8)">Text</button>
+<button class="jump" onclick="jump(9)">Reactions</button>
+<button class="jump" onclick="jump(10)">Speak</button>
+<b class="count">
+</b>
+</nav>
+<div class="bottom">
+<button class="nav-btn" onclick="go(-1)">←</button>
+<button class="nav-btn" onclick="go(1)">→</button>
+</div>
+<section class="slide">
+<div class="tag">Roadmap B2 · Unit 5A · Student’s Book p.38</div>
+<h1>Splashing out</h1>
+<p class="lead">Money habits, useful money phrases and false economies.</p>
+<div class="grid">
+<div class="card">
+<b>Read</b>
+<br>three experiences of living on a budget</div>
+<div class="card">
+<b>Notice</b>
+<br>eight complete money phrases</div>
+<div class="card">
+<b>Choose</b>
+<br>the phrase that fits each question</div>
+<div class="card">
+<b>Discuss</b>
+<br>real spending decisions and their consequences</div>
+</div>
+</section>
+<section class="slide">
+<div class="tag">1 · Student’s Book (SB) p.38 Ex.2a–b</div>
+<h2>Three experiences of living on a budget</h2>
+<p>
+<b>Read the three experiences.</b> Decide who is the most sensible, who is the least sensible and whose habits are most similar to yours. Then use the highlighted phrases to explain the differences.</p>
+<div class="grid">
+<div class="card person">
+<h3>Liane</h3>
+<p>She has only a few hundred euros a month to <span class="target">live on</span>. About half <span class="target">goes on</span> rent, and she uses the rest for bills, food and meeting friends. She tends to <span class="target">stock up on</span> essentials when a supermarket has a special offer. At the end of the month, she sometimes eats porridge for every meal.</p>
+</div>
+<div class="card person">
+<h3>Andrea</h3>
+<p>She admits that she is not good at living on a budget. She tends to <span class="target">splash out on</span> gadgets she does not need and then panics when she <span class="target">gets into debt</span>. She tries to <span class="target">cut back on</span> non-essential spending, but usually overspends again.</p>
+</div>
+<div class="card person">
+<h3>Omar</h3>
+<p>He is strict about budgeting. He <span class="target">takes out</span> €80 each week and lives on that amount. If he borrows money, he <span class="target">pays it back</span> as soon as possible. He also <span class="target">sets aside</span> some money every month for emergencies.</p>
+</div>
+<div class="card">
+<h3>Compare</h3>
+<p>Who is the most sensible? Who is the least sensible? Who are you most similar to?</p>
+<button class="btn toggle-btn" onclick="toggle('phrase-help')">Meanings in English</button>
+<button class="btn toggle-btn" onclick="toggle('phrase-ru')">Русский перевод</button>
+</div>
+</div>
+<div id="phrase-help" class="support glosses">
+<div class="gloss">
+<b>live on</b> — use a particular amount of money for your living costs.
+</div>
+<div class="gloss">
+<b>go on</b> — be spent on a particular thing.
+</div>
+<div class="gloss">
+<b>stock up on</b> — buy extra quantities for future use.
+</div>
+<div class="gloss">
+<b>splash out on</b> — spend a lot on something enjoyable or special.
+</div>
+<div class="gloss">
+<b>get into debt</b> — reach a situation in which you owe money.
+</div>
+<div class="gloss">
+<b>cut back on</b> — reduce how much you use or spend.
+</div>
+<div class="gloss">
+<b>take out</b> — withdraw money from a bank or cashpoint.
+</div>
+<div class="gloss">
+<b>pay back</b> — return money that you borrowed.
+</div>
+<div class="gloss">
+<b>set aside</b> — keep money for a particular purpose.
+</div>
+</div>
+<div id="phrase-ru" class="support"><i>live on — жить на определённую сумму · go on — уходить на что-либо · stock up on — запастись · splash out on — раскошелиться · get into debt — влезть в долги · cut back on — сократить расходы · take out — снять деньги · pay back — вернуть долг · set aside — отложить деньги</i></div>
+</section>
+<section class="slide">
+<div class="tag">2 · Student’s Book (SB) p.38 Ex.3</div>
+<h2>Choose the correct money phrase</h2>
+<p>
+<b>Choose the alternative that makes each complete question natural.</b> Then answer the question aloud in one or two sentences.</p>
+<div id="money-choices">
+<div class="item" data-block="money" data-answer="cut back on"><b>1.</b> What could you <select class="inline-select"><option value="">choose…</option><option>pay back</option><option>cut back on</option></select> in your weekly spending?
+<button class="btn hint-btn" onclick="toggle('mh1')">Hint</button>
+<div id="mh1" class="hint">Which phrase means “reduce”?</div>
+<div class="feedback"></div><div class="answer"><b>Correct answer:</b> cut back on</div>
+</div>
+<div class="item" data-block="money" data-answer="live on"><b>2.</b> Could you <select class="inline-select"><option value="">choose…</option><option>go on</option><option>live on</option></select> less?
+<button class="btn hint-btn" onclick="toggle('mh2')">Hint</button>
+<div id="mh2" class="hint">Which phrase refers to managing with a particular amount of money?</div>
+<div class="feedback"></div><div class="answer"><b>Correct answer:</b> live on</div>
+</div>
+<div class="item" data-block="money" data-answer="set aside"><b>3.</b> Do you <select class="inline-select"><option value="">choose…</option><option>go on</option><option>set aside</option></select> enough for emergencies?
+<button class="btn hint-btn" onclick="toggle('mh3')">Hint</button>
+<div id="mh3" class="hint">Which phrase means “save for a particular purpose”?</div>
+<div class="feedback"></div><div class="answer"><b>Correct answer:</b> set aside</div>
+</div>
+<div class="item" data-block="money" data-answer="splash out on"><b>4.</b> Do you often <select class="inline-select"><option value="">choose…</option><option>live on</option><option>splash out on</option></select> luxuries?
+<button class="btn hint-btn" onclick="toggle('mh4')">Hint</button>
+<div id="mh4" class="hint">Which phrase means “spend a lot on something special”?</div>
+<div class="feedback"></div><div class="answer"><b>Correct answer:</b> splash out on</div>
+</div>
+<div class="item" data-block="money" data-answer="getting into debt"><b>5.</b> What do you think about <select class="inline-select"><option value="">choose…</option><option>setting aside</option><option>getting into debt</option></select>?
+<button class="btn hint-btn" onclick="toggle('mh5')">Hint</button>
+<div id="mh5" class="hint">Which option can stand here without an object after it?</div>
+<div class="feedback"></div><div class="answer"><b>Correct answer:</b> getting into debt</div>
+</div>
+<div class="item" data-block="money" data-answer="go on"><b>6.</b> Does most of your spending <select class="inline-select"><option value="">choose…</option><option>take out</option><option>go on</option></select> essentials or non-essentials?
+<button class="btn hint-btn" onclick="toggle('mh6')">Hint</button>
+<div id="mh6" class="hint">Which phrase means “be spent on”?</div>
+<div class="feedback"></div><div class="answer"><b>Correct answer:</b> go on</div>
+</div>
+<div class="item" data-block="money" data-answer="take out"><b>7.</b> How often do you <select class="inline-select"><option value="">choose…</option><option>splash out on</option><option>take out</option></select> money from the cashpoint?
+<button class="btn hint-btn" onclick="toggle('mh7')">Hint</button>
+<div id="mh7" class="hint">Which phrase is used for withdrawing cash?</div>
+<div class="feedback"></div><div class="answer"><b>Correct answer:</b> take out</div>
+</div>
+<div class="item" data-block="money" data-answer="stock up on"><b>8.</b> Do you <select class="inline-select"><option value="">choose…</option><option>go on</option><option>stock up on</option></select> things you don’t really need?
+<button class="btn hint-btn" onclick="toggle('mh8')">Hint</button>
+<div id="mh8" class="hint">Which phrase means “buy extra quantities for later”?</div>
+<div class="feedback"></div><div class="answer"><b>Correct answer:</b> stock up on</div>
+</div>
+</div>
+<button class="btn check-btn" onclick="checkBlock('money')">Check</button>
+</section>
+<section class="slide">
+<div class="tag">3 · Student’s Book (SB) p.38 Ex.4</div>
+<h2>What is a false economy?</h2>
+<div class="rule">
+<p>Sometimes something looks like a bargain because buying it now appears to save money. Later it breaks, fails to work or is never used. The choice that seemed cheap finally costs more. Economists call this a <span class="target">false economy</span>.</p>
+</div>
+<p>
+<b>Explain <span class="target">false economy</span> in your own words.</b> Then give one real or realistic example of something that looked economical but cost more in the long run.</p>
+<button class="btn toggle-btn" onclick="toggle('false-help')">Meaning in English</button>
+<button class="btn toggle-btn" onclick="toggle('false-ru')">Русский перевод</button>
+<div id="false-help" class="support">
+<b>false economy</b> — an apparent saving that causes greater expense later.
+</div>
+<div id="false-ru" class="support"><i>ложная экономия; экономия, которая в итоге обходится дороже</i></div>
+</section>
+<section class="slide">
+<div class="tag">4 · Retrieval from Sergey’s vocabulary</div>
+<h2>Make familiar language available again</h2>
+<div class="rule">
+<div class="word-grid">
+<div class="word-card" onclick="this.classList.toggle('used')">rather than</div>
+<div class="word-card" onclick="this.classList.toggle('used')">reasonable</div>
+<div class="word-card" onclick="this.classList.toggle('used')">merely</div>
+<div class="word-card" onclick="this.classList.toggle('used')">clarify</div>
+<div class="word-card" onclick="this.classList.toggle('used')">underlying issue</div>
+<div class="word-card" onclick="this.classList.toggle('used')">coherent</div>
+<div class="word-card" onclick="this.classList.toggle('used')">take into account</div>
+<div class="word-card" onclick="this.classList.toggle('used')">with hindsight</div>
+</div>
+<button class="btn toggle-btn" onclick="toggle('old-help')">Meanings in English</button>
+<button class="btn toggle-btn" onclick="toggle('old-ru')">Русский перевод</button>
+</div>
+<div id="old-help" class="support glosses">
+<div class="gloss">
+<b>coherent</b> — clear, logical and connected.
+</div>
+<div class="gloss">
+<b>merely</b> — only; no more than.
+</div>
+<div class="gloss">
+<b>underlying issue</b> — the deeper problem behind the visible one.
+</div>
+<div class="gloss">
+<b>with hindsight</b> — looking back with knowledge you have now.
+</div>
+<div class="gloss">
+<b>take into account</b> — consider something when deciding.
+</div>
+<div class="gloss">
+<b>reasonable</b> — sensible, fair or acceptable.
+</div>
+<div class="gloss">
+<b>clarify</b> — make something clearer.
+</div>
+<div class="gloss">
+<b>rather than</b> — instead of; used to contrast alternatives.
+</div>
+<div id="old-ru" class="support"><i>rather than — а не; вместо · reasonable — разумный, приемлемый · merely — всего лишь · clarify — уточнить, прояснить · underlying issue — скрытая основная проблема · coherent — связный, последовательный · take into account — принимать во внимание · with hindsight — оглядываясь назад</i></div>
+</div>
+<p>
+<b>Complete each response with one expression from the bank. Use each expression once.</b>
+</p>
+<div class="grid">
+<div class="item" data-block="review" data-answer="coherent">1. The explanation sounded detailed, but it was not completely <input class="inline-input">: two conclusions contradicted each other.<div class="feedback"></div><div class="answer"><b>Correct answer:</b> coherent</div></div>
+<div class="item" data-block="review" data-answer="merely">2. The advertised discount <input class="inline-input"> moved part of the cost into a compulsory service fee.<div class="feedback"></div><div class="answer"><b>Correct answer:</b> merely</div></div>
+<div class="item" data-block="review" data-answer="take into account">3. Before accepting the cheaper contract, we should <input class="inline-input"> the cost of repairs and support.<div class="feedback"></div><div class="answer"><b>Correct answer:</b> take into account</div></div>
+<div class="item" data-block="review" data-answer="underlying issue">4. The delayed delivery was inconvenient, but the <input class="inline-input"> was the company’s unreliable stock system.<div class="feedback"></div><div class="answer"><b>Correct answer:</b> underlying issue</div></div>
+<div class="item" data-block="review" data-answer="with hindsight">5. <input class="inline-input">, paying for the longer warranty would have been the more sensible choice.<div class="feedback"></div><div class="answer"><b>Correct answer:</b> With hindsight</div></div>
+<div class="item" data-block="review" data-answer="clarify">6. Could you <input class="inline-input"> whether the subscription renews automatically?<div class="feedback"></div><div class="answer"><b>Correct answer:</b> clarify</div></div>
+<div class="item" data-block="review" data-answer="reasonable">7. The final estimate seems <input class="inline-input"> because it includes installation and maintenance.<div class="feedback"></div><div class="answer"><b>Correct answer:</b> reasonable</div></div>
+<div class="item" data-block="review" data-answer="rather than">8. I would repair the sturdy desk <input class="inline-input"> replace it with a flimsy one.<div class="feedback"></div><div class="answer"><b>Correct answer:</b> rather than</div></div>
+</div>
+<button class="btn check-btn" onclick="checkBlock('review')">Check</button>
+</section>
+<section class="slide">
+<div class="tag">5 · Questions for a real conversation</div>
+<h2>Spending decisions with a story</h2>
+<div class="item question">
+<b>1.</b> What purchase initially looked <span class="useful">reasonable</span> but later turned out to be a <span class="useful">false economy</span>?<button class="btn toggle-btn" onclick="toggle('q1')">Optional language</button>
+<div id="q1" class="support">With hindsight, … · The underlying issue was … · I should have taken … into account.</div>
+</div>
+<div class="item question">
+<b>2.</b> Which regular expense could you <span class="useful">cut back on</span> without making your daily life noticeably worse?<button class="btn toggle-btn" onclick="toggle('q2')">Optional language</button>
+<div id="q2" class="support">merely · rather than · any particular reason · a reasonable amount</div>
+</div>
+<div class="item question">
+<b>3.</b> When is it sensible to <span class="useful">splash out on</span> the more expensive version of something?<button class="btn toggle-btn" onclick="toggle('q3')">Optional language</button>
+<div id="q3" class="support">sturdy · reliable · long-term value · demanding use</div>
+</div>
+<div class="item question">
+<b>4.</b> Have you ever <span class="useful">set money aside</span> for something and then decided not to buy it?<button class="btn toggle-btn" onclick="toggle('q4')">Optional language</button>
+<div id="q4" class="support">I reconsidered … · I realised that … · It no longer appealed to me because …</div>
+</div>
+</section>
+<section class="slide">
+<div class="tag">6 · Student’s Book (SB) p.144 · Language Bank 5A</div>
+<h2>Mistakes in the past: forms that do different jobs</h2>
+<p><b>Compare the meanings before completing any exercises.</b> Similar forms do not always express the same kind of regret or possibility.</p>
+<div class="rule">
+<p><b>wish / if only + Past Perfect</b> — regret about something that did or did not happen. <b>If only</b> is usually more emotional, especially when <i>only</i> is stressed.</p>
+<p><span class="target">I wish I had taken the job with the higher salary.</span><br><span class="target">If only I hadn’t taken out such a big loan.</span></p>
+</div>
+<div class="rule"><p><b>should / ought to have + past participle</b> — regret, advice after the event or criticism of a past action.</p><p><span class="target">I shouldn’t have spent so much on my last holiday.</span><br><span class="target">You ought to have cut back on your spending sooner.</span></p></div>
+<div class="rule"><p><b>could have + past participle</b> has more than one use:</p><p><b>1 · an opportunity not taken:</b> We <span class="target">could have bought</span> a bigger car, but we didn’t want to spend too much.</p><p><b>2 · an evaluation of the actual result:</b> It <span class="target">could have been worse</span>. (= It was not so bad.) · I <span class="target">couldn’t have done it better myself</span>. (= You did very well.)</p><p><b>3 · something was impossible without help:</b> I <span class="target">couldn’t have done it without you</span>. (= Your help made it possible.)</p></div>
+<div class="rule"><p><b>might have + past participle</b> can express a similar unreal past possibility, often with an <b>if</b>-clause.</p><p><span class="target">I might have got a better degree if I’d studied harder.</span></p><p><b>was / were supposed to + infinitive</b> describes an expectation or arrangement. It can refer to something that did not happen or to something that happened but should not have.</p><p><span class="target">I was supposed to make my first payment last week, but I forgot.</span> · <span class="target">You were supposed to fix it, not break it!</span></p></div>
+</section>
+<section class="slide">
+<div class="tag">7 · Student’s Book (SB) p.145 · 5A Ex.1</div>
+<h2>What does the sentence actually tell us?</h2>
+<p><b>Choose the interpretation that follows logically from each sentence.</b> Do not choose by recognising one grammar form; check what really happened.</p>
+<div class="item" data-block="meaning" data-answer="I didn't arrive earlier than usual."><b>1.</b> I was supposed to arrive earlier than usual today.<br><select class="inline-select"><option value="">choose…</option><option>I arrived earlier than usual.</option><option>I didn't arrive earlier than usual.</option></select><button class="btn hint-btn" onclick="toggle('m1')">Hint</button><div id="m1" class="hint">Was the expectation fulfilled?</div><div class="feedback"></div><div class="answer"><b>Correct answer:</b> I didn’t arrive earlier than usual.</div></div>
+<div class="item" data-block="meaning" data-answer="I didn't accept my parents' offer."><b>2.</b> If only I had accepted my parents’ offer in 2009.<br><select class="inline-select"><option value="">choose…</option><option>I accepted my parents' offer.</option><option>I didn't accept my parents' offer.</option></select><button class="btn hint-btn" onclick="toggle('m2')">Hint</button><div id="m2" class="hint"><i>If only + Past Perfect</i> describes the opposite of the past reality.</div><div class="feedback"></div><div class="answer"><b>Correct answer:</b> I didn’t accept my parents’ offer.</div></div>
+<div class="item" data-block="meaning" data-answer="I think this is bad."><b>3.</b> You shouldn’t have got into debt at university.<br><select class="inline-select"><option value="">choose…</option><option>I think this is bad.</option><option>I don't think this is bad.</option></select><button class="btn hint-btn" onclick="toggle('m3')">Hint</button><div id="m3" class="hint">Is the speaker approving or criticising the past decision?</div><div class="feedback"></div><div class="answer"><b>Correct answer:</b> I think this is bad.</div></div>
+<div class="item" data-block="meaning" data-answer="You did as well as me."><b>4.</b> I couldn’t have done better myself!<br><select class="inline-select"><option value="">choose…</option><option>You did as well as me.</option><option>You didn't do as well as me.</option></select><button class="btn hint-btn" onclick="toggle('m4')">Hint</button><div id="m4" class="hint">This fixed expression is a compliment: the result was as good as the speaker could achieve.</div><div class="feedback"></div><div class="answer"><b>Correct answer:</b> You did as well as me.</div></div>
+<div class="item" data-block="meaning" data-answer="It was a bad investment."><b>5.</b> We might have been better off if we hadn’t invested in that tech company.<br><select class="inline-select"><option value="">choose…</option><option>It was a good investment.</option><option>It was a bad investment.</option></select><button class="btn hint-btn" onclick="toggle('m5')">Hint</button><div id="m5" class="hint"><i>Better off if we hadn’t…</i> means the actual decision left them in a worse position.</div><div class="feedback"></div><div class="answer"><b>Correct answer:</b> It was a bad investment.</div></div>
+<div class="item" data-block="meaning" data-answer="They bought the motorbike."><b>6.</b> They weren’t supposed to buy the motorbike, just test it!<br><select class="inline-select"><option value="">choose…</option><option>They bought the motorbike.</option><option>They didn't buy the motorbike.</option></select><button class="btn hint-btn" onclick="toggle('m6')">Hint</button><div id="m6" class="hint">A negative expectation does not mean the action failed to happen.</div><div class="feedback"></div><div class="answer"><b>Correct answer:</b> They bought the motorbike.</div></div>
+<button class="btn check-btn" onclick="checkBlock('meaning')">Check</button>
+</section>
+<section class="slide">
+<div class="tag">8 · Student’s Book (SB) p.145 · 5A Ex.2</div>
+<h2>One financial story: build the complete forms</h2>
+<p><b>Complete the text with the correct positive or negative form of the verbs in brackets.</b> The whole story is visible because the surrounding meaning determines each answer.</p>
+<div class="card story-text">
+<p class="story-line">My first bad financial decision was deciding to go to university as soon as I left school, which I really <span class="story-gap item" data-block="story" data-answer="shouldn't have done"><sup><b>1</b></sup> <input class="inline-input"> <span class="source">(should / do)</span><button class="btn hint-btn" onclick="toggle('s1')">Hint</button><span class="feedback"></span><span id="s1" class="hint">The writer now believes going immediately was the wrong decision.</span><span class="answer"><b>Correct answer:</b> shouldn’t have done</span></span>.</p>
+<p class="story-line">I <span class="story-gap item" data-block="story" data-answer="ought to have taken"><sup><b>2</b></sup> <input class="inline-input"> <span class="source">(ought / take)</span><button class="btn hint-btn" onclick="toggle('s2')">Hint</button><span class="feedback"></span><span id="s2" class="hint">This is the better action the writer now recommends.</span><span class="answer"><b>Correct answer:</b> ought to have taken</span></span> some time in the real world to earn some money and save it.</p>
+<p class="story-line">I accepted the full student loan and moved into student accommodation when I <span class="story-gap item" data-block="story" data-answer="could have stayed"><sup><b>3</b></sup> <input class="inline-input"> <span class="source">(could / stay)</span><button class="btn hint-btn" onclick="toggle('s3')">Hint</button><span class="feedback"></span><span id="s3" class="hint">Staying at home was an available option that the writer did not choose.</span><span class="answer"><b>Correct answer:</b> could have stayed</span></span> at home and travelled to university every day.</p>
+<p class="story-line">I really wish I <span class="story-gap item" data-block="story" data-answer="hadn't spent"><sup><b>4</b></sup> <input class="inline-input"> <span class="source">(spend)</span><button class="btn hint-btn" onclick="toggle('s4')">Hint</button><span class="feedback"></span><span id="s4" class="hint">After <i>wish</i>, use the Past Perfect; the writer did spend the money.</span><span class="answer"><b>Correct answer:</b> hadn’t spent</span></span> so much money while I was there — I splashed out on a busy social life.</p>
+<p class="story-line">It was enjoyable, but I <span class="story-gap item" data-block="story" data-answer="could have studied"><sup><b>5</b></sup> <input class="inline-input"> <span class="source">(could / study)</span><button class="btn hint-btn" onclick="toggle('s5')">Hint</button><span class="feedback"></span><span id="s5" class="hint">The writer had the opportunity to study harder but did not take it.</span><span class="answer"><b>Correct answer:</b> could have studied</span></span> harder and got a better degree.</p>
+<p class="story-line">Things <span class="story-gap item" data-block="story" data-answer="might have been"><sup><b>6</b></sup> <input class="inline-input"> <span class="source">(might / be)</span><button class="btn hint-btn" onclick="toggle('s6')">Hint</button><span class="feedback"></span><span id="s6" class="hint">The writer imagines a possible different result after an unreal past condition.</span><span class="answer"><b>Correct answer:</b> might have been</span></span> better if I’d chosen a more useful subject, not TV Studies.</p>
+<p class="story-line">I left with a huge debt, then couldn’t find a job. I <span class="story-gap item" data-block="story" data-answer="was supposed to start"><sup><b>7</b></sup> <input class="inline-input"> <span class="source">(suppose / start)</span><button class="btn hint-btn" onclick="toggle('s7')">Hint</button><span class="feedback"></span><span id="s7" class="hint">Repayment was expected to begin after a condition was met.</span><span class="answer"><b>Correct answer:</b> was supposed to start</span></span> paying the loan back once I reached a certain salary, but that didn’t happen, so I still have the debt.</p>
+<p class="story-line">So now I’m studying again, to be a dentist, and I’m paying for it myself. If only I <span class="story-gap item" data-block="story" data-answer="hadn't been"><sup><b>8</b></sup> <input class="inline-input"> <span class="source">(be)</span><button class="btn hint-btn" onclick="toggle('s8')">Hint</button><span class="feedback"></span><span id="s8" class="hint">The writer was impatient and now expresses strong regret about it.</span><span class="answer"><b>Correct answer:</b> hadn’t been</span></span> so impatient to go to university when I was younger!</p>
+</div>
+<button class="btn check-btn" onclick="checkBlock('story')">Check</button>
+</section>
+<section class="slide">
+<div class="tag">9 · Teacher’s Book (TB) p.204 · 5A Grammar 2, adapted</div>
+<h2>Different reactions to past mistakes</h2>
+<p><b>Choose any three situations.</b> Respond to each one with a different form from today. More than one answer is possible, but the reaction must match the facts.</p>
+<div class="grid">
+<div class="item question">You bought shoes online without checking the measurements, and they didn’t fit.</div>
+<div class="item question">You stayed up late to binge-watch a whole series. Now you are exhausted.</div>
+<div class="item question">You accidentally unfriended someone on social media, and now they are not talking to you.</div>
+<div class="item question">You promised to message a relative yesterday, but you forgot.</div>
+<div class="item question">You got carried away with one part of a project and missed the deadline.</div>
+<div class="item question">A colleague made an offensive comment in a meeting. You regret not challenging it.</div>
+</div>
+<div class="item"><b>Reaction 1</b><br><input class="inline-input" style="width:min(760px,100%)"><br><b>Reaction 2</b><br><input class="inline-input" style="width:min(760px,100%)"><br><b>Reaction 3</b><br><input class="inline-input" style="width:min(760px,100%)"><button class="btn toggle-btn" onclick="toggle('reaction-help')">Optional language</button><div id="reaction-help" class="support">I should(n’t) have… · I could have… · I wish I had(n’t)… · If only I had(n’t)… · I was/wasn’t supposed to… · It might have been different if…</div></div>
+</section>
+<section class="slide">
+<div class="tag">10 · Conversation</div>
+<h2>A purchase you would handle differently</h2>
+<div class="item question"><b>Choose one purchase or financial decision that did not work out as expected.</b><p>Explain what you expected, what actually happened and what you would do differently now. Try to use three different forms from today.</p><button class="btn toggle-btn" onclick="toggle('past-language')">Optional language</button><div id="past-language" class="support"><b>Organising the story:</b> At the time, I assumed… · The underlying issue was… · It turned out that…<br><b>Looking back:</b> With hindsight,… · I should have… · I could have… · I wish I hadn’t… · It was supposed to…</div></div>
+<h3>Reserve questions</h3>
+<div class="item question"><b>1.</b> Which technology purchase is worth <span class="useful">splashing out on</span>, and which one is usually a <span class="useful">false economy</span>?<button class="btn toggle-btn" onclick="toggle('rq1')">Optional language</button><div id="rq1" class="support">reliable · sturdy · malfunction · long-term value · take into account</div></div>
+<div class="item question"><b>2.</b> Have online reviews ever prevented you from making a purchase you might later have regretted?<button class="btn toggle-btn" onclick="toggle('rq2')">Optional language</button><div id="rq2" class="support">appeal to me · coherent explanation · merely · reasonable concern · distinguish between</div></div>
+</section>
+<script>const slides=[...document.querySelectorAll('.slide')];let index=0;const norm=s=>String(s||'').trim().toLowerCase().replace(/[’]/g,"'").replace(/[.?!]+$/,'').replace(/\s+/g,' ');function show(){slides.forEach((s,i)=>s.classList.toggle('active',i===index));document.querySelector('.bar').style.width=((index+1)/slides.length*100)+'%';document.querySelector('.count').textContent=(index+1)+' / '+slides.length;document.querySelectorAll('.jump').forEach((b,i)=>b.classList.toggle('active',i===index));window.scrollTo(0,0)}function go(n){index=Math.max(0,Math.min(slides.length-1,index+n));show()}function jump(n){index=n;show()}function toggle(id){const e=document.getElementById(id);e.style.display=e.style.display==='block'?'none':'block'}function checkBlock(block){document.querySelectorAll(`.item[data-block="${block}"]`).forEach(item=>{const field=item.querySelector('input,select');const ok=norm(field.value)===norm(item.dataset.answer);item.classList.toggle('correct',ok);item.classList.toggle('wrong',!ok);const feedback=item.querySelector('.feedback');feedback.className='feedback '+(ok?'ok':'bad');feedback.textContent=ok?'✓ Correct':'Not quite. Try again.';item.querySelector('.answer').style.display=ok?'none':'block'})}show();</script>
+</body>
+</html>
