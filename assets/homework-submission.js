@@ -31,7 +31,8 @@ function restore(){let data;try{data=JSON.parse(read(draftKey)||'null')}catch(e)
 }
 let saveTimer;
 function saveDraft(){clearTimeout(saveTimer);if(!write(draftKey,JSON.stringify(snapshot())))setStatus('Autosave unavailable — keep this page open.','failed');}
-function setStatus(message,kind){status.textContent=message;status.dataset.submissionState=kind||'';}
+function setStatus(message,kind){status.textContent=message;status.dataset.submissionState=kind||'';// Some pages hide the status box with CSS; always show a non-empty message.
+if(message){status.hidden=false;status.style.display='block';}}
 restore();
 document.addEventListener('input',()=>{clearTimeout(saveTimer);saveTimer=setTimeout(saveDraft,150)},true);
 document.addEventListener('change',saveDraft,true);
@@ -42,19 +43,32 @@ function valueOf(el){
  if(el.matches('input,select,textarea'))return /^(radio|checkbox)$/.test(el.type)?(el.checked?el.value:''):el.value;
  const selected=el.querySelector('input[type=radio]:checked,input[type=checkbox]:checked');if(selected)return selected.value;
  const choice=el.querySelector('.choice.selected,.choice.sel,[aria-pressed="true"],[data-selected="true"]');if(choice)return choice.dataset.v||choice.dataset.value||choice.textContent.trim();
- return el.querySelector('input,select,textarea')?.value||'';
+ // An unanswered radio/checkbox group is blank (never the first option's value).
+ const field=el.querySelector('input:not([type=radio]):not([type=checkbox]),select,textarea');if(field)return field.value;
+ return '';
 }
-function collectScore(){const rows=[];
+// Human-readable text of a value: a chosen button shows its label, not its code letter.
+function shown(el,v){if(!v)return '';const b=el.querySelector('.choice.selected,.choice.sel,[aria-pressed="true"],[data-selected="true"]');if(b&&!el.matches('input,select,textarea'))return b.textContent.trim().replace(/\s+/g,' ');const s=el.matches('select')?el:el.querySelector('select');if(s&&s.selectedOptions[0]&&s.value===v)return s.selectedOptions[0].textContent.trim();return String(v).trim()}
+function shownExpected(el,a){if(!a)return '';const b=[...el.querySelectorAll('.choice,[data-v],[data-value]')].find(x=>(x.dataset.v||x.dataset.value)===a);if(b)return b.textContent.trim().replace(/\s+/g,' ');const s=el.matches('select')?el:el.querySelector('select');const o=s&&[...s.options].find(o=>o.value===a);return o?o.textContent.trim():a}
+function collectScore(){const rows=[],details=[];
  const normalize=cfg.normalizeAnswer||norm;
- for(const el of document.querySelectorAll(cfg.closedSelector||'input[data-a]')){const custom=cfg.scoreAnswer?.(el);const expected=(el.dataset.answers||el.dataset.answer||el.dataset.a||'').split('|').map(normalize);rows.push(typeof custom==='boolean'?custom:expected.includes(normalize(valueOf(el))))}
- if(cfg.choiceScoreSelector)for(const group of document.querySelectorAll(cfg.choiceScoreSelector))rows.push(cfg.scoreChoice?!!cfg.scoreChoice(group,selectedChoice(group)):false);
+ for(const el of document.querySelectorAll(cfg.closedSelector||'input[data-a]')){const custom=cfg.scoreAnswer?.(el);const raw=(el.dataset.answers||el.dataset.answer||el.dataset.a||el.dataset.tf||el.dataset.mcq||'').split('|')[0];const expected=(el.dataset.answers||el.dataset.answer||el.dataset.a||'').split('|').map(normalize);const v=valueOf(el);const ok=typeof custom==='boolean'?custom:expected.includes(normalize(v));rows.push(ok);details.push({ok,value:shown(el,v),expected:shownExpected(el,raw)})}
+ if(cfg.choiceScoreSelector)for(const group of document.querySelectorAll(cfg.choiceScoreSelector)){const sel=selectedChoice(group),ok=cfg.scoreChoice?!!cfg.scoreChoice(group,sel):false;rows.push(ok);details.push({ok,value:sel?sel.textContent.trim():'',expected:''})}
  // Configured additional radio groups: count each group once.
- if(cfg.radioSelector)for(const box of document.querySelectorAll(cfg.radioSelector)){const chosen=box.querySelector('input[type="radio"]:checked');rows.push(!!chosen&&chosen.value===(box.dataset.tf||box.dataset.mcq))}
- return {correct:rows.filter(Boolean).length,total:rows.length,mistakes:rows.map((x,i)=>!x?i+1:null).filter(x=>x!==null)};
+ if(cfg.radioSelector)for(const box of document.querySelectorAll(cfg.radioSelector)){const chosen=box.querySelector('input[type="radio"]:checked');const exp=box.dataset.tf||box.dataset.mcq;const ok=!!chosen&&chosen.value===exp;rows.push(ok);details.push({ok,value:chosen?chosen.value:'',expected:exp||''})}
+ return {correct:rows.filter(Boolean).length,total:rows.length,mistakes:rows.map((x,i)=>!x?i+1:null).filter(x=>x!==null),details};
 }
+// Readable report for the results sheet: errors first (with the expected answer), then correct answers,
+// then any other filled fields that are not scored, so nothing the student typed is dropped.
+function answersReport(s){const err=[],good=[];s.details.forEach((d,i)=>{const n=(i+1)+'. ';if(d.ok)good.push(n+(d.value||'—'));else err.push(n+(d.value||'—')+(d.expected?' → '+d.expected:''))});
+ const closedEls=[...document.querySelectorAll(cfg.closedSelector||'input[data-a]')],openEls=[...document.querySelectorAll(cfg.openSelector||'textarea')];
+ const other=inputs().filter(el=>!closedEls.some(c=>c===el||c.contains(el))&&!openEls.includes(el)&&!/^(radio|checkbox|hidden|button|submit)$/.test(el.type)&&String(el.value).trim()).map(el=>'• '+(el.getAttribute('aria-label')||el.name||el.id||el.type)+': '+String(el.value).trim());
+ const parts=[];if(err.length)parts.push('❌ ERRORS\n'+err.join('\n'));if(good.length)parts.push('✅ CORRECT\n'+good.join('\n'));if(other.length)parts.push('📝 OTHER ANSWERS\n'+other.join('\n'));
+ return parts.join('\n\n')||'No answers entered'}
+function openReport(){const xs=collectOpen().filter(x=>String(x.answer).trim());if(!xs.length)return '';return xs.map(x=>{const p=String(x.prompt||'').replace(/\s+/g,' ').trim().slice(0,160);return x.number+'. '+(p?p+'\n':'')+String(x.answer).trim()}).join('\n\n')}
 function collectAll(){const answers=inputs().map((el,i)=>({number:i+1,type:el.type||el.tagName.toLowerCase(),name:el.name||el.id||'',value:el.type==='radio'||el.type==='checkbox'?(el.checked?el.value:''):el.value}));for(const group of choiceGroups()){const selected=selectedChoice(group);answers.push({number:answers.length+1,type:'button-choice',name:group.id||'',value:selected?(selected.dataset.v||selected.dataset.value||selected.textContent.trim()):'',label:selected?.textContent.trim()||''})}return answers}
 function collectOpen(){return [...document.querySelectorAll(cfg.openSelector||'textarea')].map((el,i)=>({number:i+1,prompt:el.dataset.prompt||el.getAttribute('aria-label')||el.closest('.item')?.textContent.trim()||el.placeholder||'',answer:el.value||''}))}
-function payloadNow(){const s=collectScore(),finishedAt=new Date().toISOString(),startedAt=read(startedKey)||finishedAt;return {student:cfg.student,homework:cfg.homework,score:s.correct+'/'+s.total,percent:s.total?Math.round(100*s.correct/s.total):0,mistakes:s.mistakes.join(', '),answers:JSON.stringify(collectAll()),openAnswers:JSON.stringify(collectOpen()),attemptId,startedAt,finishedAt,durationSeconds:Math.max(0,Math.round((Date.parse(finishedAt)-Date.parse(startedAt))/1000))}}
+function payloadNow(){const s=collectScore(),finishedAt=new Date().toISOString(),startedAt=read(startedKey)||finishedAt;return {student:cfg.student,homework:cfg.homework,score:s.correct+'/'+s.total,percent:s.total?Math.round(100*s.correct/s.total):0,mistakes:s.mistakes.join(', '),answers:answersReport(s),openAnswers:openReport(),attemptId,startedAt,finishedAt,durationSeconds:Math.max(0,Math.round((Date.parse(finishedAt)-Date.parse(startedAt))/1000))}}
 async function digestPayload(p){
  const clean=v=>String(v??'').trim();
  const date=v=>{const t=clean(v);if(!t)return '';const d=new Date(t);return Number.isNaN(d.getTime())?t:d.toISOString()};
@@ -66,7 +80,7 @@ async function digestPayload(p){
 function post(p){
  const frame=document.createElement('iframe');frame.name='hw-submit-'+uuid();frame.hidden=true;frame.dataset.hwTransport='true';
  const form=document.createElement('form');form.method='POST';form.action=ENDPOINT;form.target=frame.name;form.hidden=true;form.dataset.hwTransport='true';
- const fields={apiVersion:'v2-test',...p};for(const [k,v] of Object.entries(fields)){const input=document.createElement('input');input.name=k;input.value=String(v??'');form.appendChild(input)}
+ const fields={apiVersion:'v2-test',...p};for(const [k,v] of Object.entries(fields)){const input=document.createElement('input');input.type='hidden';input.name=k;input.value=String(v??'');form.appendChild(input)}
  document.body.append(frame,form);
  const cleanup=()=>{form.remove();frame.remove()};
  try{form.submit()}catch(e){cleanup();throw e}
@@ -90,7 +104,9 @@ if(confirmed){setStatus('✓ Received by Irina. Start again for a new attempt.',
 if(!storageHealthy){setStatus('Cannot save submission locally. Do not close this page.','failed');return}
 sending=true;button.disabled=true;saveDraft();let pending;try{pending=JSON.parse(read(pendingKey)||'null')}catch(e){}
 if(pending&&(!pending.attemptId||pending.attemptId!==attemptId||pending.student!==cfg.student||pending.homework!==cfg.homework)){setStatus('Saved submission is invalid. Keep this page open and contact Irina.','failed');button.disabled=false;sending=false;return}
-// Never silently replace an already staged attempt with different answers.
+// If the student changed answers after an unconfirmed send, send the CURRENT answers as a new attempt
+// (new attemptId, so the server never sees two different payloads under one id).
+if(pending){const now=payloadNow();if(!['score','mistakes','answers','openAnswers'].every(k=>String(pending[k]??'')===String(now[k]??''))){attemptId=uuid();if(!write(attemptKey,attemptId)){setStatus('Cannot save submission locally. Do not close this page.','failed');button.disabled=false;sending=false;return}remove(pendingKey);pending=null}}
 if(!pending){pending=payloadNow();if(!write(pendingKey,JSON.stringify(pending))){setStatus('Cannot save submission locally. Do not close this page.','failed');button.disabled=false;sending=false;return}}
 try{const calculated=await digestPayload(pending);if(pending.payloadDigest&&pending.payloadDigest!==calculated)throw Error('Saved payload digest mismatch');pending.payloadDigest=calculated;if(!write(pendingKey,JSON.stringify(pending)))throw Error('Cannot save payload digest')}catch(e){setStatus('Cannot prepare the saved submission. Keep this page open and contact Irina.','failed');button.disabled=false;sending=false;return}
 if(navigator.onLine===false){setStatus('You are offline. Your answers are saved. Click Retry when online.','failed');button.textContent='Retry';button.disabled=false;sending=false;return}
