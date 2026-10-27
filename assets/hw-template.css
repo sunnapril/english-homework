@@ -52,3 +52,6 @@ textarea{width:100%;min-height:150px;margin-top:10px;padding:12px;border:1.5px s
 [data-submission-state="failed"]{color:var(--red)}
 .content-error{background:#fff0ee;border:2px solid #c9554a;color:#7a2a22;border-radius:12px;padding:12px 14px;margin:12px 0;font-weight:700;white-space:pre-wrap}
 @media(max-width:700px){main{margin:0 7px 22px;padding:18px}.sticky{top:4px}}
+details.script{margin:8px 0 14px;border:1px solid #d6e3f0;border-radius:10px;background:#f7faff;padding:8px 12px}
+details.script summary{cursor:pointer;font-weight:700;color:#315f8d}
+details.script p{margin:6px 0}

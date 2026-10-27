@@ -46,6 +46,7 @@ PROMPT: What should they have done differently?
 - `TEXT:` instructions (several `TEXT:` lines allowed). Lines starting with `- ` become a list. `**word**` = bold.
 - `BANK:` words for a word bank, separated by `;` (optional).
 - `AUDIO:` file name of an mp3 placed next to the page (optional). A “Back 5 seconds” button is added.
+- `SCRIPT:` one line of the audio script (repeat `SCRIPT:` for every line, e.g. `SCRIPT: Jake: Right, let’s go.`). Shown folded under the player: “Script · open after listening”.
 - `IMAGE:` file name | description (optional).
 - `SUPPORT:` useful language behind a button (open answers).
 - `PROMPT:` the question stored with the written answer (open answers).

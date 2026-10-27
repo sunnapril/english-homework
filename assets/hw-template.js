@@ -28,6 +28,7 @@ src.textContent.split(/\r?\n/).forEach((raw, ln) => {
     else if (k === 'TEXT') cur.text.push(v);
     else if (k === 'BANK') cur.bank = list(v);
     else if (k === 'AUDIO') cur.audio = v;
+    else if (k === 'SCRIPT') (cur.script = cur.script || []).push(v);
     else if (k === 'IMAGE') { const [file, alt] = v.split('|').map(x => x.trim()); cur.image = { file, alt: alt || '' }; }
     else if (k === 'SUPPORT') cur.support = v;
     else if (k === 'PROMPT') cur.prompt = v;
@@ -90,6 +91,7 @@ sections.forEach(s => {
   h += textBlock(s.text);
   if (s.image) h += `<div class="media"><img src="${esc(s.image.file)}" alt="${esc(s.image.alt)}" loading="lazy"></div>`;
   if (s.audio) h += `<div class="media"><audio controls preload="metadata" src="${esc(s.audio)}"></audio><button class="back5" type="button">↶ Back 5 seconds</button></div>`;
+  if (s.script) h += `<details class="script"><summary>Script · open after listening</summary>${s.script.map(l => `<p>${fmt(l)}</p>`).join('')}</details>`;
   if (s.bank) h += `<div class="sticky"><b>Word bank</b> <span class="sub">· tap a word after you use it</span><div class="bank">${s.bank.map(w => `<button class="chip" type="button">${esc(w)}</button>`).join('')}</div></div>`;
   s.items.forEach(it => {
     const data = esc(it.answers.join('|'));
