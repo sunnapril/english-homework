@@ -38,6 +38,7 @@ button:focus-visible,.word:focus-visible{outline:3px solid var(--slime);outline-
 .stars{display:flex;gap:6px;align-items:center;font-weight:900;background:var(--night2);border:1px solid var(--line);border-radius:999px;padding:8px 16px}
 .how{background:var(--night2);border:1px solid var(--line);border-radius:16px;padding:14px 18px;display:flex;flex-wrap:wrap;gap:8px 22px;font-size:15px}
 .how b{color:var(--slime)}
+.switch{margin-left:auto;font-weight:900;color:var(--pumpkin2)}
 
 /* tappable words */
 .word{display:inline-block;border-bottom:2px dotted var(--slime);cursor:help;position:relative;white-space:nowrap}
@@ -176,7 +177,7 @@ textarea{width:100%;min-height:90px;background:var(--night);color:var(--ghost);b
 
   <div class="how">
     <span><b>Tap a dotted word</b> to see it in Russian.</span>
-    <span><b>One game = 5–7 minutes.</b> Choose 3–4 games.</span>
+    <span><b>One game = 5–7 minutes.</b> Choose 3–4 games.</span><a class="switch" href="../">Kids version →</a>
     <span><b>Answer in full sentences</b> with the SAY phrases.</span>
   </div>
 
@@ -396,7 +397,7 @@ const GAMES=[
 
 // ---- adult version ----
 IMG.room=IMG.o_room;
-{const KEEP=['ghost','rescue','rather','questions','doors','roommates'];const keep=GAMES.filter(g=>KEEP.includes(g.id)).sort((a,b)=>KEEP.indexOf(a.id)-KEEP.indexOf(b.id));GAMES.length=0;GAMES.push(...keep);}
+{const KEEP=['ghost','rescue','rather','questions','doors','roommates','story'];const keep=GAMES.filter(g=>KEEP.includes(g.id)).sort((a,b)=>KEEP.indexOf(a.id)-KEEP.indexOf(b.id));GAMES.length=0;GAMES.push(...keep);}
 {const g=GAMES.find(x=>x.id==='rescue');g.s='Your office party starts in ten minutes!';
  g.steps=["Look at the office. What is wrong? Tap the orange circles.","Read the problem and what to do. Add three jobs to your plan.","Say your plan and share the jobs: First, we'll… I'll… and you'll…"];
  g.use=["clean up","plug in","turn on","buy","blow up","put","sweep","colleagues","first","then","finally"];
@@ -410,11 +411,12 @@ IMG.room=IMG.o_room;
 {const g=GAMES.find(x=>x.id==='rather');g.steps=["Choose one option.","Give a reason and one example.","Ask your partner. Do you agree?"];
  g.use=["exciting","relaxing","stressful","unusual","risky","comfortable","cosy","boring"];
  g.say=["I'd rather… because…","It sounds more… than…","On the other hand, …"];g.ask=["What about you?","Why?","Have you ever…?"];
- g.pairs=[[[null,"spend a night in a haunted castle hotel"],[null,"sleep in a camper van in a forest"]],[[null,"go to a costume party at work"],[null,"watch three horror films in a row"]],[[null,"work in a quiet old library"],[null,"work in a busy café"]],[[null,"have a robot assistant"],[null,"have a personal chef"]],[[null,"live without your phone for a week"],[null,"live without coffee for a month"]],[[null,"travel to Transylvania"],[null,"see the northern lights in Iceland"]],[[null,"read people's minds"],[null,"be invisible for a day"]],[[null,"cook dinner for ten guests"],[null,"clean up after the party"]]];}
+}
 {const g=GAMES.find(x=>x.id==='questions');g.t='Halloween Questions';
  g.use=["superstition","costume","scary","brave","afraid of","tradition","coincidence"];
  g.say=["I think… / In my opinion, …","Once, I… / When I was a child, I…","I'm (not) afraid of…"];
- g.init=p=>{const qs=shuffle(["What costume would you wear to a work party?","What was the best party you've ever been to?","Do you believe in any superstitions?","What's the scariest film you've ever seen?","What's something scary you did, like speaking in public?","Do you like ghost stories? Do you believe them?","What's your favourite autumn food?","Have you ever visited an abandoned or 'haunted' place?","What are you afraid of: heights, spiders, the dark…?","Is Halloween popular in Russia? What do people do?","Tell me about a strange coincidence in your life.","What would you do if you heard strange noises at night?"]);let i=0;const q=p.querySelector('#sq'),n=p.querySelector('#sqn');const show=()=>{q.innerHTML=`<span>${qs[i]}</span>`;n.textContent=`${i+1} / ${qs.length}`};show();p.querySelector('[data-x=next]').onclick=()=>{i=(i+1)%qs.length;show()}};}
+}
+{const g=GAMES.find(x=>x.id==='story');g.say=["Last Friday, a tired office manager arrived at the party…","First… Then… Suddenly… In the end…","While she was …ing, …"];}
 {const g=GAMES.find(x=>x.id==='doors');g.say=["It must be… because I can see…","It might be… / It could be…","It can't be… because…"];}
 {const g=GAMES.find(x=>x.id==='roommates');g.t='Flatmates';g.s='Three flatmates. One small flat.';g.say=["You can… but please don't…","Would you mind not …ing after 11 p.m.?","Everybody has to… / Nobody is allowed to…"];}
 
