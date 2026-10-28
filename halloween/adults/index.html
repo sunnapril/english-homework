@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Halloween Game Night · Adults</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@500;700;800;900&display=swap">
+<style>
+/* Layout: a night-time game board — score pill, warm-up picture cards, a grid of game cards that open one at a time into a big play panel. Pictures sit on pale "moonlight" discs so dark images stay visible. Single dark look on purpose. */
+:root{
+  --night:#191324; --night2:#241b33; --panel:#2e2342; --line:#4a3a66;
+  --ghost:#f6f1ff; --mist:#c9bde0; --pumpkin:#ff8b2c; --pumpkin2:#ffb26b; --slime:#b9e25c; --berry:#c879ff; --moon:#f3ecff; --moon2:#e4d8f7;
+  --display:"Bungee","Arial Black",system-ui,sans-serif; --body:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--night);color:var(--ghost);font:17px/1.5 var(--body);margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--night)}
+.wrap{max-width:1060px;margin:0 auto;padding-block:20px 60px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:26px}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;letter-spacing:.01em}
+h1{font-size:clamp(32px,7vw,60px);line-height:1;color:var(--pumpkin)}
+h1 span{color:var(--berry)}
+h2{font-size:clamp(21px,4vw,29px);color:var(--pumpkin2)}
+.eyebrow{font-weight:900;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--mist)}
+.muted{color:var(--mist)}
+button{font:inherit;cursor:pointer;border:0;color:inherit}
+button:focus-visible,.word:focus-visible{outline:3px solid var(--slime);outline-offset:2px}
+.pic{display:block;width:var(--s,84px);height:var(--s,84px);object-fit:contain;filter:drop-shadow(0 3px 4px #0003)}
+.disc{display:grid;place-items:center;background:radial-gradient(circle at 50% 40%,var(--moon),var(--moon2));border-radius:50%;width:calc(var(--s,84px) + 22px);height:calc(var(--s,84px) + 22px)}
+.pics{display:flex;gap:6px;justify-content:center}
+
+/* top */
+.top{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+.hero{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.hero .pics{--s:54px}
+.stars{display:flex;gap:6px;align-items:center;font-weight:900;background:var(--night2);border:1px solid var(--line);border-radius:999px;padding:8px 16px}
+.how{background:var(--night2);border:1px solid var(--line);border-radius:16px;padding:14px 18px;display:flex;flex-wrap:wrap;gap:8px 22px;font-size:15px}
+.how b{color:var(--slime)}
+.switch{margin-left:auto;font-weight:900;color:var(--pumpkin2)}
+
+/* tappable words */
+.word{display:inline-block;border-bottom:2px dotted var(--slime);cursor:help;position:relative;white-space:nowrap}
+.tip{position:absolute;left:50%;bottom:calc(100% + 6px);transform:translateX(-50%);background:var(--slime);color:#1a2208;font-weight:800;font-size:14px;padding:4px 10px;border-radius:8px;white-space:nowrap;z-index:20;pointer-events:none}
+
+/* warm-up flip cards */
+.flips{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.flip{background:var(--panel);border:1px solid var(--line);border-radius:18px;min-height:190px;padding:14px 10px;display:grid;place-items:center;text-align:center;transition:transform .25s}
+.flip:hover{transform:translateY(-2px)}
+.flip>div{display:grid;justify-items:center;gap:6px}
+.flip .wordpic{width:110px;height:110px;border-radius:16px;background:#fef9ef;display:block}
+.flip .en{font-family:var(--display);font-size:17px;color:var(--pumpkin2)}
+.flip .ru{display:none;font-weight:800;color:var(--slime)}
+.flip .ex{display:none;font-size:14px;color:var(--mist)}
+.flip.open .ru,.flip.open .ex{display:block}
+.flip.hideword .en{visibility:hidden}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{background:var(--pumpkin);color:#2a1300;font-weight:900;padding:10px 18px;border-radius:12px}
+.btn.alt{background:transparent;color:var(--ghost);border:2px solid var(--line)}
+.btn.slime{background:var(--slime);color:#1a2208}
+
+/* game grid */
+.games{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.game{background:var(--night2);border:2px solid var(--line);border-radius:18px;padding:16px;text-align:left;display:grid;gap:8px;align-content:start;position:relative}
+.game:hover{border-color:var(--pumpkin)}
+.game .disc{--s:60px}
+.game .t{font-family:var(--display);font-size:17px;color:var(--ghost)}
+.game .s{font-size:14px;color:var(--mist)}
+.game.done{border-color:var(--slime)}
+.game.done::after{content:"★ played";position:absolute;top:14px;right:14px;font-weight:900;font-size:13px;color:var(--slime)}
+.game.active{border-color:var(--pumpkin);box-shadow:0 0 0 4px #ff8b2c33}
+
+/* play panel */
+.play{background:var(--panel);border:2px solid var(--pumpkin);border-radius:22px;padding:22px;display:grid;gap:18px}
+.playhead{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center}
+.playhead .disc{--s:46px}
+.timer{font-family:var(--display);font-size:24px;font-variant-numeric:tabular-nums;color:var(--slime);background:var(--night);border-radius:12px;padding:4px 12px}
+.timer.over{color:var(--pumpkin)}
+.steps{margin:0;padding-left:22px;display:grid;gap:6px;font-weight:700}
+.kit{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.box{background:var(--night2);border-radius:14px;padding:12px 14px}
+.box .lab{font-weight:900;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--pumpkin2);margin-bottom:4px}
+.box .chips{display:flex;flex-wrap:wrap;gap:8px 12px}
+.say p{margin:2px 0;font-weight:700}
+.stage{display:grid;gap:12px}
+.tiles{display:grid;grid-template-columns:repeat(var(--cols,4),minmax(0,1fr));gap:12px}
+.tile{background:var(--night2);border:2px solid var(--line);border-radius:16px;padding:14px 10px;text-align:center;display:grid;gap:6px;justify-items:center;align-content:start}
+.tile .nm{font-family:var(--display);font-size:15px}
+.tile .tx{font-size:15px;color:var(--mist)}
+.tile .idea{font-size:14px;font-weight:800;color:var(--slime)}
+.tile.pick{border-color:var(--slime);background:#2d3a1c}
+.tile.gone{opacity:.35}
+.tiles.big .tile{padding:18px 10px}
+.doors{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.doorcard{background:var(--night2);border:2px solid var(--line);border-radius:16px;padding:14px 10px;display:grid;justify-items:center;gap:8px;text-align:center}
+.doorcard.pick{border-color:var(--slime)}
+.door{position:relative;display:grid;grid-template-rows:1fr 1fr;gap:8px;padding:16px 14px 12px;width:110px;height:160px;border-radius:55px 55px 6px 6px;background:var(--dc);box-shadow:inset 0 0 0 5px #0003,0 6px 14px #0006;transition:transform .4s}
+.door .dp{border-radius:30px 30px 4px 4px;box-shadow:inset 0 0 0 3px #0003}
+.door .dp+.dp{border-radius:4px}
+.door .knob{position:absolute;right:14px;top:55%;width:12px;height:12px;border-radius:50%;background:#f3c96b;box-shadow:0 1px 2px #0008}
+.door .inside{position:absolute;inset:0;border-radius:inherit;background:#120d1a;display:none;place-items:center}
+.door .inside img{width:80px;height:80px}
+.doorcard.opened .inside{display:grid}
+.doorcard .tx{font-size:15px;color:var(--mist)}
+.doorcard .doorimg{height:230px;width:auto;max-width:100%;object-fit:contain}
+.doorcard{background:#fcf8f1;border-color:#e6dccb}
+.doorcard .nm{font-family:var(--display);font-size:15px;color:#2a1f3a}
+.doorcard .tx{color:#4b3d5c}
+.doorcard.pick{background:#e9f6cf;border-color:var(--slime);box-shadow:0 0 0 3px var(--slime)}
+.doorcard .word{border-bottom-color:#6b8f1f}
+.behind2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.behind2 .ans{background:#fcf8f1;color:#2a1f3a;border-radius:14px;padding:10px;display:grid;justify-items:center;gap:6px;text-align:center;font-weight:800}
+.behind2 .ans img{width:min(100%,200px);height:auto}
+.quiz{display:grid;gap:14px}
+.qhead{display:flex;gap:12px;align-items:center;justify-content:center}
+.qword{font-family:var(--display);font-size:clamp(30px,6vw,46px);color:var(--pumpkin2);text-align:center}
+.qopts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.qopt{background:#fcf8f1;border:3px solid #e6dccb;border-radius:16px;padding:8px;display:grid;justify-items:center;gap:4px;color:#2a1f3a;font-weight:800}
+.qopt img{width:100%;max-width:180px;aspect-ratio:1;object-fit:contain}
+.qopt.right{border-color:var(--slime);box-shadow:0 0 0 3px var(--slime)}
+.qopt.wrong{border-color:#ff5d5d;box-shadow:0 0 0 3px #ff5d5d;opacity:.8}
+.sadwrap{position:relative;display:inline-block}
+.sadwrap .who{position:absolute;right:-18px;bottom:-8px}.sadwrap .who .disc{box-shadow:0 0 0 3px var(--night)}
+.room{position:relative;width:100%;max-width:900px;justify-self:center;border-radius:18px;overflow:hidden;line-height:0}
+.room .roomimg{width:100%;height:auto;display:block}
+.hot{position:absolute;transform:translate(-50%,-50%);width:clamp(30px,5.5%,48px);aspect-ratio:1;border-radius:50%;background:#ff8b2ccc;color:#2a1300;font:900 clamp(15px,2.4vw,22px)/1 var(--body);display:grid;place-items:center;box-shadow:0 0 0 3px #fff,0 3px 8px #0008;animation:pulse 1.8s infinite}
+.hot.sel{background:var(--slime);animation:none}
+.hot.done{background:#9aa58a;opacity:.75;animation:none}
+@keyframes pulse{50%{box-shadow:0 0 0 7px #ffffff66,0 3px 8px #0008}}
+.tile.comic{background:#fcf8f1;border-color:#e6dccb}
+.tile.comic img{height:220px;width:auto;max-width:100%;object-fit:contain}
+.tile.comic.item img{height:120px;width:120px}
+.tile.comic .price{font-family:var(--display);color:#b4521a;font-size:18px}
+.tile.comic .idea{color:#3c6b12}
+.tile.comic.rather img{width:min(100%,260px);height:auto}
+.tile.comic.rather .nm{font-size:18px}
+.tile.comic .nm{color:#2a1f3a}
+.tile.comic.pick{background:#e9f6cf;border-color:var(--slime);box-shadow:0 0 0 3px var(--slime)}
+.tile.comic.gone{opacity:.35}
+.tile.hero-card{padding:10px}.tile.hero-card img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px}
+.scene{width:min(100%,440px);border-radius:16px;box-shadow:0 6px 16px #0007}
+
+.reveal{background:var(--night);border:1px dashed var(--line);border-radius:14px;padding:12px;font-size:16px;display:grid;gap:10px}
+.answers{display:flex;flex-wrap:wrap;gap:16px}
+.answers div{display:flex;gap:10px;align-items:center;font-weight:800}
+.answers .disc{--s:44px}
+.big-q{font-family:var(--display);font-size:clamp(20px,4vw,30px);color:var(--ghost);background:var(--night);border-radius:16px;padding:18px;text-align:center;display:grid;justify-items:center;gap:12px}
+.big-q .disc{--s:80px}
+.wallet{font-family:var(--display);font-size:22px;color:var(--slime)}
+.pair{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}
+.pair .tile{grid-auto-flow:row}
+.pair .tile{--s:96px}.pair .tile .nm{font-size:18px}
+.order{display:grid;gap:8px}
+.order .slot{background:var(--night);border-radius:12px;padding:10px 14px;font-weight:800;min-height:46px}
+.order .slot b{color:var(--pumpkin2);margin-right:8px}
+.end{background:var(--night2);border:1px solid var(--line);border-radius:18px;padding:18px;display:grid;gap:10px}
+textarea{width:100%;min-height:90px;background:var(--night);color:var(--ghost);border:2px solid var(--line);border-radius:12px;padding:10px 12px;font:inherit}
+.note{font-size:14px;color:var(--mist);margin:0}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:560px){.qopts{grid-template-columns:repeat(2,minmax(0,1fr))}.tile.comic img{height:150px}.doors{grid-template-columns:repeat(2,minmax(0,1fr))}.door{width:92px;height:134px}.play{padding:16px}.tiles{grid-template-columns:repeat(2,minmax(0,1fr))!important}.tile{--s:64px}.pair{grid-template-columns:1fr}.pair .eyebrow{text-align:center}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div class="hero">
+      <div class="pics" id="heroPics"></div>
+      <div>
+        <div class="eyebrow">English · Adults · A2–B1 · Halloween</div>
+        <h1>Halloween <span>Game Night</span></h1>
+      </div>
+    </div>
+    <div class="stars" aria-live="polite"><span id="starCount">0</span>&nbsp;★ games played</div>
+  </header>
+
+  <div class="how">
+    <span><b>Tap a dotted word</b> to see it in Russian.</span>
+    <span><b>One game = 5–7 minutes.</b> Choose 3–4 games.</span><a class="switch" href="https://irina-english-homework.netlify.app/halloween/">Kids version →</a>
+    <span><b>Answer in full sentences</b> with the SAY phrases.</span>
+  </div>
+
+  <section style="display:none" aria-labelledby="w1">
+    <div class="row" style="justify-content:space-between">
+      <div>
+        <div class="eyebrow">Warm-up · 5 minutes</div>
+        <h2 id="w1">Halloween words</h2>
+      </div>
+      <div class="row">
+        <button class="btn alt" id="hideWords" type="button">Hide the words</button>
+        <button class="btn alt" id="closeAll" type="button">Close all cards</button>
+      </div>
+    </div>
+    <p class="muted" style="margin:0">Look at the picture and say the word. Tap a card to check and see an example.</p>
+    <div class="flips" id="flips"></div>
+  </section>
+
+  <section style="display:grid;gap:14px" aria-labelledby="g1">
+    <div class="row" style="justify-content:space-between">
+      <div>
+        <div class="eyebrow">Games · about 40 minutes</div>
+        <h2 id="g1">Choose a game</h2>
+      </div>
+      <button class="btn" id="spin" type="button">Random game</button>
+    </div>
+    <div class="games" id="games"></div>
+  </section>
+
+  <section class="play" id="play" hidden aria-live="polite"></section>
+
+  <section class="end" aria-labelledby="e1">
+    <div class="eyebrow">Last 5 minutes</div>
+    <h2 id="e1">My Halloween</h2>
+    <p style="margin:0">Say or write three sentences: <b>The most interesting game today was… because…</b> · <b>If I went to a Halloween party, I would…</b> · <b>A new expression I want to use is…</b></p>
+    <textarea id="mine" aria-label="My three sentences" placeholder="My favourite game today was…"></textarea>
+    <p class="note">This box is only for practice. It is not sent anywhere.</p>
+  </section>
+</div>
+
+<script>
+const IMG={"☎️": "img/260e-fe0f.webp", "❓": "img/2753.webp", "🍂": "img/1f342.webp", "🍬": "img/1f36c.webp", "🎃": "img/1f383.webp", "🎈": "img/1f388.webp", "🎉": "img/1f389.webp", "🎭": "img/1f3ad.webp", "🎮": "img/1f3ae.webp", "🏚️": "img/1f3da-fe0f.webp", "🏠": "img/1f3e0.webp", "👻": "img/1f47b.webp", "👾": "img/1f47e.webp", "💀": "img/1f480.webp", "💡": "img/1f4a1.webp", "📖": "img/1f4d6.webp", "🔇": "img/1f507.webp", "🔊": "img/1f50a.webp", "🕯️": "img/1f56f-fe0f.webp", "🕷️": "img/1f577-fe0f.webp", "😱": "img/1f631.webp", "🚪": "img/1f6aa.webp", "🛒": "img/1f6d2.webp", "🤔": "img/1f914.webp", "🥣": "img/1f963.webp", "🥽": "img/1f97d.webp", "🦇": "img/1f987.webp", "🧃": "img/1f9c3.webp", "🧙‍♀️": "img/1f9d9-200d-2640-fe0f.webp", "🧠": "img/1f9e0.webp", "🧹": "img/1f9f9.webp", "room": "img/room.webp", "ghost": "img/ghost.webp", "m1": "img/m1.webp", "m2": "img/m2.webp", "m3": "img/m3.webp", "m4": "img/m4.webp", "g_bat": "img/g_bat.webp", "g_witch": "img/g_witch.webp", "g_vampire": "img/g_vampire.webp", "g_pumpkin": "img/g_pumpkin.webp", "g_spider": "img/g_spider.webp", "g_zombie": "img/g_zombie.webp", "g_cat": "img/g_cat.webp", "p_knight": "img/p_knight.webp", "p_dj": "img/p_dj.webp", "p_bat": "img/p_bat.webp", "p_cat": "img/p_cat.webp", "p_witch": "img/p_witch.webp", "p_robot": "img/p_robot.webp", "w_pumpkin": "img/w_pumpkin.webp", "w_ghost": "img/w_ghost.webp", "w_witch": "img/w_witch.webp", "w_bat": "img/w_bat.webp", "w_spider": "img/w_spider.webp", "w_skeleton": "img/w_skeleton.webp", "w_candy": "img/w_candy.webp", "w_scary": "img/w_scary.webp", "w_broom": "img/w_broom.webp", "w_haunted-house": "img/w_haunted-house.webp", "w_mask": "img/w_mask.webp", "w_candle": "img/w_candle.webp", "c_coat": "img/c_coat.webp", "c_goggles": "img/c_goggles.webp", "c_boots": "img/c_boots.webp", "c_backpack": "img/c_backpack.webp", "c_umbrella": "img/c_umbrella.webp", "c_headphones": "img/c_headphones.webp", "c_crown": "img/c_crown.webp", "c_hat": "img/c_hat.webp", "c_gloves": "img/c_gloves.webp", "c_wand": "img/c_wand.webp", "c_sunglasses": "img/c_sunglasses.webp", "c_scarf": "img/c_scarf.webp", "k_lantern": "img/k_lantern.webp", "k_pumpkin": "img/k_pumpkin.webp", "k_backpack": "img/k_backpack.webp", "k_potion": "img/k_potion.webp", "k_broom": "img/k_broom.webp", "k_ball": "img/k_ball.webp", "d_1": "img/d_1.webp", "d_2": "img/d_2.webp", "d_3": "img/d_3.webp", "d_4": "img/d_4.webp", "d_5": "img/d_5.webp", "d_6": "img/d_6.webp", "a_mouse": "img/a_mouse.webp", "a_puppy": "img/a_puppy.webp", "a_witch": "img/a_witch.webp", "a_frog": "img/a_frog.webp", "a_fairy": "img/a_fairy.webp", "a_unicorn": "img/a_unicorn.webp", "a_troll": "img/a_troll.webp", "a_bear": "img/a_bear.webp", "a_dragon": "img/a_dragon.webp", "a_chef": "img/a_chef.webp", "a_vampire": "img/a_vampire.webp", "a_spiders": "img/a_spiders.webp", "r_broom": "img/r_broom.webp", "r_bat": "img/r_bat.webp", "r_dragon": "img/r_dragon.webp", "r_pumpkin": "img/r_pumpkin.webp", "r_cafe": "img/r_cafe.webp", "r_hotel": "img/r_hotel.webp", "r_sweets": "img/r_sweets.webp", "r_pizza": "img/r_pizza.webp", "r_vampire": "img/r_vampire.webp", "r_witch": "img/r_witch.webp", "r_spider": "img/r_spider.webp", "r_snake": "img/r_snake.webp", "r_haunted": "img/r_haunted.webp", "r_forest": "img/r_forest.webp", "r_mask": "img/r_mask.webp", "r_unicorn": "img/r_unicorn.webp", "q_costume": "img/q_costume.webp", "q_snack": "img/q_snack.webp", "q_haunted": "img/q_haunted.webp", "q_monster": "img/q_monster.webp", "q_power": "img/q_power.webp", "q_party": "img/q_party.webp", "q_hide": "img/q_hide.webp", "q_bat": "img/q_bat.webp", "q_sound": "img/q_sound.webp", "q_help": "img/q_help.webp", "q_sweet": "img/q_sweet.webp", "q_film": "img/q_film.webp", "s_pumpkin": "img/s_pumpkin.webp", "s_key": "img/s_key.webp", "s_cupcake": "img/s_cupcake.webp", "s_spider": "img/s_spider.webp", "s_broom": "img/s_broom.webp", "s_mask": "img/s_mask.webp", "s_bat": "img/s_bat.webp", "s_candle": "img/s_candle.webp", "s_map": "img/s_map.webp", "s_cat": "img/s_cat.webp", "s_potion": "img/s_potion.webp", "s_balloon": "img/s_balloon.webp", "h_vampire": "img/h_vampire.webp", "h_werewolf": "img/h_werewolf.webp", "h_zombie": "img/h_zombie.webp", "h_ghost": "img/h_ghost.webp", "h_dragon": "img/h_dragon.webp", "h_octopus": "img/h_octopus.webp", "h_witch": "img/h_witch.webp", "h_cat": "img/h_cat.webp", "h_robot": "img/h_robot.webp", "o_room": "img/o_room.webp", "ad1": "img/ad1.webp", "ad2": "img/ad2.webp", "ad3": "img/ad3.webp", "ad4": "img/ad4.webp", "ad5": "img/ad5.webp", "ad6": "img/ad6.webp", "ai1": "img/ai1.webp", "ai2": "img/ai2.webp", "ai3": "img/ai3.webp", "ai4": "img/ai4.webp", "ai5": "img/ai5.webp", "ai6": "img/ai6.webp", "ai7": "img/ai7.webp", "ai8": "img/ai8.webp", "ai9": "img/ai9.webp", "ai10": "img/ai10.webp", "ai11": "img/ai11.webp", "ai12": "img/ai12.webp", "af1": "img/af1.webp", "af2": "img/af2.webp", "af3": "img/af3.webp", "af4": "img/af4.webp", "af5": "img/af5.webp", "af6": "img/af6.webp", "af7": "img/af7.webp", "af8": "img/af8.webp", "af9": "img/af9.webp", "as1": "img/as1.webp", "as2": "img/as2.webp", "as3": "img/as3.webp", "as4": "img/as4.webp", "as5": "img/as5.webp", "as6": "img/as6.webp", "as7": "img/as7.webp", "as8": "img/as8.webp", "as9": "img/as9.webp", "as10": "img/as10.webp", "as11": "img/as11.webp", "as12": "img/as12.webp", "ar1": "img/ar1.webp", "ar2": "img/ar2.webp", "ar3": "img/ar3.webp", "ar4": "img/ar4.webp", "ar5": "img/ar5.webp", "ar6": "img/ar6.webp", "ar7": "img/ar7.webp", "ar8": "img/ar8.webp", "ar9": "img/ar9.webp", "ar10": "img/ar10.webp", "ar11": "img/ar11.webp", "ar12": "img/ar12.webp", "ar13": "img/ar13.webp", "ar14": "img/ar14.webp", "ar15": "img/ar15.webp", "ar16": "img/ar16.webp", "aq1": "img/aq1.webp", "aq2": "img/aq2.webp", "aq3": "img/aq3.webp", "aq4": "img/aq4.webp", "aq5": "img/aq5.webp", "aq6": "img/aq6.webp", "aq7": "img/aq7.webp", "aq8": "img/aq8.webp", "aq9": "img/aq9.webp", "aq10": "img/aq10.webp", "aq11": "img/aq11.webp", "aq12": "img/aq12.webp", "o_p1": "img/o_p1.webp", "o_p2": "img/o_p2.webp", "o_p3": "img/o_p3.webp", "o_p4": "img/o_p4.webp", "o_p5": "img/o_p5.webp", "o_p6": "img/o_p6.webp", "o_p7": "img/o_p7.webp", "o_p8": "img/o_p8.webp"};
+const P=(e,s)=>`<span class="disc"${s?` style="--s:${s}px"`:''}><img class="pic" src="${IMG[e]}" alt=""></span>`;
+const RU={
+ pumpkin:"тыква",ghost:"привидение",witch:"ведьма",bat:"летучая мышь",costume:"костюм",candy:"конфеты",scary:"страшный",spider:"паук",broom:"метла","haunted house":"дом с привидениями",mask:"маска","trick or treat":"сладость или гадость",skeleton:"скелет",candle:"свеча",
+ brave:"смелый",shy:"стеснительный",curious:"любопытный",happy:"счастливый",tired:"уставший",bored:"скучающий",excited:"в восторге",lazy:"ленивый",clever:"умный",helpful:"готовый помочь",creative:"творческий",fix:"чинить",fly:"летать","fight dragons":"сражаться с драконами","play music":"играть музыку","make potions":"варить зелья","sleep all day":"спать весь день","fly at night":"летать ночью","fix things":"чинить вещи",
+ big:"большой",small:"маленький","long nose":"длинный нос","sharp teeth":"острые зубы",horns:"рога",tentacles:"щупальца",scales:"чешуя",ears:"уши",wings:"крылья",fluffy:"пушистый",round:"круглый",tall:"высокий",tiny:"крошечный",eyes:"глаза",skin:"кожа",green:"зелёный",grey:"серый",spots:"пятна","one eye":"один глаз","three eyes":"три глаза","top hat":"цилиндр (шляпа)",teeth:"зубы",tongue:"язык",purple:"фиолетовый",blue:"синий",arms:"руки",hair:"волосы",moustache:"усы","big eyes":"большие глаза",red:"красный",orange:"оранжевый",pink:"розовый",
+ cheap:"дешёвый",cheaper:"дешевле","more expensive":"дороже","more useful":"полезнее",better:"лучше",magic:"волшебный",invisible:"невидимый","see in the dark":"видеть в темноте","see the future":"видеть будущее","get home fast":"быстро добраться домой","become invisible":"стать невидимым","fly to school":"летать в школу","talk to":"разговаривать с",
+ footprints:"следы",crumbs:"крошки",wet:"мокрый",bubbles:"пузыри",glitter:"блёстки",music:"музыка",snoring:"храп",pillow:"подушка",smoke:"дым",smell:"запах",cobwebs:"паутина",hungry:"голодный",messy:"беспорядок",maybe:"может быть",
+ lonely:"одинокий",sad:"грустный",scared:"испуганный",nervous:"нервничает",worried:"обеспокоенный",angry:"злой",upset:"расстроенный","Don't worry":"не волнуйся",
+ exciting:"захватывающий",safe:"безопасный",dangerous:"опасный",cozy:"уютный",unusual:"необычный",funny:"смешной",delicious:"вкусный",boring:"скучный",cool:"классный",
+ "clean up":"убрать","plug in":"включить в розетку",put:"положить, поставить","turn on":"включить","buy":"купить","blow up":"надуть","put up":"повесить",sweep:"подмести",guests:"гости",first:"сначала",then:"потом",finally:"наконец",
+ arrived:"пришёл",found:"нашёл",opened:"открыл",dropped:"уронил",laughed:"засмеялся",ate:"съел",suddenly:"вдруг",
+ sleep:"спать",loud:"громкий",quiet:"тихий",share:"делиться",headphones:"наушники",clean:"убирать","wake up":"будить, просыпаться",kitchen:"кухня",bathroom:"ванная",
+ spooky:"жуткий",muddy:"грязный",lead:"поводок",boxes:"коробки",paint:"краска",ladder:"стремянка",suitcases:"чемоданы",taxi:"такси",bouquet:"букет",gift:"подарок","takeaway cups":"стаканчики навынос","laptop bag":"сумка для ноутбука",must:"должно быть (уверен)",might:"может быть","can't":"не может быть","night shift":"ночная смена",noise:"шум",early:"рано",dishes:"посуда",weeknight:"будний вечер",sofa:"диван","video call":"видеозвонок",fridge:"холодильник",fair:"честный","was …ing":"Past Continuous",while:"пока",when:"когда","in the end":"в конце концов",lost:"потерял",realised:"понял",decided:"решил",found:"нашёл",sunglasses:"солнечные очки",key:"ключ",cupcake:"кекс",map:"карта","black cat":"чёрный кот",potion:"зелье",balloon:"воздушный шар",lantern:"фонарь","crystal ball":"хрустальный шар",dragon:"дракон",vampire:"вампир",werewolf:"оборотень",zombie:"зомби",mouse:"мышь",frog:"лягушка",fairy:"фея",unicorn:"единорог",bear:"медведь",troll:"тролль",octopus:"осьминог",robot:"робот",puppy:"щенок",coat:"пальто",goggles:"защитные очки",boots:"ботинки",backpack:"рюкзак",umbrella:"зонт",crown:"корона",hat:"шляпа",gloves:"перчатки",wand:"волшебная палочка",scarf:"шарф",colourful:"яркий",strange:"странный",comfortable:"удобный",shiny:"блестящий","say hello":"поздороваться",smile:"улыбаться","talk to":"поговорить с",ask:"спросить",invite:"пригласить",help:"помочь",find:"найти",call:"позвонить",fix:"починить","look for":"искать",snack:"перекус",hide:"прятаться",sound:"звук",power:"сила",name:"имя, назвать"
+};
+const w=x=>`<span class="word" tabindex="0" data-w="${x}">${x}</span>`;
+document.addEventListener('click',e=>{
+  document.querySelectorAll('.tip').forEach(t=>t.remove());
+  const el=e.target.closest('.word'); if(!el)return;
+  const t=document.createElement('span');t.className='tip';t.textContent=RU[el.dataset.w]||'—';el.appendChild(t);
+  setTimeout(()=>t.remove(),2600);
+});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.classList.contains('word'))e.target.click()});
+document.getElementById('heroPics').innerHTML=P("🎃")+P("👻")+P("🦇");
+
+const WORDS=[["🎃","pumpkin","We put a candle in the pumpkin."],["👻","ghost","The ghost says “Boo!”"],["🧙‍♀️","witch","The witch has a black hat."],["🦇","bat","A bat can fly at night."],["🕷️","spider","There is a spider in the corner."],["💀","skeleton","The skeleton is dancing."],["🍬","candy","Children get candy on Halloween."],["😱","scary","This film is very scary!"],["🧹","broom","The witch flies on a broom."],["🏚️","haunted house","Would you visit a haunted house?"],["🎭","mask","I can't see your face. You have a mask!"],["🕯️","candle","The candle is in the window."]];
+const flips=document.getElementById('flips');
+WORDS.forEach(([em,en,ex])=>{const b=document.createElement('button');b.type='button';b.className='flip';
+  b.innerHTML=`<div><img class="wordpic" src="${IMG['w_'+en.replace(/ /g,'-')]}" alt=""><div class="en">${en}</div><div class="ru">${RU[en]}</div><div class="ex">${ex}</div></div>`;
+  b.setAttribute('aria-label',en);b.onclick=()=>b.classList.toggle('open');flips.appendChild(b)});
+let hiddenW=false;
+document.getElementById('hideWords').onclick=e=>{hiddenW=!hiddenW;document.querySelectorAll('.flip').forEach(f=>f.classList.toggle('hideword',hiddenW));e.target.textContent=hiddenW?'Show the words':'Hide the words'};
+document.getElementById('closeAll').onclick=()=>document.querySelectorAll('.flip').forEach(f=>f.classList.remove('open'));
+
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+// t = [pictures (one emoji or array), name, text, extra]
+const tile=(t,i,extra='')=>`<button type="button" class="tile" data-i="${i}"><span class="pics">${[].concat(t[0]).map(e=>P(e,[].concat(t[0]).length>1?46:72)).join('')}</span><span class="nm">${t[1]}</span>${t[2]?`<span class="tx">${t[2]}</span>`:''}${extra}</button>`;
+const cols=n=>n<=4?n:(n%3===0?3:4);
+const tiles=list=>`<div class="tiles" style="--cols:${cols(list.length)}">${list.map((t,i)=>tile(t,i)).join('')}</div>`;
+const selectOne=p=>p.querySelectorAll('.tile').forEach(b=>b.onclick=e=>{if(e.target.closest('.word'))return;p.querySelectorAll('.tile').forEach(x=>x.classList.remove('pick'));b.classList.add('pick')});
+
+const GAMES=[
+ {id:"quiz",em:"🧠",t:"Picture Quiz",s:"Read the word. Find the picture.",
+  steps:["Read the word. Tap 🔊 to hear it.","Find the right picture. Say: It's a …","Wrong? Look at the right picture and say the word again."],
+  use:[],
+  say:["It's a … / It's an …","I think it's the …","I don't remember this word."],
+  words:[["pumpkin","w_pumpkin"],["ghost","w_ghost"],["witch","w_witch"],["bat","w_bat"],["spider","w_spider"],["skeleton","w_skeleton"],["candy","w_candy"],["broom","w_broom"],["haunted house","w_haunted-house"],["mask","w_mask"],["candle","w_candle"],
+   ["coat","c_coat"],["goggles","c_goggles"],["boots","c_boots"],["backpack","c_backpack"],["umbrella","c_umbrella"],["headphones","c_headphones"],["crown","c_crown"],["hat","c_hat"],["gloves","c_gloves"],["wand","c_wand"],["sunglasses","c_sunglasses"],["scarf","c_scarf"],
+   ["key","s_key"],["cupcake","s_cupcake"],["map","s_map"],["black cat","s_cat"],["potion","s_potion"],["balloon","s_balloon"],["lantern","k_lantern"],["crystal ball","k_ball"],
+   ["dragon","a_dragon"],["vampire","a_vampire"],["werewolf","h_werewolf"],["zombie","h_zombie"],["mouse","a_mouse"],["frog","a_frog"],["fairy","a_fairy"],["unicorn","a_unicorn"],["bear","a_bear"],["troll","a_troll"],["octopus","h_octopus"],["robot","p_robot"],["puppy","a_puppy"]],
+  // pictures that show another word too: never offer them together
+  clash:{broom:["witch","fairy"],witch:["broom","hat","wand","potion","black cat"],hat:["witch"],wand:["witch","fairy"],candle:["pumpkin","witch"],pumpkin:["candle","candy"],candy:["pumpkin"],potion:["witch"],"black cat":["witch"],fairy:["broom","wand"]},
+  stage(){return `<div class="quiz"><div class="qhead"><span class="qword" id="qw"></span><button type="button" class="btn alt" data-x="say" aria-label="Listen">🔊</button></div>
+   <div class="qopts" id="qo"></div><div class="reveal" id="qfb">Tap the picture.</div>
+   <div class="row" style="justify-content:space-between"><span class="note" id="qp"></span><div class="row"><button type="button" class="btn alt" data-x="new">New round</button><button type="button" class="btn slime" data-x="next" hidden>Next word</button></div></div></div>`},
+  init(p){const W=this.words,CL=this.clash,N=15;let round=[],i=0,good=0,wrong=[],locked=false;
+   const qw=p.querySelector('#qw'),qo=p.querySelector('#qo'),fb=p.querySelector('#qfb'),qp=p.querySelector('#qp'),nx=p.querySelector('[data-x=next]');
+   const say=t=>{try{const u=new SpeechSynthesisUtterance(t);u.lang='en-GB';u.rate=.85;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}};
+   const start=list=>{round=shuffle(list).slice(0,N);i=0;good=0;wrong=[];show()};
+   const show=()=>{locked=false;nx.hidden=true;p.querySelector('[data-x=say]').hidden=false;const [word,img]=round[i];qw.textContent=word;qp.textContent=`${i+1} / ${round.length} · correct: ${good}`;
+     const bad=CL[word]||[];const pool=shuffle(W.filter(x=>x[0]!==word&&!bad.includes(x[0])&&!(CL[x[0]]||[]).includes(word))).slice(0,3);
+     qo.innerHTML=shuffle([[word,img],...pool]).map(o=>`<button type="button" class="qopt" data-w="${o[0]}"><img src="${IMG[o[1]]}" alt=""></button>`).join('');
+     fb.textContent='Tap the picture.';
+     qo.querySelectorAll('.qopt').forEach(b=>b.onclick=()=>{if(locked)return;locked=true;const ok=b.dataset.w===word;
+       qo.querySelectorAll('.qopt').forEach(x=>{if(x.dataset.w===word)x.classList.add('right')});
+       if(ok){good++;fb.innerHTML=`<span><b>Correct!</b> It's ${/^[aeiou]/.test(word)?'an':'a'} <b>${word}</b> — ${RU[word]||''}.</span>`}
+       else{b.classList.add('wrong');wrong.push(round[i]);fb.innerHTML=`<span>Not this one. The <b>${word}</b> (${RU[word]||''}) is the green picture. Say it again: <b>${word}</b>.</span>`}
+       qp.textContent=`${i+1} / ${round.length} · correct: ${good}`;nx.hidden=false;nx.textContent=i+1<round.length?'Next word':'See the result'});
+   };
+   const finish=()=>{qw.textContent=`${good} / ${round.length}`;p.querySelector('[data-x=say]').hidden=true;nx.hidden=true;qp.textContent='';
+     if(!wrong.length){qo.innerHTML='';fb.innerHTML='<span><b>Excellent! You remember all the words.</b> Tap “New round” to try other words.</span>';return}
+     qo.innerHTML=wrong.map(x=>`<div class="qopt right"><img src="${IMG[x[1]]}" alt=""><span>${x[0]}</span></div>`).join('');
+     fb.innerHTML=`<span><b>Words to practise:</b> say each word aloud.</span><button type="button" class="btn slime" data-x="again" style="justify-self:start">Practise these again</button>`;
+     fb.querySelector('[data-x=again]').onclick=()=>{const w=wrong.slice();round=shuffle(w);i=0;good=0;wrong=[];show()}};
+   nx.onclick=()=>{i++;i<round.length?show():finish()};
+   p.querySelector('[data-x=new]').onclick=()=>start(W);
+   p.querySelector('[data-x=say]').onclick=()=>{if(i<round.length)say(round[i][0])};
+   start(W)}},
+ {id:"player",em:"🎮",t:"Player Select",s:"Which character are you today?",
+  steps:["Look at the characters. What can they do?","Choose one: Today I feel like the…","Say why. Can you do it too?"],
+  use:["happy","tired","bored","excited","brave","shy","curious","lazy","clever","helpful"],
+  say:["Today I feel like the… (Black Cat)","because I'm… (tired) and I want to… (sleep all day)","I can… too. / I can't…, but I can…"],
+  stage:()=>`<div class="tiles" style="--cols:3">${[["p_knight","Pumpkin Knight",`${w("brave")} · can ${w("fight dragons")}`],["p_dj","Ghost DJ",`${w("creative")} · can ${w("play music")}`],["p_bat","Bat Scout",`${w("curious")} · can ${w("fly at night")}`],["p_cat","Black Cat",`${w("lazy")} · can ${w("sleep all day")}`],["p_witch","Little Witch",`${w("clever")} · can ${w("make potions")}`],["p_robot","Robot Helper",`${w("helpful")} · can ${w("fix things")}`]].map((t,i)=>`<button type="button" class="tile hero-card" data-i="${i}"><img src="${IMG[t[0]]}" alt="${t[1]}"><span class="nm">${t[1]}</span><span class="tx">${t[2]}</span></button>`).join('')}</div>`,
+  init:selectOne},
+ {id:"monster",em:"👾",t:"Secret Monster",s:"Describe it. Your partner guesses.",
+  steps:["Choose a monster. Keep it secret!","Say three things about it. Don't say its name.","Your partner asks two yes/no questions, then guesses. Then change roles."],
+  use:["tall","small","round","fluffy","horns","spots","wings","one eye","three eyes","tentacles","top hat","teeth","tongue","purple","green","orange","blue","pink","funny"],
+  say:["It has…","It is…","It can…"],ask:["Does it have…?","Is it…?","Can it…?"],
+  stage:()=>`<div class="tiles big" style="--cols:4">${[["m1","Morv"],["m2","Zib"],["m3","Pogo"],["m4","Glub"]].map((t,i)=>`<button type="button" class="tile comic" data-i="${i}"><img src="${IMG[t[0]]}" alt="${t[1]}"><span class="nm">${t[1]}</span></button>`).join('')}</div><p class="note">Guessing? Tap a monster to cross it out.</p>`,
+  init:p=>p.querySelectorAll('.tile').forEach(b=>b.onclick=()=>b.classList.toggle('gone'))},
+ {id:"costume",em:"🥽",t:"Costume Lab",s:"Make a costume nobody has seen before.",
+  steps:["Pick three things for your costume.","Give your costume a name.","Say what it looks like and what it can do. Your partner asks one question."],
+  use:["coat","goggles","boots","backpack","umbrella","headphones","crown","hat","gloves","wand","scarf","colourful","strange","comfortable","shiny"],
+  say:["This is the… (Rain Queen).","It has… It is…","It can…"],ask:["What can it do?","Can I try it?"],
+  items:[["c_coat", "coat"], ["c_goggles", "goggles"], ["c_boots", "boots"], ["c_backpack", "backpack"], ["c_umbrella", "umbrella"], ["c_headphones", "headphones"], ["c_crown", "crown"], ["c_hat", "hat"], ["c_gloves", "gloves"], ["c_wand", "wand"], ["c_sunglasses", "sunglasses"], ["c_scarf", "scarf"]],
+  stage(){return `<div class="wallet" id="cl">Pick three things.</div><div class="tiles" style="--cols:4">${this.items.map((t,i)=>`<button type="button" class="tile comic item" data-i="${i}"><img src="${IMG[t[0]]}" alt=""><span class="nm">${t[1]}</span></button>`).join('')}</div><div class="row"><button class="btn alt" type="button" data-x="reset">Start again</button></div>`},
+  init(p){const items=this.items,out=p.querySelector('#cl');const upd=()=>{const ch=[...p.querySelectorAll('.tile.pick')].map(b=>items[b.dataset.i][1]);out.textContent=ch.length?`My costume: ${ch.join(' + ')}${ch.length<3?' …':''}`:'Pick three things.'};
+   p.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{if(!b.classList.contains('pick')&&p.querySelectorAll('.tile.pick').length>=3)return;b.classList.toggle('pick');upd()});
+   p.querySelector('[data-x=reset]').onclick=()=>{p.querySelectorAll('.tile').forEach(x=>x.classList.remove('pick'));upd()}}},
+ {id:"market",em:"🛒",t:"Monster Market",s:"You have $10. What do you buy?",
+  steps:["Compare two things: which is cheaper? Which is more useful?","Buy one thing. Say what you can do with it.","Your partner tries to change your mind."],
+  use:["cheaper","more expensive","more useful","better","magic","invisible"],
+  say:["The… is cheaper than the…","I'd buy the… because…","I can use it to… (tap “Ideas”)"],
+  stage:()=>`<div class="row" style="justify-content:space-between"><div class="wallet" id="wallet">Wallet: $10</div><div class="row"><button class="btn alt" type="button" data-x="ideas">Ideas</button><button class="btn alt" type="button" data-x="reset">Empty the bag</button></div></div><div class="tiles" style="--cols:3">${[["k_lantern","Glow lantern","$6",`see in the dark`],["k_pumpkin","Talking pumpkin","$8","talk to it when I'm bored"],["k_backpack","Flying backpack","$10","fly to school"],["k_potion","Invisible potion","$4","become invisible"],["k_broom","Fast broom","$7","get home fast"],["k_ball","Crystal ball","$9","see the future"]].map((t,i)=>`<button type="button" class="tile comic item" data-i="${i}"><img src="${IMG[t[0]]}" alt=""><span class="nm">${t[1]}</span><span class="price">${t[2]}</span><span class="idea" hidden>→ ${t[3]}</span></button>`).join('')}</div>`,
+  init:p=>{let money=10;const wal=p.querySelector('#wallet');const prices=[6,8,10,4,7,9];
+   p.querySelectorAll('.tile').forEach((b,i)=>b.onclick=()=>{if(b.classList.contains('pick')){b.classList.remove('pick');money+=prices[i]}else if(prices[i]<=money){b.classList.add('pick');money-=prices[i]}else{wal.textContent=`Not enough money! You have $${money}.`;return}wal.textContent=`Wallet: $${money}`});
+   p.querySelector('[data-x=ideas]').onclick=e=>{const on=e.target.textContent==='Ideas';p.querySelectorAll('.idea').forEach(x=>x.hidden=!on);e.target.textContent=on?'Hide ideas':'Ideas'};
+   p.querySelector('[data-x=reset]').onclick=()=>{money=10;wal.textContent='Wallet: $10';p.querySelectorAll('.tile').forEach(x=>x.classList.remove('pick'))}}},
+ {id:"doors",em:"🚪",t:"Behind the Door",s:"Look at the clues. Who is inside?",
+  steps:["Choose a door and look at the clues under it.","Who is inside? What are they doing? Say which clue helps you.","Open the door. Was your idea the same?"],
+  use:["footprints","crumbs","wet","bubbles","glitter","music","snoring","pillow","smoke","smell","cobwebs","hungry","maybe"],
+  say:["I think it's a… because I can see…","Maybe it's a…","It is …ing."],
+  doors:[[`tiny ${w("footprints")} + cookie ${w("crumbs")}`,[["a_mouse","A mouse is eating cookies."],["a_puppy","A hungry puppy is looking for food."]]],
+         [`a ${w("wet")} floor + green ${w("bubbles")}`,[["a_witch","A witch is making a potion."],["a_frog","A frog is having a bath."]]],
+         [`${w("glitter")} + ${w("music")}`,[["a_fairy","A fairy is dancing."],["a_unicorn","A unicorn is having a party."]]],
+         [`a big ${w("pillow")} + loud ${w("snoring")}`,[["a_troll","A tired troll is sleeping."],["a_bear","A bear is sleeping all winter."]]],
+         [`${w("smoke")} + a slice of pizza`,[["a_dragon","A dragon is cooking pizza."],["a_chef","A chef is making dinner."]]],
+         [`${w("cobwebs")} + a black cape`,[["a_vampire","A vampire is waking up."],["a_spiders","A spider family is having dinner."]]]],
+  stage(){return `<div class="doors">${this.doors.map((d,i)=>`<button type="button" class="doorcard" data-i="${i}"><img class="doorimg" src="${IMG['d_'+(i+1)]}" alt="Door ${i+1}"><span class="nm">Door ${i+1}</span><span class="tx">${d[0]}</span></button>`).join('')}</div><div class="reveal" id="behind">Choose a door, guess, then tap “Open the door”.</div><div class="row"><button class="btn slime" type="button" data-x="open">Open the door</button></div>`},
+  init(p){let cur=null;const r=p.querySelector('#behind');const doors=this.doors;const cards=[...p.querySelectorAll('.doorcard')];
+   cards.forEach((b,i)=>b.onclick=e=>{if(e.target.closest('.word'))return;cards.forEach(x=>x.classList.remove('pick'));b.classList.add('pick');cur=i;r.textContent=`Door ${i+1}. Who is inside? What are they doing? Say it, then open the door.`});
+   p.querySelector('[data-x=open]').onclick=()=>{if(cur===null){r.textContent='Choose a door first.';return}cards[cur].classList.add('opened');r.innerHTML=`<b>Door ${cur+1} · two possible answers:</b><div class="behind2">${doors[cur][1].map(a=>`<div class="ans"><img src="${IMG[a[0]]}" alt=""><span>${a[1]}</span></div>`).join('')}</div><span class="note">Was your idea the same? Which answer do you like more? Why?</span>`;r.scrollIntoView({block:'nearest',behavior:'smooth'})}}},
+ {id:"ghost",em:"☎️",t:"Ghost Help Line",s:"Someone has a problem. Can you help?",
+  steps:["Your teacher is the character. Listen to the problem.","Say how it feels in one sentence.","Give two ideas with the verbs below. Which idea is the best?"],
+  use:["sad","lonely","scared","worried","angry","bored","say hello","smile","talk to","ask","invite","help","find","fix","call","look for"],
+  say:["Poor…! You are…","Don't worry!","You can… / Try to… / Why don't you…?"],
+  stage:()=>`<div class="big-q" id="problem"></div><div class="row"><button class="btn alt" type="button" data-x="next">New problem</button></div>`,
+  init:p=>{const probs=[["ghost","A sad ghost on the phone","“People scream when I say hello. I just want a friend!”"],["g_bat","A scared bat under a blanket","“I'm a bat, but I'm scared of the dark!”"],["g_witch","A witch with a broken broom","“My broom is broken and the party is tonight!”"],["g_vampire","A vampire looking under the sofa","“I lost my party invitation!”"],["g_pumpkin","A sad pumpkin and cookies","“Nobody wants to eat my pumpkin cookies.”"],["g_spider","Animals running away from a spider","“Everybody runs away from me.”"],["g_zombie","A zombie boy late for school","“I'm always late for school.”"],["g_cat","A sad black cat on a step","“People think black cats bring bad luck.”"]];let i=0;const q=p.querySelector('#problem');const show=()=>{const [c,f,t]=probs[i%probs.length];q.innerHTML=`<img class="scene" src="${IMG[c]}" alt="${f}"><span>${t}</span>`};show();p.querySelector('[data-x=next]').onclick=()=>{i++;show()}}},
+ {id:"rather",em:"🤔",t:"Would You Rather?",s:"Choose one. Say why.",
+  steps:["Choose one from each pair.","Give a different reason each time.","Ask your partner: What about you?"],
+  use:["exciting","safe","dangerous","cozy","unusual","funny","scary","delicious","boring","cool"],
+  say:["I'd rather… because…","It's more… than…"],ask:["What about you?","Why?"],
+  pairs:[[["r_broom","ride a broom"],["r_bat","fly with a friendly bat"]],[["r_dragon","have a tiny dragon"],["r_pumpkin","have a talking pumpkin"]],[["r_cafe","visit a ghost café"],["r_hotel","sleep in a monster hotel"]],[["r_sweets","eat 100 sweets"],["r_pizza","eat one giant pizza"]],[["r_vampire","be a vampire for a day"],["r_witch","be a witch for a day"]],[["r_spider","hold a spider"],["r_snake","hold a snake"]],[["r_haunted","sleep in a haunted house"],["r_forest","sleep in a dark forest"]],[["r_mask","wear a scary mask"],["r_unicorn","wear a unicorn costume"]]],
+  stage(){return `<div id="pairBox"></div><div class="row"><button class="btn slime" type="button" data-x="next">Next pair</button><span class="note" id="pairN"></span></div>`},
+  init(p){let i=0;const box=p.querySelector('#pairBox'),n=p.querySelector('#pairN'),pairs=shuffle(this.pairs);
+   const show=()=>{const pair=pairs[i];const ct=(t,i)=>`<button type="button" class="tile comic rather" data-i="${i}">${t[0]?`<img src="${IMG[t[0]]}" alt="">`:''}<span class="nm">${t[1]}</span></button>`;box.innerHTML=`<div class="pair">${ct(pair[0],0)}<span class="eyebrow">or</span>${ct(pair[1],1)}</div>`;n.textContent=`${i+1} / ${pairs.length}`;
+     box.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{box.querySelectorAll('.tile').forEach(x=>x.classList.remove('pick'));b.classList.add('pick')})};
+   show();p.querySelector('[data-x=next]').onclick=()=>{i=(i+1)%pairs.length;show()}}},
+ {id:"rescue",em:"🎉",t:"Party Rescue",s:"The guests arrive in five minutes!",
+  steps:["Look at the room. What is wrong? Tap the orange circles.","Read the problem and what to do. Add three jobs to your plan.","Say your plan: First, we'll… Then, we'll… Finally, we'll…"],
+  use:["clean up","turn on","plug in","buy","blow up","put","sweep","guests","first","then","finally"],
+  say:["First, we'll clean up the juice.","Then, we'll…","Finally, we'll…","I'll… and you'll…"],
+  acts:[["🧃","The juice is on the floor.","clean up the juice",[69,76]],["🔇","The music is off. The plug is out.","plug in the speaker and turn on the music",[85,50]],["🥣","The candy bowl is empty.","buy some candy",[28,50]],["🎈","The balloons are flat.","blow up the balloons",[89,85]],["🎃","The pumpkins are on the floor, not on the table.","put the pumpkins on the table",[9,78]],["🍂","There are leaves and dirt on the floor.","sweep the floor",[42,90]],["💡","The lamp is off. The room is dark.","turn on the lamp",[54,7]]],
+  stage(){return `<div class="room" id="room"><img class="roomimg" src="${IMG.room}" alt="A messy Halloween party room">${this.acts.map((a,i)=>`<button type="button" class="hot" data-i="${i}" style="left:${a[3][0]}%;top:${a[3][1]}%" aria-label="${a[1]}"><span>?</span></button>`).join('')}</div>
+  <div class="reveal" id="rbox">Tap something in the room.</div>
+  <div class="order"><div class="slot"><b>First, we'll</b><span></span></div><div class="slot"><b>Then, we'll</b><span></span></div><div class="slot"><b>Finally, we'll</b><span></span></div></div><div class="row"><button class="btn alt" type="button" data-x="reset">Start again</button></div>`},
+  init(p){const slots=[...p.querySelectorAll('.slot span')];let n=0;const acts=this.acts;const box=p.querySelector('#rbox');
+   p.querySelectorAll('.hot').forEach((b,i)=>b.onclick=()=>{p.querySelectorAll('.hot').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');
+     box.innerHTML=`<div class="answers"><div>${P(acts[i][0],56)}<span><b>Problem:</b> ${acts[i][1]}<br><b>What to do:</b> ${acts[i][2]}</span></div></div><div class="row"><button class="btn slime" type="button" data-add="${i}">Add to plan</button></div>`;
+     box.querySelector('[data-add]').onclick=()=>{if(n>2||b.classList.contains('done'))return;slots[n++].textContent=acts[i][2]+'.';b.classList.add('done');box.textContent=n>2?'Your plan is ready. Say it!':'Good! Tap another problem.'}});
+   p.querySelector('[data-x=reset]').onclick=()=>{n=0;slots.forEach(s=>s.textContent='');p.querySelectorAll('.hot').forEach(x=>x.classList.remove('done','sel'));box.textContent='Tap something in the room.'}}},
+ {id:"questions",em:"❓",t:"Spooky Questions",s:"One question at a time. Ask one more.",
+  steps:["Answer the question in a full sentence.","Your partner asks one more question: Why? / Tell me more.","Next question."],
+  use:["spooky","snack","hide","sound","power","name","costume"],
+  say:["I would…","I think…","My favourite… is…"],ask:["Why?","Tell me more.","What about you?"],
+  stage:()=>`<div class="big-q" id="sq"></div><div class="row"><button class="btn slime" type="button" data-x="next">Next question</button><span class="note" id="sqn"></span></div>`,
+  init:p=>{const qs=shuffle([["q_costume","What costume would you wear?"],["q_snack","What snack would you bring to a party?"],["q_haunted","Would you visit a haunted house? Why?"],["q_monster","Which monster needs a friend?"],["q_power","What magic power would you like?"],["q_party","What makes a party fun?"],["q_hide","Where would a tiny ghost hide in your room?"],["q_bat","What name would you give a pet bat?"],["q_sound","What is the spookiest sound?"],["q_help","How would you help a scared friend?"],["q_sweet","What is your favourite sweet?"],["q_film","What film is too scary for you?"]]);let i=0;const q=p.querySelector('#sq'),n=p.querySelector('#sqn');const show=()=>{q.innerHTML=`<img class="scene" src="${IMG[qs[i][0]]}" alt="" style="width:min(100%,300px);background:#fcf8f1"><span>${qs[i][1]}</span>`;n.textContent=`${i+1} / ${qs.length}`};show();p.querySelector('[data-x=next]').onclick=()=>{i=(i+1)%qs.length;show()}}},
+ {id:"story",em:"📖",t:"Pumpkin Plot Twist",s:"Tell a four-sentence story together.",
+  steps:["Look at the three pictures.","Take turns: one sentence each, four sentences in total.","Use all three pictures. Add a problem and a funny ending."],
+  use:["arrived","found","opened","dropped","laughed","ate","suddenly"],
+  say:["Last night, a tiny vampire arrived at a party.","First… Then… Suddenly… Finally…"],
+  stage:()=>`<div class="tiles" id="storyTiles"></div><div class="row"><button class="btn slime" type="button" data-x="new">New pictures</button></div>`,
+  init:p=>{const things=[["s_pumpkin", "pumpkin"], ["s_key", "key"], ["s_cupcake", "cupcake"], ["s_spider", "spider"], ["s_broom", "broom"], ["s_mask", "mask"], ["s_bat", "bat"], ["s_candle", "candle"], ["s_map", "map"], ["s_cat", "black cat"], ["s_potion", "potion"], ["s_balloon", "balloon"]];const box=p.querySelector('#storyTiles');box.style.setProperty('--cols',3);const deal=()=>{box.innerHTML=shuffle(things).slice(0,3).map((t,i)=>`<div class="tile comic item"><img src="${IMG[t[0]]}" alt="" style="width:150px;height:150px"><span class="nm">${t[1]}</span></div>`).join('')};deal();p.querySelector('[data-x=new]').onclick=deal}},
+ {id:"roommates",em:"🏠",t:"Monster Roommates",s:"Three monsters. One small flat.",
+  steps:["Read what each monster does.","Make three house rules that help everyone.","Your partner says: Is it fair? Change one rule."],
+  use:["sleep","loud","quiet","share","headphones","clean","smell","wake up","kitchen","bathroom"],
+  say:["You can… but you can't…","Please don't… after…","Everybody can…"],
+  flats:[[["h_vampire","Vampire","“I sleep all day.”"],["h_werewolf","Werewolf","“I sing at midnight.”"],["h_zombie","Zombie","“I cook at 6 a.m.”"]],
+         [["h_ghost","Ghost","“I walk through walls into your room.”"],["h_dragon","Dragon","“I'm very hot. Things burn!”"],["h_octopus","Octopus","“I'm in the bathroom for three hours.”"]],
+         [["h_witch","Witch","“My potions smell terrible.”"],["h_cat","Cat","“I sleep on everyone's bed.”"],["h_robot","Robot","“I vacuum very loudly at night.”"]]],
+  stage(){return `<div id="flat"></div><div class="row"><button class="btn alt" type="button" data-x="next">New flat</button><span class="note" id="flatn"></span></div>`},
+  init(p){let i=0;const f=p.querySelector('#flat'),n=p.querySelector('#flatn');const show=()=>{f.innerHTML=`<div class="tiles" style="--cols:3">${this.flats[i].map(t=>`<div class="tile comic item"><img src="${IMG[t[0]]}" alt="" style="width:170px;height:170px"><span class="nm">${t[1]}</span><span class="tx" style="color:#4b3d5c">${t[2]}</span></div>`).join('')}</div>`;n.textContent=`Flat ${i+1} / ${this.flats.length}`};show();p.querySelector('[data-x=next]').onclick=()=>{i=(i+1)%this.flats.length;show()}}},
+];
+
+
+// ---- adult version ----
+IMG.room=IMG.o_room;
+{const KEEP=['ghost','rescue','rather','questions','doors','roommates','story'];const keep=GAMES.filter(g=>KEEP.includes(g.id)).sort((a,b)=>KEEP.indexOf(a.id)-KEEP.indexOf(b.id));GAMES.length=0;GAMES.push(...keep);}
+{const g=GAMES.find(x=>x.id==='rescue');g.s='Your office party starts in ten minutes!';
+ g.steps=["Look at the office. What is wrong? Tap the orange circles.","Read the problem and what to do. Add three jobs to your plan.","Say your plan and share the jobs: First, we'll… I'll… and you'll…"];
+ g.use=["clean up","plug in","turn on","buy","blow up","put","sweep","colleagues","first","then","finally"];
+ g.say=["First, we'll clean up the juice.","Then, I'll… and you'll…","Finally, we'll…","Could you… please? / Would you mind …ing?"];
+ g.acts=[["🧃","There's juice on the floor.","clean up the juice",[22,84]],["🔇","The speaker is unplugged.","plug in the speaker and turn on the music",[13,66]],["🥣","The snack bowl is empty.","buy some snacks",[84,49]],["🎈","The balloons are flat.","blow up the balloons",[30,61]],["🎃","The pumpkins are on the floor.","put the pumpkins on the table",[85,86]],["🍂","There are leaves all over the floor.","sweep the floor",[57,80]],["💡","The lamps are off.","turn on the lamps",[32,7]]];}
+{const g=GAMES.find(x=>x.id==='ghost');g.t='Help Line';g.s='Someone has a problem. Give advice.';
+ g.steps=["Your partner reads the problem as the person in the picture.","Say how the person feels.","Give two pieces of advice. Which one is better? Why?"];
+ g.use=["annoyed","embarrassed","stressed","worried","frustrated","scared","exhausted","ask","call","explain","apologise","order","borrow","charge","knock on"];
+ g.say=["Poor you! You must feel…","If I were you, I'd…","Why don't you…? / You could… / You should…"];g.ask=["What would you do?","Has this ever happened to you?"];
+ g.init=p=>{const probs=[["o_p1","My neighbours are having a loud party. It's 3 a.m. and I have work tomorrow!"],["o_p2","I'm at a party and I can't remember my colleague's name!"],["o_p3","I'm invited to a costume party tonight, but I have nothing to wear."],["o_p4","I'm locked out of my flat, and my keys are inside."],["o_p5","My boss wants me to work this weekend, but I'm going on a trip."],["o_p6","I burnt the dinner, and the guests are at the door!"],["o_p7","My phone is dead, and I don't know this part of the city."],["o_p8","I watched a horror film, and now I'm scared of the dark corridor."]];let i=0;const q=p.querySelector('#problem');const show=()=>{const [k,t]=probs[i%probs.length];q.innerHTML=`<img class="scene" src="${IMG[k]}" alt=""><span>“${t}”</span>`};show();p.querySelector('[data-x=next]').onclick=()=>{i++;show()}};}
+{const g=GAMES.find(x=>x.id==='rather');g.steps=["Choose one option.","Give a reason and one example.","Ask your partner. Do you agree?"];
+ g.use=["exciting","relaxing","stressful","unusual","risky","comfortable","cosy","boring"];
+ g.say=["I'd rather… because…","It sounds more… than…","On the other hand, …"];g.ask=["What about you?","Why?","Have you ever…?"];
+ g.pairs=[[["ar1","spend a night in a haunted castle hotel"],["ar2","sleep in a camper van in a forest"]],[["ar3","go to a costume party at work"],["ar4","watch three horror films in a row"]],[["ar5","work in a quiet old library"],["ar6","work in a busy café"]],[["ar7","have a robot assistant"],["ar8","have a personal chef"]],[["ar9","live without your phone for a week"],["ar10","live without coffee for a month"]],[["ar11","travel to Transylvania"],["ar12","see the northern lights in Iceland"]],[["ar13","read people's minds"],["ar14","be invisible for a day"]],[["ar15","cook dinner for ten guests"],["ar16","clean up after the party"]]];
+}
+{const g=GAMES.find(x=>x.id==='questions');g.t='Halloween Questions';g.s='One question at a time. Answer and ask back.';g.steps=["Answer the question in 2–3 sentences: answer + reason + example.","Your partner asks one follow-up question.","Change roles."];g.ask=["Why?","What happened next?","What about you?"];
+ g.init=p=>{const qs=shuffle([["aq1","What costume would you wear to a work party?"],["aq2","What was the best party you've ever been to?"],["aq3","Do you believe in any superstitions?"],["aq4","What's the scariest film you've ever seen?"],["aq5","What's something scary you've done, like speaking in public?"],["aq6","Do you like ghost stories? Do you believe them?"],["aq7","What's your favourite autumn food?"],["aq8","Have you ever visited an abandoned or 'haunted' place?"],["aq9","What are you afraid of: heights, spiders, the dark…?"],["aq10","Is Halloween popular in Russia? What do people do?"],["aq11","Tell me about a strange coincidence in your life."],["aq12","What would you do if you heard strange noises at night?"]]);let i=0;const q=p.querySelector('#sq'),n=p.querySelector('#sqn');const show=()=>{q.innerHTML=`<img class="scene" src="${IMG[qs[i][0]]}" alt="" style="width:min(100%,320px)"><span>${qs[i][1]}</span>`;n.textContent=`${i+1} / ${qs.length}`};show();p.querySelector('[data-x=next]').onclick=()=>{i=(i+1)%qs.length;show()}};
+ g.use=["superstition","costume","scary","brave","afraid of","tradition","coincidence"];
+ g.say=["I think… / In my opinion, …","Once, I… / When I was a child, I…","I'm (not) afraid of…"];
+}
+{const g=GAMES.find(x=>x.id==='story');g.steps=["Look at the three objects.","Tell a story together: one sentence each, six sentences.","Use all three objects and the past: was …ing, suddenly, in the end."];g.use=["was …ing","suddenly","while","when","in the end","found","lost","realised","decided"];
+ g.init=p=>{const things=[["as1","key"],["as2","letter"],["as3","train ticket"],["as4","umbrella"],["as5","cracked phone"],["as6","candle"],["as7","map"],["as8","wallet"],["as9","coffee cup"],["as10","black cat"],["as11","suitcase"],["as12","camera"]];const box=p.querySelector('#storyTiles');box.style.setProperty('--cols',3);const deal=()=>{box.innerHTML=shuffle(things).slice(0,3).map(t=>`<div class="tile comic item"><img src="${IMG[t[0]]}" alt="" style="width:150px;height:150px"><span class="nm">${t[1]}</span></div>`).join('')};deal();p.querySelector('[data-x=new]').onclick=deal};g.say=["Last Friday, a tired office manager arrived at the party…","First… Then… Suddenly… In the end…","While she was …ing, …"];}
+{const g=GAMES.find(x=>x.id==='doors');g.s='Look at the clues. Who lives here? What is happening?';
+ g.steps=["Choose a door and look at the clues.","Guess who lives there and what is happening. Explain why.","Open the door. Which answer is closer to yours?"];
+ g.use=["muddy","lead","boxes","paint","ladder","suitcases","taxi","bouquet","gift","takeaway cups","laptop bag","must","might","can't"];
+ g.say=["It must be… because I can see…","They might be …ing. / It could be…","It can't be… because…"];
+ g.doors=[[`muddy boots + a dog lead`,[["ai1","A hiker is back from the mountains."],["ai2","Someone is back from walking a big dog."]]],
+  [`pizza boxes + loud music`,[["ai3","Students are having a pizza party."],["ai4","Neighbours are watching football."]]],
+  [`paint cans + a ladder`,[["ai5","A couple is painting their flat."],["ai6","An artist is working on a big picture."]]],
+  [`two suitcases + a taxi`,[["ai7","A family is leaving for a holiday."],["ai8","Someone is moving out."]]],
+  [`flowers + a gift box`,[["ai9","Friends are preparing a birthday surprise."],["ai10","A couple has a newborn baby."]]],
+  [`lots of coffee cups + a laptop bag`,[["ai11","Someone is working late on a video call."],["ai12","A student is studying for an exam."]]]];
+ g.stage=function(){return `<div class="doors">${this.doors.map((d,i)=>`<button type="button" class="doorcard" data-i="${i}"><img class="doorimg" src="${IMG['ad'+(i+1)]}" alt="Door ${i+1}"><span class="nm">Door ${i+1}</span><span class="tx">${d[0]}</span></button>`).join('')}</div><div class="reveal" id="behind">Choose a door, guess, then tap “Open the door”.</div><div class="row"><button class="btn slime" type="button" data-x="open">Open the door</button></div>`};}
+{const g=GAMES.find(x=>x.id==='roommates');g.t='Flatmates';g.s='Three flatmates. One small flat.';
+ g.steps=["Look at the three flatmates. What is the problem?","Make three house rules that are fair for everyone.","Your partner says: Is it fair? Change one rule."];
+ g.use=["night shift","noise","early","dishes","bathroom","guests","weeknight","sofa","video call","fridge","fair","share"];
+ g.flats=[[["af1","Nurse","“I work night shifts and sleep in the day.”"],["af2","Guitarist","“I practise at midnight.”"],["af3","Runner","“I make smoothies at 6 a.m.”"]],
+  [["af4","Cook","“I'll wash the dishes… tomorrow.”"],["af5","Showerer","“I need 40 minutes in the shower.”"],["af6","Host","“My friends come every Tuesday.”"]],
+  [["af7","Dog owner","“My dog loves the sofa.”"],["af8","Remote worker","“I have calls in the kitchen all day.”"],["af9","Snacker","“Is this your yoghurt? Sorry!”"]]];g.say=["You can… but please don't…","Would you mind not …ing after 11 p.m.?","Everybody has to… / Nobody is allowed to…"];}
+
+const grid=document.getElementById('games'),play=document.getElementById('play');
+let played=new Set(),timer=null;
+try{played=new Set(JSON.parse(localStorage.getItem('sonya-halloween-played')||'[]'))}catch(e){}
+function saveStars(){document.getElementById('starCount').textContent=played.size;try{localStorage.setItem('sonya-halloween-played',JSON.stringify([...played]))}catch(e){}}
+GAMES.forEach(g=>{const b=document.createElement('button');b.type='button';b.className='game';b.id='card-'+g.id;
+  b.innerHTML=`${P(g.em,60)}<span class="t">${g.t}</span><span class="s">${g.s}</span>`;b.onclick=()=>open(g);grid.appendChild(b)});
+function refreshCards(){GAMES.forEach(g=>document.getElementById('card-'+g.id).classList.toggle('done',played.has(g.id)))}
+function box(lab,arr){return arr?`<div class="box say"><div class="lab">${lab}</div>${arr.map(x=>`<p>${x}</p>`).join('')}</div>`:''}
+function open(g){
+  document.querySelectorAll('.game').forEach(x=>x.classList.remove('active'));document.getElementById('card-'+g.id).classList.add('active');
+  clearInterval(timer);let left=300;
+  play.hidden=false;
+  play.innerHTML=`<div class="playhead"><div class="row">${P(g.em,46)}<div><div class="eyebrow">Game</div><h2>${g.t}</h2></div></div><div class="row"><span class="timer" id="tm">5:00</span><button class="btn alt" type="button" id="tstart">Start timer</button></div></div>
+  <ol class="steps">${g.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
+  <div class="stage">${g.stage()}</div>
+  <div class="kit">${g.use.length?`<div class="box"><div class="lab">Use</div><div class="chips">${g.use.map(x=>w(x)).join('')}</div></div>`:''}${box('Say',g.say)}${box('Ask',g.ask)}</div>
+  <div class="row"><button class="btn slime" type="button" id="done">★ We played it</button><button class="btn alt" type="button" id="next">Next random game</button></div>`;
+  if(g.init)g.init(play);
+  const tm=play.querySelector('#tm');
+  play.querySelector('#tstart').onclick=e=>{clearInterval(timer);left=300;tm.classList.remove('over');e.target.textContent='Restart timer';timer=setInterval(()=>{left--;const m=Math.floor(Math.abs(left)/60),s=String(Math.abs(left)%60).padStart(2,'0');tm.textContent=(left<0?'+':'')+m+':'+s;if(left<=0)tm.classList.add('over')},1000)};
+  play.querySelector('#done').onclick=()=>{played.add(g.id);saveStars();refreshCards()};
+  play.querySelector('#next').onclick=spin;
+  play.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
+}
+function spin(){const left=GAMES.filter(g=>!played.has(g.id)&&!document.getElementById('card-'+g.id).classList.contains('active'));open(pick(left.length?left:GAMES))}
+document.getElementById('spin').onclick=spin;
+saveStars();refreshCards();
+</script>
+
+</body>
+</html>
