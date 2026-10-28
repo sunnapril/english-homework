@@ -55,5 +55,13 @@ window.HOMEWORK_SUBMISSION_CONFIG = {
   allAnswersSelector: 'input,select,textarea'
 };
 </script>
+<style>.item .actions .check{display:none}.sectioncheck{margin:12px 0 0;background:#237a59}.sectionscore{font-weight:700;margin:6px 0 0}</style>
+<script>/* one Check per section instead of one per sentence (Irina, 27.10.2026) */
+document.querySelectorAll('section.panel').forEach(sec=>{const its=[...sec.querySelectorAll('.item[data-answer]')];if(!its.length)return;
+const b=document.createElement('button');b.type='button';b.className='sectioncheck';b.textContent='Check this section';
+const sc=document.createElement('p');sc.className='sectionscore';sc.setAttribute('aria-live','polite');
+its[its.length-1].after(b,sc);
+b.addEventListener('click',()=>{its.forEach(i=>i.querySelector('.check').click());const ok=its.filter(i=>i.dataset.done==='yes').length;sc.textContent=ok+' / '+its.length+' correct'+(ok<its.length?' · fix the red ones, use Hint or Show correct answer':'');});});
+</script>
 <script src="/assets/homework-submission.js"></script>
 </body></html>
