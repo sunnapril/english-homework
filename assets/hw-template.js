@@ -98,11 +98,15 @@ sections.forEach(s => {
   if (s.bank) h += `<div class="sticky"><b>Word bank</b> <span class="sub">· tap a word after you use it</span><div class="bank">${s.bank.map(w => `<button class="chip" type="button">${esc(w)}</button>`).join('')}</div></div>`;
   s.items.forEach(it => {
     const data = esc(it.answers.join('|'));
+    // "___ (b…)" → the first letter is shown inside the gap as grey placeholder text
+    let sent = it.sentence, ph = '';
+    const pm = sent.match(/___\s*\(([^()]{1,4}…)\)/);
+    if (pm && s.type !== 'choose') { ph = pm[1]; sent = sent.replace(pm[0], '___'); }
     const field = s.type === 'choose'
       ? `<select class="inline" aria-label="Answer ${it.n}"><option value="">choose…</option>${it.options.map(o => `<option value="${esc(o)}">${esc(o)}</option>`).join('')}</select>`
-      : `<input class="inline" autocomplete="off" spellcheck="false" aria-label="Answer ${it.n}">`;
-    const gap = it.sentence.indexOf('___');
-    const sentence = gap >= 0 ? fmt(it.sentence.slice(0, gap)) + field + fmt(it.sentence.slice(gap + 3)) : `${fmt(it.sentence)} ${field}`;
+      : `<input class="inline" autocomplete="off" spellcheck="false" aria-label="Answer ${it.n}"${ph ? ` placeholder="${esc(ph)}"` : ''}>`;
+    const gap = sent.indexOf('___');
+    const sentence = gap >= 0 ? fmt(sent.slice(0, gap)) + field + fmt(sent.slice(gap + 3)) : `${fmt(sent)} ${field}`;
     h += `<div class="q" data-answer="${data}"><div class="sentence"><b>${it.n}.</b> ${sentence}</div>${helpers(it)}</div>`;
   });
   if (s.type === 'gap' || s.type === 'choose') h += `<button class="check" type="button" data-section="${id}">Check this section</button><div class="score"></div>`;
