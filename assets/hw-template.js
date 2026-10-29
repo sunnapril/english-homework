@@ -28,6 +28,7 @@ src.textContent.split(/\r?\n/).forEach((raw, ln) => {
     else if (k === 'TEXT') cur.text.push(v);
     else if (k === 'BANK') cur.bank = list(v);
     else if (k === 'AUDIO') cur.audio = v;
+    else if (k === 'VIDEO') { const [url, label] = v.split('|').map(x => x.trim()); cur.video = { url, label: label || 'Watch the video' }; }
     else if (k === 'SCRIPT') (cur.script = cur.script || []).push(v);
     else if (k === 'IMAGE') { const [file, alt] = v.split('|').map(x => x.trim()); cur.image = { file, alt: alt || '' }; }
     else if (k === 'SUPPORT') cur.support = v;
@@ -67,7 +68,9 @@ sections.forEach(s => {
 });
 
 // ---------- render ----------
-document.title = `${meta.STUDENT || ''} · ${meta.TITLE || 'Homework'}`;
+// STUDENT: ask → a universal page: the student types their name before sending
+const askName = /^ask$/i.test(meta.STUDENT || '');
+document.title = askName ? (meta.TITLE || 'Homework') : `${meta.STUDENT || ''} · ${meta.TITLE || 'Homework'}`;
 const header = document.createElement('header');
 header.innerHTML = `${meta.TAG ? `<span class="tag">${fmt(meta.TAG)}</span>` : ''}<h1>${fmt(meta.TITLE || '')}</h1>${meta.INTRO ? `<p class="sub">${fmt(meta.INTRO)}</p>` : ''}`;
 const main = document.createElement('main');
@@ -90,6 +93,7 @@ sections.forEach(s => {
   if (s.items.length) h += `<p class="count">${s.items.length} ${s.items.length === 1 ? 'task' : 'tasks'}</p>`;
   h += textBlock(s.text);
   if (s.image) h += `<div class="media"><img src="${esc(s.image.file)}" alt="${esc(s.image.alt)}" loading="lazy"></div>`;
+  if (s.video) h += `<div class="media video"><a class="videobtn" href="${esc(s.video.url)}" target="_blank" rel="noopener">▶ ${esc(s.video.label)}</a><p class="sub">The video opens on YouTube in a new tab. Then come back to this page. If YouTube does not open, turn on your VPN.</p></div>`;
   if (s.audio) h += `<div class="media"><audio controls preload="metadata" src="${esc(s.audio)}"></audio><button class="back5" type="button">↶ Back 5 seconds</button></div>`;
   if (s.script) h += `<details class="script"><summary>Script · open after listening</summary>${s.script.map(l => `<p>${fmt(l)}</p>`).join('')}</details>`;
   if (s.bank) h += `<div class="sticky"><b>Word bank</b> <span class="sub">· tap a word after you use it</span><div class="bank">${s.bank.map(w => `<button class="chip" type="button">${esc(w)}</button>`).join('')}</div></div>`;
@@ -111,10 +115,12 @@ sections.forEach(s => {
   sec.innerHTML = h; main.appendChild(sec);
 });
 main.insertAdjacentHTML('beforeend', `<div class="submitbox"><b>Send your work to Irina</b><p>When you have finished, send your answers. Wait for <b>✓ Received by Irina</b>.</p>`
+  + (askName ? `<label class="namebox">Your name <input id="studentName" class="student-name" autocomplete="name" placeholder="First name and surname"></label>` : '')
   + `<button class="send" id="send" type="button">Send answers</button> <button class="reset" id="reset" type="button">Clear saved answers</button><div id="status" aria-live="polite"></div></div>`);
 src.after(header, main);
 
 // ---------- behaviour ----------
+const nameKey = 'hw-name:' + (meta.HOMEWORK || '');
 const valueOf = q => q.querySelector('input,select')?.value || '';
 document.addEventListener('click', e => {
   const t = e.target;
@@ -145,6 +151,7 @@ document.getElementById('reset').onclick = () => {
   document.querySelectorAll('.feedback,.score').forEach(x => x.textContent = '');
   document.querySelectorAll('.hint,.answer,.support').forEach(x => x.classList.remove('open'));
   document.querySelectorAll('.show').forEach(x => x.classList.remove('available'));
+  try { localStorage.removeItem(nameKey); } catch (e) {}
   window.scrollTo(0, 0);
 };
 if (errors.length) { document.getElementById('send').disabled = true; return; }  // never send a broken page
@@ -156,6 +163,21 @@ window.HOMEWORK_SUBMISSION_CONFIG = {
   closedSelector: '.q[data-answer]', openSelector: '.openanswer', allAnswersSelector: 'main input,main select,main textarea',
   normalizeAnswer: norm
 };
+if (askName) {
+  const cfg = window.HOMEWORK_SUBMISSION_CONFIG, nameEl = document.getElementById('studentName'), statusEl = document.getElementById('status');
+  cfg.allAnswersSelector = 'main input:not(.student-name),main select,main textarea';
+  cfg.storageKey = 'hw-submit-open-' + meta.HOMEWORK;
+  try { nameEl.value = localStorage.getItem(nameKey) || ''; } catch (e) {}
+  const setName = () => { cfg.student = nameEl.value.trim().replace(/\s+/g, ' '); try { localStorage.setItem(nameKey, nameEl.value); } catch (e) {} };
+  setName(); cfg.student = cfg.student || '';
+  nameEl.addEventListener('input', setName);
+  // capture phase: runs before the shared sender, so nothing is sent without a name
+  document.addEventListener('click', e => {
+    if (!e.target.closest('#send') || cfg.student.length >= 2) return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    statusEl.textContent = 'Please write your name first.'; nameEl.focus();
+  }, true);
+}
 const shared = document.createElement('script'); shared.src = '/assets/homework-submission.js';
 document.body.appendChild(shared);
 })();
