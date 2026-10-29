@@ -109,6 +109,8 @@ sections.forEach(s => {
   if (s.type === 'open') {
     if (s.support) h += `<button class="supportbtn" type="button">Useful language</button><div class="support">${fmt(s.support)}</div>`;
     const p = s.prompt || s.title.replace(/^\d+[.·)]?\s*/, '');
+    // the question must be visible: if no TEXT line asks it, show PROMPT above the box
+    if (s.prompt && !s.text.some(l => l.includes('?'))) h += `<p class="openq"><b>${fmt(s.prompt)}</b></p>`;
     h += `<textarea class="openanswer" data-prompt="${esc(p)}" aria-label="${esc(p)}" placeholder="Write your answer here."></textarea>`;
   }
   sec.innerHTML = h; main.appendChild(sec);
