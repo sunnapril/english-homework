@@ -30,7 +30,7 @@ src.textContent.split(/\r?\n/).forEach((raw, ln) => {
     else if (k === 'AUDIO') cur.audio = v;
     else if (k === 'VIDEO') { const [url, label] = v.split('|').map(x => x.trim()); cur.video = { url, label: label || 'Watch the video' }; }
     else if (k === 'SCRIPT') (cur.script = cur.script || []).push(v);
-    else if (k === 'IMAGE') { const [file, alt] = v.split('|').map(x => x.trim()); cur.image = { file, alt: alt || '' }; }
+    else if (k === 'IMAGE') { const [file, alt] = v.split('|').map(x => x.trim()); cur.image = { file, alt: alt || '' }; cur.text.push('\u0000IMG'); }
     else if (k === 'SUPPORT') cur.support = v;
     else if (k === 'PROMPT') cur.prompt = v;
     else errors.push(`line ${ln + 1}: unknown field ${k}`);
@@ -77,11 +77,11 @@ const main = document.createElement('main');
 if (errors.length) main.insertAdjacentHTML('afterbegin', `<div class="content-error">Content needs fixing before publishing:\n${esc(errors.join('\n'))}</div>`);
 
 let sid = 0;
-const textBlock = lines => {
+const textBlock = (lines, img) => {
   let h = '', ul = [];
   const flush = () => { if (ul.length) { h += `<ul>${ul.map(x => `<li>${fmt(x)}</li>`).join('')}</ul>`; ul = []; } };
-  lines.forEach(l => { if (l.startsWith('- ')) ul.push(l.slice(2)); else { flush(); h += `<p>${fmt(l)}</p>`; } });
-  flush(); return h ? `<div class="text">${h}</div>` : '';
+  lines.forEach(l => { if (l === '\u0000IMG') { flush(); h += img ? `</div><div class="media"><img src="${esc(img.file)}" alt="${esc(img.alt)}" loading="lazy"></div><div class="text">` : ''; } else if (l.startsWith('- ')) ul.push(l.slice(2)); else { flush(); h += `<p>${fmt(l)}</p>`; } });
+  flush(); return h ? `<div class="text">${h}</div>`.replace(/<div class="text"><\/div>/g, '') : '';
 };
 const helpers = it => `<div class="actions">${it.hint ? '<button class="hintbtn" type="button">Hint</button>' : ''}<button class="show" type="button">Show correct answer</button></div>`
   + (it.hint ? `<div class="hint">${fmt(it.hint)}</div>` : '') + `<div class="answer"><b>Correct answer:</b> ${esc(it.answers[0])}</div><div class="feedback"></div>`;
@@ -91,8 +91,7 @@ sections.forEach(s => {
   const sec = document.createElement('section'); sec.id = id;
   let h = `<h2>${fmt(s.title)}</h2>`;
   if (s.items.length) h += `<p class="count">${s.items.length} ${s.items.length === 1 ? 'task' : 'tasks'}</p>`;
-  h += textBlock(s.text);
-  if (s.image) h += `<div class="media"><img src="${esc(s.image.file)}" alt="${esc(s.image.alt)}" loading="lazy"></div>`;
+  h += textBlock(s.text, s.image);
   if (s.video) h += `<div class="media video"><a class="videobtn" href="${esc(s.video.url)}" target="_blank" rel="noopener">▶ ${esc(s.video.label)}</a><p class="sub">The video opens on YouTube in a new tab. Then come back to this page. If YouTube does not open, turn on your VPN.</p></div>`;
   if (s.audio) h += `<div class="media"><audio controls preload="metadata" src="${esc(s.audio)}"></audio><button class="back5" type="button">↶ Back 5 seconds</button></div>`;
   if (s.script) h += `<details class="script"><summary>Script · open after listening</summary>${s.script.map(l => `<p>${fmt(l)}</p>`).join('')}</details>`;
