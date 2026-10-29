@@ -38,7 +38,6 @@ const all = sets.flatMap(s => s.items);
 const baseOf = it => norm(it.answers[0]);
 const synOf = it => { const b = baseOf(it); return syn.filter(g => g.includes(b)).flat(); };
 const sameMeaning = (a, b) => baseOf(a) === baseOf(b) || synOf(a).includes(baseOf(b));
-const hasPics = all.some(i => i.img);
 
 // ---------- layout ----------
 document.title = meta.TITLE || 'Word practice';
@@ -51,13 +50,16 @@ settings.sets = settings.sets.filter(n => sets.some(s => s.name === n));
 if (!saved.sets) settings.sets = sets.map(s => s.name);
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(settings)); } catch (e) {} };
 
-const MODES = [
+const modes = () => [
   { id: 'choose', t: 'Meaning → word', s: 'Read the meaning. Choose the word.' },
   { id: 'gap', t: 'Fill the gap', s: 'Type the missing word or phrase.' },
   { id: 'explain', t: 'Word → explain', s: 'Say what it means and make a sentence. Then check.' },
-].concat(hasPics ? [{ id: 'picture', t: 'Picture → word', s: 'Look at the picture. Choose the word.' }] : []);
+].concat(all.filter(i => i.img).length >= 4 ? [{ id: 'picture', t: 'Picture → word', s: 'Look at the picture. Choose the word.' },
+  { id: 'picturetype', t: 'Picture → type', s: 'Look at the picture. Type the word (nouns with der / die / das).' }] : []);
 
 function home() {
+  const MODES = modes();
+  if (!MODES.some(m => m.id === settings.mode)) settings.mode = 'choose';
   const pool = all.filter(i => settings.sets.includes(i.set));
   app.innerHTML = `<header><h1>${esc(meta.TITLE || 'Word practice')}</h1><p>${all.length} words · ${sets.length} topics</p></header>`
     + (errors.length ? `<div class="err">Deck needs fixing:\n${esc(errors.join('\n'))}</div>` : '')
@@ -77,7 +79,7 @@ function home() {
   app.querySelector('#ru').onchange = e => { settings.ru = e.target.checked; save(); };
   app.querySelector('#go').onclick = () => {
     let list = shuffle(pool);
-    if (settings.mode === 'picture') list = list.filter(i => i.img);
+    if (settings.mode === 'picture' || settings.mode === 'picturetype') list = list.filter(i => i.img);
     if (settings.mode === 'gap') list = list.filter(i => i.example);
     if (settings.count !== 'all') list = list.slice(0, +settings.count);
     start(list, pool);
@@ -113,6 +115,28 @@ function card() {
     };
     app.querySelectorAll('.opt').forEach(b => b.onclick = () => pick(+b.dataset.n));
     keys = e => { if (/^[1-4]$/.test(e.key) && !done) pick(+e.key - 1); };
+  } else if (mode === 'picturetype') {
+    app.innerHTML = progress() + `<section class="card"><img class="pic" src="${esc(it.img)}" alt=""><p class="big center"><input id="ans" autocomplete="off" spellcheck="false" aria-label="The word"></p>
+      <div class="row"><button type="button" class="go" id="check">Check</button><button type="button" class="soft" id="letter">First letter</button></div><div id="fb"></div></section>`;
+    bindCommon();
+    const inp = app.querySelector('#ans'); inp.focus();
+    const full = it.answers[0], noun = full.replace(/^(der|die|das)\s+/i, '');
+    app.querySelector('#letter').onclick = () => { inp.placeholder = (/^(der|die|das)\s/i.test(full) ? full.split(' ')[0] + ' ' : '') + noun[0] + '…'; inp.focus(); };
+    let done = false;
+    const check = () => {
+      if (done) return; const v = norm(inp.value); if (!v) { inp.focus(); return; }
+      if (v !== norm(full) && v === norm(noun) && noun !== full) { app.querySelector('#fb').innerHTML = '<p class="nomsg">Almost! Add the article: der, die or das.</p>'; inp.focus(); return; }
+      done = true; const ok = v === norm(full) || synOf(it).includes(v); result(ok, it);
+      inp.disabled = true; inp.classList.add(ok ? 'right' : 'wrong');
+      app.querySelector('#fb').innerHTML = (ok ? '<p class="okmsg">✓ Correct</p>' : `<p class="nomsg">Correct answer: <b>${esc(full)}</b></p><button type="button" class="link" id="typo">It was a typo — count it as correct</button>`)
+        + after(it) + '<button type="button" class="go" id="next">Next ▸</button>';
+      const typo = app.querySelector('#typo');
+      if (typo) typo.onclick = () => { round.missed = round.missed.filter(x => x !== it); round.good++; typo.remove(); };
+      app.querySelector('#next').onclick = next; app.querySelector('#next').focus();
+    };
+    app.querySelector('#check').onclick = check;
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); check(); } });
+    keys = null;
   } else if (mode === 'gap') {
     const parts = it.example.split('___');
     app.innerHTML = progress() + `<section class="card"><p class="big">${esc(parts[0])}<input id="ans" autocomplete="off" spellcheck="false" aria-label="Missing word">${esc(parts.slice(1).join('___'))}</p>
@@ -160,5 +184,6 @@ function finish() {
 }
 let keys = null;
 document.addEventListener('keydown', e => { if (keys) keys(e); });
-home();
+// pictures that are not there yet are ignored, so a deck works before its pictures are ready
+Promise.all(all.filter(i => i.img).map(i => new Promise(res => { const im = new Image(); im.onload = () => res(); im.onerror = () => { i.img = ''; res(); }; im.src = i.img; }))).then(home);
 })();
