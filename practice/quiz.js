@@ -15,23 +15,29 @@ const norm = s => String(s || '').toLowerCase().replace(/[’‘`´]/g, "'").rep
 const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 
 // ---------- parse ----------
-const meta = {}, sets = [], errors = [];
+const meta = {}, sets = [], errors = [], syn = [];
 let cur = null;
 src.textContent.split(/\r?\n/).forEach((raw, ln) => {
   const line = raw.trim(); let m;
   if (!line || line.startsWith('//')) return;
   if ((m = line.match(/^##\s+(.+)$/))) { cur = { name: m[1], items: [] }; sets.push(cur); return; }
+  if ((m = line.match(/^SYN:\s*(.+)$/))) { syn.push(m[1].split(';').map(x => norm(x)).filter(Boolean)); return; }
   if ((m = line.match(/^([A-Z]+):\s*(.*)$/)) && !line.includes('|')) { meta[m[1]] = m[2]; return; }
   if (!cur) { errors.push(`line ${ln + 1}: word before the first ## set`); return; }
   const p = line.split('|').map(x => x.trim());
   if (p.length < 2 || !p[0] || !p[1]) { errors.push(`line ${ln + 1}: need at least "word | meaning"`); return; }
   const ex = p[2] || '', eq = ex.lastIndexOf(' = ');
   const item = { word: p[0], meaning: p[1], example: eq >= 0 ? ex.slice(0, eq).trim() : ex, ru: p[3] || '', img: p[4] || '', set: cur.name };
-  item.answers = [item.word].concat(eq >= 0 ? ex.slice(eq + 3).split(';').map(x => x.trim()).filter(Boolean) : []);
+  const base = item.word.replace(/\s*\([^)]*\)/g, '').trim();
+  item.answers = [base].concat(eq >= 0 ? ex.slice(eq + 3).split(';').map(x => x.trim()).filter(Boolean) : []);
   if (item.example && !item.example.includes('___')) errors.push(`line ${ln + 1}: the example needs ___`);
   cur.items.push(item);
 });
 const all = sets.flatMap(s => s.items);
+// synonyms: accepted for each other when typing, never offered together as options
+const baseOf = it => norm(it.answers[0]);
+const synOf = it => { const b = baseOf(it); return syn.filter(g => g.includes(b)).flat(); };
+const sameMeaning = (a, b) => baseOf(a) === baseOf(b) || synOf(a).includes(baseOf(b));
 const hasPics = all.some(i => i.img);
 
 // ---------- layout ----------
@@ -42,7 +48,7 @@ const KEY = 'pq-settings:' + location.pathname;
 let saved = {}; try { saved = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) {}
 const settings = Object.assign({ mode: 'choose', count: '10', ru: false, sets: sets.map(s => s.name) }, saved);
 settings.sets = settings.sets.filter(n => sets.some(s => s.name === n));
-if (!settings.sets.length) settings.sets = sets.map(s => s.name);
+if (!saved.sets) settings.sets = sets.map(s => s.name);
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(settings)); } catch (e) {} };
 
 const MODES = [
@@ -53,16 +59,19 @@ const MODES = [
 
 function home() {
   const pool = all.filter(i => settings.sets.includes(i.set));
-  app.innerHTML = `<header><h1>${esc(meta.TITLE || 'Word practice')}</h1><p>${all.length} words · ${sets.length} sets</p></header>`
+  app.innerHTML = `<header><h1>${esc(meta.TITLE || 'Word practice')}</h1><p>${all.length} words · ${sets.length} topics</p></header>`
     + (errors.length ? `<div class="err">Deck needs fixing:\n${esc(errors.join('\n'))}</div>` : '')
-    + `<section><h2>1 · Words</h2><div class="chips">${sets.map(s => `<button type="button" class="chip${settings.sets.includes(s.name) ? ' on' : ''}" data-set="${esc(s.name)}">${esc(s.name)} <small>${s.items.length}</small></button>`).join('')}</div>
-       <p class="muted">${pool.length} words selected</p></section>
+    + `<section><h2>1 · Words</h2><p>${pool.length === all.length ? `All ${all.length} words, in random order.` : `${pool.length} of ${all.length} words, in random order.`}</p>
+       <details${pool.length === all.length ? '' : ' open'}><summary>Choose topics (optional)</summary><div class="row"><button type="button" class="link" id="allsets">Select all</button><button type="button" class="link" id="nosets">Clear</button></div><div class="chips">${sets.map(s => `<button type="button" class="chip${settings.sets.includes(s.name) ? ' on' : ''}" data-set="${esc(s.name)}">${esc(s.name)} <small>${s.items.length}</small></button>`).join('')}</div>
+       </details></section>
        <section><h2>2 · Mode</h2><div class="modes">${MODES.map(m => `<button type="button" class="mode${settings.mode === m.id ? ' on' : ''}" data-mode="${m.id}"><b>${m.t}</b><span>${m.s}</span></button>`).join('')}</div></section>
        <section><h2>3 · How many?</h2><div class="chips">${['10', '20', 'all'].map(c => `<button type="button" class="chip${settings.count === c ? ' on' : ''}" data-count="${c}">${c === 'all' ? 'All' : c}</button>`).join('')}
        <label class="ru"><input type="checkbox" id="ru"${settings.ru ? ' checked' : ''}> Show Russian after each answer</label></div></section>
        <button type="button" class="go" id="go"${pool.length < 2 ? ' disabled' : ''}>Start ▸</button>`;
   app.querySelectorAll('[data-set]').forEach(b => b.onclick = () => {
     const n = b.dataset.set; settings.sets = settings.sets.includes(n) ? settings.sets.filter(x => x !== n) : settings.sets.concat(n); save(); home(); });
+  app.querySelector('#allsets').onclick = () => { settings.sets = sets.map(s => s.name); save(); home(); };
+  app.querySelector('#nosets').onclick = () => { settings.sets = []; save(); home(); };
   app.querySelectorAll('[data-mode]').forEach(b => b.onclick = () => { settings.mode = b.dataset.mode; save(); home(); });
   app.querySelectorAll('[data-count]').forEach(b => b.onclick = () => { settings.count = b.dataset.count; save(); home(); });
   app.querySelector('#ru').onchange = e => { settings.ru = e.target.checked; save(); };
@@ -89,7 +98,7 @@ function bindCommon() { app.querySelector('#home').onclick = home; }
 function card() {
   const it = round.list[round.i], mode = settings.mode;
   if (mode === 'choose' || mode === 'picture') {
-    const others = shuffle(round.pool.filter(x => x !== it && norm(x.word) !== norm(it.word))).slice(0, 3);
+    const others = []; shuffle(round.pool).forEach(x => { if (others.length < 3 && x !== it && !sameMeaning(x, it) && !others.some(o => sameMeaning(o, x))) others.push(x); });
     const opts = shuffle([it, ...others]);
     const q = mode === 'picture' ? `<img class="pic" src="${esc(it.img)}" alt="">` : `<p class="big">${esc(it.meaning)}</p>`;
     app.innerHTML = progress() + `<section class="card">${q}<div class="opts">${opts.map((o, n) => `<button type="button" class="opt" data-n="${n}"><kbd>${n + 1}</kbd> ${esc(o.word)}</button>`).join('')}</div><div id="fb"></div></section>`;
@@ -115,7 +124,7 @@ function card() {
     let done = false;
     const check = () => {
       if (done) return; if (!inp.value.trim()) { inp.focus(); return; }
-      done = true; const ok = it.answers.some(a => norm(a) === norm(inp.value)); result(ok, it);
+      done = true; const v = norm(inp.value), ok = it.answers.some(a => norm(a) === v) || synOf(it).includes(v); result(ok, it);
       inp.disabled = true; inp.classList.add(ok ? 'right' : 'wrong');
       app.querySelector('#fb').innerHTML = (ok ? '<p class="okmsg">✓ Correct</p>' : `<p class="nomsg">Correct answer: <b>${esc(it.answers[it.answers.length > 1 ? 1 : 0])}</b></p><button type="button" class="link" id="typo">It was a typo — count it as correct</button>`)
         + after(it) + '<button type="button" class="go" id="next">Next ▸</button>';

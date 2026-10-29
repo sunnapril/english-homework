@@ -46,3 +46,4 @@ h2{margin:0 0 10px;font-size:1.15rem;color:var(--purple)}
 .missed li{margin:6px 0}
 .err{white-space:pre-wrap;background:var(--rose);border-radius:12px;padding:12px;font-family:monospace;font-size:.85rem}
 @media(max-width:520px){body{font-size:17px}.card{padding:18px}section{padding:14px}}
+details{margin-top:6px}summary{cursor:pointer;color:var(--purple);font-weight:700;margin-bottom:8px}
