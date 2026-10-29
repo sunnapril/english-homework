@@ -10,7 +10,7 @@ button names and what she should see after each step.
 - Work on a branch → PR → check on the deploy preview → **merge only after Irina writes «публикуй»**.
 - Collect everything that is ready into **one** merge. Never publish piecemeal without asking.
 - Preview links (`deploy-preview-…`) are visible only to Irina; students get `https://irina-english-homework.netlify.app/…` links only.
-- Publish only materials Irina approved. Natalia: excluded entirely. Do not change teaching content;
+- Publish only materials Irina approved. Natalia: no homework pages (her choice); her word-practice quiz `/practice/natalia/` was requested by Irina on 29.10.2026. Do not change teaching content;
   technical fixes are fine but must be named in the report.
 
 ## Homework sending (do not break)
@@ -39,3 +39,7 @@ button names and what she should see after each step.
 ## Student menus
 `homework/<student>/…/index.html` lists the homework; add each new page there (newest first, keep old links).
 Folder names are case-sensitive (`homework/Anastasia/…` ≠ `homework/anastasia/…`).
+
+## Word practice (lesson tool, not for students)
+`/practice/quiz.js` + one page per student (`practice/<student>/index.html`, words inline: `## topic`, `word | meaning | example with ___ (= other forms) | Russian | img/file.jpg`, `SYN: a ; b`).
+Check every deck in the browser: all gap answers accepted, no two synonyms among options. Not linked from student menus.
