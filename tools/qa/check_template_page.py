@@ -46,7 +46,14 @@ with sync_playwright() as p:
         pg.reload(); pg.wait_for_timeout(600)
         kept = pg.evaluate("[...document.querySelectorAll('.q input,.q select')].filter(f=>f.value).length")
         ok(path, f'answers kept after reload ({kept}/{n})', kept == n)
+        asks = pg.evaluate("!!document.getElementById('studentName')")
+        if asks:  # universal page: nothing is sent without a name
+            pg.click('#send'); pg.wait_for_timeout(800)
+            ok(path, 'no name → not sent, asks for the name', 'name' in pg.inner_text('#status') and not state()['v2'][1:], pg.inner_text('#status'))
+            pg.fill('#studentName', 'Test  Student'); pg.reload(); pg.wait_for_timeout(600)
+            ok(path, 'name kept after reload', pg.input_value('#studentName') == 'Test  Student')
         pg.click('#send'); s = wait(pg); r = state()['v2'][1:]
+        if asks: ok(path, f'sheet shows the typed name ({r[0][1] if r else None})', r and r[0][1] == 'Test Student')
         ok(path, f'send → {s[:30]} · score {r[0][3] if r else None}', 'Received' in s and r and r[0][3] == f'{n}/{n}' and (nopen == 0 or 'OPEN-ANSWER-' in r[0][7]), r[0][6][:160] if r else '')
         pg.click('#reset'); pg.wait_for_timeout(300)
         ok(path, 'reset allows a new attempt', not pg.evaluate("document.querySelector('#send').disabled"))

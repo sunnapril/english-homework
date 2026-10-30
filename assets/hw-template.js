@@ -28,8 +28,9 @@ src.textContent.split(/\r?\n/).forEach((raw, ln) => {
     else if (k === 'TEXT') cur.text.push(v);
     else if (k === 'BANK') cur.bank = list(v);
     else if (k === 'AUDIO') cur.audio = v;
+    else if (k === 'VIDEO') { const [url, label] = v.split('|').map(x => x.trim()); cur.video = { url, label: label || 'Watch the video' }; }
     else if (k === 'SCRIPT') (cur.script = cur.script || []).push(v);
-    else if (k === 'IMAGE') { const [file, alt] = v.split('|').map(x => x.trim()); cur.image = { file, alt: alt || '' }; }
+    else if (k === 'IMAGE') { const [file, alt] = v.split('|').map(x => x.trim()); cur.image = { file, alt: alt || '' }; cur.text.push('\u0000IMG'); }
     else if (k === 'SUPPORT') cur.support = v;
     else if (k === 'PROMPT') cur.prompt = v;
     else errors.push(`line ${ln + 1}: unknown field ${k}`);
@@ -67,18 +68,20 @@ sections.forEach(s => {
 });
 
 // ---------- render ----------
-document.title = `${meta.STUDENT || ''} · ${meta.TITLE || 'Homework'}`;
+// STUDENT: ask → a universal page: the student types their name before sending
+const askName = /^ask$/i.test(meta.STUDENT || '');
+document.title = askName ? (meta.TITLE || 'Homework') : `${meta.STUDENT || ''} · ${meta.TITLE || 'Homework'}`;
 const header = document.createElement('header');
 header.innerHTML = `${meta.TAG ? `<span class="tag">${fmt(meta.TAG)}</span>` : ''}<h1>${fmt(meta.TITLE || '')}</h1>${meta.INTRO ? `<p class="sub">${fmt(meta.INTRO)}</p>` : ''}`;
 const main = document.createElement('main');
 if (errors.length) main.insertAdjacentHTML('afterbegin', `<div class="content-error">Content needs fixing before publishing:\n${esc(errors.join('\n'))}</div>`);
 
 let sid = 0;
-const textBlock = lines => {
+const textBlock = (lines, img) => {
   let h = '', ul = [];
   const flush = () => { if (ul.length) { h += `<ul>${ul.map(x => `<li>${fmt(x)}</li>`).join('')}</ul>`; ul = []; } };
-  lines.forEach(l => { if (l.startsWith('- ')) ul.push(l.slice(2)); else { flush(); h += `<p>${fmt(l)}</p>`; } });
-  flush(); return h ? `<div class="text">${h}</div>` : '';
+  lines.forEach(l => { if (l === '\u0000IMG') { flush(); h += img ? `</div><div class="media"><img src="${esc(img.file)}" alt="${esc(img.alt)}" loading="lazy"></div><div class="text">` : ''; } else if (l.startsWith('- ')) ul.push(l.slice(2)); else { flush(); h += `<p>${fmt(l)}</p>`; } });
+  flush(); return h ? `<div class="text">${h}</div>`.replace(/<div class="text"><\/div>/g, '') : '';
 };
 const helpers = it => `<div class="actions">${it.hint ? '<button class="hintbtn" type="button">Hint</button>' : ''}<button class="show" type="button">Show correct answer</button></div>`
   + (it.hint ? `<div class="hint">${fmt(it.hint)}</div>` : '') + `<div class="answer"><b>Correct answer:</b> ${esc(it.answers[0])}</div><div class="feedback"></div>`;
@@ -88,33 +91,41 @@ sections.forEach(s => {
   const sec = document.createElement('section'); sec.id = id;
   let h = `<h2>${fmt(s.title)}</h2>`;
   if (s.items.length) h += `<p class="count">${s.items.length} ${s.items.length === 1 ? 'task' : 'tasks'}</p>`;
-  h += textBlock(s.text);
-  if (s.image) h += `<div class="media"><img src="${esc(s.image.file)}" alt="${esc(s.image.alt)}" loading="lazy"></div>`;
+  h += textBlock(s.text, s.image);
+  if (s.video) h += `<div class="media video"><a class="videobtn" href="${esc(s.video.url)}" target="_blank" rel="noopener">▶ ${esc(s.video.label)}</a><p class="sub">The video opens on YouTube in a new tab. Then come back to this page. If YouTube does not open, turn on your VPN.</p></div>`;
   if (s.audio) h += `<div class="media"><audio controls preload="metadata" src="${esc(s.audio)}"></audio><button class="back5" type="button">↶ Back 5 seconds</button></div>`;
   if (s.script) h += `<details class="script"><summary>Script · open after listening</summary>${s.script.map(l => `<p>${fmt(l)}</p>`).join('')}</details>`;
   if (s.bank) h += `<div class="sticky"><b>Word bank</b> <span class="sub">· tap a word after you use it</span><div class="bank">${s.bank.map(w => `<button class="chip" type="button">${esc(w)}</button>`).join('')}</div></div>`;
   s.items.forEach(it => {
     const data = esc(it.answers.join('|'));
+    // "___ (b…)" → the first letter is shown inside the gap as grey placeholder text
+    let sent = it.sentence, ph = '';
+    const pm = sent.match(/___\s*\(([^()]{1,4}…)\)/);
+    if (pm && s.type !== 'choose') { ph = pm[1]; sent = sent.replace(pm[0], '___'); }
     const field = s.type === 'choose'
       ? `<select class="inline" aria-label="Answer ${it.n}"><option value="">choose…</option>${it.options.map(o => `<option value="${esc(o)}">${esc(o)}</option>`).join('')}</select>`
-      : `<input class="inline" autocomplete="off" spellcheck="false" aria-label="Answer ${it.n}">`;
-    const gap = it.sentence.indexOf('___');
-    const sentence = gap >= 0 ? fmt(it.sentence.slice(0, gap)) + field + fmt(it.sentence.slice(gap + 3)) : `${fmt(it.sentence)} ${field}`;
+      : `<input class="inline" autocomplete="off" spellcheck="false" aria-label="Answer ${it.n}"${ph ? ` placeholder="${esc(ph)}"` : ''}>`;
+    const gap = sent.indexOf('___');
+    const sentence = gap >= 0 ? fmt(sent.slice(0, gap)) + field + fmt(sent.slice(gap + 3)) : `${fmt(sent)} ${field}`;
     h += `<div class="q" data-answer="${data}"><div class="sentence"><b>${it.n}.</b> ${sentence}</div>${helpers(it)}</div>`;
   });
   if (s.type === 'gap' || s.type === 'choose') h += `<button class="check" type="button" data-section="${id}">Check this section</button><div class="score"></div>`;
   if (s.type === 'open') {
     if (s.support) h += `<button class="supportbtn" type="button">Useful language</button><div class="support">${fmt(s.support)}</div>`;
     const p = s.prompt || s.title.replace(/^\d+[.·)]?\s*/, '');
+    // the question must be visible: if no TEXT line asks it, show PROMPT above the box
+    if (s.prompt && !s.text.some(l => l.includes('?'))) h += `<p class="openq"><b>${fmt(s.prompt)}</b></p>`;
     h += `<textarea class="openanswer" data-prompt="${esc(p)}" aria-label="${esc(p)}" placeholder="Write your answer here."></textarea>`;
   }
   sec.innerHTML = h; main.appendChild(sec);
 });
 main.insertAdjacentHTML('beforeend', `<div class="submitbox"><b>Send your work to Irina</b><p>When you have finished, send your answers. Wait for <b>✓ Received by Irina</b>.</p>`
+  + (askName ? `<label class="namebox">Your name <input id="studentName" class="student-name" autocomplete="name" placeholder="First name and surname"></label>` : '')
   + `<button class="send" id="send" type="button">Send answers</button> <button class="reset" id="reset" type="button">Clear saved answers</button><div id="status" aria-live="polite"></div></div>`);
 src.after(header, main);
 
 // ---------- behaviour ----------
+const nameKey = 'hw-name:' + (meta.HOMEWORK || '');
 const valueOf = q => q.querySelector('input,select')?.value || '';
 document.addEventListener('click', e => {
   const t = e.target;
@@ -145,6 +156,7 @@ document.getElementById('reset').onclick = () => {
   document.querySelectorAll('.feedback,.score').forEach(x => x.textContent = '');
   document.querySelectorAll('.hint,.answer,.support').forEach(x => x.classList.remove('open'));
   document.querySelectorAll('.show').forEach(x => x.classList.remove('available'));
+  try { localStorage.removeItem(nameKey); } catch (e) {}
   window.scrollTo(0, 0);
 };
 if (errors.length) { document.getElementById('send').disabled = true; return; }  // never send a broken page
@@ -156,6 +168,21 @@ window.HOMEWORK_SUBMISSION_CONFIG = {
   closedSelector: '.q[data-answer]', openSelector: '.openanswer', allAnswersSelector: 'main input,main select,main textarea',
   normalizeAnswer: norm
 };
+if (askName) {
+  const cfg = window.HOMEWORK_SUBMISSION_CONFIG, nameEl = document.getElementById('studentName'), statusEl = document.getElementById('status');
+  cfg.allAnswersSelector = 'main input:not(.student-name),main select,main textarea';
+  cfg.storageKey = 'hw-submit-open-' + meta.HOMEWORK;
+  try { nameEl.value = localStorage.getItem(nameKey) || ''; } catch (e) {}
+  const setName = () => { cfg.student = nameEl.value.trim().replace(/\s+/g, ' '); try { localStorage.setItem(nameKey, nameEl.value); } catch (e) {} };
+  setName(); cfg.student = cfg.student || '';
+  nameEl.addEventListener('input', setName);
+  // capture phase: runs before the shared sender, so nothing is sent without a name
+  document.addEventListener('click', e => {
+    if (!e.target.closest('#send') || cfg.student.length >= 2) return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    statusEl.textContent = 'Please write your name first.'; nameEl.focus();
+  }, true);
+}
 const shared = document.createElement('script'); shared.src = '/assets/homework-submission.js';
 document.body.appendChild(shared);
 })();
