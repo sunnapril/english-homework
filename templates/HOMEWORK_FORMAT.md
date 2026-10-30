@@ -59,3 +59,10 @@ PROMPT: What should they have done differently?
 - Numbers start at 1 in every section and go without gaps.
 
 If something is wrong (no answer, the answer is not among the options, a number is missing), the page shows a red box listing the problem and **sending is switched off**, so a broken page can never reach a student.
+
+## Magazine look (optional)
+
+Add at the top: `THEME: magazine` (serif "print magazine" design), `ISSUE: Reading room | The Autumn Issue | №1 / 2026` (thin line above the title),
+`KICKER:` (the question under the title). In `TITLE:` a word in `*stars*` is printed in the accent colour.
+`TYPE: article` = a reading text (drop cap, two columns on a computer). `VOCAB: word | meaning` lines add a **New vocabulary** box under the section.
+Example: `homework/reading/autumn-reset/`.
