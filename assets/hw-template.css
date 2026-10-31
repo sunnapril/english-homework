@@ -76,7 +76,7 @@ details.script p{margin:6px 0}
 .theme-magazine em{font-style:italic}
 .theme-magazine section.article .text{font-size:1.09rem;line-height:1.62}
 .theme-magazine section.article .text p{margin:.55em 0}
-.theme-magazine section.article .text:first-of-type p:first-child::first-letter{float:left;font:800 3.6em/.82 "Playfair Display",Georgia,serif;margin:.06em .1em 0 0;color:var(--ink)}
+.theme-magazine section.article h2+.text p:first-child::first-letter,.theme-magazine section.article h2+.media+.text p:first-child::first-letter{float:left;font:800 3.6em/.82 "Playfair Display",Georgia,serif;margin:.06em .1em 0 0;color:var(--ink)}
 .theme-magazine .media img{border:0;border-radius:2px}
 .theme-magazine .vocab{margin:22px 0 6px;padding:16px 0 4px;border-top:1px solid var(--line)}
 .theme-magazine .vocab h3{margin:0 0 10px;text-align:center;font:700 1.05rem/1.2 "Source Serif 4",Georgia,serif;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-dark)}
@@ -89,4 +89,5 @@ details.script p{margin:6px 0}
 .theme-magazine .send{background:var(--accent-dark)}
 .theme-magazine .submitbox{background:#f6ece2;border-radius:6px}
 @media(max-width:560px){.theme-magazine .masthead{letter-spacing:.16em;font-size:.62rem;gap:7px}.theme-magazine .vocab dl div{grid-template-columns:1fr;gap:2px}}
-@media(min-width:900px){.theme-magazine section.article .text{columns:2;column-gap:40px;column-rule:1px solid var(--line)}.theme-magazine section.article .text p{break-inside:avoid-column}}
+@media(min-width:900px){.theme-magazine section.article .text{columns:2;column-gap:40px;column-rule:1px solid var(--line)}}
+.theme-magazine section.article .media{margin:6px 0 18px}.theme-magazine section.article .media img{width:100%}

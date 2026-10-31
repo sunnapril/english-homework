@@ -10,7 +10,7 @@ button names and what she should see after each step.
 - Work on a branch → PR → check on the deploy preview → **merge only after Irina writes «публикуй»**.
 - Collect everything that is ready into **one** merge. Never publish piecemeal without asking.
 - Preview links (`deploy-preview-…`) are visible only to Irina; students get `https://irina-english-homework.netlify.app/…` links only.
-- Publish only materials Irina approved. Natalia: no homework pages (her choice); her word-practice quiz `/word-quiz/natalia/` was requested by Irina on 29.10.2026. Do not change teaching content;
+- Publish only materials Irina approved. Natalia: no personal homework pages (her choice), but Irina sends her the universal reading pages (`homework/reading/…`, from 31.10.2026); her word-practice quiz `/word-quiz/natalia/` was requested by Irina on 29.10.2026. Do not change teaching content;
   technical fixes are fine but must be named in the report.
 
 ## Homework sending (do not break)
