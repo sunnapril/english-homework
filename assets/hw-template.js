@@ -9,7 +9,7 @@ const src = document.getElementById('hw-content');
 if (!src) return;
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 // light formatting inside texts: **bold**
-const fmt = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+const fmt = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/(^|[\s(])\*([^*\s][^*]*?)\*(?=[\s.,;:!?)]|$)/g, '$1<em>$2</em>');
 const list = s => String(s || '').split(';').map(x => x.trim()).filter(Boolean);
 const norm = s => String(s || '').trim().toLowerCase().replace(/[’‘`´]/g, "'").replace(/[.!?]+$/, '').replace(/\s+/g, ' ');
 
@@ -33,6 +33,7 @@ src.textContent.split(/\r?\n/).forEach((raw, ln) => {
     else if (k === 'IMAGE') { const [file, alt] = v.split('|').map(x => x.trim()); cur.image = { file, alt: alt || '' }; cur.text.push('\u0000IMG'); }
     else if (k === 'SUPPORT') cur.support = v;
     else if (k === 'PROMPT') cur.prompt = v;
+    else if (k === 'VOCAB') { const [w, d] = v.split('|').map(x => x.trim()); if (!w || !d) errors.push(`line ${ln + 1}: VOCAB needs "word | meaning"`); else (cur.vocab = cur.vocab || []).push({ w, d }); }
     else errors.push(`line ${ln + 1}: unknown field ${k}`);
     return;
   }
@@ -62,7 +63,7 @@ src.textContent.split(/\r?\n/).forEach((raw, ln) => {
 });
 ['STUDENT', 'HOMEWORK', 'TITLE'].forEach(k => { if (!meta[k]) errors.push(`missing ${k}:`); });
 sections.forEach(s => {
-  if (!['gap', 'choose', 'open', 'info'].includes(s.type)) errors.push(`section "${s.title}": unknown TYPE ${s.type}`);
+  if (!['gap', 'choose', 'open', 'info', 'article'].includes(s.type)) errors.push(`section "${s.title}": unknown TYPE ${s.type}`);
   if ((s.type === 'gap' || s.type === 'choose') && !s.items.length) errors.push(`section "${s.title}": no numbered tasks`);
   s.items.forEach((it, i) => { if (it.n !== i + 1) errors.push(`section "${s.title}": task numbers jump at ${it.n}`); });
 });
@@ -71,8 +72,15 @@ sections.forEach(s => {
 // STUDENT: ask → a universal page: the student types their name before sending
 const askName = /^ask$/i.test(meta.STUDENT || '');
 document.title = askName ? (meta.TITLE || 'Homework') : `${meta.STUDENT || ''} · ${meta.TITLE || 'Homework'}`;
+// THEME: magazine → serif "print magazine" look; ISSUE: masthead line; KICKER: the question under the headline
+const theme = String(meta.THEME || '').toLowerCase().replace(/[^a-z-]/g, '');
+if (theme) {
+  document.body.classList.add('theme-' + theme);
+  if (theme === 'magazine') document.head.insertAdjacentHTML('beforeend', '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">');
+}
+const issue = meta.ISSUE ? meta.ISSUE.split('|').map(x => x.trim()).filter(Boolean) : [];
 const header = document.createElement('header');
-header.innerHTML = `${meta.TAG ? `<span class="tag">${fmt(meta.TAG)}</span>` : ''}<h1>${fmt(meta.TITLE || '')}</h1>${meta.INTRO ? `<p class="sub">${fmt(meta.INTRO)}</p>` : ''}`;
+header.innerHTML = (issue.length ? `<div class="masthead">${issue.map(x => `<span>${esc(x)}</span>`).join('<i></i>')}</div>` : '') + `${meta.TAG ? `<span class="tag">${fmt(meta.TAG)}</span>` : ''}<h1>${fmt(meta.TITLE || '')}</h1>${meta.KICKER ? `<p class="kicker">${fmt(meta.KICKER)}</p>` : ''}${meta.INTRO ? `<p class="sub">${fmt(meta.INTRO)}</p>` : ''}`;
 const main = document.createElement('main');
 if (errors.length) main.insertAdjacentHTML('afterbegin', `<div class="content-error">Content needs fixing before publishing:\n${esc(errors.join('\n'))}</div>`);
 
@@ -88,10 +96,11 @@ const helpers = it => `<div class="actions">${it.hint ? '<button class="hintbtn"
 
 sections.forEach(s => {
   const id = 's' + (++sid);
-  const sec = document.createElement('section'); sec.id = id;
+  const sec = document.createElement('section'); sec.id = id; if (s.type === 'article') sec.className = 'article';
   let h = `<h2>${fmt(s.title)}</h2>`;
   if (s.items.length) h += `<p class="count">${s.items.length} ${s.items.length === 1 ? 'task' : 'tasks'}</p>`;
   h += textBlock(s.text, s.image);
+  if (s.vocab) h += `<div class="vocab"><h3>New vocabulary</h3><dl>${s.vocab.map(v => `<div><dt>${fmt(v.w)}</dt><dd>${fmt(v.d)}</dd></div>`).join('')}</dl></div>`;
   if (s.video) h += `<div class="media video"><a class="videobtn" href="${esc(s.video.url)}" target="_blank" rel="noopener">▶ ${esc(s.video.label)}</a><p class="sub">The video opens on YouTube in a new tab. Then come back to this page. If YouTube does not open, turn on your VPN.</p></div>`;
   if (s.audio) h += `<div class="media"><audio controls preload="metadata" src="${esc(s.audio)}"></audio><button class="back5" type="button">↶ Back 5 seconds</button></div>`;
   if (s.script) h += `<details class="script"><summary>Script · open after listening</summary>${s.script.map(l => `<p>${fmt(l)}</p>`).join('')}</details>`;

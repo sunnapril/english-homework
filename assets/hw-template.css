@@ -60,3 +60,34 @@ details.script p{margin:6px 0}
 .videobtn:hover{filter:brightness(1.08)}
 .namebox{display:block;font-weight:800;margin:10px 0}
 .namebox input{display:block;margin-top:6px;width:min(100%,360px);font:inherit;padding:10px;border:2px solid #7daaa1;border-radius:10px}
+
+/* ---------- THEME: magazine (print-magazine look; colours can be changed per page with --accent) ---------- */
+.theme-magazine{--accent:#b8461b;--accent-dark:#7a3214;--ink:#1f1b17;--muted:#6b625a;--paper:#fffdf8;--line:#e3dbcf;background:#f4efe6;color:var(--ink);font-family:"Source Serif 4",Georgia,"Times New Roman",serif}
+.theme-magazine header{padding-top:22px;text-align:center}
+.theme-magazine .masthead{display:flex;align-items:center;gap:12px;font:600 .72rem/1.3 "Source Serif 4",Georgia,serif;letter-spacing:.28em;text-transform:uppercase;color:var(--ink);margin-bottom:18px}
+.theme-magazine .masthead i{flex:1;height:1px;background:var(--ink);opacity:.55}
+.theme-magazine .tag{background:none;border:1px solid var(--accent);color:var(--accent-dark);font:600 .74rem/1 "Source Serif 4",Georgia,serif;letter-spacing:.16em;text-transform:uppercase;border-radius:0;padding:6px 10px}
+.theme-magazine h1{font-family:"Playfair Display",Georgia,serif;font-weight:800;font-size:clamp(2.6rem,9vw,5.2rem);line-height:.98;letter-spacing:-.02em;margin:.25em 0 .12em}
+.theme-magazine h1 b,.theme-magazine h1 em{font-style:italic;font-weight:700;color:var(--accent)}
+.theme-magazine .kicker{font:700 1rem/1.35 "Source Serif 4",Georgia,serif;letter-spacing:.06em;text-transform:uppercase;margin:.4em auto .8em;max-width:34em}
+.theme-magazine header .sub{max-width:40em;margin:0 auto;font-style:italic}
+.theme-magazine main{border-radius:4px;border-color:var(--line);box-shadow:0 1px 0 #00000008}
+.theme-magazine h2{font:700 .95rem/1.3 "Source Serif 4",Georgia,serif;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-dark);border-top:1px solid var(--ink);padding-top:12px}
+.theme-magazine em{font-style:italic}
+.theme-magazine section.article .text{font-size:1.09rem;line-height:1.62}
+.theme-magazine section.article .text p{margin:.55em 0}
+.theme-magazine section.article h2+.text p:first-child::first-letter,.theme-magazine section.article h2+.media+.text p:first-child::first-letter{float:left;font:800 3.6em/.82 "Playfair Display",Georgia,serif;margin:.06em .1em 0 0;color:var(--ink)}
+.theme-magazine .media img{border:0;border-radius:2px}
+.theme-magazine .vocab{margin:22px 0 6px;padding:16px 0 4px;border-top:1px solid var(--line)}
+.theme-magazine .vocab h3{margin:0 0 10px;text-align:center;font:700 1.05rem/1.2 "Source Serif 4",Georgia,serif;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-dark)}
+.theme-magazine .vocab dl{margin:0}
+.theme-magazine .vocab dl div{display:grid;grid-template-columns:minmax(9em,38%) 1fr;gap:12px;padding:6px 0;border-bottom:1px dotted #b9ad9d}
+.theme-magazine .vocab dt{font-weight:700;color:var(--accent)}
+.theme-magazine .vocab dd{margin:0}
+.theme-magazine .q{border-radius:6px}
+.theme-magazine .check{background:var(--ink)}
+.theme-magazine .send{background:var(--accent-dark)}
+.theme-magazine .submitbox{background:#f6ece2;border-radius:6px}
+@media(max-width:560px){.theme-magazine .masthead{letter-spacing:.16em;font-size:.62rem;gap:7px}.theme-magazine .vocab dl div{grid-template-columns:1fr;gap:2px}}
+@media(min-width:900px){.theme-magazine section.article .text{columns:2;column-gap:40px;column-rule:1px solid var(--line)}}
+.theme-magazine section.article .media{margin:6px 0 18px}.theme-magazine section.article .media img{width:100%}
