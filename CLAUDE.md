@@ -44,3 +44,4 @@ Folder names are case-sensitive (`homework/Anastasia/…` ≠ `homework/anastasi
 ## Word practice (lesson tool, not for students)
 `/word-quiz/quiz.js` + one page per student (`word-quiz/<student>/index.html`, words inline: `## topic`, `word | meaning | example with ___ (= other forms) | Russian | img/file.jpg`, `SYN: a ; b`).
 Check every deck in the browser: all gap answers accepted, no two synonyms among options. Not linked from student menus.
+"I know this word" hides a word in later rounds; kept only in that browser (key `pq-known:<path>`), "Show all … again" on the start screen. `LANG: de` in a deck = German hint for Picture → type.

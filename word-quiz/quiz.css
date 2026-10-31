@@ -48,3 +48,4 @@ h2{margin:0 0 10px;font-size:1.15rem;color:var(--purple)}
 @media(max-width:520px){body{font-size:17px}.card{padding:18px}section{padding:14px}}
 details{margin-top:6px}summary{cursor:pointer;color:var(--purple);font-weight:700;margin-bottom:8px}
 .center{text-align:center}.center input{width:min(16ch,100%)}
+.knowbtn{display:block;margin:6px 0 10px;color:var(--muted)}.knowbtn.on{color:var(--green);font-weight:700}

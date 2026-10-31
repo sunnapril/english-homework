@@ -49,21 +49,29 @@ const settings = Object.assign({ mode: 'choose', count: '10', ru: false, sets: s
 settings.sets = settings.sets.filter(n => sets.some(s => s.name === n));
 if (!saved.sets) settings.sets = sets.map(s => s.name);
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(settings)); } catch (e) {} };
+// words marked "I know this word": hidden in later rounds, kept in this browser only
+const KKEY = 'pq-known:' + location.pathname;
+let known = new Set(); try { known = new Set(JSON.parse(localStorage.getItem(KKEY) || '[]')); } catch (e) {}
+const saveKnown = () => { try { localStorage.setItem(KKEY, JSON.stringify([...known])); } catch (e) {} };
+const keyOf = it => it.set + '|' + it.word;
+const knowLabel = k => known.has(k) ? '✓ Hidden from the next rounds · undo' : '✓ I know this word — don’t show it again';
+document.addEventListener('click', e => { const b = e.target.closest('.knowbtn'); if (!b) return; const k = b.dataset.k; known.has(k) ? known.delete(k) : known.add(k); saveKnown(); b.textContent = knowLabel(k); b.classList.toggle('on', known.has(k)); });
 
 const modes = () => [
   { id: 'choose', t: 'Meaning → word', s: 'Read the meaning. Choose the word.' },
   { id: 'gap', t: 'Fill the gap', s: 'Type the missing word or phrase.' },
   { id: 'explain', t: 'Word → explain', s: 'Say what it means and make a sentence. Then check.' },
 ].concat(all.filter(i => i.img).length >= 4 ? [{ id: 'picture', t: 'Picture → word', s: 'Look at the picture. Choose the word.' },
-  { id: 'picturetype', t: 'Picture → type', s: 'Look at the picture. Type the word (nouns with der / die / das).' }] : []);
+  { id: 'picturetype', t: 'Picture → type', s: /^de/i.test(meta.LANG || '') ? 'Look at the picture. Type the word (nouns with der / die / das).' : 'Look at the picture. Type the word.' }] : []);
 
 function home() {
   const MODES = modes();
   if (!MODES.some(m => m.id === settings.mode)) settings.mode = 'choose';
-  const pool = all.filter(i => settings.sets.includes(i.set));
+  const inSets = all.filter(i => settings.sets.includes(i.set));
+  const pool = inSets.filter(i => !known.has(keyOf(i))), hidden = inSets.length - pool.length;
   app.innerHTML = `<header><h1>${esc(meta.TITLE || 'Word practice')}</h1><p>${all.length} words · ${sets.length} topics</p></header>`
     + (errors.length ? `<div class="err">Deck needs fixing:\n${esc(errors.join('\n'))}</div>` : '')
-    + `<section><h2>1 · Words</h2><p>${pool.length === all.length ? `All ${all.length} words, in random order.` : `${pool.length} of ${all.length} words, in random order.`}</p>
+    + `<section><h2>1 · Words</h2><p>${pool.length === all.length ? `All ${all.length} words, in random order.` : `${pool.length} of ${all.length} words, in random order.`}</p>${known.size ? `<p class="muted">${hidden ? `${hidden} known ${hidden === 1 ? 'word is' : 'words are'} hidden.` : 'Known words are hidden.'} <button type="button" class="link" id="unhide">Show all ${known.size} again</button></p>` : ''}
        <details${pool.length === all.length ? '' : ' open'}><summary>Choose topics (optional)</summary><div class="row"><button type="button" class="link" id="allsets">Select all</button><button type="button" class="link" id="nosets">Clear</button></div><div class="chips">${sets.map(s => `<button type="button" class="chip${settings.sets.includes(s.name) ? ' on' : ''}" data-set="${esc(s.name)}">${esc(s.name)} <small>${s.items.length}</small></button>`).join('')}</div>
        </details></section>
        <section><h2>2 · Mode</h2><div class="modes">${MODES.map(m => `<button type="button" class="mode${settings.mode === m.id ? ' on' : ''}" data-mode="${m.id}"><b>${m.t}</b><span>${m.s}</span></button>`).join('')}</div></section>
@@ -77,6 +85,7 @@ function home() {
   app.querySelectorAll('[data-mode]').forEach(b => b.onclick = () => { settings.mode = b.dataset.mode; save(); home(); });
   app.querySelectorAll('[data-count]').forEach(b => b.onclick = () => { settings.count = b.dataset.count; save(); home(); });
   app.querySelector('#ru').onchange = e => { settings.ru = e.target.checked; save(); };
+  const unhide = app.querySelector('#unhide'); if (unhide) unhide.onclick = () => { known.clear(); saveKnown(); home(); };
   app.querySelector('#go').onclick = () => {
     let list = shuffle(pool);
     if (settings.mode === 'picture' || settings.mode === 'picturetype') list = list.filter(i => i.img);
@@ -91,6 +100,9 @@ let round;
 function start(list, pool) { round = { list, pool, i: 0, good: 0, missed: [] }; card(); }
 function progress() { const r = round; return `<div class="bar"><span style="width:${100 * r.i / r.list.length}%"></span></div><div class="top"><button type="button" class="link" id="home">✕ Stop</button><span>${r.i + 1} / ${r.list.length}</span><span>✓ ${r.good}</span></div>`; }
 function after(it) {
+  return afterInner(it) + `<button type="button" class="link knowbtn${known.has(keyOf(it)) ? ' on' : ''}" data-k="${esc(keyOf(it))}">${esc(knowLabel(keyOf(it)))}</button>`;
+}
+function afterInner(it) {
   return `<div class="after"><p><b>${esc(it.word)}</b> — ${esc(it.meaning)}</p>${it.example ? `<p class="ex">${esc(it.example).replace('___', `<u>${esc(it.answers[it.answers.length > 1 ? 1 : 0])}</u>`)}</p>` : ''}${settings.ru && it.ru ? `<p class="ruline">${esc(it.ru)}</p>` : ''}</div>`;
 }
 function result(ok, it) { if (ok) round.good++; else if (!round.missed.includes(it)) round.missed.push(it); }
