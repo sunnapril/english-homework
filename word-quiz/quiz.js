@@ -55,7 +55,7 @@ const modes = () => [
   { id: 'gap', t: 'Fill the gap', s: 'Type the missing word or phrase.' },
   { id: 'explain', t: 'Word → explain', s: 'Say what it means and make a sentence. Then check.' },
 ].concat(all.filter(i => i.img).length >= 4 ? [{ id: 'picture', t: 'Picture → word', s: 'Look at the picture. Choose the word.' },
-  { id: 'picturetype', t: 'Picture → type', s: 'Look at the picture. Type the word (nouns with der / die / das).' }] : []);
+  { id: 'picturetype', t: 'Picture → type', s: /^de/i.test(meta.LANG || '') ? 'Look at the picture. Type the word (nouns with der / die / das).' : 'Look at the picture. Type the word.' }] : []);
 
 function home() {
   const MODES = modes();
