@@ -14,12 +14,50 @@ const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').re
 const norm = s => String(s || '').toLowerCase().replace(/[’‘`´]/g, "'").replace(/[.!?,]+$/, '').replace(/\s+/g, ' ').trim();
 const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 
+// ---------- new words from a Google Sheet (optional) ----------
+// A deck line "SHEET: <spreadsheet id> | <tab name>" adds the rows of that tab (Topic | Word | Meaning | Example | Russian | Picture).
+// The sheet is read when the page opens, so new words appear without publishing the site. If it cannot be read, the built-in words still work.
+const sheetLine = src.textContent.match(/^[ \t]*SHEET:[ \t]*([\w-]{20,})[ \t]*\|[ \t]*(.+?)[ \t]*$/m);
+if (sheetLine && !window.__pqSheet) {
+  window.__pqSheet = { status: 'loading', added: 0 };
+  const csvRows = text => { const rows = []; let row = [], f = '', q = false;
+    for (let i = 0; i < text.length; i++) { const c = text[i];
+      if (q) { if (c === '"') { if (text[i + 1] === '"') { f += '"'; i++; } else q = false; } else f += c; }
+      else if (c === '"') q = true; else if (c === ',') { row.push(f); f = ''; }
+      else if (c === '\n' || c === '\r') { if (c === '\r' && text[i + 1] === '\n') i++; row.push(f); rows.push(row); row = []; f = ''; }
+      else f += c; }
+    if (f || row.length) { row.push(f); rows.push(row); } return rows; };
+  const url = `https://docs.google.com/spreadsheets/d/${sheetLine[1]}/gviz/tq?tqx=out:csv&headers=1&sheet=${encodeURIComponent(sheetLine[2])}`;
+  const ctl = new AbortController(); const timer = setTimeout(() => ctl.abort(), 7000);
+  const me = document.currentScript;
+  const rerun = () => { const s2 = document.createElement('script'); s2.src = (me && me.src) || '/word-quiz/quiz.js'; document.body.appendChild(s2); };
+  fetch(url, { signal: ctl.signal, credentials: 'omit' }).then(r => r.ok ? r.text() : Promise.reject(r.status)).then(text => {
+    if (/^\s*</.test(text)) throw new Error('not shared');
+    const groups = new Map(), synLines = []; let n = 0;
+    csvRows(text).slice(1).forEach(r => {
+      const c = r.map(x => String(x || '').replace(/\|/g, '/').replace(/\s+/g, ' ').trim());
+      const [topic, word, meaning, example, ru, pic] = c;
+      if (!word) return;
+      if (/^syn$/i.test(topic)) { synLines.push('SYN: ' + word); return; }
+      const t = topic || 'New words';
+      if (!groups.has(t)) groups.set(t, []);
+      groups.get(t).push([word, meaning || word, example || '', ru || '', pic || ''].join(' | ').replace(/( \| )+$/, '')); n++;
+    });
+    const block = synLines.join('\n') + '\n' + [...groups].map(([t, rows]) => `## ${t}\n${rows.join('\n')}`).join('\n\n') + '\n';
+    const txt = src.textContent, at = txt.search(/^##\s/m);
+    src.textContent = at < 0 ? txt + '\n' + block : txt.slice(0, at) + block + '\n' + txt.slice(at);
+    window.__pqSheet = { status: 'ok', added: n };
+  }).catch(() => { window.__pqSheet = { status: 'failed', added: 0 }; })
+    .finally(() => { clearTimeout(timer); rerun(); });
+  return;
+}
+
 // ---------- parse ----------
 const meta = {}, sets = [], errors = [], syn = [];
 let cur = null;
 src.textContent.split(/\r?\n/).forEach((raw, ln) => {
   const line = raw.trim(); let m;
-  if (!line || line.startsWith('//')) return;
+  if (!line || line.startsWith('//') || /^SHEET:/.test(line)) return;
   if ((m = line.match(/^##\s+(.+)$/))) { cur = { name: m[1], items: [] }; sets.push(cur); return; }
   if ((m = line.match(/^SYN:\s*(.+)$/))) { syn.push(m[1].split(';').map(x => norm(x)).filter(Boolean)); return; }
   if ((m = line.match(/^([A-Z]+):\s*(.*)$/)) && !line.includes('|')) { meta[m[1]] = m[2]; return; }
@@ -69,7 +107,8 @@ function home() {
   if (!MODES.some(m => m.id === settings.mode)) settings.mode = 'choose';
   const inSets = all.filter(i => settings.sets.includes(i.set));
   const pool = inSets.filter(i => !known.has(keyOf(i))), hidden = inSets.length - pool.length;
-  app.innerHTML = `<header><h1>${esc(meta.TITLE || 'Word practice')}</h1><p>${all.length} words · ${sets.length} topics</p></header>`
+  const sh = window.__pqSheet;
+  app.innerHTML = `<header><h1>${esc(meta.TITLE || 'Word practice')}</h1><p>${all.length} words · ${sets.length} topics${sh && sh.status === 'ok' && sh.added ? ` · ${sh.added} new from the table` : ''}</p>${sh && sh.status === 'failed' ? '<p class="muted">New words from the Google table could not be loaded (no internet or the table is not shared). The built-in words work.</p>' : ''}</header>`
     + (errors.length ? `<div class="err">Deck needs fixing:\n${esc(errors.join('\n'))}</div>` : '')
     + `<section><h2>1 · Words</h2><p>${pool.length === all.length ? `All ${all.length} words, in random order.` : `${pool.length} of ${all.length} words, in random order.`}</p>${known.size ? `<p class="muted">${hidden ? `${hidden} known ${hidden === 1 ? 'word is' : 'words are'} hidden.` : 'Known words are hidden.'} <button type="button" class="link" id="unhide">Show all ${known.size} again</button></p>` : ''}
        <details${pool.length === all.length ? '' : ' open'}><summary>Choose topics (optional)</summary><div class="row"><button type="button" class="link" id="allsets">Select all</button><button type="button" class="link" id="nosets">Clear</button></div><div class="chips">${sets.map(s => `<button type="button" class="chip${settings.sets.includes(s.name) ? ' on' : ''}" data-set="${esc(s.name)}">${esc(s.name)} <small>${s.items.length}</small></button>`).join('')}</div>
