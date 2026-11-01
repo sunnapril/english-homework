@@ -39,6 +39,8 @@ if (sheetLine && !window.__pqSheet) {
       const [topic, word, meaning, example, ru, pic] = c;
       if (!word) return;
       if (/^syn$/i.test(topic)) { synLines.push('SYN: ' + word); return; }
+      const wfm = String(topic || '').match(/^WF\b[\s·:|-]*(.*)$/i);
+      if (wfm) { const t2 = wfm[1] || 'Word formation'; if (!groups.has(t2)) groups.set(t2, []); if (example && example.includes('___') && example.includes(' = ')) { groups.get(t2).push('WF: ' + example + ' | ' + word); n++; } return; }
       const t = topic || 'New words';
       if (!groups.has(t)) groups.set(t, []);
       groups.get(t).push([word, meaning || word, example || '', ru || '', pic || ''].join(' | ').replace(/( \| )+$/, '')); n++;
@@ -60,6 +62,15 @@ src.textContent.split(/\r?\n/).forEach((raw, ln) => {
   if (!line || line.startsWith('//') || /^SHEET:/.test(line)) return;
   if ((m = line.match(/^##\s+(.+)$/))) { cur = { name: m[1], items: [] }; sets.push(cur); return; }
   if ((m = line.match(/^SYN:\s*(.+)$/))) { syn.push(m[1].split(';').map(x => norm(x)).filter(Boolean)); return; }
+  // word formation (OGE style): "WF: sentence with ___ = answer ; other answer | BASEWORD"
+  if ((m = line.match(/^WF:\s*(.+)$/))) {
+    if (!cur) { errors.push(`line ${ln + 1}: word formation before the first ## set`); return; }
+    const [sent, base] = m[1].split('|').map(x => x.trim()), eq = (sent || '').lastIndexOf(' = ');
+    if (eq < 0 || !base || !sent.slice(0, eq).includes('___')) { errors.push(`line ${ln + 1}: word formation needs "sentence with ___ = answer | BASEWORD"`); return; }
+    const answers = sent.slice(eq + 3).split(';').map(x => x.trim()).filter(Boolean);
+    (cur.wf = cur.wf || []).push({ wf: true, base: base.toUpperCase(), word: base.toUpperCase() + ' → ' + answers[0], meaning: 'word formation', example: sent.slice(0, eq).trim(), answers, ru: '', img: '', set: cur.name });
+    return;
+  }
   if ((m = line.match(/^([A-Z]+):\s*(.*)$/)) && !line.includes('|')) { meta[m[1]] = m[2]; return; }
   if (!cur) { errors.push(`line ${ln + 1}: word before the first ## set`); return; }
   const p = line.split('|').map(x => x.trim());
@@ -72,6 +83,7 @@ src.textContent.split(/\r?\n/).forEach((raw, ln) => {
   cur.items.push(item);
 });
 const all = sets.flatMap(s => s.items);
+const allWF = sets.flatMap(s => s.wf || []);
 // synonyms: accepted for each other when typing, never offered together as options
 const baseOf = it => norm(it.answers[0]);
 const synOf = it => { const b = baseOf(it); return syn.filter(g => g.includes(b)).flat(); };
@@ -100,18 +112,20 @@ const modes = () => [
   { id: 'gap', t: 'Fill the gap', s: 'Type the missing word or phrase.' },
   { id: 'explain', t: 'Word → explain', s: 'Say what it means and make a sentence. Then check.' },
 ].concat(all.filter(i => i.img).length >= 4 ? [{ id: 'picture', t: 'Picture → word', s: 'Look at the picture. Choose the word.' },
-  { id: 'picturetype', t: 'Picture → type', s: /^de/i.test(meta.LANG || '') ? 'Look at the picture. Type the word (nouns with der / die / das).' : 'Look at the picture. Type the word.' }] : []);
+  { id: 'picturetype', t: 'Picture → type', s: /^de/i.test(meta.LANG || '') ? 'Look at the picture. Type the word (nouns with der / die / das).' : 'Look at the picture. Type the word.' }] : [])
+  .concat(allWF.length >= 4 ? [{ id: 'wordform', t: 'Word formation', s: 'Change the word in CAPITALS so that it fits the sentence.' }] : []);
 
 function home() {
   const MODES = modes();
   if (!MODES.some(m => m.id === settings.mode)) settings.mode = 'choose';
-  const inSets = all.filter(i => settings.sets.includes(i.set));
+  const base = settings.mode === 'wordform' ? allWF : all;
+  const inSets = base.filter(i => settings.sets.includes(i.set));
   const pool = inSets.filter(i => !known.has(keyOf(i))), hidden = inSets.length - pool.length;
   const sh = window.__pqSheet;
-  app.innerHTML = `<header><h1>${esc(meta.TITLE || 'Word practice')}</h1><p>${all.length} words · ${sets.length} topics${sh && sh.status === 'ok' && sh.added ? ` · ${sh.added} new from the table` : ''}</p>${sh && sh.status === 'failed' ? '<p class="muted">New words from the Google table could not be loaded (no internet or the table is not shared). The built-in words work.</p>' : ''}</header>`
+  app.innerHTML = `<header><h1>${esc(meta.TITLE || 'Word practice')}</h1><p>${all.length} words${allWF.length ? ` · ${allWF.length} word-formation tasks` : ''} · ${sets.length} topics${sh && sh.status === 'ok' && sh.added ? ` · ${sh.added} new from the table` : ''}</p>${sh && sh.status === 'failed' ? '<p class="muted">New words from the Google table could not be loaded (no internet or the table is not shared). The built-in words work.</p>' : ''}</header>`
     + (errors.length ? `<div class="err">Deck needs fixing:\n${esc(errors.join('\n'))}</div>` : '')
-    + `<section><h2>1 · Words</h2><p>${pool.length === all.length ? `All ${all.length} words, in random order.` : `${pool.length} of ${all.length} words, in random order.`}</p>${known.size ? `<p class="muted">${hidden ? `${hidden} known ${hidden === 1 ? 'word is' : 'words are'} hidden.` : 'Known words are hidden.'} <button type="button" class="link" id="unhide">Show all ${known.size} again</button></p>` : ''}
-       <details${pool.length === all.length ? '' : ' open'}><summary>Choose topics (optional)</summary><div class="row"><button type="button" class="link" id="allsets">Select all</button><button type="button" class="link" id="nosets">Clear</button></div><div class="chips">${sets.map(s => `<button type="button" class="chip${settings.sets.includes(s.name) ? ' on' : ''}" data-set="${esc(s.name)}">${esc(s.name)} <small>${s.items.length}</small></button>`).join('')}</div>
+    + `<section><h2>1 · Words</h2><p>${pool.length === base.length ? `All ${base.length} ${base === allWF ? 'word-formation tasks' : 'words'}, in random order.` : `${pool.length} of ${base.length} ${base === allWF ? 'word-formation tasks' : 'words'}, in random order.`}</p>${known.size ? `<p class="muted">${hidden ? `${hidden} known ${hidden === 1 ? 'word is' : 'words are'} hidden.` : 'Known words are hidden.'} <button type="button" class="link" id="unhide">Show all ${known.size} again</button></p>` : ''}
+       <details${pool.length === base.length ? '' : ' open'}><summary>Choose topics (optional)</summary><div class="row"><button type="button" class="link" id="allsets">Select all</button><button type="button" class="link" id="nosets">Clear</button></div><div class="chips">${sets.map(s => `<button type="button" class="chip${settings.sets.includes(s.name) ? ' on' : ''}" data-set="${esc(s.name)}">${esc(s.name)} <small>${base === allWF ? (s.wf || []).length : s.items.length}</small></button>`).join('')}</div>
        </details></section>
        <section><h2>2 · Mode</h2><div class="modes">${MODES.map(m => `<button type="button" class="mode${settings.mode === m.id ? ' on' : ''}" data-mode="${m.id}"><b>${m.t}</b><span>${m.s}</span></button>`).join('')}</div></section>
        <section><h2>3 · How many?</h2><div class="chips">${['5', '10', '20', 'all'].map(c => `<button type="button" class="chip${settings.count === c ? ' on' : ''}" data-count="${c}">${c === 'all' ? 'All' : c}</button>`).join('')}
@@ -142,6 +156,7 @@ function after(it) {
   return afterInner(it) + `<button type="button" class="link knowbtn${known.has(keyOf(it)) ? ' on' : ''}" data-k="${esc(keyOf(it))}">${esc(knowLabel(keyOf(it)))}</button>`;
 }
 function afterInner(it) {
+  if (it.wf) return `<div class="after"><p><b>${esc(it.base)}</b> → <b>${esc(it.answers[0])}</b></p><p class="ex">${esc(it.example).replace('___', `<u>${esc(it.answers[0])}</u>`)}</p></div>`;
   return `<div class="after"><p><b>${esc(it.word)}</b> — ${esc(it.meaning)}</p>${it.example ? `<p class="ex">${esc(it.example).replace('___', `<u>${esc(it.answers[it.answers.length > 1 ? 1 : 0])}</u>`)}</p>` : ''}${settings.ru && it.ru ? `<p class="ruline">${esc(it.ru)}</p>` : ''}</div>`;
 }
 function result(ok, it) { if (ok) round.good++; else if (!round.missed.includes(it)) round.missed.push(it); }
@@ -187,6 +202,27 @@ function card() {
       done = true; const ok = v === norm(full) || synOf(it).includes(v); result(ok, it);
       inp.disabled = true; inp.classList.add(ok ? 'right' : 'wrong');
       app.querySelector('#fb').innerHTML = (ok ? '<p class="okmsg">✓ Correct</p>' : `<p class="nomsg">Correct answer: <b>${esc(full)}</b></p><button type="button" class="link" id="typo">It was a typo — count it as correct</button>`)
+        + after(it) + '<button type="button" class="go" id="next">Next ▸</button>';
+      const typo = app.querySelector('#typo');
+      if (typo) typo.onclick = () => { round.missed = round.missed.filter(x => x !== it); round.good++; typo.remove(); };
+      app.querySelector('#next').onclick = next; app.querySelector('#next').focus();
+    };
+    app.querySelector('#check').onclick = check;
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); check(); } });
+    keys = null;
+  } else if (mode === 'wordform') {
+    const parts = it.example.split('___');
+    app.innerHTML = progress() + `<section class="card"><div class="wfrow"><p class="big">${esc(parts[0])}<input id="ans" autocomplete="off" spellcheck="false" aria-label="Changed word">${esc(parts.slice(1).join('___'))}</p><span class="wfbase">${esc(it.base)}</span></div>
+      <div class="row"><button type="button" class="go" id="check">Check</button><button type="button" class="soft" id="letter">First letter</button></div><div id="fb"></div></section>`;
+    bindCommon();
+    const inp = app.querySelector('#ans'); inp.focus();
+    app.querySelector('#letter').onclick = () => { inp.placeholder = it.answers[0][0] + '…'; inp.focus(); };
+    let done = false;
+    const check = () => {
+      if (done) return; if (!inp.value.trim()) { inp.focus(); return; }
+      done = true; const v = norm(inp.value), ok = it.answers.some(a => norm(a) === v); result(ok, it);
+      inp.disabled = true; inp.classList.add(ok ? 'right' : 'wrong');
+      app.querySelector('#fb').innerHTML = (ok ? '<p class="okmsg">✓ Correct</p>' : `<p class="nomsg">Correct answer: <b>${esc(it.answers[0])}</b></p><button type="button" class="link" id="typo">It was a typo — count it as correct</button>`)
         + after(it) + '<button type="button" class="go" id="next">Next ▸</button>';
       const typo = app.querySelector('#typo');
       if (typo) typo.onclick = () => { round.missed = round.missed.filter(x => x !== it); round.good++; typo.remove(); };
