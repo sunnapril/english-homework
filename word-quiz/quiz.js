@@ -114,7 +114,7 @@ function home() {
        <details${pool.length === all.length ? '' : ' open'}><summary>Choose topics (optional)</summary><div class="row"><button type="button" class="link" id="allsets">Select all</button><button type="button" class="link" id="nosets">Clear</button></div><div class="chips">${sets.map(s => `<button type="button" class="chip${settings.sets.includes(s.name) ? ' on' : ''}" data-set="${esc(s.name)}">${esc(s.name)} <small>${s.items.length}</small></button>`).join('')}</div>
        </details></section>
        <section><h2>2 · Mode</h2><div class="modes">${MODES.map(m => `<button type="button" class="mode${settings.mode === m.id ? ' on' : ''}" data-mode="${m.id}"><b>${m.t}</b><span>${m.s}</span></button>`).join('')}</div></section>
-       <section><h2>3 · How many?</h2><div class="chips">${['10', '20', 'all'].map(c => `<button type="button" class="chip${settings.count === c ? ' on' : ''}" data-count="${c}">${c === 'all' ? 'All' : c}</button>`).join('')}
+       <section><h2>3 · How many?</h2><div class="chips">${['5', '10', '20', 'all'].map(c => `<button type="button" class="chip${settings.count === c ? ' on' : ''}" data-count="${c}">${c === 'all' ? 'All' : c}</button>`).join('')}
        <label class="ru"><input type="checkbox" id="ru"${settings.ru ? ' checked' : ''}> Show Russian after each answer</label></div></section>
        <button type="button" class="go" id="go"${pool.length < 2 ? ' disabled' : ''}>Start ▸</button>`;
   app.querySelectorAll('[data-set]').forEach(b => b.onclick = () => {
@@ -137,7 +137,7 @@ function home() {
 // ---------- round ----------
 let round;
 function start(list, pool) { round = { list, pool, i: 0, good: 0, missed: [] }; card(); }
-function progress() { const r = round; return `<div class="bar"><span style="width:${100 * r.i / r.list.length}%"></span></div><div class="top"><button type="button" class="link" id="home">✕ Stop</button><span>${r.i + 1} / ${r.list.length}</span><span>✓ ${r.good}</span></div>`; }
+function progress() { const r = round; return `<div class="bar"><span style="width:${100 * r.i / r.list.length}%"></span></div><div class="top"><button type="button" class="link" id="home">✕ Stop</button><span>${r.i + 1} / ${r.list.length}</span><span>✓ ${r.good}</span></div>${r.i ? '<button type="button" class="link prevbtn" id="prev">◂ Previous words</button><div id="prevbox"></div>' : ''}`; }
 function after(it) {
   return afterInner(it) + `<button type="button" class="link knowbtn${known.has(keyOf(it)) ? ' on' : ''}" data-k="${esc(keyOf(it))}">${esc(knowLabel(keyOf(it)))}</button>`;
 }
@@ -146,7 +146,14 @@ function afterInner(it) {
 }
 function result(ok, it) { if (ok) round.good++; else if (!round.missed.includes(it)) round.missed.push(it); }
 function next() { round.i++; round.i < round.list.length ? card() : finish(); }
-function bindCommon() { app.querySelector('#home').onclick = home; }
+function bindCommon() {
+  app.querySelector('#home').onclick = home;
+  const pb = app.querySelector('#prev');
+  // look back at the last words without leaving the current card
+  if (pb) pb.onclick = () => { const box = app.querySelector('#prevbox'); if (box.innerHTML) { box.innerHTML = ''; pb.textContent = '◂ Previous words'; return; }
+    const prev = round.list.slice(Math.max(0, round.i - 3), round.i).reverse();
+    box.innerHTML = prev.map(afterInner).join('') ; pb.textContent = '✕ Hide previous words'; };
+}
 
 function card() {
   const it = round.list[round.i], mode = settings.mode;
