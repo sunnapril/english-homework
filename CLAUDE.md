@@ -37,7 +37,7 @@ button names and what she should see after each step.
 - YouTube links: confirm the title matches the task; students in Russia may need a VPN.
 
 ## Student menus
-Universal pages (`STUDENT: ask`, name typed at the end): `homework/video/…`, `homework/reading/…`, listed on the home page (reading grouped by level A2 / B1 / B2) and in the library page `homework/reading/index.html` — add every new article to both. Never move published pages (students have the links).
+Universal pages (`STUDENT: ask`, name typed at the end): `homework/video/…`, `homework/reading/…`, listed on the home page (reading grouped by level A2 / B1 / B2) — add every new article there in its level. Never move published pages (students have the links).
 `homework/<student>/…/index.html` lists the homework; add each new page there (newest first, keep old links).
 Folder names are case-sensitive (`homework/Anastasia/…` ≠ `homework/anastasia/…`).
 
