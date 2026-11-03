@@ -237,8 +237,11 @@ function card() {
       <div class="row"><button type="button" class="go" id="check">Check</button><button type="button" class="soft" id="hint">Meaning</button><button type="button" class="soft" id="letter">First letter</button></div><div id="hintbox"></div><div id="fb"></div></section>`;
     bindCommon();
     const inp = app.querySelector('#ans'); inp.focus();
+    // show how many words are missing, so it is clear whether one word or a phrase is needed
+    const target = it.answers[it.answers.length > 1 ? 1 : 0], nw = target.trim().split(/\s+/).length, wl = nw === 1 ? '1 word' : nw + ' words';
+    inp.placeholder = wl; inp.style.minWidth = Math.min(15, 4 + nw * 3.2) + 'em';
     app.querySelector('#hint').onclick = () => { app.querySelector('#hintbox').innerHTML = `<p class="muted">${esc(it.meaning)}</p>`; };
-    app.querySelector('#letter').onclick = () => { inp.placeholder = (it.answers[it.answers.length > 1 ? 1 : 0])[0] + '…'; inp.focus(); };
+    app.querySelector('#letter').onclick = () => { inp.placeholder = target[0] + '… (' + wl + ')'; inp.focus(); };
     let done = false;
     const check = () => {
       if (done) return; if (!inp.value.trim()) { inp.focus(); return; }

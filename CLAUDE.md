@@ -37,13 +37,13 @@ button names and what she should see after each step.
 - YouTube links: confirm the title matches the task; students in Russia may need a VPN.
 
 ## Student menus
-Universal pages (`STUDENT: ask`, name typed at the end): `homework/video/…`, `homework/reading/…`, listed on the home page.
+Universal pages (`STUDENT: ask`, name typed at the end): `homework/video/…`, `homework/reading/…`, listed on the home page (reading grouped by level A2 / B1 / B2) and in the library page `homework/reading/index.html` — add every new article to both. Never move published pages (students have the links).
 `homework/<student>/…/index.html` lists the homework; add each new page there (newest first, keep old links).
 Folder names are case-sensitive (`homework/Anastasia/…` ≠ `homework/anastasia/…`).
 
 ## Word practice (lesson tool, not for students)
 `/word-quiz/quiz.js` + one page per student (`word-quiz/<student>/index.html`, words inline: `## topic`, `word | meaning | example with ___ (= other forms) | Russian | img/file.jpg`, `SYN: a ; b`).
-Check every deck in the browser: all gap answers accepted, no two synonyms among options. Not linked from student menus.
+Fill the gap shows the number of missing words ("2 words"). Check every deck in the browser: all gap answers accepted, no two synonyms among options. Not linked from student menus.
 "I know this word" hides a word in later rounds; kept only in that browser (key `pq-known:<path>`), "Show all … again" on the start screen. `LANG: de` in a deck = German hint for Picture → type.
 Word formation (OGE): deck line `WF: sentence with ___ = answer | BASEWORD` (mode "Word formation" appears with ≥4 such lines); in the sheet: Topic `WF · <topic>`, Word = BASEWORD, Example = sentence with ___ = answer. Katya: `/word-quiz/katya/` (tab `Katya`).
 New words: Google Sheet "Word quiz · new words" (id `1n1hySvLeNtY5gXh-q0WTw57cbczMg-QOTk3eDlw8NtY`, one tab per student, columns Topic | Word | Meaning | Example | Russian | Picture, `SYN` in Topic = synonyms). Each deck has `SHEET: <id> | <tab>`; the quiz reads the tab on page load (needs "anyone with the link can view"), new topics are listed first. Add new words there instead of publishing; words before 01.11.2026 stay inline in the decks. Check new rows like deck rows (one ___, unambiguous, synonyms).
