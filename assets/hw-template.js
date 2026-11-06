@@ -68,6 +68,24 @@ sections.forEach(s => {
   s.items.forEach((it, i) => { if (it.n !== i + 1) errors.push(`section "${s.title}": task numbers jump at ${it.n}`); });
 });
 
+// Word bank: never shown in the order of the answers. Shuffled with a fixed seed (same order on every visit),
+// re-shuffled until the answer words do not appear in task order.
+const bankOrderMatches = (bank, items) => {
+  const pos = items.map(it => bank.findIndex(w => it.answers.some(a => norm(a) === norm(w)))).filter(i => i >= 0);
+  return pos.length > 1 && pos.every((p, i) => i === 0 || p > pos[i - 1]);
+};
+sections.forEach((s, si) => {
+  if (!s.bank || s.bank.length < 3) return;
+  let seed = 0; for (const ch of (meta.HOMEWORK || '') + '|' + s.title + '|' + si) seed = (seed * 31 + ch.charCodeAt(0)) >>> 0;
+  const rnd = () => { seed = (seed * 1103515245 + 12345) >>> 0; return seed / 4294967296; };
+  for (let tries = 0; tries < 50; tries++) {
+    const b = s.bank.slice();
+    for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; }
+    s.bank = b;
+    if (!bankOrderMatches(b, s.items)) break;
+  }
+});
+
 // ---------- render ----------
 // STUDENT: ask → a universal page: the student types their name before sending
 const askName = /^ask$/i.test(meta.STUDENT || '');
