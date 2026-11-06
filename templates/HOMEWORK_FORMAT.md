@@ -44,7 +44,7 @@ PROMPT: What should they have done differently?
 **Each section starts with `## Title`**, then:
 - `TYPE:` `gap` (student types the answer), `choose` (drop-down list), `open` (written answer), `info` (text only).
 - `TEXT:` instructions (several `TEXT:` lines allowed). Lines starting with `- ` become a list. `**word**` = bold.
-- `BANK:` words for a word bank, separated by `;` (optional).
+- `BANK:` words for a word bank, separated by `;` (optional). The page shuffles the bank itself (same order on every visit, never the order of the answers), so the order you write does not matter.
 - `AUDIO:` file name of an mp3 placed next to the page (optional). A “Back 5 seconds” button is added.
 - `SCRIPT:` one line of the audio script (repeat `SCRIPT:` for every line, e.g. `SCRIPT: Jake: Right, let’s go.`). Shown folded under the player: “Script · open after listening”.
 - `IMAGE:` file name | description (optional).
