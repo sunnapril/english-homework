@@ -115,6 +115,8 @@ const modes = () => [
   { id: 'picturetype', t: 'Picture → type', s: /^de/i.test(meta.LANG || '') ? 'Look at the picture. Type the word (nouns with der / die / das).' : 'Look at the picture. Type the word.' }] : [])
   .concat(allWF.length >= 4 ? [{ id: 'wordform', t: 'Word formation', s: 'Change the word in CAPITALS so that it fits the sentence.' }] : []);
 
+// "Choose topics" starts closed on every page load; stays open while the teacher is picking topics
+let topicsOpen = false;
 function home() {
   const MODES = modes();
   if (!MODES.some(m => m.id === settings.mode)) settings.mode = 'choose';
@@ -125,12 +127,13 @@ function home() {
   app.innerHTML = `<header><h1>${esc(meta.TITLE || 'Word practice')}</h1><p>${all.length} words${allWF.length ? ` · ${allWF.length} word-formation tasks` : ''} · ${sets.length} topics${sh && sh.status === 'ok' && sh.added ? ` · ${sh.added} new from the table` : ''}</p>${sh && sh.status === 'failed' ? '<p class="muted">New words from the Google table could not be loaded (no internet or the table is not shared). The built-in words work.</p>' : ''}</header>`
     + (errors.length ? `<div class="err">Deck needs fixing:\n${esc(errors.join('\n'))}</div>` : '')
     + `<section><h2>1 · Words</h2><p>${pool.length === base.length ? `All ${base.length} ${base === allWF ? 'word-formation tasks' : 'words'}, in random order.` : `${pool.length} of ${base.length} ${base === allWF ? 'word-formation tasks' : 'words'}, in random order.`}</p>${known.size ? `<p class="muted">${hidden ? `${hidden} known ${hidden === 1 ? 'word is' : 'words are'} hidden.` : 'Known words are hidden.'} <button type="button" class="link" id="unhide">Show all ${known.size} again</button></p>` : ''}
-       <details${pool.length === base.length ? '' : ' open'}><summary>Choose topics (optional)</summary><div class="row"><button type="button" class="link" id="allsets">Select all</button><button type="button" class="link" id="nosets">Clear</button></div><div class="chips">${sets.map(s => `<button type="button" class="chip${settings.sets.includes(s.name) ? ' on' : ''}" data-set="${esc(s.name)}">${esc(s.name)} <small>${base === allWF ? (s.wf || []).length : s.items.length}</small></button>`).join('')}</div>
+       <details id="topics"${topicsOpen ? ' open' : ''}><summary>Choose topics (optional)</summary><div class="row"><button type="button" class="link" id="allsets">Select all</button><button type="button" class="link" id="nosets">Clear</button></div><div class="chips">${sets.map(s => `<button type="button" class="chip${settings.sets.includes(s.name) ? ' on' : ''}" data-set="${esc(s.name)}">${esc(s.name)} <small>${base === allWF ? (s.wf || []).length : s.items.length}</small></button>`).join('')}</div>
        </details></section>
        <section><h2>2 · Mode</h2><div class="modes">${MODES.map(m => `<button type="button" class="mode${settings.mode === m.id ? ' on' : ''}" data-mode="${m.id}"><b>${m.t}</b><span>${m.s}</span></button>`).join('')}</div></section>
        <section><h2>3 · How many?</h2><div class="chips">${['5', '10', '20', 'all'].map(c => `<button type="button" class="chip${settings.count === c ? ' on' : ''}" data-count="${c}">${c === 'all' ? 'All' : c}</button>`).join('')}
        <label class="ru"><input type="checkbox" id="ru"${settings.ru ? ' checked' : ''}> Show Russian after each answer</label></div></section>
        <button type="button" class="go" id="go"${pool.length < 2 ? ' disabled' : ''}>Start ▸</button>`;
+  const td = app.querySelector('#topics'); if (td) td.addEventListener('toggle', () => { topicsOpen = td.open; });
   app.querySelectorAll('[data-set]').forEach(b => b.onclick = () => {
     const n = b.dataset.set; settings.sets = settings.sets.includes(n) ? settings.sets.filter(x => x !== n) : settings.sets.concat(n); save(); home(); });
   app.querySelector('#allsets').onclick = () => { settings.sets = sets.map(s => s.name); save(); home(); };
@@ -245,7 +248,8 @@ function card() {
     let done = false;
     const check = () => {
       if (done) return; if (!inp.value.trim()) { inp.focus(); return; }
-      done = true; const v = norm(inp.value), ok = it.answers.some(a => norm(a) === v) || synOf(it).includes(v); result(ok, it);
+      done = true; const v = norm(inp.value), forms = it.answers.length > 1 ? it.answers.slice(1) : it.answers; // "= other form" given: only that form fits the sentence
+      const ok = forms.some(a => norm(a) === v) || (it.answers.length === 1 && synOf(it).includes(v)); result(ok, it);
       inp.disabled = true; inp.classList.add(ok ? 'right' : 'wrong');
       app.querySelector('#fb').innerHTML = (ok ? '<p class="okmsg">✓ Correct</p>' : `<p class="nomsg">Correct answer: <b>${esc(it.answers[it.answers.length > 1 ? 1 : 0])}</b></p><button type="button" class="link" id="typo">It was a typo — count it as correct</button>`)
         + after(it) + '<button type="button" class="go" id="next">Next ▸</button>';
