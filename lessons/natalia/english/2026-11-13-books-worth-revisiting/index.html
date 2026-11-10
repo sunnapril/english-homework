@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Books Worth Revisiting</title>
+<style>
+:root{
+  --bg:#f6f1ea; --card:#fffdf9; --ink:#2b2420; --muted:#7a6d64; --line:#e8ddd1;
+  --accent:#b5502f; --accent-soft:#f6e4da; --teal:#2f6f6a; --teal-soft:#e2efed;
+  --bad:#a8361c; --violet:#5d4a8a; --violet-soft:#efebf7;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+.top{position:sticky;top:0;z-index:10;background:var(--card);border-bottom:1px solid var(--line);padding:12px 16px 10px}
+.top h1{margin:0 0 9px;font:600 21px/1.2 Georgia,"Times New Roman",serif}
+.top h1 small{font:500 13px system-ui,sans-serif;color:var(--muted);margin-left:6px}
+.tabs{display:flex;gap:6px;overflow-x:auto;white-space:nowrap;padding-bottom:3px}
+.tab{flex:0 0 auto;background:transparent;border:1px solid var(--line);color:var(--ink);padding:6px 11px;border-radius:999px;font-size:12.5px;cursor:pointer}
+.tab .n{color:var(--accent);font-weight:700;margin-right:4px}
+.tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.tab.active .n{color:#fff}
+main{max-width:920px;margin:22px auto 80px;padding:0 16px}
+.slide{background:var(--card);padding:30px 34px;border:1px solid var(--line);border-radius:16px}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--accent)}
+h2{font:600 34px/1.15 Georgia,"Times New Roman",serif;margin:6px 0 12px}
+h3{font:600 22px/1.25 Georgia,serif;margin:0 0 8px}
+.intro{font-size:18px}
+.muted{color:var(--muted);font-size:15px}
+.new{font-weight:700;color:var(--accent)}
+.rule{padding:14px 18px;border-left:5px solid var(--accent);background:var(--accent-soft);border-radius:0 10px 10px 0;margin:18px 0}
+.rule p{margin:4px 0}
+.exercise{margin:14px 0}
+.question{border-bottom:1px solid var(--line);padding:15px 0;display:grid;grid-template-columns:minmax(0,1fr) 230px auto;gap:9px;align-items:center}
+.prompt{grid-column:1/-1}
+.prompt .num{display:inline-block;min-width:24px;font-weight:700;color:var(--accent)}
+.prompt .gloss{color:var(--muted)}
+.answer{padding:10px 12px;font-size:16px;border:1px solid #cdbfb2;border-radius:9px;min-width:0;background:#fff}
+.answer.ok{border-color:var(--teal);background:var(--teal-soft)}
+.answer.no{border-color:var(--bad);background:#fbece7}
+button{font:inherit}
+.hint,.reveal,.footnav button,.levels button,.tried{cursor:pointer;padding:8px 13px;border-radius:9px;border:1px solid #d6c8bb;background:#fff;color:var(--ink);font-size:14px}
+.hidden{display:none}
+.helper,.correct,.feedback{grid-column:1/-1;font-size:14.5px}
+.helper{background:#f3ece4;padding:8px 12px;border-radius:8px}
+.feedback.bad{color:var(--bad);font-weight:700}
+.feedback.good{color:var(--teal);font-weight:700}
+.correct{color:var(--teal);font-weight:700;padding:2px 0}
+.reveal{grid-column:1/-1;justify-self:start;border-color:var(--accent)!important;color:var(--accent)!important;font-weight:600}
+.showall{cursor:pointer;margin:16px 0 0 8px;padding:10px 16px;border-radius:10px;border:1px solid var(--accent);background:#fff;color:var(--accent);font-weight:700;font-size:15px}
+.check{cursor:pointer;margin-top:16px;padding:10px 18px;border-radius:10px;border:0;background:var(--teal);color:#fff;font-weight:700;font-size:15px}
+.speaking{border-left:4px solid var(--violet);padding:12px 18px 16px;margin:18px 0;background:var(--violet-soft);border-radius:0 12px 12px 0}
+.speaking p{margin:6px 0}
+.levels{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.levels button:disabled{opacity:.45;cursor:not-allowed}
+.levels .tried{border-color:var(--violet);color:var(--violet);font-weight:600}
+.level-box{padding:9px 13px;background:#fff;border-radius:9px;margin:8px 0;font-size:16px;border:1px solid #ddd5ea}
+.level-box .lab{display:block;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--violet);font-weight:700}
+.level-box.own{border-style:dashed}
+.speaking textarea{width:100%;min-height:70px;resize:vertical;border:1px solid #d8cfe6;border-radius:9px;padding:9px;font:inherit;margin-top:10px;background:#fff}
+.bank{display:flex;gap:8px;flex-wrap:wrap;margin:14px -8px 6px;padding:10px 8px;position:sticky;top:var(--top,96px);z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+.bank span{border:1px solid var(--accent);color:var(--accent);font-weight:600;padding:5px 14px;border-radius:999px;cursor:pointer;background:#fff}
+.bank span.used{text-decoration:line-through;color:#a99d93;border-color:#d8cdc2;background:#f3eee8;font-weight:400}
+.reading{background:#fff;border:1px solid var(--line);padding:22px 26px;border-radius:12px;font:18px/1.65 Georgia,serif}
+.reading p{margin:9px 0}
+.scenario{padding:14px 18px;background:#fff;border:1px solid var(--line);margin:14px 0;border-radius:10px}
+.footnav{display:flex;justify-content:space-between;margin-top:30px;border-top:1px solid var(--line);padding-top:16px}
+.footnav button:disabled{visibility:hidden}
+@media(max-width:680px){.slide{padding:20px 16px}.question{grid-template-columns:minmax(0,1fr) auto}.answer{grid-column:1/-1}h2{font-size:27px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Books worth revisiting <small>Natalia · 13 November</small></h1>
+  <nav class="tabs">
+    <button class="tab" onclick="go(0)"><span class="n">01</span>Bring it back</button>
+    <button class="tab" onclick="go(1)"><span class="n">02</span>Changing opinions</button>
+    <button class="tab" onclick="go(2)"><span class="n">03</span>Beyond interesting</button>
+    <button class="tab" onclick="go(3)"><span class="n">04</span>A second reading</button>
+    <button class="tab" onclick="go(4)"><span class="n">05</span>Find the right book</button>
+    <button class="tab" onclick="go(5)"><span class="n">06</span>One-minute review</button>
+    <button class="tab" onclick="go(6)"><span class="n">07</span>Clear and confident</button>
+    <button class="tab" onclick="go(7)"><span class="n">08</span>Reserve</button>
+  </nav>
+</header>
+<main>
+
+<!-- 01 -->
+<section class="slide">
+  <div class="eyebrow">01 · 5–7 min</div>
+  <h2>Bring it back</h2>
+  <p class="intro">Start from memory. No word bank. These come from earlier lessons.</p>
+  <div class="exercise">
+    <div class="question"><div class="prompt"><span class="num">1</span>The concert was cancelled, and I want my money back. Could I get a ___?</div>
+      <input class="answer" data-answers='["refund"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">A noun: money that is returned to you.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">refund</div></div>
+    <div class="question"><div class="prompt"><span class="num">2</span>We met on a course ten years ago, and we still ___. <span class="gloss">(поддерживаем связь)</span></div>
+      <input class="answer" data-answers='["keep in touch"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Three words.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">keep in touch</div></div>
+    <div class="question"><div class="prompt"><span class="num">3</span>The guide suggested ___ the second floor first because it is quieter in the morning. <span class="gloss">(visit)</span></div>
+      <input class="answer" data-answers='["visiting"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Which form of the verb comes after <b>suggest</b>?</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">visiting</div></div>
+    <div class="question"><div class="prompt"><span class="num">4</span>I didn't understand the painting, so I wanted the guide ___ it again. <span class="gloss">(explain)</span></div>
+      <input class="answer" data-answers='["to explain"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">want + person + ? + verb</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">to explain</div></div>
+    <div class="question"><div class="prompt"><span class="num">5</span>The guide gave us two useful pieces of ___: buy tickets online and come before ten. <span class="gloss">(совет)</span></div>
+      <input class="answer" data-answers='["advice"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">This noun is uncountable: one ___ = a piece of ___.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">advice</div></div>
+    <div class="question"><div class="prompt"><span class="num">6</span>The bus leaves ___, so we still have time for coffee. <span class="gloss">(через час)</span></div>
+      <input class="answer" data-answers='["in an hour","in one hour"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Three words. Not <i>after</i>.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">in an hour</div></div>
+    <div class="question"><div class="prompt"><span class="num">7</span>Tomorrow we're going ___ to the old monastery. <span class="gloss">(на экскурсию)</span></div>
+      <input class="answer" data-answers='["on an excursion","on a tour"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Three words. Which preposition goes with <i>excursion</i>?</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">on an excursion</div></div>
+    <button class="check">Check this block</button>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<!-- 02 -->
+<section class="slide">
+  <div class="eyebrow">02 · 8 min</div>
+  <h2>Changing opinions</h2>
+  <p class="intro">When we return to a book after many years, our reaction may change. Mind or opinion?</p>
+  <div class="rule">
+    <p><span class="new">change your mind</span> — change a decision or a plan.</p>
+    <p><span class="new">change your opinion of something / someone</span> — start to judge it differently.</p>
+  </div>
+  <div class="exercise">
+    <div class="question"><div class="prompt"><span class="num">1</span>I planned to read the long novel, but I changed my ___ and chose a short story instead.</div>
+      <input class="answer" data-answers='["mind"]' placeholder="mind or opinion?"><button class="hint">Hint</button><div class="hidden helper">Did the plan change, or the judgement?</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">mind</div></div>
+    <div class="question"><div class="prompt"><span class="num">2</span>I loved this novel at 17, but my ___ of it has changed over the years.</div>
+      <input class="answer" data-answers='["opinion","view"]' placeholder="mind or opinion?"><button class="hint">Hint</button><div class="hidden helper">Did the plan change, or the judgement?</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">opinion</div></div>
+    <div class="question"><div class="prompt"><span class="num">3</span>After rereading the book, I changed my ___ of the main character: now he seems selfish to me.</div>
+      <input class="answer" data-answers='["opinion","view"]' placeholder="mind or opinion?"><button class="hint">Hint</button><div class="hidden helper">Look at the word after the gap.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">opinion</div></div>
+    <div class="question"><div class="prompt"><span class="num">4</span>I was going to give the book to my sister, but I changed my ___ and kept it.</div>
+      <input class="answer" data-answers='["mind"]' placeholder="mind or opinion?"><button class="hint">Hint</button><div class="hidden helper">Did the plan change, or the judgement?</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">mind</div></div>
+    <button class="check">Check this block</button>
+  </div>
+  <div class="speaking">
+    <p><b>When a famous painting was first shown, critics hated it. Today people queue to see it. Suggest ONE reason why opinions changed.</b></p>
+    <p class="muted">Think for 45 seconds, then say 2 sentences.</p>
+    <div class="levels" data-one="new style · get used to · see its value" data-two="Perhaps people… / It may be because…" data-three="Perhaps the style was too new for people at that time. Later they got used to it, and their opinion of the painting changed."></div>
+    <textarea placeholder="Optional notes"></textarea>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<!-- 03 -->
+<section class="slide">
+  <div class="eyebrow">03 · 10 min</div>
+  <h2>Beyond interesting</h2>
+  <p class="intro">Seven words, six gaps: one word is extra. Tap a word to cross it out, then type it in the gap.</p>
+  <div class="bank"><span>engaging</span><span>thought-provoking</span><span>moving</span><span>predictable</span><span>confusing</span><span>well written</span><span>boring</span></div>
+  <div class="exercise">
+    <div class="question"><div class="prompt"><span class="num">1</span>The ending made me cry, but in a good way. It was really ___.</div>
+      <input class="answer" data-answers='["moving"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">It creates strong feelings.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">moving</div></div>
+    <div class="question"><div class="prompt"><span class="num">2</span>I guessed the ending after the first chapter. The plot was ___.</div>
+      <input class="answer" data-answers='["predictable"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">You can tell what will happen.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">predictable</div></div>
+    <div class="question"><div class="prompt"><span class="num">3</span>There were so many characters and changes of place that I couldn't follow the story. It was ___.</div>
+      <input class="answer" data-answers='["confusing"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Difficult to understand.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">confusing</div></div>
+    <div class="question"><div class="prompt"><span class="num">4</span>The style was clear, the dialogue sounded natural, and every detail mattered. The novel was ___.</div>
+      <input class="answer" data-answers='["well written","well-written"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">This is about how the author uses language.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">well written</div></div>
+    <div class="question"><div class="prompt"><span class="num">5</span>The ending raises difficult questions about freedom and responsibility. It is ___.</div>
+      <input class="answer" data-answers='["thought-provoking","thought provoking"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">It makes you think about big ideas.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">thought-provoking</div></div>
+    <div class="question"><div class="prompt"><span class="num">6</span>I read the whole novel in two evenings because it held my attention. It was ___.</div>
+      <input class="answer" data-answers='["engaging"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">It keeps you interested.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">engaging</div></div>
+    <button class="check">Check this block</button>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<!-- 04 -->
+<section class="slide">
+  <div class="eyebrow">04 · 12 min</div>
+  <h2>A second reading</h2>
+  <p class="muted">A B1+ text written for this lesson.</p>
+  <article class="reading">
+    <h3>The same story, a different reader</h3>
+    <p>Last spring, Anna took an old science-fiction novel off her bookshelf. She had first read it at nineteen, on a long train journey, and had finished it in two days. Back then, she was mainly interested in the plot: a small crew travelling to a distant planet, and a captain who never seemed to make a mistake.</p>
+    <p>Reading it again twenty-five years later was a surprisingly different experience. The plot hadn't lost its power, but Anna kept noticing things she had completely missed before. The captain, whom she had once admired, now struck her as rather selfish: several of his “brave” decisions put the rest of the crew at risk. Meanwhile, a quiet engineer she had barely remembered turned out to be the most interesting character in the book.</p>
+    <p>“The book hasn't changed. I have,” she told her book club. Not everyone agreed. One member argued that a really good novel shouldn't depend on the reader's age at all.</p>
+    <p>Anna still recommends the book, but with a warning: the first eighty pages are slow, and readers who expect non-stop action may give up too early. Those who keep going, she says, will find it far more <span class="new">thought-provoking</span> than it first appears.</p>
+  </article>
+  <div class="exercise">
+    <div class="question"><div class="prompt"><span class="num">1</span>How long did it take Anna to finish the novel the first time?</div>
+      <input class="answer" data-answers='["two days","2 days","in two days","in 2 days"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Paragraph 1.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">two days</div></div>
+    <div class="question"><div class="prompt"><span class="num">2</span>How does the captain seem to Anna now? Write ONE adjective.</div>
+      <input class="answer" data-answers='["selfish","rather selfish"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Paragraph 2. <i>struck her as</i> = seemed to her.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">selfish</div></div>
+    <div class="question"><div class="prompt"><span class="num">3</span>Which character does she now find the most interesting? Write ONE word.</div>
+      <input class="answer" data-answers='["engineer","the engineer"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Paragraph 2, last sentence.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">the engineer</div></div>
+    <div class="question"><div class="prompt"><span class="num">4</span>Did everyone in the book club agree with Anna? Yes or no?</div>
+      <input class="answer" data-answers='["no"]' placeholder="yes / no"><button class="hint">Hint</button><div class="hidden helper">Paragraph 3.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">no</div></div>
+    <div class="question"><div class="prompt"><span class="num">5</span>Which readers may give up too early? Readers who expect ___.</div>
+      <input class="answer" data-answers='["non-stop action","nonstop action","non stop action"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Paragraph 4. Two words.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">non-stop action</div></div>
+    <button class="check">Check this block</button>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<!-- 05 -->
+<section class="slide">
+  <div class="eyebrow">05 · 10 min</div>
+  <h2>Find the right book</h2>
+  <p class="intro">Both books are good. The right choice depends on the reader.</p>
+  <div class="scenario"><b>Reader A</b> enjoys science-fiction ideas but gives up on books with long, slow openings.<br><b>Book 1:</b> a <span class="new">thought-provoking</span> novel; the first 80 pages are slow.<br><b>Book 2:</b> a shorter, <span class="new">engaging</span> story with simpler ideas.</div>
+  <div class="speaking">
+    <p><b>Which book would you recommend to Reader A? Give ONE advantage and ONE drawback.</b></p>
+    <p class="muted">Think for 1 minute, then say 3 sentences.</p>
+    <div class="levels" data-one="slow opening · shorter · simpler ideas · gives up" data-two="I'd recommend… because… / However, …" data-three="I'd recommend Book 2 because it is shorter and engaging from the first page. However, its ideas are simpler, so it may be less thought-provoking."></div>
+    <textarea placeholder="Optional notes"></textarea>
+  </div>
+  <div class="scenario"><b>Reader B</b> loves books that make them think and is happy to read slowly.</div>
+  <div class="speaking">
+    <p><b>Would your recommendation change for Reader B? Give a specific reason.</b></p>
+    <p class="muted">Think for 30 seconds, then say 2 sentences.</p>
+    <div class="levels" data-one="patient reader · big ideas · slow start" data-two="For this reader, … / In contrast, …" data-three="For this reader, I'd choose Book 1 because the ideas are more thought-provoking. A slow start won't be a problem for a patient reader."></div>
+    <textarea placeholder="Optional notes"></textarea>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<!-- 06 -->
+<section class="slide">
+  <div class="eyebrow">06 · 12 min</div>
+  <h2>One-minute review</h2>
+  <p class="intro">Prepare first, then give a short review of a book or film you know.</p>
+  <div class="speaking">
+    <p><b>Say what kind of book or film it is, what works well, and ONE disadvantage. Who would you recommend it to?</b></p>
+    <p class="muted">Think for 1 minute, then say 3–4 sentences.</p>
+    <div class="levels" data-one="genre · plot · characters · engaging · moving · predictable · slow" data-two="It's a… about… / I found the… / However, … / I'd recommend it to…" data-three="It's a science-fiction novel about difficult choices. I found the ideas thought-provoking and the characters engaging. However, the beginning is quite slow. I'd recommend it to people who enjoy discussing ideas."></div>
+    <textarea placeholder="Optional notes"></textarea>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<!-- 07 -->
+<section class="slide">
+  <div class="eyebrow">07 · 8 min</div>
+  <h2>Clear and confident</h2>
+  <p class="intro">Polite does not mean apologising for everything. A clear request is polite.</p>
+  <div class="rule">
+    <p><span class="new">I'd like…</span> · <span class="new">Could you…?</span> · <span class="new">Is it possible to…?</span> · <span class="new">I need…</span></p>
+  </div>
+  <div class="exercise">
+    <div class="question"><div class="prompt"><span class="num">1</span>Too direct: “Give me my money back.” → Clear and polite: “I'd like ___ for these tickets, please.”</div>
+      <input class="answer" data-answers='["a refund"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Two words: article + noun.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">a refund</div></div>
+    <div class="question"><div class="prompt"><span class="num">2</span>The hotel sent me the transfer details. I'll ___ their email to you, so you can see the times.</div>
+      <input class="answer" data-answers='["forward","send"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">To pass on an email you received.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">forward (also: send)</div></div>
+    <div class="question"><div class="prompt"><span class="num">3</span>Could you send me the new schedule ___ email, please?</div>
+      <input class="answer" data-answers='["by","via"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">A preposition, like <i>___ phone</i>, <i>___ post</i>.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">by (also: via)</div></div>
+    <div class="question"><div class="prompt"><span class="num">4</span>My room is next to the lift and it's very noisy. Could I ___ to another floor?</div>
+      <input class="answer" data-answers='["move"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Change to a different room.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">move</div></div>
+    <button class="check">Check this block</button>
+  </div>
+  <div class="speaking">
+    <p><b>You booked a place at a book club meeting, but the date has changed to Thursday, and you work late on Thursdays. Ask the organiser to move you to the next meeting and give ONE reason. No “I'm sorry”.</b></p>
+    <p class="muted">Think for 30 seconds, then say 2 sentences.</p>
+    <div class="levels" data-one="move · next meeting · work late · keep my place" data-two="Could you…? / Is it possible to…?" data-three="Could you move my place to the next meeting, please? I work late on Thursdays, so I can't come this week."></div>
+    <textarea placeholder="Optional notes"></textarea>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<!-- 08 -->
+<section class="slide">
+  <div class="eyebrow">08 · Reserve · 5–10 min</div>
+  <h2>Reserve conversation</h2>
+  <p class="muted">Only if there is time left.</p>
+  <div class="speaking">
+    <p><b>A film adaptation leaves out an important character. Give ONE advantage and ONE disadvantage of this change.</b></p>
+    <p class="muted">Think for 30 seconds, then say 2 sentences.</p>
+    <div class="levels" data-one="shorter film · easier to follow · lose an idea" data-two="One advantage is that… / On the other hand, …" data-three="One advantage is that the film is easier to follow. On the other hand, the story may lose an important idea."></div>
+    <textarea placeholder="Optional notes"></textarea>
+  </div>
+  <div class="speaking">
+    <p><b>A friend asks whether her favourite book from school is worth rereading after 20 years. What would you say, and why?</b></p>
+    <p class="muted">Think for 30 seconds, then say 2 sentences.</p>
+    <div class="levels" data-one="memories · different perspective · notice new things" data-two="I'd say… / You might notice…" data-three="I'd say it's worth rereading. You might notice a different side of the characters now."></div>
+    <textarea placeholder="Optional notes"></textarea>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+</main>
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide')), tabs=[].slice.call(document.querySelectorAll('.tab')), cur=0;
+  window.go=function(i){
+    cur=Math.max(0,Math.min(slides.length-1,i));
+    slides.forEach(function(s,j){s.style.display=j===cur?'block':'none'});
+    tabs.forEach(function(t,j){t.classList.toggle('active',j===cur)});
+    window.scrollTo(0,0);
+  };
+  slides.forEach(function(s,j){
+    var p=s.querySelector('.prev'), n=s.querySelector('.next');
+    p.disabled=j===0; n.disabled=j===slides.length-1;
+    p.onclick=function(){go(j-1)}; n.onclick=function(){go(j+1)};
+  });
+
+  // answers: case, extra spaces, end punctuation and all apostrophe types are ignored
+  function norm(s){return String(s||'').toLowerCase().replace(/[\u2019\u2018\u0060\u00b4\u02bc\u2032]/g,"'").replace(/[.,!?;:]+/g,' ').replace(/\s+/g,' ').trim()}
+  window.normAnswer=norm;
+
+  document.querySelectorAll('.hint').forEach(function(b){b.onclick=function(){b.nextElementSibling.classList.toggle('hidden')}});
+  document.querySelectorAll('.reveal').forEach(function(b){b.onclick=function(){b.nextElementSibling.classList.remove('hidden')}});
+  document.querySelectorAll('.check').forEach(function(b){b.onclick=function(){
+    b.closest('.exercise').querySelectorAll('.question').forEach(function(q){
+      var inp=q.querySelector('.answer'), list=JSON.parse(inp.dataset.answers), v=inp.value.trim(),
+          f=q.querySelector('.feedback'), rev=q.querySelector('.reveal');
+      inp.classList.remove('ok','no');
+      if(!v){f.textContent='Type your answer first.';f.className='feedback bad';rev.classList.add('hidden');return}
+      var ok=list.some(function(a){return norm(a)===norm(v)});
+      inp.classList.add(ok?'ok':'no');
+      f.textContent=ok?'Correct.':'Not quite. Try again or show the answer.';
+      f.className='feedback '+(ok?'good':'bad');
+      rev.classList.toggle('hidden',ok);
+      if(ok) q.querySelector('.correct').classList.add('hidden');
+    });
+    var ex=b.closest('.exercise'), all=ex.querySelector('.showall');
+    if(!all){all=document.createElement('button');all.className='showall';all.textContent='Show all correct answers';b.after(all);
+      all.onclick=function(){ex.querySelectorAll('.question').forEach(function(q){if(!q.querySelector('.reveal').classList.contains('hidden'))q.querySelector('.correct').classList.remove('hidden')})}}
+    all.classList.toggle('hidden',!ex.querySelector('.reveal:not(.hidden)'));
+  }});
+  function setTop(){document.documentElement.style.setProperty('--top',document.querySelector('.top').offsetHeight+'px')}
+  setTop(); window.addEventListener('resize',setTop);
+  document.querySelectorAll('.answer').forEach(function(i){i.setAttribute('autocomplete','off');i.setAttribute('spellcheck','false');i.setAttribute('autocapitalize','off')});
+
+  // word bank: shuffled on every load, never in answer order
+  document.querySelectorAll('.bank').forEach(function(bank){
+    var items=[].slice.call(bank.children);
+    for(var i=items.length-1;i>0;i--){var k=Math.floor(Math.random()*(i+1));var t=items[i];items[i]=items[k];items[k]=t}
+    items.forEach(function(x){bank.appendChild(x);x.onclick=function(){x.classList.toggle('used')}});
+  });
+
+  // three levels of support: in order; the example only after the student has said her own answer
+  var targets=['thought-provoking','engaging','moving','predictable','opinion','refund','in more detail'];
+  function mark(t){var h=t.replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]});
+    targets.forEach(function(w){h=h.replace(new RegExp('\\b('+w.replace(/-/g,'\\-')+')\\b','gi'),'<span class="new">$1</span>')});return h}
+  document.querySelectorAll('.levels').forEach(function(box){
+    var sp=box.closest('.speaking'), out=document.createElement('div');
+    box.after(out);
+    var b1=btn('Idea words'), b2=btn('Useful beginnings'), tried=btn('✓ I said my answer'), b3=btn('Example answer');
+    tried.className='tried'; b2.disabled=true; b3.disabled=true;
+    [b1,b2,tried,b3].forEach(function(b){box.appendChild(b)});
+    function btn(t){var b=document.createElement('button');b.type='button';b.textContent=t;return b}
+    function show(label,text,cls){var d=document.createElement('div');d.className='level-box'+(cls?' '+cls:'');d.innerHTML='<span class="lab">'+label+'</span>'+text;out.appendChild(d)}
+    b1.onclick=function(){show('Idea words',mark(box.dataset.one));b1.disabled=true;b2.disabled=false};
+    b2.onclick=function(){show('Useful beginnings',mark(box.dataset.two));b2.disabled=true};
+    tried.onclick=function(){tried.disabled=true;b3.disabled=false};
+    b3.onclick=function(){show('Example answer',mark(box.dataset.three));show('Your turn','Now say your answer again in your own words — change at least two things.','own');b3.disabled=true};
+  });
+
+  go(0);
+})();
+</script>
+</body>
+</html>
