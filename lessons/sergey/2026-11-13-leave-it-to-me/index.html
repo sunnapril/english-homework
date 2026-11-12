@@ -105,6 +105,11 @@ button{font:inherit}
 .rep{margin:6px 0 0}
 @media(max-width:600px){.clues{grid-template-columns:repeat(2,1fr)}.clue{min-height:104px;padding:10px}}
 
+.case .scene{display:block;width:100%;height:auto;border-radius:10px;margin:0 0 14px;opacity:.92}
+.update{margin:18px 0 6px}
+.upbtn{cursor:pointer;background:#15181d;color:#f0b35a;border:1px solid #f0b35a;border-radius:10px;padding:10px 16px;font:700 13px/1 "Courier New",monospace;letter-spacing:.1em;text-transform:uppercase}
+.uptext{background:#15181d;color:#e6dfd2;border-radius:12px;padding:14px 18px;margin-top:10px}
+.uptext p{margin:0 0 8px}
 </style>
 </head>
 <body>
@@ -158,9 +163,10 @@ button{font:inherit}
   <div class="eyebrow">03 · 15 min</div>
   <h2>Case 5D · The lighthouse tape</h2>
   <div class="case">
+    <img class="scene" src="flat.jpg" alt="A dark flat at night: a desk with recording equipment, keys on the floor, a lighthouse outside the rainy window" width="2048" height="768">
     <p class="brief"><b>Saturday, 06:10.</b> Mara, a sound engineer, hasn’t answered her phone since last night. Her flatmate opens the door — the flat is empty. Inspect the flat: click on six things.</p>
     <div class="meter">Evidence <b class="found">0</b> / 6</div>
-    <div class="clues"><button class="clue" type="button"><span class="ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="12" width="40" height="24" rx="3"/><circle cx="15" cy="24" r="5"/><circle cx="33" cy="24" r="5"/><path d="M15 29h18"/><circle cx="40" cy="15" r="1.5" fill="currentColor"/></svg></span><span class="cl">Answering machine</span><span class="ct">1 new message · 23:47. Mara: “I’m <span class="new">leaving for</span> the lighthouse now. If I’m not back by morning, <span class="new">leave it to</span> Tom. He knows where the tape is.”</span><span class="stamp">Logged</span></button><button class="clue" type="button"><span class="ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="14" cy="18" r="7"/><circle cx="14" cy="18" r="2"/><path d="M19 23l17 17M30 34l4-4M34 38l4-4"/></svg></span><span class="cl">Car keys</span><span class="ct">Her car keys were <span class="new">left lying around</span> on the hall floor. Her car is still parked outside.</span><span class="stamp">Logged</span></button><button class="clue" type="button"><span class="ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 32h36M10 32v10M38 32v10"/><path d="M14 22a8 8 0 0 1 16 0"/><rect x="11" y="21" width="4" height="7" rx="1"/><rect x="29" y="21" width="4" height="7" rx="1"/><path d="M34 32c2-4 6-4 8-2"/></svg></span><span class="cl">Studio desk</span><span class="ct">Cables, headphones and cold coffee everywhere: the desk was <span class="new">left in a mess</span>. One portable recorder is missing from its stand.</span><span class="stamp">Logged</span></button><button class="clue" type="button"><span class="ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6h24v36H12z"/><path d="M17 15h14M17 21h14M17 27h9"/><circle cx="24" cy="6" r="2" fill="currentColor"/></svg></span><span class="cl">Note on the fridge</span><span class="ct">From flat 4: “Mara, please <span class="new">leave the generator alone</span> after midnight. The noise wakes the whole building.”</span><span class="stamp">Logged</span></button><button class="clue" type="button"><span class="ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 6v8"/><path d="M24 14c0 6-6 6-6 11a4 4 0 0 0 8 0"/><path d="M14 30l-4 12M34 30l4 12" stroke-dasharray="2 3"/></svg></span><span class="cl">Hook by the door</span><span class="ct">The hook is empty. Her big torch is gone.</span><span class="stamp">Logged</span></button><button class="clue" type="button"><span class="ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 34V14M6 26h36v8M42 34v-8"/><rect x="9" y="20" width="9" height="6" rx="2"/><path d="M20 26v-4h22"/></svg></span><span class="cl">Bedroom</span><span class="ct">The bed hasn’t been slept in.</span><span class="stamp">Logged</span></button></div>
+    <div class="clues"><button class="clue" type="button"><span class="ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="12" width="40" height="24" rx="3"/><circle cx="15" cy="24" r="5"/><circle cx="33" cy="24" r="5"/><path d="M15 29h18"/><circle cx="40" cy="15" r="1.5" fill="currentColor"/></svg></span><span class="cl">Answering machine</span><span class="ct">1 new message · 23:47. Mara: “I’m <span class="new">leaving for</span> the lighthouse now. If I’m not back by morning, <span class="new">leave it to</span> Tom. He knows where the tape is.”</span><span class="stamp">Logged</span></button><button class="clue" type="button"><span class="ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="14" cy="18" r="7"/><circle cx="14" cy="18" r="2"/><path d="M19 23l17 17M30 34l4-4M34 38l4-4"/></svg></span><span class="cl">Car keys</span><span class="ct">Her car keys were <span class="new">left lying around</span> on the hall floor. Her car is still parked outside.</span><span class="stamp">Logged</span></button><button class="clue" type="button"><span class="ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 32h36M10 32v10M38 32v10"/><path d="M14 22a8 8 0 0 1 16 0"/><rect x="11" y="21" width="4" height="7" rx="1"/><rect x="29" y="21" width="4" height="7" rx="1"/><path d="M34 32c2-4 6-4 8-2"/></svg></span><span class="cl">Studio desk</span><span class="ct">Cables, headphones and cold coffee everywhere: the desk was <span class="new">left in a mess</span>. One portable recorder is missing from its stand.</span><span class="stamp">Logged</span></button><button class="clue" type="button"><span class="ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6h24v36H12z"/><path d="M17 15h14M17 21h14M17 27h9"/><circle cx="24" cy="6" r="2" fill="currentColor"/></svg></span><span class="cl">Note on the fridge</span><span class="ct">In Mara’s handwriting: “Tom — <span class="new">leave the tape alone</span> until I’m back! — M.”</span><span class="stamp">Logged</span></button><button class="clue" type="button"><span class="ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 6v8"/><path d="M24 14c0 6-6 6-6 11a4 4 0 0 0 8 0"/><path d="M14 30l-4 12M34 30l4 12" stroke-dasharray="2 3"/></svg></span><span class="cl">Hook by the door</span><span class="ct">The hook is empty. Her big torch is gone.</span><span class="stamp">Logged</span></button><button class="clue" type="button"><span class="ico"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 34V14M6 26h36v8M42 34v-8"/><rect x="9" y="20" width="9" height="6" rx="2"/><path d="M20 26v-4h22"/></svg></span><span class="cl">Bedroom</span><span class="ct">The bed hasn’t been slept in.</span><span class="stamp">Logged</span></button></div>
     <div class="board locked">
       <h3>Deduction board</h3>
       <p class="lockmsg">Find all six pieces of evidence to open the board.</p>
@@ -168,14 +174,22 @@ button{font:inherit}
       <p class="score"></p>
     </div>
   </div>
+  <div class="rule"><b>Talking about the past without proof</b><br>
+<b class="new">must have</b> + done — I'm almost sure: <i>The lights are off. They must have gone to bed.</i><br>
+<b class="new">might have</b> + done — it's possible: <i>He's late. He might have missed the bus.</i><br>
+<b class="new">can't have</b> + done — I'm sure it's not true: <i>She can't have seen the film — it isn't out yet.</i></div>
   <h3 class="rep">Your report</h3>
   <div class="speaking">
     <p><b>1. What do you think happened last night? 2. Which two pieces of evidence matter most, and why? 3. What don’t we know yet — and what would you check first?</b></p>
     <p class="muted">Think for 1 minute, then speak for 1–2 minutes.</p>
-    <div class="levels" data-one="on purpose · in a hurry · the tape · Tom · the lighthouse · the recorder" data-two="The evidence suggests … / It’s unlikely that … because … / What we still don’t know is … / The first thing I’d check is …" data-three="The evidence suggests Mara left on purpose: she left a message and took her torch, and probably the recorder. It’s unlikely that she drove, because her car keys were left lying around in the hall. What we still don’t know is why she went to the lighthouse at night. The first thing I’d check is the tape — Tom knows where it is."></div>
+    <div class="levels" data-one="on purpose · in a hurry · the tape · Tom · the lighthouse · the recorder" data-two="She must have … / She can’t have … because … / She might have … / What we still don’t know is … / The first thing I’d check is …" data-three="She must have left on purpose: she left a message and took her torch. She can’t have driven, because her car keys were left lying around in the hall. She might have taken the recorder with her. What we still don’t know is why she went to the lighthouse at night. The first thing I’d check is the tape — Tom knows where it is."></div>
     <textarea placeholder="Optional notes"></textarea>
   </div>
 
+    <div class="update"><button type="button" class="upbtn">Case update · 08:30</button>
+    <div class="uptext hidden"><p>The phone rings once and stops. A new message appears on the answering machine — but its time says <b>03:12</b>. Mara’s voice, very quiet: <i>“I’m inside the lighthouse. The door was open… and someone has been living here.”</i></p>
+    <p>The lighthouse has been closed since 1998.</p>
+    <p><b>Does this change your theory? What might have happened — and what should Tom do now?</b></p></div></div>
   <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
 </section>
 
@@ -252,7 +266,7 @@ button{font:inherit}
   });
 
   // three levels of support: in order; the example only after the student has said her own answer
-  var targets=['leave it to me','leave','left','leaving'];
+  var targets=['leave it to me','leave','left','leaving','must have','might have','can’t have','can\'t have'];
   function mark(t){var h=t.replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]});
     targets.forEach(function(w){h=h.replace(new RegExp('\\b('+w.replace(/-/g,'\\-')+')\\b','gi'),'<span class="new">$1</span>')});return h}
   document.querySelectorAll('.levels').forEach(function(box){
@@ -287,6 +301,7 @@ button{font:inherit}
     }})});
   });
 
+  document.querySelectorAll('.upbtn').forEach(function(b){b.onclick=function(){b.nextElementSibling.classList.remove('hidden');b.disabled=true}});
   go(0);
 })();
 </script>
