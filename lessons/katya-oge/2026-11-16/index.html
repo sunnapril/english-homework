@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Katya · Say More</title>
+<style>
+:root{
+  --bg:#f6f1ea; --card:#fffdf9; --ink:#2b2420; --muted:#7a6d64; --line:#e8ddd1;
+  --accent:#b5502f; --accent-soft:#f6e4da; --teal:#2f6f6a; --teal-soft:#e2efed;
+  --bad:#a8361c; --violet:#5d4a8a; --violet-soft:#efebf7;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+.top{position:sticky;top:0;z-index:10;background:var(--card);border-bottom:1px solid var(--line);padding:12px 16px 10px}
+.top h1{margin:0 0 9px;font:600 21px/1.2 Georgia,"Times New Roman",serif}
+.top h1 small{font:500 13px system-ui,sans-serif;color:var(--muted);margin-left:6px}
+.tabs{display:flex;gap:6px;overflow-x:auto;white-space:nowrap;padding-bottom:3px}
+.tab{flex:0 0 auto;background:transparent;border:1px solid var(--line);color:var(--ink);padding:6px 11px;border-radius:999px;font-size:12.5px;cursor:pointer}
+.tab .n{color:var(--accent);font-weight:700;margin-right:4px}
+.tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.tab.active .n{color:#fff}
+main{max-width:920px;margin:22px auto 80px;padding:0 16px}
+.slide{background:var(--card);padding:30px 34px;border:1px solid var(--line);border-radius:16px}
+.eyebrow{font-size:14px;font-weight:700;color:var(--accent)}
+h2{font:600 34px/1.15 Georgia,"Times New Roman",serif;margin:6px 0 12px}
+h3{font:600 22px/1.25 Georgia,serif;margin:0 0 8px}
+.intro{font-size:18px}
+.muted{color:var(--muted);font-size:15px}
+.new{font-weight:700;color:var(--accent)}
+.rule{padding:14px 18px;border-left:5px solid var(--accent);background:var(--accent-soft);border-radius:0 10px 10px 0;margin:18px 0}
+.rule p{margin:4px 0}
+.exercise{margin:14px 0}
+.question{border-bottom:1px solid var(--line);padding:15px 0;display:grid;grid-template-columns:minmax(0,1fr) 230px auto;gap:9px;align-items:center}
+.prompt{grid-column:1/-1}
+.prompt .num{display:inline-block;min-width:24px;font-weight:700;color:var(--accent)}
+.prompt .gloss{color:var(--muted)}
+.answer{padding:10px 12px;font-size:16px;border:1px solid #cdbfb2;border-radius:9px;min-width:0;background:#fff}
+.answer.ok{border-color:var(--teal);background:var(--teal-soft)}
+.answer.no{border-color:var(--bad);background:#fbece7}
+button{font:inherit}
+.hint,.reveal,.footnav button,.levels button,.tried{cursor:pointer;padding:8px 13px;border-radius:9px;border:1px solid #d6c8bb;background:#fff;color:var(--ink);font-size:14px}
+.hidden{display:none}
+.helper,.correct,.feedback{grid-column:1/-1;font-size:14.5px}
+.helper{background:#f3ece4;padding:8px 12px;border-radius:8px}
+.feedback.bad{color:var(--bad);font-weight:700}
+.feedback.good{color:var(--teal);font-weight:700}
+.correct{color:var(--teal);font-weight:700;padding:2px 0}
+.reveal{grid-column:1/-1;justify-self:start;border-color:var(--accent)!important;color:var(--accent)!important;font-weight:600}
+.showall{cursor:pointer;margin:16px 0 0 8px;padding:10px 16px;border-radius:10px;border:1px solid var(--accent);background:#fff;color:var(--accent);font-weight:700;font-size:15px}
+.check{cursor:pointer;margin-top:16px;padding:10px 18px;border-radius:10px;border:0;background:var(--teal);color:#fff;font-weight:700;font-size:15px}
+.speaking{border-left:4px solid var(--violet);padding:12px 18px 16px;margin:18px 0;background:var(--violet-soft);border-radius:0 12px 12px 0}
+.speaking p{margin:6px 0}
+.levels{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.levels button:disabled{opacity:.45;cursor:not-allowed}
+.levels .tried{border-color:var(--violet);color:var(--violet);font-weight:600}
+.level-box{padding:9px 13px;background:#fff;border-radius:9px;margin:8px 0;font-size:16px;border:1px solid #ddd5ea}
+.level-box .lab{display:block;font-size:13px;color:var(--violet);font-weight:700}
+.level-box.own{border-style:dashed}
+.speaking textarea{width:100%;min-height:70px;resize:vertical;border:1px solid #d8cfe6;border-radius:9px;padding:9px;font:inherit;margin-top:10px;background:#fff}
+.bank{display:flex;gap:8px;flex-wrap:wrap;margin:14px -8px 6px;padding:10px 8px;position:sticky;top:var(--top,96px);z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+.bank span{border:1px solid var(--accent);color:var(--accent);font-weight:600;padding:5px 14px;border-radius:999px;cursor:pointer;background:#fff}
+.bank span.used{text-decoration:line-through;color:#a99d93;border-color:#d8cdc2;background:#f3eee8;font-weight:400}
+.reading{background:#fff;border:1px solid var(--line);padding:22px 26px;border-radius:12px;font:18px/1.65 Georgia,serif}
+.reading p{margin:9px 0}
+.scenario{padding:14px 18px;background:#fff;border:1px solid var(--line);margin:14px 0;border-radius:10px}
+.footnav{display:flex;justify-content:space-between;margin-top:30px;border-top:1px solid var(--line);padding-top:16px}
+.footnav button:disabled{visibility:hidden}
+@media(max-width:680px){.slide{padding:20px 16px}.question{grid-template-columns:minmax(0,1fr) auto}.answer{grid-column:1/-1}h2{font-size:27px}}
+
+.formula{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-weight:700;margin:12px 0}
+.formula span{background:#fff;border:2px solid var(--violet);color:var(--violet);border-radius:999px;padding:5px 14px}
+.formula i{font-style:normal;color:var(--muted)}
+table.rt{border-collapse:collapse;width:100%;margin:6px 0}table.rt td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}table.rt td:first-child{font-weight:800;width:70px;font-size:18px}
+.sx-ment{color:#2f6f6a}.sx-ful{color:#c0561f}.sx-un{color:#6a4fb0}b.sx-ment,b.sx-ful,b.sx-un{font-weight:800}
+.steps{margin:16px 0 6px;display:grid;gap:8px}
+.st{display:flex;gap:14px;align-items:center;color:#fff;border-radius:12px;padding:10px 16px;line-height:1.35}
+.st b{font-size:26px;min-width:38px}.st span{font-size:15px}.st i{font-style:normal;opacity:.9}
+.st-in{background:#2f6f6a;width:100%}.st-on{background:#c0561f;width:86%}.st-at{background:#6a4fb0;width:72%}
+@media(max-width:520px){.st-on,.st-at{width:100%}.st{padding:9px 12px}}
+table.rt td:first-child{white-space:nowrap}
+.base{font-weight:700;color:var(--teal);font-size:15px;letter-spacing:.03em}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Say more <small>Katya · 16 November</small></h1>
+  <nav class="tabs">
+    <button class="tab" onclick="go(0)"><span class="n">01</span>Remember?</button>
+    <button class="tab" onclick="go(1)"><span class="n">02</span>Word building</button>
+    <button class="tab" onclick="go(2)"><span class="n">03</span>in · on · at</button>
+    <button class="tab" onclick="go(3)"><span class="n">04</span>Say more</button>
+    <button class="tab" onclick="go(4)"><span class="n">05</span>Reserve</button>
+  </nav>
+</header>
+<main>
+
+<section class="slide">
+  <div class="eyebrow">01 · 5 min</div>
+  <h2>Remember?</h2>
+  <p class="intro">No word bank. The first letter is in the gap.</p>
+  <div class="exercise">
+    <div class="question"><div class="prompt"><span class="num">1</span>I ___ (a…) with you: reading every day is a good idea.</div>
+      <input class="answer" data-answers='["agree"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Same opinion as another person.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">agree</div></div>
+    <div class="question"><div class="prompt"><span class="num">2</span>Mum was ___ (a…) when she saw the mess in the kitchen.</div>
+      <input class="answer" data-answers='["angry", "annoyed"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">A feeling. She is not happy with you!</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">angry (also: annoyed)</div></div>
+    <div class="question"><div class="prompt"><span class="num">3</span>Can I ___ (b…) your pen? I'll give it back after the lesson.</div>
+      <input class="answer" data-answers='["borrow"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Take something and give it back later.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">borrow</div></div>
+    <div class="question"><div class="prompt"><span class="num">4</span>We need to ___ (r…) the top of the hill before it gets dark.</div>
+      <input class="answer" data-answers='["reach"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Get to a place, often after a long way. One word.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">reach</div></div>
+    <div class="question"><div class="prompt"><span class="num">5</span>The dog's ___ (o…) was looking for it everywhere.</div>
+      <input class="answer" data-answers='["owner"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">The person the dog belongs to. A noun.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">owner</div></div>
+    <div class="question"><div class="prompt"><span class="num">6</span>You look tired. You ___ (s…) go to bed earlier.</div>
+      <input class="answer" data-answers='["should"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Give advice. The next verb is in its base form.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">should</div></div>
+    <button class="check">Check this block</button>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">02 · 12 min</div>
+  <h2>Word building</h2>
+  <div class="rule">
+    <table class="rt">
+      <tr><td class="sx-ment">-ment</td><td>verb → noun: enjoy → enjoy<b class="sx-ment">ment</b>, pay → pay<b class="sx-ment">ment</b></td></tr>
+      <tr><td class="sx-ful">-ful</td><td>noun → adjective: colour → colour<b class="sx-ful">ful</b>, peace → peace<b class="sx-ful">ful</b></td></tr>
+      <tr><td class="sx-un">un-</td><td>the opposite: <b class="sx-un">un</b>kind, <b class="sx-un">un</b>lucky, <b class="sx-un">un</b>tidy</td></tr>
+    </table>
+  </div>
+  <p class="intro">Change the word on the right so that it fits the sentence.</p>
+  <div class="exercise">
+    <div class="question"><div class="prompt"><span class="num">1</span>There is a big ___ in your English this year. <span class="base">IMPROVE</span></div>
+      <input class="answer" data-answers='["improvement"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">After <i>a big</i> you need a noun.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">improve<b class="sx-ment">ment</b></div></div>
+    <div class="question"><div class="prompt"><span class="num">2</span>The school concert was very ___. Everybody loved it. <span class="base">SUCCESS</span></div>
+      <input class="answer" data-answers='["successful"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">After <i>was very</i> you need an adjective.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">success<b class="sx-ful">ful</b></div></div>
+    <div class="question"><div class="prompt"><span class="num">3</span>Be ___ with the hot tea! <span class="base">CARE</span></div>
+      <input class="answer" data-answers='["careful"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">An adjective. Think: be … !</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">care<b class="sx-ful">ful</b></div></div>
+    <div class="question"><div class="prompt"><span class="num">4</span>This app is really ___: it shows when the next bus comes. <span class="base">USE</span></div>
+      <input class="answer" data-answers='["useful"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">An adjective with a suffix.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">use<b class="sx-ful">ful</b></div></div>
+    <div class="question"><div class="prompt"><span class="num">5</span>My neighbour is very ___: she always fixes my bike for free. <span class="base">HELP</span></div>
+      <input class="answer" data-answers='["helpful"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">An adjective. She helps a lot.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">help<b class="sx-ful">ful</b></div></div>
+    <div class="question"><div class="prompt"><span class="num">6</span>I felt ___ because I lost my favourite hoodie. <span class="base">HAPPY</span></div>
+      <input class="answer" data-answers='["unhappy"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">The opposite meaning. Add a prefix.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct"><b class="sx-un">un</b>happy</div></div>
+    <div class="question"><div class="prompt"><span class="num">7</span>It's ___ for my brother to get up early: he usually sleeps till ten. <span class="base">USUAL</span></div>
+      <input class="answer" data-answers='["unusual"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">The opposite meaning.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct"><b class="sx-un">un</b>usual</div></div>
+    <div class="question"><div class="prompt"><span class="num">8</span>The task was ___, so I asked the teacher to explain it again. <span class="base">CLEAR</span></div>
+      <input class="answer" data-answers='["unclear"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">She didn't understand it. The opposite meaning.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct"><b class="sx-un">un</b>clear</div></div>
+    <div class="question"><div class="prompt"><span class="num">9</span>Our teachers and students came to an ___ about the new school rules. <span class="base">AGREE</span></div>
+      <input class="answer" data-answers='["agreement"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">After <i>an</i> you need a noun.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">agree<b class="sx-ment">ment</b></div></div>
+    <button class="check">Check this block</button>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">03 · 15 min</div>
+  <h2>in · on · at</h2>
+  <div class="steps" aria-label="in, on, at: from a long period to an exact moment">
+    <div class="st st-in"><b>in</b><span>months, seasons, years, parts of the day<br><i>in May · in summer · in 2027 · in the morning</i></span></div>
+    <div class="st st-on"><b>on</b><span>days and dates<br><i>on Friday · on Friday evening · on 5 March</i></span></div>
+    <div class="st st-at"><b>at</b><span>an exact time<br><i>at 7 o'clock · at lunchtime · at night (!)</i></span></div>
+  </div>
+  <p class="muted">Big → small: a long period → one day → one moment.</p>
+  <p class="intro">Write <b>in</b>, <b>on</b> or <b>at</b>.</p>
+  <div class="bank"><span>in</span><span>on</span><span>at</span></div>
+  <div class="exercise">
+    <div class="question"><div class="prompt"><span class="num">1</span>My lessons start ___ 8:30.</div>
+      <input class="answer" data-answers='["at"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">An exact time.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">at</div></div>
+    <div class="question"><div class="prompt"><span class="num">2</span>We have English ___ Mondays and Thursdays.</div>
+      <input class="answer" data-answers='["on"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Days of the week.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">on</div></div>
+    <div class="question"><div class="prompt"><span class="num">3</span>My birthday is ___ June.</div>
+      <input class="answer" data-answers='["in"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">A month.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">in</div></div>
+    <div class="question"><div class="prompt"><span class="num">4</span>I usually read ___ the evening.</div>
+      <input class="answer" data-answers='["in"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">A part of the day.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">in</div></div>
+    <div class="question"><div class="prompt"><span class="num">5</span>We don't go to school ___ Sunday.</div>
+      <input class="answer" data-answers='["on"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">A day.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">on</div></div>
+    <div class="question"><div class="prompt"><span class="num">6</span>It gets dark very early ___ winter.</div>
+      <input class="answer" data-answers='["in"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">A season.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">in</div></div>
+    <div class="question"><div class="prompt"><span class="num">7</span>We have a long break ___ 11:15.</div>
+      <input class="answer" data-answers='["at"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">An exact time.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">at</div></div>
+    <div class="question"><div class="prompt"><span class="num">8</span>Let's meet ___ Saturday afternoon.</div>
+      <input class="answer" data-answers='["on"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Look at the day, not at <i>afternoon</i>.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">on</div></div>
+    <div class="question"><div class="prompt"><span class="num">9</span>My grandma was born ___ 1965.</div>
+      <input class="answer" data-answers='["in"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">A year.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">in</div></div>
+    <div class="question"><div class="prompt"><span class="num">10</span>The film starts ___ midnight.</div>
+      <input class="answer" data-answers='["at"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">midnight = 12 o'clock at night, an exact time.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">at</div></div>
+    <button class="check">Check this block</button>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">04 · 15 min</div>
+  <h2>Say more</h2>
+  <p class="intro">A short answer is a good start. Now make it longer:</p>
+  <div class="formula"><span>Answer</span><i>→</i><span>because …</span><i>→</i><span>For example, …</span></div>
+  <p class="muted">Don't know why? Open <b>Ideas</b> and choose one reason.</p>
+  <div class="speaking">
+    <p><b>What do you usually do on Saturdays?</b></p>
+    <p class="muted">Think for 30 seconds, then say 3 sentences.</p>
+    <div class="levels" data-one="because I can sleep longer · because I meet my friends · because I'm tired after school · because I have training" data-two="On Saturdays I usually … because … / For example, last Saturday I …" data-three="On Saturdays I usually sleep late because I'm tired after the school week. For example, last Saturday I got up at eleven and watched a series."></div>
+    <textarea placeholder="Optional notes"></textarea>
+  </div>
+
+  <div class="speaking">
+    <p><b>When do you feel most tired: in the morning, in the afternoon or in the evening? Why?</b></p>
+    <p class="muted">Think for 30 seconds, then say 3 sentences.</p>
+    <div class="levels" data-one="because I get up early · because I have many lessons · because I go to bed late · because I do homework" data-two="I feel most tired in the … because … / For example, on Mondays I …" data-three="I feel most tired in the morning because I go to bed late. For example, on Mondays I can't wake up at seven, and I'm sleepy at my first lesson."></div>
+    <textarea placeholder="Optional notes"></textarea>
+  </div>
+
+  <div class="speaking">
+    <p><b>What do you usually do in the summer holidays?</b></p>
+    <p class="muted">Think for 30 seconds, then say 3 sentences.</p>
+    <div class="levels" data-one="because I visit my grandparents · because we travel · because I have more free time · because I see my friends every day" data-two="In the summer holidays I usually … because … / For example, last summer I …" data-three="In the summer holidays I usually go to my grandparents because they live near a river. For example, last summer I swam every day and learned to fish."></div>
+    <textarea placeholder="Optional notes"></textarea>
+  </div>
+
+  <div class="speaking">
+    <p><b>Do you prepare for a test a few days before or the evening before? Why?</b></p>
+    <p class="muted">Think for 30 seconds, then say 3 sentences.</p>
+    <div class="levels" data-one="because I have no time · because I forget things · because I feel calm · because I'm lazy" data-two="I usually prepare … because … / For example, before my last test I …" data-three="I usually prepare the evening before because I have no time during the week. For example, before my last test I studied until midnight, and I was very tired."></div>
+    <textarea placeholder="Optional notes"></textarea>
+  </div>
+
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">05 · Reserve · 10 min</div>
+  <h2>Reserve</h2>
+  <p class="muted">Word quiz on the teacher's screen: topics from 02.11. Then, if there is time:</p>
+  <div class="speaking">
+    <p><b>Which month is your favourite? What do you do in that month?</b></p>
+    <p class="muted">Think for 30 seconds, then say 3 sentences.</p>
+    <div class="levels" data-one="because of my birthday · because of the holidays · because of the weather · because of the New Year" data-two="My favourite month is … because … / In … I usually …" data-three="My favourite month is December because of the New Year. In December I usually decorate the flat with my family and buy presents for my friends."></div>
+    <textarea placeholder="Optional notes"></textarea>
+  </div>
+
+  <div class="speaking">
+    <p><b>Your friend is unhappy because she got a bad mark. What should she do?</b></p>
+    <p class="muted">Think for 30 seconds, then say 3 sentences.</p>
+    <div class="levels" data-one="ask the teacher · prepare better · not worry too much · study with a friend" data-two="I think she should … because … / For example, she can …" data-three="I think she should ask the teacher what was wrong because then she can improve. For example, she can do the test again at home."></div>
+    <textarea placeholder="Optional notes"></textarea>
+  </div>
+
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+</main>
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide')), tabs=[].slice.call(document.querySelectorAll('.tab')), cur=0;
+  window.go=function(i){
+    cur=Math.max(0,Math.min(slides.length-1,i));
+    slides.forEach(function(s,j){s.style.display=j===cur?'block':'none'});
+    tabs.forEach(function(t,j){t.classList.toggle('active',j===cur)});
+    window.scrollTo(0,0);
+  };
+  slides.forEach(function(s,j){
+    var p=s.querySelector('.prev'), n=s.querySelector('.next');
+    p.disabled=j===0; n.disabled=j===slides.length-1;
+    p.onclick=function(){go(j-1)}; n.onclick=function(){go(j+1)};
+  });
+
+  // answers: case, extra spaces, end punctuation and all apostrophe types are ignored
+  function norm(s){return String(s||'').toLowerCase().replace(/[\u2019\u2018\u0060\u00b4\u02bc\u2032]/g,"'").replace(/[.,!?;:]+/g,' ').replace(/\s+/g,' ').trim()}
+  window.normAnswer=norm;
+
+  document.querySelectorAll('.hint').forEach(function(b){b.onclick=function(){b.nextElementSibling.classList.toggle('hidden')}});
+  document.querySelectorAll('.reveal').forEach(function(b){b.onclick=function(){b.nextElementSibling.classList.remove('hidden')}});
+  document.querySelectorAll('.check').forEach(function(b){b.onclick=function(){
+    b.closest('.exercise').querySelectorAll('.question').forEach(function(q){
+      var inp=q.querySelector('.answer'), list=JSON.parse(inp.dataset.answers), v=inp.value.trim(),
+          f=q.querySelector('.feedback'), rev=q.querySelector('.reveal');
+      inp.classList.remove('ok','no');
+      if(!v){f.textContent='Type your answer first.';f.className='feedback bad';rev.classList.add('hidden');return}
+      var ok=list.some(function(a){return norm(a)===norm(v)});
+      inp.classList.add(ok?'ok':'no');
+      f.textContent=ok?'Correct.':'Not quite. Try again or show the answer.';
+      f.className='feedback '+(ok?'good':'bad');
+      rev.classList.toggle('hidden',ok);
+      if(ok) q.querySelector('.correct').classList.add('hidden');
+    });
+    var ex=b.closest('.exercise'), all=ex.querySelector('.showall');
+    if(!all){all=document.createElement('button');all.className='showall';all.textContent='Show all correct answers';b.after(all);
+      all.onclick=function(){ex.querySelectorAll('.question').forEach(function(q){if(!q.querySelector('.reveal').classList.contains('hidden'))q.querySelector('.correct').classList.remove('hidden')})}}
+    all.classList.toggle('hidden',!ex.querySelector('.reveal:not(.hidden)'));
+  }});
+  function setTop(){document.documentElement.style.setProperty('--top',document.querySelector('.top').offsetHeight+'px')}
+  setTop(); window.addEventListener('resize',setTop);
+  document.querySelectorAll('.answer').forEach(function(i){i.setAttribute('autocomplete','off');i.setAttribute('spellcheck','false');i.setAttribute('autocapitalize','off')});
+
+  // word bank: shuffled on every load, never in answer order
+  document.querySelectorAll('.bank').forEach(function(bank){
+    var items=[].slice.call(bank.children);
+    for(var i=items.length-1;i>0;i--){var k=Math.floor(Math.random()*(i+1));var t=items[i];items[i]=items[k];items[k]=t}
+    items.forEach(function(x){bank.appendChild(x);x.onclick=function(){x.classList.toggle('used')}});
+  });
+
+  // three levels of support: in order; the example only after the student has said her own answer
+  var targets=['because','For example','improve','prepare','unhappy','should'];
+  function mark(t){var h=t.replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]});
+    targets.forEach(function(w){h=h.replace(new RegExp('\\b('+w.replace(/-/g,'\\-')+')\\b','gi'),'<span class="new">$1</span>')});return h}
+  document.querySelectorAll('.levels').forEach(function(box){
+    var sp=box.closest('.speaking'), out=document.createElement('div');
+    box.after(out);
+    var b1=btn('Ideas'), b2=btn('Help me say more'), tried=btn('✓ I said my answer'), b3=btn('Example answer');
+    tried.className='tried'; b2.disabled=true; b3.disabled=true;
+    [b1,b2,tried,b3].forEach(function(b){box.appendChild(b)});
+    function btn(t){var b=document.createElement('button');b.type='button';b.textContent=t;return b}
+    function show(label,text,cls){var d=document.createElement('div');d.className='level-box'+(cls?' '+cls:'');d.innerHTML='<span class="lab">'+label+'</span>'+text;out.appendChild(d)}
+    b1.onclick=function(){show('Ideas',mark(box.dataset.one));b1.disabled=true;b2.disabled=false};
+    b2.onclick=function(){show('Help me say more',mark(box.dataset.two));b2.disabled=true};
+    tried.onclick=function(){tried.disabled=true;b3.disabled=false};
+    b3.onclick=function(){show('Example answer',mark(box.dataset.three));show('Your turn','Now say your answer again in your own words — change at least two things.','own');b3.disabled=true};
+  });
+
+  go(0);
+})();
+</script>
+</body>
+</html>
