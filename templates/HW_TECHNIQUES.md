@@ -20,7 +20,9 @@ Applies to every student, every homework (site page or Google Doc) and every les
 - **Mini glossary before audio/video**: 4–6 words with short meanings, so the listening is not blocked by vocabulary.
 - **Detective listening**: a short text/podcast retelling with **2 planted factual mistakes**; the student finds and corrects them.
 - **Personal part**: one task tied to the student's own interest (a game, a trip, a show).
-- **Russian instructions for A1–A2** students (English for B1+).
+- **Russian instructions** for A1–A2 students and for OGE pages (Katya): the exam itself gives instructions in Russian. English for B1+ adults.
+- Reading texts: justified like the book (with hyphenation); Russian instructions stay left-aligned.
+- Pictures must match the text: check every detail of a clue/task against the image after inserting it.
 - **Exit ticket**: 2–3 quick questions at the end ("one new phrase I'll use", "one thing that was hard").
 - **Shout-out** for completed homework at the start of the next lesson (one specific good sentence from the student).
 
