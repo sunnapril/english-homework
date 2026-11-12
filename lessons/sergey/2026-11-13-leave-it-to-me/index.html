@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sergey · Leave It to Me</title>
+<style>
+:root{
+  --bg:#f6f1ea; --card:#fffdf9; --ink:#2b2420; --muted:#7a6d64; --line:#e8ddd1;
+  --accent:#b5502f; --accent-soft:#f6e4da; --teal:#2f6f6a; --teal-soft:#e2efed;
+  --bad:#a8361c; --violet:#5d4a8a; --violet-soft:#efebf7;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+.top{position:sticky;top:0;z-index:10;background:var(--card);border-bottom:1px solid var(--line);padding:12px 16px 10px}
+.top h1{margin:0 0 9px;font:600 21px/1.2 Georgia,"Times New Roman",serif}
+.top h1 small{font:500 13px system-ui,sans-serif;color:var(--muted);margin-left:6px}
+.tabs{display:flex;gap:6px;overflow-x:auto;white-space:nowrap;padding-bottom:3px}
+.tab{flex:0 0 auto;background:transparent;border:1px solid var(--line);color:var(--ink);padding:6px 11px;border-radius:999px;font-size:12.5px;cursor:pointer}
+.tab .n{color:var(--accent);font-weight:700;margin-right:4px}
+.tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.tab.active .n{color:#fff}
+main{max-width:920px;margin:22px auto 80px;padding:0 16px}
+.slide{background:var(--card);padding:30px 34px;border:1px solid var(--line);border-radius:16px}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--accent)}
+h2{font:600 34px/1.15 Georgia,"Times New Roman",serif;margin:6px 0 12px}
+h3{font:600 22px/1.25 Georgia,serif;margin:0 0 8px}
+.intro{font-size:18px}
+.muted{color:var(--muted);font-size:15px}
+.new{font-weight:700;color:var(--accent)}
+.rule{padding:14px 18px;border-left:5px solid var(--accent);background:var(--accent-soft);border-radius:0 10px 10px 0;margin:18px 0}
+.rule p{margin:4px 0}
+.exercise{margin:14px 0}
+.question{border-bottom:1px solid var(--line);padding:15px 0;display:grid;grid-template-columns:minmax(0,1fr) 230px auto;gap:9px;align-items:center}
+.prompt{grid-column:1/-1}
+.prompt .num{display:inline-block;min-width:24px;font-weight:700;color:var(--accent)}
+.prompt .gloss{color:var(--muted)}
+.answer{padding:10px 12px;font-size:16px;border:1px solid #cdbfb2;border-radius:9px;min-width:0;background:#fff}
+.answer.ok{border-color:var(--teal);background:var(--teal-soft)}
+.answer.no{border-color:var(--bad);background:#fbece7}
+button{font:inherit}
+.hint,.reveal,.footnav button,.levels button,.tried{cursor:pointer;padding:8px 13px;border-radius:9px;border:1px solid #d6c8bb;background:#fff;color:var(--ink);font-size:14px}
+.hidden{display:none}
+.helper,.correct,.feedback{grid-column:1/-1;font-size:14.5px}
+.helper{background:#f3ece4;padding:8px 12px;border-radius:8px}
+.feedback.bad{color:var(--bad);font-weight:700}
+.feedback.good{color:var(--teal);font-weight:700}
+.correct{color:var(--teal);font-weight:700;padding:2px 0}
+.reveal{grid-column:1/-1;justify-self:start;border-color:var(--accent)!important;color:var(--accent)!important;font-weight:600}
+.showall{cursor:pointer;margin:16px 0 0 8px;padding:10px 16px;border-radius:10px;border:1px solid var(--accent);background:#fff;color:var(--accent);font-weight:700;font-size:15px}
+.check{cursor:pointer;margin-top:16px;padding:10px 18px;border-radius:10px;border:0;background:var(--teal);color:#fff;font-weight:700;font-size:15px}
+.speaking{border-left:4px solid var(--violet);padding:12px 18px 16px;margin:18px 0;background:var(--violet-soft);border-radius:0 12px 12px 0}
+.speaking p{margin:6px 0}
+.levels{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.levels button:disabled{opacity:.45;cursor:not-allowed}
+.levels .tried{border-color:var(--violet);color:var(--violet);font-weight:600}
+.level-box{padding:9px 13px;background:#fff;border-radius:9px;margin:8px 0;font-size:16px;border:1px solid #ddd5ea}
+.level-box .lab{display:block;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--violet);font-weight:700}
+.level-box.own{border-style:dashed}
+.speaking textarea{width:100%;min-height:70px;resize:vertical;border:1px solid #d8cfe6;border-radius:9px;padding:9px;font:inherit;margin-top:10px;background:#fff}
+.bank{display:flex;gap:8px;flex-wrap:wrap;margin:14px -8px 6px;padding:10px 8px;position:sticky;top:var(--top,96px);z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+.bank span{border:1px solid var(--accent);color:var(--accent);font-weight:600;padding:5px 14px;border-radius:999px;cursor:pointer;background:#fff}
+.bank span.used{text-decoration:line-through;color:#a99d93;border-color:#d8cdc2;background:#f3eee8;font-weight:400}
+.reading{background:#fff;border:1px solid var(--line);padding:22px 26px;border-radius:12px;font:18px/1.65 Georgia,serif}
+.reading p{margin:9px 0}
+.scenario{padding:14px 18px;background:#fff;border:1px solid var(--line);margin:14px 0;border-radius:10px}
+.footnav{display:flex;justify-content:space-between;margin-top:30px;border-top:1px solid var(--line);padding-top:16px}
+.footnav button:disabled{visibility:hidden}
+@media(max-width:680px){.slide{padding:20px 16px}.question{grid-template-columns:minmax(0,1fr) auto}.answer{grid-column:1/-1}h2{font-size:27px}}
+
+.mean{display:grid;grid-template-columns:200px 1fr;gap:6px 14px;margin:6px 0}
+.mean b{color:var(--accent)}
+@media(max-width:600px){.mean{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Leave it to me <small>Sergey · 13 November · optional</small></h1>
+  <nav class="tabs">
+    <button class="tab" onclick="go(0)"><span class="n">01</span>Meanings</button>
+    <button class="tab" onclick="go(1)"><span class="n">02</span>In context</button>
+    <button class="tab" onclick="go(2)"><span class="n">03</span>Sort it out</button>
+    <button class="tab" onclick="go(3)"><span class="n">04</span>Reserve</button>
+  </nav>
+</header>
+<main>
+
+<section class="slide">
+  <div class="eyebrow">01 · 5 min</div>
+  <h2>One verb, five jobs</h2>
+  <p class="intro">"Leave it to me." Is the speaker going away, or taking responsibility?</p>
+  <div class="rule">
+    <div class="mean"><b>leave it to me</b><span>I'll take care of it. — <i>Leave it to me, I'll book the table for Friday.</i></span></div>
+    <div class="mean"><b>leave someone alone</b><span>don't disturb or annoy them — <i>Leave the cat alone, she's sleeping.</i></span></div>
+    <div class="mean"><b>leave something lying around</b><span>not put it away — <i>He always leaves his keys lying around.</i></span></div>
+    <div class="mean"><b>leave a place in a mess</b><span>make it untidy and go — <i>The builders left the garden in a mess.</i></span></div>
+    <div class="mean"><b>leave a message</b><span>give information for someone who isn't there — <i>The dentist's office was closed, so I left a message.</i></span></div>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">02 · 10 min</div>
+  <h2>In context</h2>
+  <p class="intro">Six phrases, five gaps: one phrase is extra. Use the correct form and the right object (it, him, the flat …).</p>
+  <div class="bank"><span>leave a message</span><span>leave it to me</span><span>leave someone alone</span><span>leave something lying around</span><span>leave a place in a mess</span><span>leave for (a place)</span></div>
+  <div class="exercise">
+    <div class="question"><div class="prompt"><span class="num">1</span>Mia called the game's support line three times. Nobody answered, so she ___.</div>
+      <input class="answer" data-answers='["left a message"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Past tense. She recorded information for them.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">left a message</div></div>
+    <div class="question"><div class="prompt"><span class="num">2</span>You've got enough to do this week. ___ — I'll book the escape room for Saturday.</div>
+      <input class="answer" data-answers='["leave it to me"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">The speaker offers to take responsibility.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">Leave it to me</div></div>
+    <div class="question"><div class="prompt"><span class="num">3</span>He's in the middle of a boss fight. Just ___ for ten minutes!</div>
+      <input class="answer" data-answers='["leave him alone"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Don't disturb him. Use a pronoun.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">leave him alone</div></div>
+    <div class="question"><div class="prompt"><span class="num">4</span>Whose controller is this? Please don't ___ — someone will step on it.</div>
+      <input class="answer" data-answers='["leave it lying around", "leave it lying about"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Put it away! Use <i>it</i>.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">leave it lying around</div></div>
+    <div class="question"><div class="prompt"><span class="num">5</span>After the LAN party, the guests ___: empty cans and crisps everywhere.</div>
+      <input class="answer" data-answers='["left the flat in a mess", "left the place in a mess", "left the room in a mess", "left everything in a mess", "left the house in a mess", "left the apartment in a mess"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Past tense + a place + in a mess.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">left the flat in a mess (also: the place / the room)</div></div>
+    <button class="check">Check this block</button>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">03 · 15 min</div>
+  <h2>Sort it out without making it worse</h2>
+  <p class="intro">Say what you would say and why. Be clear, not rude.</p>
+  <div class="speaking">
+    <p><b>Your online teammate keeps leaving matches early, and your team loses every time. You have already mentioned it once. What exactly do you say this time?</b></p>
+    <p class="muted">Think for 1 minute, then speak for about 1 minute.</p>
+    <div class="levels" data-one="leave early · lose · last time · agree on a rule" data-two="I know you're busy, but … / Last time we agreed … / Could we …?" data-three="I know you're busy, but when you leave in the middle of a match, we lose every time. Last time we agreed to finish games together. If you can't stay, could you tell us before we start, so we can find someone else?"></div>
+    <textarea placeholder="Optional notes"></textarea>
+  </div>
+
+  <div class="speaking">
+    <p><b>A game studio promised a patch on Friday, but it will not be ready until Tuesday. You answer the players. What do you write without promising something you cannot keep?</b></p>
+    <p class="muted">Think for 1 minute, then speak or write 3–4 sentences.</p>
+    <div class="levels" data-one="testing · unstable · confirmed date · thank you for waiting" data-two="Unfortunately, … / We'd rather … than … / We'll let you know as soon as …" data-three="Unfortunately, the patch won't be ready on Friday. We'd rather test it properly than release an unstable update. We'll share a confirmed date as soon as testing is finished. Thank you for your patience."></div>
+    <textarea placeholder="Optional notes"></textarea>
+  </div>
+
+  <div class="speaking">
+    <p><b>Your flatmate leaves dirty plates and energy-drink cans lying around after every gaming night. What do you say?</b></p>
+    <p class="muted">Think for 30 seconds, then speak for about 1 minute.</p>
+    <div class="levels" data-one="lying around · the kitchen · a simple rule · leave it to me" data-two="Can we talk about …? / It would really help if … / How about …?" data-three="Can we talk about the kitchen? After gaming nights, there are plates and cans lying around everywhere. It would really help if we cleaned up the same evening. How about this: you do the plates, and the bins — leave them to me."></div>
+    <textarea placeholder="Optional notes"></textarea>
+  </div>
+
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">04 · Reserve · 5–10 min</div>
+  <h2>One problem, two priorities</h2>
+  <p class="muted">Choose one case. Prepare for 1 minute, then speak for about 90 seconds.</p>
+  <div class="speaking">
+    <p><b>A friend designs levels for your small indie game. His work is brilliant, but he has missed two deadlines, and the demo goes online next week. How do you sort it out without losing him?</b></p>
+    <p class="muted">Think for 1 minute, then speak.</p>
+    <div class="levels" data-one="brilliant work · deadline · smaller task · help" data-two="The main priority is … / I wouldn't blame him before … / I'd suggest …" data-three="The main priority is the demo next week. I wouldn't blame him before I know why he's late. I'd suggest giving him one smaller level to finish first and asking another person to help with the rest."></div>
+    <textarea placeholder="Optional notes"></textarea>
+  </div>
+
+  <div class="speaking">
+    <p><b>Your gaming club ordered 20 jerseys with the wrong logo. The shop will take them back but charges a fee. Who should pay, and how do you stop it happening again?</b></p>
+    <p class="muted">Think for 1 minute, then speak.</p>
+    <div class="levels" data-one="check the design · fee · split the cost · one person approves" data-two="I think … should … / To avoid the same problem, … / In my view, …" data-three="In my view, the club should pay the fee together, because nobody checked the final design. To avoid the same problem, one person should approve the logo before we order anything."></div>
+    <textarea placeholder="Optional notes"></textarea>
+  </div>
+
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+</main>
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide')), tabs=[].slice.call(document.querySelectorAll('.tab')), cur=0;
+  window.go=function(i){
+    cur=Math.max(0,Math.min(slides.length-1,i));
+    slides.forEach(function(s,j){s.style.display=j===cur?'block':'none'});
+    tabs.forEach(function(t,j){t.classList.toggle('active',j===cur)});
+    window.scrollTo(0,0);
+  };
+  slides.forEach(function(s,j){
+    var p=s.querySelector('.prev'), n=s.querySelector('.next');
+    p.disabled=j===0; n.disabled=j===slides.length-1;
+    p.onclick=function(){go(j-1)}; n.onclick=function(){go(j+1)};
+  });
+
+  // answers: case, extra spaces, end punctuation and all apostrophe types are ignored
+  function norm(s){return String(s||'').toLowerCase().replace(/[\u2019\u2018\u0060\u00b4\u02bc\u2032]/g,"'").replace(/[.,!?;:]+/g,' ').replace(/\s+/g,' ').trim()}
+  window.normAnswer=norm;
+
+  document.querySelectorAll('.hint').forEach(function(b){b.onclick=function(){b.nextElementSibling.classList.toggle('hidden')}});
+  document.querySelectorAll('.reveal').forEach(function(b){b.onclick=function(){b.nextElementSibling.classList.remove('hidden')}});
+  document.querySelectorAll('.check').forEach(function(b){b.onclick=function(){
+    b.closest('.exercise').querySelectorAll('.question').forEach(function(q){
+      var inp=q.querySelector('.answer'), list=JSON.parse(inp.dataset.answers), v=inp.value.trim(),
+          f=q.querySelector('.feedback'), rev=q.querySelector('.reveal');
+      inp.classList.remove('ok','no');
+      if(!v){f.textContent='Type your answer first.';f.className='feedback bad';rev.classList.add('hidden');return}
+      var ok=list.some(function(a){return norm(a)===norm(v)});
+      inp.classList.add(ok?'ok':'no');
+      f.textContent=ok?'Correct.':'Not quite. Try again or show the answer.';
+      f.className='feedback '+(ok?'good':'bad');
+      rev.classList.toggle('hidden',ok);
+      if(ok) q.querySelector('.correct').classList.add('hidden');
+    });
+    var ex=b.closest('.exercise'), all=ex.querySelector('.showall');
+    if(!all){all=document.createElement('button');all.className='showall';all.textContent='Show all correct answers';b.after(all);
+      all.onclick=function(){ex.querySelectorAll('.question').forEach(function(q){if(!q.querySelector('.reveal').classList.contains('hidden'))q.querySelector('.correct').classList.remove('hidden')})}}
+    all.classList.toggle('hidden',!ex.querySelector('.reveal:not(.hidden)'));
+  }});
+  function setTop(){document.documentElement.style.setProperty('--top',document.querySelector('.top').offsetHeight+'px')}
+  setTop(); window.addEventListener('resize',setTop);
+  document.querySelectorAll('.answer').forEach(function(i){i.setAttribute('autocomplete','off');i.setAttribute('spellcheck','false');i.setAttribute('autocapitalize','off')});
+
+  // word bank: shuffled on every load, never in answer order
+  document.querySelectorAll('.bank').forEach(function(bank){
+    var items=[].slice.call(bank.children);
+    for(var i=items.length-1;i>0;i--){var k=Math.floor(Math.random()*(i+1));var t=items[i];items[i]=items[k];items[k]=t}
+    items.forEach(function(x){bank.appendChild(x);x.onclick=function(){x.classList.toggle('used')}});
+  });
+
+  // three levels of support: in order; the example only after the student has said her own answer
+  var targets=['leave it to me','leave','left','leaving'];
+  function mark(t){var h=t.replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]});
+    targets.forEach(function(w){h=h.replace(new RegExp('\\b('+w.replace(/-/g,'\\-')+')\\b','gi'),'<span class="new">$1</span>')});return h}
+  document.querySelectorAll('.levels').forEach(function(box){
+    var sp=box.closest('.speaking'), out=document.createElement('div');
+    box.after(out);
+    var b1=btn('Ideas'), b2=btn('Useful beginnings'), tried=btn('✓ I said my answer'), b3=btn('Example answer');
+    tried.className='tried'; b2.disabled=true; b3.disabled=true;
+    [b1,b2,tried,b3].forEach(function(b){box.appendChild(b)});
+    function btn(t){var b=document.createElement('button');b.type='button';b.textContent=t;return b}
+    function show(label,text,cls){var d=document.createElement('div');d.className='level-box'+(cls?' '+cls:'');d.innerHTML='<span class="lab">'+label+'</span>'+text;out.appendChild(d)}
+    b1.onclick=function(){show('Ideas',mark(box.dataset.one));b1.disabled=true;b2.disabled=false};
+    b2.onclick=function(){show('Useful beginnings',mark(box.dataset.two));b2.disabled=true};
+    tried.onclick=function(){tried.disabled=true;b3.disabled=false};
+    b3.onclick=function(){show('Example answer',mark(box.dataset.three));show('Your turn','Now say your answer again in your own words — change at least two things.','own');b3.disabled=true};
+  });
+
+  go(0);
+})();
+</script>
+</body>
+</html>
