@@ -134,6 +134,13 @@ audio{width:100%;max-width:420px;margin:6px 0}
 .blobs.tap{justify-content:center;margin:10px 0}
 .blobs.tap .blob:active{transform:scale(.92)}
 .free{font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:8px;width:100%}
+.tags.photos .tagcard{padding:0;overflow:hidden;gap:0;position:relative}
+.tags.photos img{display:block;width:100%;aspect-ratio:3/2;object-fit:cover}
+.tags.photos .lab{position:absolute;top:10px;left:10px;background:#fff;border-radius:6px;padding:2px 8px;font-weight:700;font-size:14px}
+.tags.photos .price{position:absolute;bottom:10px;right:10px;background:#fff;font-size:17px;box-shadow:0 2px 8px #0002}
+@media(max-width:600px){.tags.photos{grid-template-columns:1fr}}
+.lex .mo.ph img{object-fit:contain}
+.drive-audio{width:100%;max-width:440px;height:64px;border:0;border-radius:10px;background:#f1f3f4;display:block;margin:6px auto}
 
 </style>
 </head>
@@ -193,7 +200,7 @@ audio{width:100%;max-width:420px;margin:6px 0}
   <div class="eyebrow">02 · 8 min · KB S. 30–31, Bildlexikon</div>
   <h2>Möbel</h2>
   <p class="intro">Посмотри и прочитай вслух. Цвет показывает артикль: <span class="der"><b>der</b></span> — синий, <span class="das"><b>das</b></span> — зелёный, <span class="die"><b>die</b></span> — розовый. Учим слово сразу с артиклем: не <i>Stuhl</i>, а <span class="der"><b>der</b> Stuhl</span>.</p>
-  <div class="lexgrid"><div class="lex"><span class="mo ph"><img src="img/bett.jpg" alt="bett" loading="lazy"></span><div class="lw das"><span class="dia das"></span><b>das</b> Bett</div></div><div class="lex"><span class="mo" data-t="bild" data-s="modern"></span><div class="lw das"><span class="dia das"></span><b>das</b> Bild</div></div><div class="lex"><span class="mo ph"><img src="img/stuhl.jpg" alt="stuhl" loading="lazy"></span><div class="lw der"><span class="dia der"></span><b>der</b> Stuhl</div></div><div class="lex"><span class="mo ph"><img src="img/lampe.jpg" alt="lampe" loading="lazy"></span><div class="lw die"><span class="dia die"></span><b>die</b> Lampe</div></div><div class="lex"><span class="mo" data-t="sessel" data-s="modern"></span><div class="lw der"><span class="dia der"></span><b>der</b> Sessel</div></div><div class="lex"><span class="mo ph"><img src="img/sofa.jpg" alt="sofa" loading="lazy"></span><div class="lw das"><span class="dia das"></span><b>das</b> Sofa</div></div><div class="lex"><span class="mo ph"><img src="img/tisch.jpg" alt="tisch" loading="lazy"></span><div class="lw der"><span class="dia der"></span><b>der</b> Tisch</div></div><div class="lex"><span class="mo ph"><img src="img/schrank.jpg" alt="schrank" loading="lazy"></span><div class="lw der"><span class="dia der"></span><b>der</b> Schrank</div></div><div class="lex"><span class="mo" data-t="teppich" data-s="modern"></span><div class="lw der"><span class="dia der"></span><b>der</b> Teppich</div></div><div class="lex"><span class="mo" data-t="regal" data-s="modern"></span><div class="lw das"><span class="dia das"></span><b>das</b> Regal</div></div><div class="lex"><span class="mo" data-t="spiegel" data-s="modern"></span><div class="lw der"><span class="dia der"></span><b>der</b> Spiegel</div></div></div>
+  <div class="lexgrid"><div class="lex"><span class="mo ph"><img src="img/bett.jpg" alt="bett" loading="lazy"></span><div class="lw das"><span class="dia das"></span><b>das</b> Bett</div></div><div class="lex"><span class="mo ph"><img src="img/bild.jpg" alt="bild" loading="lazy"></span><div class="lw das"><span class="dia das"></span><b>das</b> Bild</div></div><div class="lex"><span class="mo ph"><img src="img/stuhl.jpg" alt="stuhl" loading="lazy"></span><div class="lw der"><span class="dia der"></span><b>der</b> Stuhl</div></div><div class="lex"><span class="mo ph"><img src="img/lampe.jpg" alt="lampe" loading="lazy"></span><div class="lw die"><span class="dia die"></span><b>die</b> Lampe</div></div><div class="lex"><span class="mo ph"><img src="img/sessel.jpg" alt="sessel" loading="lazy"></span><div class="lw der"><span class="dia der"></span><b>der</b> Sessel</div></div><div class="lex"><span class="mo ph"><img src="img/sofa.jpg" alt="sofa" loading="lazy"></span><div class="lw das"><span class="dia das"></span><b>das</b> Sofa</div></div><div class="lex"><span class="mo ph"><img src="img/tisch.jpg" alt="tisch" loading="lazy"></span><div class="lw der"><span class="dia der"></span><b>der</b> Tisch</div></div><div class="lex"><span class="mo ph"><img src="img/schrank.jpg" alt="schrank" loading="lazy"></span><div class="lw der"><span class="dia der"></span><b>der</b> Schrank</div></div><div class="lex"><span class="mo ph"><img src="img/teppich.jpg" alt="teppich" loading="lazy"></span><div class="lw der"><span class="dia der"></span><b>der</b> Teppich</div></div><div class="lex"><span class="mo ph"><img src="img/regal.jpg" alt="regal" loading="lazy"></span><div class="lw das"><span class="dia das"></span><b>das</b> Regal</div></div><div class="lex"><span class="mo ph"><img src="img/spiegel.jpg" alt="spiegel" loading="lazy"></span><div class="lw der"><span class="dia der"></span><b>der</b> Spiegel</div></div></div>
   <div class="rule"><b>Schon fertig?</b> Какую мебель ты ещё знаешь? Спроси у преподавателя: <i>Was ist das auf Deutsch?</i></div>
   <div class="footnav"><button class="prev">← Zurück</button><button class="next">Weiter →</button></div>
 </section>
@@ -204,18 +211,22 @@ audio{width:100%;max-width:420px;margin:6px 0}
   <div class="gbox"><span class="g">G</span><span class="der">◆ <b>der</b> Stuhl</span><span class="das">◆ <b>das</b> Bett</span><span class="die">◆ <b>die</b> Lampe</span></div>
   <h3>a · Wohin gehört das Wort?</h3>
   <p class="intro">Выбери артикль для каждого слова.</p>
-  <div class="sortlist">  <div class="question"><div class="prompt"><span class="num">1</span><span class="mo" data-t="spiegel" data-s="modern"></span><span class="sw-word">Spiegel</span></div><div class="choice" data-k="der" data-why="der Spiegel"><button data-v="der" class="blob der">der</button><button data-v="das" class="blob das">das</button><button data-v="die" class="blob die">die</button></div></div>
+  <div class="sortlist">  <div class="question"><div class="prompt"><span class="num">1</span><span class="mo ph"><img src="img/spiegel.jpg" alt="spiegel" loading="lazy"></span><span class="sw-word">Spiegel</span></div><div class="choice" data-k="der" data-why="der Spiegel"><button data-v="der" class="blob der">der</button><button data-v="das" class="blob das">das</button><button data-v="die" class="blob die">die</button></div></div>
   <div class="question"><div class="prompt"><span class="num">2</span><span class="mo ph"><img src="img/bett.jpg" alt="bett" loading="lazy"></span><span class="sw-word">Bett</span></div><div class="choice" data-k="das" data-why="das Bett"><button data-v="der" class="blob der">der</button><button data-v="das" class="blob das">das</button><button data-v="die" class="blob die">die</button></div></div>
   <div class="question"><div class="prompt"><span class="num">3</span><span class="mo ph"><img src="img/schrank.jpg" alt="schrank" loading="lazy"></span><span class="sw-word">Schrank</span></div><div class="choice" data-k="der" data-why="der Schrank"><button data-v="der" class="blob der">der</button><button data-v="das" class="blob das">das</button><button data-v="die" class="blob die">die</button></div></div>
-  <div class="question"><div class="prompt"><span class="num">4</span><span class="mo" data-t="sessel" data-s="modern"></span><span class="sw-word">Sessel</span></div><div class="choice" data-k="der" data-why="der Sessel"><button data-v="der" class="blob der">der</button><button data-v="das" class="blob das">das</button><button data-v="die" class="blob die">die</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">4</span><span class="mo ph"><img src="img/sessel.jpg" alt="sessel" loading="lazy"></span><span class="sw-word">Sessel</span></div><div class="choice" data-k="der" data-why="der Sessel"><button data-v="der" class="blob der">der</button><button data-v="das" class="blob das">das</button><button data-v="die" class="blob die">die</button></div></div>
   <div class="question"><div class="prompt"><span class="num">5</span><span class="mo ph"><img src="img/tisch.jpg" alt="tisch" loading="lazy"></span><span class="sw-word">Tisch</span></div><div class="choice" data-k="der" data-why="der Tisch"><button data-v="der" class="blob der">der</button><button data-v="das" class="blob das">das</button><button data-v="die" class="blob die">die</button></div></div>
   <div class="question"><div class="prompt"><span class="num">6</span><span class="mo ph"><img src="img/sofa.jpg" alt="sofa" loading="lazy"></span><span class="sw-word">Sofa</span></div><div class="choice" data-k="das" data-why="das Sofa"><button data-v="der" class="blob der">der</button><button data-v="das" class="blob das">das</button><button data-v="die" class="blob die">die</button></div></div>
   <div class="question"><div class="prompt"><span class="num">7</span><span class="mo ph"><img src="img/stuhl.jpg" alt="stuhl" loading="lazy"></span><span class="sw-word">Stuhl</span></div><div class="choice" data-k="der" data-why="der Stuhl"><button data-v="der" class="blob der">der</button><button data-v="das" class="blob das">das</button><button data-v="die" class="blob die">die</button></div></div>
   <div class="question"><div class="prompt"><span class="num">8</span><span class="mo ph"><img src="img/lampe.jpg" alt="lampe" loading="lazy"></span><span class="sw-word">Lampe</span></div><div class="choice" data-k="die" data-why="die Lampe"><button data-v="der" class="blob der">der</button><button data-v="das" class="blob das">das</button><button data-v="die" class="blob die">die</button></div></div>
-  <div class="question"><div class="prompt"><span class="num">9</span><span class="mo" data-t="teppich" data-s="modern"></span><span class="sw-word">Teppich</span></div><div class="choice" data-k="der" data-why="der Teppich"><button data-v="der" class="blob der">der</button><button data-v="das" class="blob das">das</button><button data-v="die" class="blob die">die</button></div></div>
-  <div class="question"><div class="prompt"><span class="num">10</span><span class="mo" data-t="regal" data-s="modern"></span><span class="sw-word">Regal</span></div><div class="choice" data-k="das" data-why="das Regal"><button data-v="der" class="blob der">der</button><button data-v="das" class="blob das">das</button><button data-v="die" class="blob die">die</button></div></div>
-  <div class="question"><div class="prompt"><span class="num">11</span><span class="mo" data-t="bild" data-s="modern"></span><span class="sw-word">Bild</span></div><div class="choice" data-k="das" data-why="das Bild"><button data-v="der" class="blob der">der</button><button data-v="das" class="blob das">das</button><button data-v="die" class="blob die">die</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">9</span><span class="mo ph"><img src="img/teppich.jpg" alt="teppich" loading="lazy"></span><span class="sw-word">Teppich</span></div><div class="choice" data-k="der" data-why="der Teppich"><button data-v="der" class="blob der">der</button><button data-v="das" class="blob das">das</button><button data-v="die" class="blob die">die</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">10</span><span class="mo ph"><img src="img/regal.jpg" alt="regal" loading="lazy"></span><span class="sw-word">Regal</span></div><div class="choice" data-k="das" data-why="das Regal"><button data-v="der" class="blob der">der</button><button data-v="das" class="blob das">das</button><button data-v="die" class="blob die">die</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">11</span><span class="mo ph"><img src="img/bild.jpg" alt="bild" loading="lazy"></span><span class="sw-word">Bild</span></div><div class="choice" data-k="das" data-why="das Bild"><button data-v="der" class="blob der">der</button><button data-v="das" class="blob das">das</button><button data-v="die" class="blob die">die</button></div></div>
 </div>
+  <h3>b · Das Artikel-Spiel <span class="muted">· KB Ü. 4b</span></h3>
+  <p class="intro">Слушай слова и нажимай на кружок с артиклем (в книге — поднимаешь руку). Преподаватель проверяет.</p>
+  <iframe class="drive-audio" src="https://drive.google.com/file/d/1dhXXd3TaYaLSSN8giRiXqzi8Dhmbol7C/preview" allow="autoplay" title="KB Ü. 4b"></iframe>
+  <div class="blobs tap"><button type="button" class="blob der">der</button><button type="button" class="blob das">das</button><button type="button" class="blob die">die</button></div>
   <h3>c · Schreib das Wort mit Artikel</h3>
   <p class="intro">Теперь без подсказок: напиши артикль и слово.</p>
   <div class="exercise"><div class="pics">
@@ -227,9 +238,9 @@ audio{width:100%;max-width:420px;margin:6px 0}
       <input class="answer" data-answers='["die Lampe"]' placeholder="der / das / die + Wort"><button class="hint">Hinweis</button><div class="hidden helper">Начинается на La…</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">die Lampe</div></div>
     <div class="question pic"><span class="mo ph"><img src="img/schrank.jpg" alt="schrank" loading="lazy"></span>
       <input class="answer" data-answers='["der Schrank"]' placeholder="der / das / die + Wort"><button class="hint">Hinweis</button><div class="hidden helper">Начинается на Sc…</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">der Schrank</div></div>
-    <div class="question pic"><span class="mo" data-t="regal" data-s="modern"></span>
+    <div class="question pic"><span class="mo ph"><img src="img/regal.jpg" alt="regal" loading="lazy"></span>
       <input class="answer" data-answers='["das Regal"]' placeholder="der / das / die + Wort"><button class="hint">Hinweis</button><div class="hidden helper">Начинается на Re…</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">das Regal</div></div>
-    <div class="question pic"><span class="mo" data-t="teppich" data-s="modern"></span>
+    <div class="question pic"><span class="mo ph"><img src="img/teppich.jpg" alt="teppich" loading="lazy"></span>
       <input class="answer" data-answers='["der Teppich"]' placeholder="der / das / die + Wort"><button class="hint">Hinweis</button><div class="hidden helper">Начинается на Te…</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">der Teppich</div></div>
   </div>
     <button class="check">Prüfen</button>
@@ -244,15 +255,15 @@ audio{width:100%;max-width:420px;margin:6px 0}
     <div><b>Das Bild ist</b> schön. · nicht so schön. · hässlich.</div>
     <div><b>Das Bild ist</b> teuer. · günstig.</div>
   </div>
-  <div class="tags">
-    <div class="tagcard"><span class="mo" data-t="bild" data-s="modern" data-c="#2f2f2f"></span><span class="price">45 €</span></div>
-    <div class="tagcard"><span class="mo" data-t="bild" data-s="klassisch" data-c="#c9a24a"></span><span class="price">1200 €</span></div>
-    <div class="tagcard"><span class="mo" data-t="spiegel" data-s="klassisch" data-c="#c9a24a"></span><span class="price">890 €</span></div>
+  <div class="tags photos">
+    <div class="tagcard"><img src="img/bild-modern.jpg" alt="Ein modernes Bild über dem Sofa" loading="lazy"><span class="lab">Bild 1</span><span class="price">1290 €</span></div>
+    <div class="tagcard"><img src="img/bild-klassisch.jpg" alt="Ein klassisches Bild mit Goldrahmen" loading="lazy"><span class="lab">Bild 2</span><span class="price">3800 €</span></div>
+    <div class="tagcard"><img src="img/bild-katze.jpg" alt="Ein buntes Bild mit einer Katze" loading="lazy"><span class="lab">Bild 3</span><span class="price">39 €</span></div>
   </div>
   <div class="speaking">
-    <p><b>Wie findest du das Bild? Und den Spiegel?</b></p>
-    <p class="muted">Скажи про каждую вещь: красивая или нет, дорогая или дешёвая.</p>
-    <div class="levels" data-one="schön · nicht so schön · hässlich · teuer · günstig · aber" data-two="Ich finde, das Bild ist … / Es ist schön, aber … / Der Spiegel ist …" data-three="Ich finde, das Bild links ist schön und günstig. Das Bild in der Mitte ist schön, aber es ist teuer. Der Spiegel ist nicht so schön, und er ist teuer."></div>
+    <p><b>Wie findest du die Bilder? Sprich über jedes Bild.</b></p>
+    <p class="muted">Скажи про каждую картину: красивая или нет, дорогая или дешёвая. Начни с «Ich finde, …».</p>
+    <div class="levels" data-one="schön · nicht so schön · hässlich · teuer · günstig · aber · modern" data-two="Ich finde, Bild 1 ist … / Es ist schön, aber … / Bild 3 ist hässlich, aber …" data-three="Ich finde, Bild 1 ist sehr schön und modern, aber es ist teuer. Bild 2 ist nicht so schön, und es ist sehr teuer. Bild 3 ist hässlich, aber es ist günstig!"></div>
   </div>
 
   <h3>Der Stuhl kostet nur 59 Euro <span class="muted">· Ü. 3a</span></h3>
@@ -306,6 +317,9 @@ audio{width:100%;max-width:420px;margin:6px 0}
     <button class="check">Prüfen</button>
   </div>
   <div class="kbox"><span class="k">K</span><div>1 000 000 = <b>eine Million</b></div><div><b>Wie viel</b> kostet …? · <b>Was</b> kostet …?</div><div>9,99 € = „9 Euro 99“ · 0,50 € = „50 Cent“</div></div>
+  <h3>Wie viel kostet das? <span class="muted">· KB Ü. 7a</span></h3>
+  <p class="intro">Послушай три разговора и запиши цены. Проверяем вместе.</p>
+  <div class="pics"><div class="pic"><span class="mo" data-t="schrank" data-s="modern" data-c="#7b5234"></span><b>A</b><iframe class="drive-audio" src="https://drive.google.com/file/d/1ajn2xggC3R1amhRkOTZ2q0ZCYixhUsft/preview" allow="autoplay" title="KB Ü. 7a A"></iframe><input class="free" placeholder="… €"></div><div class="pic"><span class="mo" data-t="lampe" data-s="klassisch" data-c="#c9a24a"></span><b>B</b><iframe class="drive-audio" src="https://drive.google.com/file/d/1Ad0EGe5Dkqk_rLf0X2bOnZUj2tLZxVrL/preview" allow="autoplay" title="KB Ü. 7a B"></iframe><input class="free" placeholder="… €"></div><div class="pic"><span class="mo" data-t="sofa" data-s="modern" data-c="#c2453a"></span><b>C</b><iframe class="drive-audio" src="https://drive.google.com/file/d/13dE-txrmtXrXy4pFbMId9uYKcTXGl0tU/preview" allow="autoplay" title="KB Ü. 7a C"></iframe><input class="free" placeholder="… €"></div></div>
   <div class="footnav"><button class="prev">← Zurück</button><button class="next">Weiter →</button></div>
 </section>
 
@@ -350,7 +364,7 @@ audio{width:100%;max-width:420px;margin:6px 0}
   <div class="exercise">
     <div class="question"><div class="prompt"><span class="num">1</span><span class="mo ph"><img src="img/schrank.jpg" alt="schrank" loading="lazy"></span> <span class="pat">d e r &nbsp; S _ h _ _ _ _</span></div>
       <input class="answer" data-answers='["der Schrank"]' placeholder="Artikel + Wort"><button class="hint">Hinweis</button><div class="hidden helper">Большой, для одежды.</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">der Schrank</div></div>
-    <div class="question"><div class="prompt"><span class="num">2</span><span class="mo" data-t="sessel" data-s="modern"></span> <span class="pat">_ _ _ &nbsp; _ e _ _ e l</span></div>
+    <div class="question"><div class="prompt"><span class="num">2</span><span class="mo ph"><img src="img/sessel.jpg" alt="sessel" loading="lazy"></span> <span class="pat">_ _ _ &nbsp; _ e _ _ e l</span></div>
       <input class="answer" data-answers='["der Sessel"]' placeholder="Artikel + Wort"><button class="hint">Hinweis</button><div class="hidden helper">Мягкое кресло.</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">der Sessel</div></div>
     <div class="question"><div class="prompt"><span class="num">3</span><span class="mo" data-t="teppich" data-s="modern" data-c="#3f6fa8"></span> <span class="pat">_ _ _ &nbsp; _ e p p _ c h</span></div>
       <input class="answer" data-answers='["der Teppich"]' placeholder="Artikel + Wort"><button class="hint">Hinweis</button><div class="hidden helper">Лежит на полу.</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">der Teppich</div></div>

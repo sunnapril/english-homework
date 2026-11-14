@@ -17,7 +17,7 @@ h1{font:700 28px/1.15 Georgia,"Times New Roman",serif;margin:0}
 .cat{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .cat button{all:unset;cursor:pointer;background:#f7faf9;border:1px solid var(--line);border-radius:10px;padding:8px 6px 6px;text-align:center;transition:border-color .15s,transform .1s}
 .cat button:hover{border-color:var(--teal);transform:translateY(-1px)}
-.cat svg{width:100%;height:56px;display:block}
+.cat svg,.cat img{width:100%;height:56px;display:block;object-fit:contain}
 .cat .nm{font-size:14px;font-weight:650;display:block;margin-top:4px}
 .cat .pr{font-size:12px;color:var(--muted)}
 .der{color:var(--der)}.das{color:var(--das)}.die{color:var(--die)}
@@ -87,6 +87,7 @@ details.say summary{cursor:pointer;font-weight:650;color:var(--teal)}
   </section>
 </div>
 <script src="../moebel.js"></script>
+<script src="photos.js"></script>
 <script>
 (function(){
   var M = window.MOEBEL, KEY = 'traumwohnung-anastasia-v1', BUDGET = 5000;
@@ -94,6 +95,10 @@ details.say summary{cursor:pointer;font-weight:650;color:var(--teal)}
   var WALLS = [['weiß','#f6f3ec'],['hellgrau','#e3e5e6'],['hellblau','#dde8f2'],['hellgrün','#e0ece2'],['hellgelb','#f5edd2'],['rosa','#f4e1df'],['dunkelgrün','#5b7564'],['dunkelblau','#4b5d78']];
   var DEF = {sofa:'#3f6fa8',sessel:'#e2b43c',stuhl:'#8a5a36',tisch:'#8a5a36',bett:'#8a5a36',schrank:'#9aa1a6',regal:'#8a5a36',lampe:'#e2b43c',teppich:'#c2453a',bild:'#2f2f2f',spiegel:'#e2b43c'};
   var SIZES = [['klein',0.8],['normal',1],['groß',1.25]];
+  var PH = M.photos || {}, PHOTO = Object.keys(M.items).every(function(t){ return PH[t]; });
+  if (PHOTO) { COLORS = [['natur','natur'],['grau','#b7bcc0'],['schwarz','#4a4a4a'],['blau','#6f97c9'],['grün','#86b08f'],['rot','#d9705f'],['gelb','#f0cc6a'],['braun','#a9784f'],['rosa','#efb5bb']]; Object.keys(DEF).forEach(function(t){ DEF[t]='natur'; }); }
+  function dims(t){ return PHOTO ? PH[t] : M.items[t]; }
+  function pic(t){ return '<img src="' + PH[t].src + '" alt="">'; }
   var ROOMS = [['wohn','das Wohnzimmer','гостиная'],['schlaf','das Schlafzimmer','спальня'],['arbeit','das Arbeitszimmer','кабинет']];
   var state = load() || {room:'wohn', rooms:{wohn:{wall:WALLS[0][1],items:[]},schlaf:{wall:WALLS[2][1],items:[]},arbeit:{wall:WALLS[3][1],items:[]}}, sel:null, n:0};
   function load(){ try { var s = JSON.parse(localStorage.getItem(KEY)); return s && s.rooms ? s : null; } catch(e){ return null; } }
@@ -109,7 +114,7 @@ details.say summary{cursor:pointer;font-weight:650;color:var(--teal)}
   Object.keys(M.items).forEach(function(t){
     var it = M.items[t], b = document.createElement('button');
     b.type = 'button';
-    b.innerHTML = M.card(t, 'modern', DEF[t]) + '<span class="nm"><span class="' + it.art + '">' + it.art + '</span> ' + it.name + '</span><span class="pr">ab ' + it.price.modern + ' €</span>';
+    b.innerHTML = (PHOTO ? pic(t) : M.card(t, 'modern', DEF[t])) + '<span class="nm"><span class="' + it.art + '">' + it.art + '</span> ' + it.name + '</span><span class="pr">ab ' + it.price.modern + ' €</span>';
     b.onclick = function(){ add(t); };
     cat.appendChild(b);
   });
@@ -139,10 +144,13 @@ details.say summary{cursor:pointer;font-weight:650;color:var(--teal)}
     s += '<polygon points="0,440 1000,440 1000,600 0,600" fill="#d9b48c"/>';
     for (var i = 1; i < 6; i++) s += '<line x1="0" x2="1000" y1="' + (440 + i*i*5.5) + '" y2="' + (440 + i*i*5.5) + '" stroke="#c9a27a" stroke-width="1.5"/>';
     s += '<rect x="0" y="434" width="1000" height="8" fill="#ffffff"/>';
+    if (PHOTO) { s += '<defs>' + Object.keys(PH).map(function(t){ var d = PH[t]; return '<mask id="mk-' + t + '" maskUnits="userSpaceOnUse" x="0" y="0" width="' + d.w + '" height="' + d.h + '" style="mask-type:alpha"><image href="' + d.src + '" width="' + d.w + '" height="' + d.h + '"' + (t === 'teppich' ? ' preserveAspectRatio="none"' : '') + '/></mask>'; }).join('') + '</defs>'; }
     var order = r.items.slice().sort(function(a,b){ var la = M.items[a.type].floor?0:M.items[a.type].wall?1:2, lb = M.items[b.type].floor?0:M.items[b.type].wall?1:2; return la-lb || a.y-b.y; });
     order.forEach(function(o){
-      var it = M.items[o.type], k = scale(o), w = it.w*k, h = it.h*k, tx = o.x - w/2, ty = o.y - h;
-      s += '<g class="it" data-id="' + o.id + '" transform="translate(' + tx.toFixed(1) + ',' + ty.toFixed(1) + ') scale(' + k + ')">' + M.svg(o.type, o.style, o.color);
+      var it = dims(o.type), k = scale(o), w = it.w*k, h = it.h*k, tx = o.x - w/2, ty = o.y - h;
+      var par = o.type === 'teppich' ? ' preserveAspectRatio="none"' : '';
+      var body = PHOTO ? '<image href="' + it.src + '" width="' + it.w + '" height="' + it.h + '"' + par + '/>' + (o.color && o.color !== 'natur' ? '<rect width="' + it.w + '" height="' + it.h + '" fill="' + o.color + '" mask="url(#mk-' + o.type + ')" style="mix-blend-mode:multiply"/>' : '') : M.svg(o.type, o.style, o.color);
+      s += '<g class="it" data-id="' + o.id + '" transform="translate(' + tx.toFixed(1) + ',' + ty.toFixed(1) + ') scale(' + k + ')">' + body;
       s += '<rect x="-6" y="-6" width="' + (it.w+12) + '" height="' + (it.h+12) + '" fill="transparent"' + (o.id===state.sel ? ' class="sel-outline" vector-effect="non-scaling-stroke"' : '') + '/></g>';
     });
     if (!r.items.length) s += '<text x="500" y="525" text-anchor="middle" font-size="22" fill="#7a5f45" font-family="system-ui">Комната пустая — выбери мебель</text>';
@@ -159,7 +167,7 @@ details.say summary{cursor:pointer;font-weight:650;color:var(--teal)}
     stage.setPointerCapture(ev.pointerId); render();
   });
   stage.addEventListener('pointermove', function(ev){
-    if (!drag) return; var p = pt(ev), o = drag.o, it = M.items[o.type], k = scale(o);
+    if (!drag) return; var p = pt(ev), o = drag.o, it = dims(o.type), k = scale(o);
     o.x = Math.max(it.w*k/2, Math.min(1000 - it.w*k/2, p.x + drag.dx));
     o.y = Math.max(it.h*k + 5, Math.min(598, p.y + drag.dy));
     drag.moved = true; scene();
@@ -174,7 +182,8 @@ details.say summary{cursor:pointer;font-weight:650;color:var(--teal)}
     var pron = '<span class="pron ' + it.art + '">' + P.slice(0,-1) + '<span class="end">' + last + '</span></span>';
     var art = '<span class="' + it.art + '">' + it.art.slice(0,-1) + '<span class="end">' + it.art.slice(-1) + '</span></span>';
     var size = o.size === 'normal' ? '' : ' und ' + o.size;
-    return 'Das ist ' + art + ' ' + it.name + '. ' + pron + ' ist ' + colorName(o.color) + size + '. ' + pron + ' ist ' + o.style + '. ' + pron + ' kostet ' + price(o) + ' Euro.' +
+    var cn = colorName(o.color), desc = PHOTO ? ((cn && cn !== 'natur' ? cn : '') + (o.size === 'normal' ? '' : (cn && cn !== 'natur' ? ' und ' : '') + o.size)) : cn + size;
+    return 'Das ist ' + art + ' ' + it.name + '. ' + (desc ? pron + ' ist ' + desc + '. ' : '') + (PHOTO ? '' : pron + ' ist ' + o.style + '. ') + pron + ' kostet ' + price(o) + ' Euro.' +
       '<span class="num">' + price(o) + ' = ' + M.words(price(o)) + '</span>';
   }
   function plain(o){ var it = M.items[o.type], pr = M.PRON[it.art], P = pr.charAt(0).toUpperCase()+pr.slice(1); return 'Das ist ' + it.art + ' ' + it.name + '. ' + P + ' ist ' + colorName(o.color) + (o.size==='normal'?'':' und '+o.size) + '. ' + P + ' ist ' + o.style + '. ' + P + ' kostet ' + price(o) + ' Euro.'; }
@@ -182,8 +191,8 @@ details.say summary{cursor:pointer;font-weight:650;color:var(--teal)}
     var o = state.sel && find(state.sel);
     if (!o) { tools.innerHTML = '<p class="empty">Нажми на предмет в комнате: здесь можно поменять цвет, стиль и размер. Предмет можно перетаскивать.</p>'; return; }
     var h = '<div class="caption">' + sentence(o) + '</div>';
-    h += '<div class="row"><b>Farbe</b>' + COLORS.map(function(c){ return '<button type="button" class="sw' + (c[1]===o.color?' on':'') + '" data-c="' + c[1] + '" title="' + c[0] + '" aria-label="' + c[0] + '" style="background:' + c[1] + '"></button>'; }).join('') + '</div>';
-    h += '<div class="row"><b>Stil</b><span class="seg">' + ['modern','klassisch'].map(function(s){ return '<button type="button" data-s="' + s + '" class="' + (o.style===s?'on':'') + '">' + s + '</button>'; }).join('') + '</span></div>';
+    h += '<div class="row"><b>Farbe</b>' + COLORS.map(function(c){ return '<button type="button" class="sw' + (c[1]===o.color?' on':'') + '" data-c="' + c[1] + '" title="' + c[0] + '" aria-label="' + c[0] + '" style="background:' + (c[1]==='natur' ? 'linear-gradient(135deg,#e9dcc6,#c9a77d)' : c[1]) + '"></button>'; }).join('') + '</div>';
+    if (!PHOTO) h += '<div class="row"><b>Stil</b><span class="seg">' + ['modern','klassisch'].map(function(s){ return '<button type="button" data-s="' + s + '" class="' + (o.style===s?'on':'') + '">' + s + '</button>'; }).join('') + '</span></div>';
     h += '<div class="row"><b>Größe</b><span class="seg">' + SIZES.map(function(s){ return '<button type="button" data-z="' + s[0] + '" class="' + (o.size===s[0]?'on':'') + '">' + s[0] + '</button>'; }).join('') + '</span></div>';
     h += '<div class="row">' + '' + '<button type="button" class="btn warn" id="del">Entfernen</button></div>';
     tools.innerHTML = h;
