@@ -67,46 +67,88 @@ button{font:inherit}
 .footnav{display:flex;justify-content:space-between;margin-top:30px;border-top:1px solid var(--line);padding-top:16px}
 .footnav button:disabled{visibility:hidden}
 @media(max-width:680px){.slide{padding:20px 16px}.question{grid-template-columns:minmax(0,1fr) auto}.answer{grid-column:1/-1}h2{font-size:27px}}
-
-.pics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:12px 0}
-.pic{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:6px}
-.pic img{width:100%;aspect-ratio:5/4;object-fit:contain;background:#fff;border-radius:8px}
-.pic .answer{width:100%}
-.dot{display:inline-block;width:.8em;height:.8em;border-radius:50%;margin-right:.3em;vertical-align:-.05em}
-.der{color:#2f62a8}.das{color:#2f8048}.die{color:#c2453a}
-.dot.der{background:#2f62a8}.dot.das{background:#2f8048}.dot.die{background:#c2453a}
-.art-legend{display:flex;gap:18px;flex-wrap:wrap;font-weight:700;margin:8px 0}
+:root{--der:#1d6e9e;--das:#25a04a;--die:#d24e69}
+.der{color:var(--der)}.das{color:var(--das)}.die{color:var(--die)}
+h3{font-size:17px;margin:22px 0 6px}
+.mo svg{display:block;width:100%;height:100%}
+.lexgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}
+.lex{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.lex .mo{display:block;width:100%;height:92px}
+.lw{font-size:17px}
+.dia{display:inline-block;width:9px;height:9px;transform:rotate(45deg);margin-right:6px;vertical-align:1px}
+.dia.der{background:var(--der)}.dia.das{background:var(--das)}.dia.die{background:var(--die)}
+.say{cursor:pointer;font:inherit;font-size:13px;background:var(--teal-soft);color:var(--teal);border:0;border-radius:999px;padding:4px 12px}
+.sortlist{display:grid;grid-template-columns:repeat(2,1fr);gap:0 18px}
+.sortlist .question{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+.sortlist .prompt{display:flex;align-items:center;gap:10px;margin:0}
+.sortlist .mo{display:inline-block;width:58px;height:44px}
+.sw-word{font-size:18px;font-weight:600}
+.sortlist .cfb{display:none}
+.choice button.blob,.blobs .blob{color:#fff;border:0;font-weight:700;border-radius:58% 42% 55% 45%/52% 60% 40% 48%;padding:8px 16px}
+.blob.der{background:var(--der)}.blob.das{background:var(--das)}.blob.die{background:var(--die)}
+.choice button.blob.wrong{opacity:.35}
+.choice button.blob.right{outline:3px solid var(--ink);outline-offset:2px}
 .choice{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
 .choice button{cursor:pointer;background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 12px;font:inherit;font-weight:600}
 .choice button.right{background:var(--teal);border-color:var(--teal);color:#fff}
 .choice button.wrong{border-color:var(--bad);color:var(--bad)}
 .cfb{font-size:14px;margin-top:4px;min-height:1em}
 .cfb.good{color:var(--teal)}.cfb.bad{color:var(--bad)}
-.pairs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0}
-.pairs div{background:var(--teal-soft);border-radius:10px;padding:10px 12px;font-size:18px}
-.end{font-weight:800;text-decoration:underline;text-decoration-thickness:2px}
-.ru{color:var(--muted);font-size:14px}
-@media(max-width:600px){.pics{grid-template-columns:repeat(2,1fr)}.pairs{grid-template-columns:1fr}}
+.aspiel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.hear{cursor:pointer;font:inherit;font-weight:700;background:var(--ink);color:#fff;border:0;border-radius:999px;padding:10px 22px}
+.blobs{display:flex;gap:14px}
+.blobs .blob{cursor:pointer;font-size:20px;padding:16px 26px}
+.blobs .blob:disabled{opacity:.45;cursor:default}
+.asfb{font-size:17px;min-height:1.4em;text-align:center}
+.gbox,.kbox{position:relative;display:flex;flex-wrap:wrap;gap:8px 22px;border:1.5px solid #8b6fb3;border-radius:6px;padding:14px 16px 12px;margin:10px 0;background:#fff;font-size:17px}
+.kbox{border-color:#2aa198;flex-direction:column}
+.gbox.big{flex-direction:column;font-size:22px}
+.gbox u{text-decoration-thickness:3px;font-weight:800}
+.g,.k{position:absolute;top:-11px;right:10px;width:22px;height:22px;border-radius:50%;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;background:#8b6fb3}
+.k{background:#2aa198}
+.tags{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:12px 0}
+.tagcard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.tagcard .mo{display:block;width:70%;height:110px}
+.price{background:var(--accent-soft);color:var(--accent);font-weight:800;border-radius:6px;padding:3px 10px}
+.dialog{background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 16px}
+.dialog p{margin:8px 0}
+.who{display:inline-block;min-width:26px;font-weight:700;color:var(--teal)}
+.who.v{color:var(--accent);min-width:auto;margin-right:4px}
+.slot{display:inline-block;min-width:56px;border-bottom:2px solid var(--muted);text-align:center;font-weight:700}
+.pics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:12px 0}
+.pic{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:6px}
+.pic .mo{display:block;height:100px}
+.pic .answer{width:100%}
+.question .prompt .mo{display:inline-block;width:70px;height:56px;vertical-align:middle;margin-right:8px}
+.pat{font-family:ui-monospace,Menlo,monospace;font-size:17px;letter-spacing:.05em;vertical-align:middle}
+.play{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;font-weight:700;border-radius:12px;padding:12px 22px;font-size:18px}
+@media(max-width:600px){.lexgrid{grid-template-columns:repeat(2,1fr)}.sortlist{grid-template-columns:1fr}.pics{grid-template-columns:repeat(2,1fr)}.tags{grid-template-columns:1fr 1fr 1fr}.tagcard .mo{height:70px}}
+.choice button.blob.der.right{background:var(--der);color:#fff}.choice button.blob.das.right{background:var(--das);color:#fff}.choice button.blob.die.right{background:var(--die);color:#fff}
+.choice button.blob:disabled:not(.right){opacity:.3}
+.sortlist .choice{flex-wrap:nowrap;margin:0}
+@media(max-width:600px){.sortlist .choice button.blob{padding:6px 10px;font-size:14px}.sortlist .mo{width:40px;height:34px}.sw-word{font-size:16px}.sortlist .prompt{gap:6px}}
 
 </style>
 </head>
 <body>
 <header class="top">
-  <h1>Das Bild ist so schön! <small>Anastasia · Deutsch A1 · 14. November · Lektion 4</small></h1>
+  <h1>Das Bild ist so schön! <small>Anastasia · Deutsch A1 · 14. November · Momente A1, Lektion 4</small></h1>
   <nav class="tabs">
     <button class="tab" onclick="go(0)"><span class="n">01</span>Wiederholung</button>
     <button class="tab" onclick="go(1)"><span class="n">02</span>Möbel</button>
-    <button class="tab" onclick="go(2)"><span class="n">03</span>Schön oder hässlich?</button>
-    <button class="tab" onclick="go(3)"><span class="n">04</span>der, das, die</button>
-    <button class="tab" onclick="go(4)"><span class="n">05</span>er, es, sie</button>
-    <button class="tab" onclick="go(5)"><span class="n">06</span>Schnelltest</button>
-    <button class="tab" onclick="go(6)"><span class="n">07</span>Im Möbelgeschäft</button>
+    <button class="tab" onclick="go(2)"><span class="n">03</span>der · das · die</button>
+    <button class="tab" onclick="go(3)"><span class="n">04</span>Schön oder teuer?</button>
+    <button class="tab" onclick="go(4)"><span class="n">05</span>er · es · sie</button>
+    <button class="tab" onclick="go(5)"><span class="n">06</span>Zahlen und Preise</button>
+    <button class="tab" onclick="go(6)"><span class="n">07</span>Meine Traumwohnung</button>
+    <button class="tab" onclick="go(7)"><span class="n">08</span>Im Möbelgeschäft</button>
+    <button class="tab" onclick="go(8)"><span class="n">09</span>Schnelltest</button>
   </nav>
 </header>
 <main>
 
 <section class="slide">
-  <div class="eyebrow">01 · 10 min</div>
+  <div class="eyebrow">01 · 7 min</div>
   <h2>Wiederholung</h2>
   <p class="intro">Вставь слово из банка. <b>Одно слово лишнее.</b> Нажми на слово в банке, чтобы зачеркнуть его.</p>
   <div class="bank"><span>möchte</span><span>bringen</span><span>Wohnung</span><span>Zeit</span><span>Frage</span><span>vor</span><span>nach</span><span>Ofen</span></div>
@@ -141,60 +183,167 @@ button{font:inherit}
 </section>
 
 <section class="slide">
-  <div class="eyebrow">02 · 15 min</div>
+  <div class="eyebrow">02 · 8 min · KB S. 30–31, Bildlexikon</div>
   <h2>Möbel</h2>
-  <p class="intro">Напиши слово <b>с артиклем</b>: der, das или die.</p>
-  <div class="art-legend"><span class="der"><span class="dot der"></span>der</span><span class="das"><span class="dot das"></span>das</span><span class="die"><span class="dot die"></span>die</span></div>
-  <div class="exercise">
-    <div class="pics">
-    <div class="question pic"><img src="img/stuhl.jpg" alt="ein Stuhl" loading="lazy">
+  <p class="intro">Посмотри, послушай и повтори. Цвет показывает артикль: <span class="der"><b>der</b></span> — синий, <span class="das"><b>das</b></span> — зелёный, <span class="die"><b>die</b></span> — розовый. Учим слово сразу с артиклем: не <i>Stuhl</i>, а <span class="der"><b>der</b> Stuhl</span>.</p>
+  <div class="lexgrid"><div class="lex"><span class="mo" data-t="bett" data-s="modern"></span><div class="lw das"><span class="dia das"></span><b>das</b> Bett</div><button type="button" class="say" data-say="das Bett">Anhören</button></div><div class="lex"><span class="mo" data-t="bild" data-s="modern"></span><div class="lw das"><span class="dia das"></span><b>das</b> Bild</div><button type="button" class="say" data-say="das Bild">Anhören</button></div><div class="lex"><span class="mo" data-t="stuhl" data-s="modern"></span><div class="lw der"><span class="dia der"></span><b>der</b> Stuhl</div><button type="button" class="say" data-say="der Stuhl">Anhören</button></div><div class="lex"><span class="mo" data-t="lampe" data-s="modern"></span><div class="lw die"><span class="dia die"></span><b>die</b> Lampe</div><button type="button" class="say" data-say="die Lampe">Anhören</button></div><div class="lex"><span class="mo" data-t="sessel" data-s="modern"></span><div class="lw der"><span class="dia der"></span><b>der</b> Sessel</div><button type="button" class="say" data-say="der Sessel">Anhören</button></div><div class="lex"><span class="mo" data-t="sofa" data-s="modern"></span><div class="lw das"><span class="dia das"></span><b>das</b> Sofa</div><button type="button" class="say" data-say="das Sofa">Anhören</button></div><div class="lex"><span class="mo" data-t="tisch" data-s="modern"></span><div class="lw der"><span class="dia der"></span><b>der</b> Tisch</div><button type="button" class="say" data-say="der Tisch">Anhören</button></div><div class="lex"><span class="mo" data-t="schrank" data-s="modern"></span><div class="lw der"><span class="dia der"></span><b>der</b> Schrank</div><button type="button" class="say" data-say="der Schrank">Anhören</button></div><div class="lex"><span class="mo" data-t="teppich" data-s="modern"></span><div class="lw der"><span class="dia der"></span><b>der</b> Teppich</div><button type="button" class="say" data-say="der Teppich">Anhören</button></div><div class="lex"><span class="mo" data-t="regal" data-s="modern"></span><div class="lw das"><span class="dia das"></span><b>das</b> Regal</div><button type="button" class="say" data-say="das Regal">Anhören</button></div><div class="lex"><span class="mo" data-t="spiegel" data-s="modern"></span><div class="lw der"><span class="dia der"></span><b>der</b> Spiegel</div><button type="button" class="say" data-say="der Spiegel">Anhören</button></div></div>
+  <div class="rule"><b>Schon fertig?</b> Какую мебель ты ещё знаешь? Спроси у преподавателя: <i>Was ist das auf Deutsch?</i></div>
+  <div class="footnav"><button class="prev">← Zurück</button><button class="next">Weiter →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">03 · 10 min · KB S. 30, Ü. 4a–b</div>
+  <h2>der, das oder die?</h2>
+  <div class="gbox"><span class="g">G</span><span class="der">◆ <b>der</b> Stuhl</span><span class="das">◆ <b>das</b> Bett</span><span class="die">◆ <b>die</b> Lampe</span></div>
+  <h3>a · Wohin gehört das Wort?</h3>
+  <p class="intro">Выбери артикль для каждого слова.</p>
+  <div class="sortlist">  <div class="question"><div class="prompt"><span class="num">1</span><span class="mo" data-t="spiegel" data-s="modern"></span><span class="sw-word">Spiegel</span></div><div class="choice" data-k="der" data-why="der Spiegel"><button data-v="der" class="blob der">der</button><button data-v="das" class="blob das">das</button><button data-v="die" class="blob die">die</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">2</span><span class="mo" data-t="bett" data-s="modern"></span><span class="sw-word">Bett</span></div><div class="choice" data-k="das" data-why="das Bett"><button data-v="der" class="blob der">der</button><button data-v="das" class="blob das">das</button><button data-v="die" class="blob die">die</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">3</span><span class="mo" data-t="schrank" data-s="modern"></span><span class="sw-word">Schrank</span></div><div class="choice" data-k="der" data-why="der Schrank"><button data-v="der" class="blob der">der</button><button data-v="das" class="blob das">das</button><button data-v="die" class="blob die">die</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">4</span><span class="mo" data-t="sessel" data-s="modern"></span><span class="sw-word">Sessel</span></div><div class="choice" data-k="der" data-why="der Sessel"><button data-v="der" class="blob der">der</button><button data-v="das" class="blob das">das</button><button data-v="die" class="blob die">die</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">5</span><span class="mo" data-t="tisch" data-s="modern"></span><span class="sw-word">Tisch</span></div><div class="choice" data-k="der" data-why="der Tisch"><button data-v="der" class="blob der">der</button><button data-v="das" class="blob das">das</button><button data-v="die" class="blob die">die</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">6</span><span class="mo" data-t="sofa" data-s="modern"></span><span class="sw-word">Sofa</span></div><div class="choice" data-k="das" data-why="das Sofa"><button data-v="der" class="blob der">der</button><button data-v="das" class="blob das">das</button><button data-v="die" class="blob die">die</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">7</span><span class="mo" data-t="stuhl" data-s="modern"></span><span class="sw-word">Stuhl</span></div><div class="choice" data-k="der" data-why="der Stuhl"><button data-v="der" class="blob der">der</button><button data-v="das" class="blob das">das</button><button data-v="die" class="blob die">die</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">8</span><span class="mo" data-t="lampe" data-s="modern"></span><span class="sw-word">Lampe</span></div><div class="choice" data-k="die" data-why="die Lampe"><button data-v="der" class="blob der">der</button><button data-v="das" class="blob das">das</button><button data-v="die" class="blob die">die</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">9</span><span class="mo" data-t="teppich" data-s="modern"></span><span class="sw-word">Teppich</span></div><div class="choice" data-k="der" data-why="der Teppich"><button data-v="der" class="blob der">der</button><button data-v="das" class="blob das">das</button><button data-v="die" class="blob die">die</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">10</span><span class="mo" data-t="regal" data-s="modern"></span><span class="sw-word">Regal</span></div><div class="choice" data-k="das" data-why="das Regal"><button data-v="der" class="blob der">der</button><button data-v="das" class="blob das">das</button><button data-v="die" class="blob die">die</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">11</span><span class="mo" data-t="bild" data-s="modern"></span><span class="sw-word">Bild</span></div><div class="choice" data-k="das" data-why="das Bild"><button data-v="der" class="blob der">der</button><button data-v="das" class="blob das">das</button><button data-v="die" class="blob die">die</button></div></div>
+</div>
+  <h3>b · Das Artikel-Spiel</h3>
+  <p class="intro">Нажми «Hören», послушай слово и выбери артикль. 8 слов подряд.</p>
+  <div class="aspiel" data-words='[["das", "Bett"], ["das", "Bild"], ["der", "Stuhl"], ["die", "Lampe"], ["der", "Sessel"], ["das", "Sofa"], ["der", "Tisch"], ["der", "Schrank"], ["der", "Teppich"], ["das", "Regal"], ["der", "Spiegel"]]'>
+    <button type="button" class="hear">▶ Hören</button>
+    <div class="blobs"><button type="button" class="blob der" data-v="der">der</button><button type="button" class="blob das" data-v="das">das</button><button type="button" class="blob die" data-v="die">die</button></div>
+    <div class="asfb"></div>
+  </div>
+  <h3>c · Schreib das Wort mit Artikel</h3>
+  <p class="intro">Теперь без подсказок: напиши артикль и слово.</p>
+  <div class="exercise"><div class="pics">
+    <div class="question pic"><span class="mo" data-t="stuhl" data-s="modern"></span>
       <input class="answer" data-answers='["der Stuhl"]' placeholder="der / das / die + Wort"><button class="hint">Hinweis</button><div class="hidden helper">Начинается на St…</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">der Stuhl</div></div>
-    <div class="question pic"><img src="img/tisch.jpg" alt="ein Tisch" loading="lazy">
-      <input class="answer" data-answers='["der Tisch"]' placeholder="der / das / die + Wort"><button class="hint">Hinweis</button><div class="hidden helper">Начинается на T…</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">der Tisch</div></div>
-    <div class="question pic"><img src="img/lampe.jpg" alt="eine Lampe" loading="lazy">
-      <input class="answer" data-answers='["die Lampe"]' placeholder="der / das / die + Wort"><button class="hint">Hinweis</button><div class="hidden helper">Почти как по-русски.</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">die Lampe</div></div>
-    <div class="question pic"><img src="img/sofa.jpg" alt="ein Sofa" loading="lazy">
-      <input class="answer" data-answers='["das Sofa"]' placeholder="der / das / die + Wort"><button class="hint">Hinweis</button><div class="hidden helper">Почти как по-русски.</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">das Sofa</div></div>
-    <div class="question pic"><img src="img/bett.jpg" alt="ein Bett" loading="lazy">
-      <input class="answer" data-answers='["das Bett"]' placeholder="der / das / die + Wort"><button class="hint">Hinweis</button><div class="hidden helper">Начинается на B…</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">das Bett</div></div>
-    <div class="question pic"><img src="img/schrank.jpg" alt="ein Schrank" loading="lazy">
-      <input class="answer" data-answers='["der Schrank"]' placeholder="der / das / die + Wort"><button class="hint">Hinweis</button><div class="hidden helper">Начинается на Sch…</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">der Schrank</div></div>
-    </div>
+    <div class="question pic"><span class="mo" data-t="sofa" data-s="modern"></span>
+      <input class="answer" data-answers='["das Sofa"]' placeholder="der / das / die + Wort"><button class="hint">Hinweis</button><div class="hidden helper">Начинается на So…</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">das Sofa</div></div>
+    <div class="question pic"><span class="mo" data-t="lampe" data-s="modern"></span>
+      <input class="answer" data-answers='["die Lampe"]' placeholder="der / das / die + Wort"><button class="hint">Hinweis</button><div class="hidden helper">Начинается на La…</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">die Lampe</div></div>
+    <div class="question pic"><span class="mo" data-t="schrank" data-s="modern"></span>
+      <input class="answer" data-answers='["der Schrank"]' placeholder="der / das / die + Wort"><button class="hint">Hinweis</button><div class="hidden helper">Начинается на Sc…</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">der Schrank</div></div>
+    <div class="question pic"><span class="mo" data-t="regal" data-s="modern"></span>
+      <input class="answer" data-answers='["das Regal"]' placeholder="der / das / die + Wort"><button class="hint">Hinweis</button><div class="hidden helper">Начинается на Re…</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">das Regal</div></div>
+    <div class="question pic"><span class="mo" data-t="teppich" data-s="modern"></span>
+      <input class="answer" data-answers='["der Teppich"]' placeholder="der / das / die + Wort"><button class="hint">Hinweis</button><div class="hidden helper">Начинается на Te…</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">der Teppich</div></div>
+  </div>
     <button class="check">Prüfen</button>
   </div>
   <div class="footnav"><button class="prev">← Zurück</button><button class="next">Weiter →</button></div>
 </section>
 
 <section class="slide">
-  <div class="eyebrow">03</div>
-  <h2>Schön oder hässlich?</h2>
-  <p class="muted">wird vorbereitet</p>
+  <div class="eyebrow">04 · 8 min · KB S. 29–30, Ü. 2–3</div>
+  <h2>Schön oder hässlich? Teuer oder günstig?</h2>
+  <div class="kbox"><span class="k">K</span>
+    <div><b>Das Bild ist</b> schön. · nicht so schön. · hässlich.</div>
+    <div><b>Das Bild ist</b> teuer. · günstig.</div>
+  </div>
+  <div class="tags">
+    <div class="tagcard"><span class="mo" data-t="bild" data-s="modern" data-c="#2f2f2f"></span><span class="price">45 €</span></div>
+    <div class="tagcard"><span class="mo" data-t="bild" data-s="klassisch" data-c="#c9a24a"></span><span class="price">1200 €</span></div>
+    <div class="tagcard"><span class="mo" data-t="spiegel" data-s="klassisch" data-c="#c9a24a"></span><span class="price">890 €</span></div>
+  </div>
+  <div class="speaking">
+    <p><b>Wie findest du das Bild? Und den Spiegel?</b></p>
+    <p class="muted">Скажи про каждую вещь: красивая или нет, дорогая или дешёвая.</p>
+    <div class="levels" data-one="schön · nicht so schön · hässlich · teuer · günstig · aber" data-two="Ich finde, das Bild ist … / Es ist schön, aber … / Der Spiegel ist …" data-three="Ich finde, das Bild links ist schön und günstig. Das Bild in der Mitte ist schön, aber es ist teuer. Der Spiegel ist nicht so schön, und er ist teuer."></div>
+  </div>
+
+  <h3>Der Stuhl kostet nur 59 Euro <span class="muted">· Ü. 3a</span></h3>
+  <p class="intro">Выбери фразу для каждого пропуска. Одна фраза лишняя.</p>
+  <div class="dialog">
+    <p><span class="who">A:</span> Schau doch mal, da! Der Stuhl ist so schön.</p>
+  <div class="question"><div class="prompt"><span class="num">1</span><span class="who">B:</span> ___ .</div><div class="choice" data-k="Oh ja! Das finde ich auch" data-why=""><button data-v="Wie viel kostet das Sofa?">Wie viel kostet das Sofa?</button><button data-v="Oh ja! Das finde ich auch">Oh ja! Das finde ich auch</button><button data-v="Der Stuhl ist so schön">Der Stuhl ist so schön</button><button data-v="Oh, das ist aber günstig">Oh, das ist aber günstig</button></div></div>
+    <p><span class="who">A:</span> Hmm? Wie viel kostet er denn?</p>
+    <p><span class="who v">Verkäufer:</span> Sie haben Glück! Der Stuhl kostet nur 59 Euro.</p>
+  <div class="question"><div class="prompt"><span class="num">2</span><span class="who">A:</span> ___ !</div><div class="choice" data-k="Oh, das ist aber günstig" data-why=""><button data-v="Oh, das ist aber günstig">Oh, das ist aber günstig</button><button data-v="Der Stuhl ist so schön">Der Stuhl ist so schön</button><button data-v="Wie viel kostet das Sofa?">Wie viel kostet das Sofa?</button><button data-v="Oh ja! Das finde ich auch">Oh ja! Das finde ich auch</button></div></div>
+    <p><span class="who v">Verkäufer:</span> Das ist ein Sonderangebot.</p>
+  <div class="question"><div class="prompt"><span class="num">3</span><span class="who">A:</span> ___ !</div><div class="choice" data-k="Der Stuhl ist so schön" data-why="Ответ: «Ja, er ist wirklich sehr schön»."><button data-v="Oh ja! Das finde ich auch">Oh ja! Das finde ich auch</button><button data-v="Wie viel kostet das Sofa?">Wie viel kostet das Sofa?</button><button data-v="Oh, das ist aber günstig">Oh, das ist aber günstig</button><button data-v="Der Stuhl ist so schön">Der Stuhl ist so schön</button></div></div>
+    <p><span class="who">B:</span> Ja, er ist wirklich sehr schön.</p>
+  </div>
   <div class="footnav"><button class="prev">← Zurück</button><button class="next">Weiter →</button></div>
 </section>
 
 <section class="slide">
-  <div class="eyebrow">04</div>
-  <h2>der, das, die</h2>
-  <p class="muted">wird vorbereitet</p>
-  <div class="footnav"><button class="prev">← Zurück</button><button class="next">Weiter →</button></div>
-</section>
-
-<section class="slide">
-  <div class="eyebrow">05</div>
+  <div class="eyebrow">05 · 8 min · KB S. 31, Ü. 5</div>
   <h2>er, es, sie</h2>
-  <p class="muted">wird vorbereitet</p>
+  <p class="intro">Вместо слова можно сказать <b>er, es, sie</b>. Посмотри на последнюю букву артикля: она подсказывает местоимение.</p>
+  <div class="gbox big"><span class="g">G</span>
+    <div class="der">de<u>r</u> Stuhl → e<u>r</u></div>
+    <div class="das">da<u>s</u> Bett → e<u>s</u></div>
+    <div class="die">di<u>e</u> Lampe → si<u>e</u></div>
+  </div>
+  <p class="intro">Выбери er, es или sie.</p>
+  <div class="question"><div class="prompt"><span class="num">1</span>Schau mal, die Lampe! <span class="slot">___</span> ist so schön!</div><div class="choice" data-k="sie" data-why="die Lampe → sie"><button data-v="er">er</button><button data-v="es">es</button><button data-v="sie">sie</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">2</span>Schau mal, der Stuhl! <span class="slot">___</span> ist so schön!</div><div class="choice" data-k="er" data-why="der Stuhl → er"><button data-v="er">er</button><button data-v="es">es</button><button data-v="sie">sie</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">3</span>Schau mal, das Bett! <span class="slot">___</span> ist so schön!</div><div class="choice" data-k="es" data-why="das Bett → es"><button data-v="er">er</button><button data-v="es">es</button><button data-v="sie">sie</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">4</span>Wie viel kostet der Teppich? — <span class="slot">___</span> kostet 99 Euro.</div><div class="choice" data-k="er" data-why="der Teppich → er"><button data-v="er">er</button><button data-v="es">es</button><button data-v="sie">sie</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">5</span>Wie findest du das Regal? — <span class="slot">___</span> ist sehr praktisch.</div><div class="choice" data-k="es" data-why="das Regal → es"><button data-v="er">er</button><button data-v="es">es</button><button data-v="sie">sie</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">6</span>Die Lampe ist schön, aber <span class="slot">___</span> ist zu teuer.</div><div class="choice" data-k="sie" data-why="die Lampe → sie"><button data-v="er">er</button><button data-v="es">es</button><button data-v="sie">sie</button></div></div>
+
+  <div class="speaking">
+    <p><b>Schau mal! Zeig auf ein Möbelstück im Bildlexikon und sag deine Meinung. Der Partner antwortet.</b></p>
+    <p class="muted">Ü. 5b: говорим по очереди с преподавателем.</p>
+    <div class="levels" data-one="schön · hässlich · modern · praktisch · teuer · günstig" data-two="Schau mal, das Regal. Es ist … / Das finde ich auch. / Das finde ich nicht." data-three="Schau mal, das Regal. Es ist sehr schön. — Das finde ich nicht. Es ist zu groß. — Und der Sessel? Er ist modern. — Ja, das finde ich auch."></div>
+  </div>
+
   <div class="footnav"><button class="prev">← Zurück</button><button class="next">Weiter →</button></div>
 </section>
 
 <section class="slide">
-  <div class="eyebrow">06</div>
-  <h2>Schnelltest</h2>
-  <p class="muted">wird vorbereitet</p>
+  <div class="eyebrow">06 · 7 min · KB S. 31, Ü. 6–7</div>
+  <h2>Zahlen von 100 bis 1 000 000</h2>
+  <p class="intro"><b>Rätsel:</b> какое число пропущено? Напиши его словом.</p>
+  <div class="exercise">
+    <div class="question"><div class="prompt"><span class="num">1</span>100 hundert · 200 zweihundert · ___</div>
+      <input class="answer" data-answers='["dreihundert", "300"]' placeholder="Zahl in Worten"><button class="hint">Hinweis</button><div class="hidden helper">Каждый раз +100.</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">dreihundert (300)</div></div>
+    <div class="question"><div class="prompt"><span class="num">2</span>450 vierhundertfünfzig · ___ · 452 vierhundertzweiundfünfzig</div>
+      <input class="answer" data-answers='["vierhunderteinundfünfzig", "vierhunderteinundfuenfzig"]' placeholder="Zahl in Worten"><button class="hint">Hinweis</button><div class="hidden helper">Сначала единицы, потом десятки: …ein-und-fünfzig.</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">vierhunderteinundfünfzig (451)</div></div>
+    <div class="question"><div class="prompt"><span class="num">3</span>1000 tausend · 10 000 zehntausend · ___</div>
+      <input class="answer" data-answers='["hunderttausend", "einhunderttausend"]' placeholder="Zahl in Worten"><button class="hint">Hinweis</button><div class="hidden helper">Каждый раз ×10.</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">hunderttausend (100 000)</div></div>
+    <div class="question"><div class="prompt"><span class="num">4</span>210 000 zweihundertzehntausend · ___ · 430 000 vierhundertdreißigtausend</div>
+      <input class="answer" data-answers='["dreihundertzwanzigtausend", "dreihundertzwanzigtausend"]' placeholder="Zahl in Worten"><button class="hint">Hinweis</button><div class="hidden helper">Каждый раз +110 000.</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">dreihundertzwanzigtausend (320 000)</div></div>
+    <button class="check">Prüfen</button>
+  </div>
+  <div class="kbox"><span class="k">K</span><div>1 000 000 = <b>eine Million</b></div><div><b>Wie viel</b> kostet …? · <b>Was</b> kostet …?</div><div>9,99 € = „9 Euro 99“ · 0,50 € = „50 Cent“</div></div>
+  <h3>Wie viel kostet das? <span class="muted">· Hör zu und schreib den Preis</span></h3>
+  <p class="intro">Нажми ▶, послушай и напиши цену цифрами.</p>
+  <div class="exercise">
+    <div class="question"><div class="prompt"><span class="num">1</span><span class="mo" data-t="schrank" data-s="modern" data-c="#9aa1a6"></span> <button type="button" class="say" data-say="Der Schrank kostet 399 Euro.">▶</button></div>
+      <input class="answer" data-answers='["399", "399 €", "399 euro", "399€"]' placeholder="… €"><button class="hint">Hinweis</button><div class="hidden helper">Слушай число после «kostet». Euro … Cent → пиши через запятую.</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">399</div></div>
+    <div class="question"><div class="prompt"><span class="num">2</span><span class="mo" data-t="lampe" data-s="klassisch" data-c="#c2453a"></span> <button type="button" class="say" data-say="Die Lampe kostet 49 Euro 90.">▶</button></div>
+      <input class="answer" data-answers='["49,90", "49,90 €", "49.90", "49,90€", "49 euro 90"]' placeholder="… €"><button class="hint">Hinweis</button><div class="hidden helper">Слушай число после «kostet». Euro … Cent → пиши через запятую.</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">49,90</div></div>
+    <div class="question"><div class="prompt"><span class="num">3</span><span class="mo" data-t="sofa" data-s="modern" data-c="#c2453a"></span> <button type="button" class="say" data-say="Das Sofa kostet 1250 Euro.">▶</button></div>
+      <input class="answer" data-answers='["1250", "1250 €", "1.250", "1 250", "1250€", "1.250 €"]' placeholder="… €"><button class="hint">Hinweis</button><div class="hidden helper">Слушай число после «kostet». Euro … Cent → пиши через запятую.</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">1250</div></div>
+    <div class="question"><div class="prompt"><span class="num">4</span><span class="mo" data-t="stuhl" data-s="modern" data-c="#8a5a36"></span> <button type="button" class="say" data-say="Der Stuhl kostet 59 Euro.">▶</button></div>
+      <input class="answer" data-answers='["59", "59 €", "59€", "59 euro"]' placeholder="… €"><button class="hint">Hinweis</button><div class="hidden helper">Слушай число после «kostet». Euro … Cent → пиши через запятую.</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">59</div></div>
+    <button class="check">Prüfen</button>
+  </div>
   <div class="footnav"><button class="prev">← Zurück</button><button class="next">Weiter →</button></div>
 </section>
 
 <section class="slide">
-  <div class="eyebrow">07 · 10 min</div>
+  <div class="eyebrow">07 · 12 min · Spiel</div>
+  <h2>Meine Traumwohnung in Berlin</h2>
+  <p class="intro">Ты — дизайнер интерьеров. Обставь квартиру мечты в Берлине: выбери мебель, цвет, стиль и размер. Бюджет — 5000 €.</p>
+  <p><a class="play" href="wohnung/" target="_blank" rel="noopener">Spiel öffnen →</a></p>
+  <div class="speaking">
+    <p><b>Zeig deine Wohnung und erzähl: 4–5 Sätze.</b></p>
+    <p class="muted">Преподаватель слушает и говорит своё мнение: Das finde ich auch / nicht.</p>
+    <div class="levels" data-one="das Wohnzimmer · das Schlafzimmer · groß · klein · modern · praktisch · zu teuer" data-two="Das ist mein Wohnzimmer. / Das Sofa ist … Es ist … / Es kostet … Euro. / Ich finde, das Zimmer ist …" data-three="Das ist mein Wohnzimmer. Das Sofa ist blau. Es ist groß und modern. Es kostet 899 Euro. Der Teppich ist rot, er ist günstig. Ich finde, das Zimmer ist schön und praktisch."></div>
+  </div>
+
+  <div class="footnav"><button class="prev">← Zurück</button><button class="next">Weiter →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">08 · Reserve · 10 min</div>
   <h2>Im Möbelgeschäft</h2>
   <p class="intro">Ты в магазине мебели. Спроси цену, скажи своё мнение и реши, покупаешь или нет. Преподаватель — продавец.</p>
   <div class="speaking">
@@ -212,7 +361,57 @@ button{font:inherit}
   <div class="footnav"><button class="prev">← Zurück</button><button class="next">Weiter →</button></div>
 </section>
 
+<section class="slide">
+  <div class="eyebrow">09 · Schnelltest · KB S. 32</div>
+  <h2>Schnelltest</h2>
+  <p class="intro">Проверь себя. Можно сделать в конце урока или дома.</p>
+  <h3>W1 · Ergänzen Sie.</h3>
+  <div class="exercise">
+    <div class="question"><div class="prompt"><span class="num">1</span><span class="mo" data-t="schrank" data-s="modern"></span> <span class="pat">d e r &nbsp; S _ h _ _ _ _</span></div>
+      <input class="answer" data-answers='["der Schrank"]' placeholder="Artikel + Wort"><button class="hint">Hinweis</button><div class="hidden helper">Большой, для одежды.</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">der Schrank</div></div>
+    <div class="question"><div class="prompt"><span class="num">2</span><span class="mo" data-t="sessel" data-s="modern"></span> <span class="pat">_ _ _ &nbsp; _ e _ _ e l</span></div>
+      <input class="answer" data-answers='["der Sessel"]' placeholder="Artikel + Wort"><button class="hint">Hinweis</button><div class="hidden helper">Мягкое кресло.</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">der Sessel</div></div>
+    <div class="question"><div class="prompt"><span class="num">3</span><span class="mo" data-t="teppich" data-s="modern" data-c="#3f6fa8"></span> <span class="pat">_ _ _ &nbsp; _ e p p _ c h</span></div>
+      <input class="answer" data-answers='["der Teppich"]' placeholder="Artikel + Wort"><button class="hint">Hinweis</button><div class="hidden helper">Лежит на полу.</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">der Teppich</div></div>
+    <div class="question"><div class="prompt"><span class="num">4</span><span class="mo" data-t="bett" data-s="modern" data-c="#f2efe9"></span> <span class="pat">_ _ _ &nbsp; _ _ t t</span></div>
+      <input class="answer" data-answers='["das Bett"]' placeholder="Artikel + Wort"><button class="hint">Hinweis</button><div class="hidden helper">Здесь спят.</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">das Bett</div></div>
+    <button class="check">Prüfen</button>
+  </div>
+  <h3>W2 · Was passt nicht?</h3>
+  <div class="question"><div class="prompt"><span class="num">1</span></div><div class="choice" data-k="praktisch" data-why="groß и klein — это размер."><button data-v="groß">groß</button><button data-v="praktisch">praktisch</button><button data-v="klein">klein</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">2</span></div><div class="choice" data-k="teuer" data-why="schön и hässlich — как выглядит."><button data-v="schön">schön</button><button data-v="teuer">teuer</button><button data-v="hässlich">hässlich</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">3</span></div><div class="choice" data-k="modern" data-why="teuer и günstig — это цена."><button data-v="modern">modern</button><button data-v="teuer">teuer</button><button data-v="günstig">günstig</button></div></div>
+
+  <h3>G · Ergänzen Sie.</h3>
+  <div class="exercise">
+    <div class="question"><div class="prompt"><span class="num">1</span>Der Tisch ist praktisch. Was kostet ___ denn?</div>
+      <input class="answer" data-answers='["er"]' placeholder="..."><button class="hint">Hinweis</button><div class="hidden helper">der Tisch → …</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">er</div></div>
+    <div class="question"><div class="prompt"><span class="num">2</span>— ___ kostet 100 Euro.</div>
+      <input class="answer" data-answers='["Er"]' placeholder="..."><button class="hint">Hinweis</button><div class="hidden helper">Начало предложения: с большой буквы.</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">Er</div></div>
+    <div class="question"><div class="prompt"><span class="num">3</span>Ich finde, ___ Bild ist sehr schön.</div>
+      <input class="answer" data-answers='["das"]' placeholder="..."><button class="hint">Hinweis</button><div class="hidden helper">Артикль: … Bild.</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">das</div></div>
+    <div class="question"><div class="prompt"><span class="num">4</span>— Ja. ___ ist auch sehr günstig.</div>
+      <input class="answer" data-answers='["Es"]' placeholder="..."><button class="hint">Hinweis</button><div class="hidden helper">das Bild → …</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">Es</div></div>
+    <div class="question"><div class="prompt"><span class="num">5</span>___ Lampe ist sehr modern.</div>
+      <input class="answer" data-answers='["Die"]' placeholder="..."><button class="hint">Hinweis</button><div class="hidden helper">Артикль: … Lampe.</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">Die</div></div>
+    <div class="question"><div class="prompt"><span class="num">6</span>— Findest du? Ich finde, ___ ist zu groß.</div>
+      <input class="answer" data-answers='["sie"]' placeholder="..."><button class="hint">Hinweis</button><div class="hidden helper">die Lampe → …</div><div class="feedback"></div><button class="reveal hidden">Antwort zeigen</button><div class="hidden correct">sie</div></div>
+    <button class="check">Prüfen</button>
+  </div>
+  <h3>K · Ordnen Sie zu.</h3>
+  <div class="dialog">
+    <p><span class="who">B:</span> Schau doch mal. Der Sessel ist so schön.</p>
+  <div class="question"><div class="prompt"><span class="num">1</span><span class="who">A:</span> Oh ja! Das <span class="slot">___</span> auch!</div><div class="choice" data-k="finde ich" data-why=""><button data-v="ein Sonderangebot">ein Sonderangebot</button><button data-v="Wie viel kostet">Wie viel kostet</button><button data-v="Er kostet">Er kostet</button><button data-v="aber günstig">aber günstig</button><button data-v="finde ich">finde ich</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">2</span><span class="who">B:</span> Entschuldigung? <span class="slot">___</span> der Sessel?</div><div class="choice" data-k="Wie viel kostet" data-why=""><button data-v="ein Sonderangebot">ein Sonderangebot</button><button data-v="Wie viel kostet">Wie viel kostet</button><button data-v="Er kostet">Er kostet</button><button data-v="aber günstig">aber günstig</button><button data-v="finde ich">finde ich</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">3</span><span class="who v">Verkäufer:</span> <span class="slot">___</span> nur 38 Euro.</div><div class="choice" data-k="Er kostet" data-why=""><button data-v="ein Sonderangebot">ein Sonderangebot</button><button data-v="Wie viel kostet">Wie viel kostet</button><button data-v="Er kostet">Er kostet</button><button data-v="aber günstig">aber günstig</button><button data-v="finde ich">finde ich</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">4</span><span class="who v">Verkäufer:</span> Das ist <span class="slot">___</span> .</div><div class="choice" data-k="ein Sonderangebot" data-why=""><button data-v="ein Sonderangebot">ein Sonderangebot</button><button data-v="Wie viel kostet">Wie viel kostet</button><button data-v="Er kostet">Er kostet</button><button data-v="aber günstig">aber günstig</button><button data-v="finde ich">finde ich</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">5</span><span class="who">B:</span> Oh! Das ist <span class="slot">___</span> !</div><div class="choice" data-k="aber günstig" data-why=""><button data-v="ein Sonderangebot">ein Sonderangebot</button><button data-v="Wie viel kostet">Wie viel kostet</button><button data-v="Er kostet">Er kostet</button><button data-v="aber günstig">aber günstig</button><button data-v="finde ich">finde ich</button></div></div>
+  </div>
+  <div class="footnav"><button class="prev">← Zurück</button><button class="next">Weiter →</button></div>
+</section>
+
 </main>
+<script src="moebel.js"></script>
 <script>
 (function(){
   var slides=[].slice.call(document.querySelectorAll('.slide')), tabs=[].slice.call(document.querySelectorAll('.tab')), cur=0;
@@ -281,16 +480,43 @@ button{font:inherit}
     b3.onclick=function(){show('Beispiel',mark(box.dataset.three));show('Jetzt du','Скажи свой вариант ещё раз — измени хотя бы две вещи (предмет, цену, мнение).','own');b3.disabled=true};
   });
 
-  // one-click choice items (der/das/die, er/es/sie, schön/hässlich): right answer in data-k
+  // furniture pictures
+  document.querySelectorAll('.mo').forEach(function(m){
+    var t=m.dataset.t, it=window.MOEBEL.items[t];
+    var def={sofa:'#3f6fa8',sessel:'#e2b43c',stuhl:'#8a5a36',tisch:'#8a5a36',bett:'#8a5a36',schrank:'#9aa1a6',regal:'#8a5a36',lampe:'#e2b43c',teppich:'#c2453a',bild:'#2f2f2f',spiegel:'#e2b43c'};
+    m.innerHTML=window.MOEBEL.card(t, m.dataset.s||'modern', m.dataset.c||def[t]);
+  });
+  // speech (German voice of the browser)
+  function sayDe(text){ try{ speechSynthesis.cancel(); var u=new SpeechSynthesisUtterance(text); u.lang='de-DE'; u.rate=0.85; var v=speechSynthesis.getVoices().filter(function(v){return /^de/i.test(v.lang)})[0]; if(v) u.voice=v; speechSynthesis.speak(u); return true; }catch(e){ return false; } }
+  var canSay='speechSynthesis' in window;
+  document.querySelectorAll('.say').forEach(function(b){ if(!canSay){ b.style.display='none'; return; } b.onclick=function(){ sayDe(b.dataset.say); }; });
+  // one-click choice items: right answer in data-k
   document.querySelectorAll('.choice').forEach(function(c){
     var fb=document.createElement('div');fb.className='cfb';c.after(fb);
+    var slot=c.closest('.question') && c.closest('.question').querySelector('.slot');
     c.querySelectorAll('button').forEach(function(b){b.type='button';b.onclick=function(){
       var ok=b.dataset.v===c.dataset.k;
       c.querySelectorAll('button').forEach(function(x){x.classList.remove('wrong')});
-      if(ok){b.classList.add('right');c.querySelectorAll('button').forEach(function(x){x.disabled=true});fb.className='cfb good';fb.textContent='Richtig! '+(c.dataset.why||'')}
+      if(ok){b.classList.add('right');c.querySelectorAll('button').forEach(function(x){x.disabled=true});fb.className='cfb good';fb.textContent='Richtig! '+(c.dataset.why||'');if(slot)slot.textContent=b.dataset.v}
       else{b.classList.add('wrong');fb.className='cfb bad';fb.textContent='Noch nicht. Посмотри ещё раз.'}
     }});
   });
+  // Artikel-Spiel: hear a noun, choose der/das/die
+  document.querySelectorAll('.aspiel').forEach(function(g){
+    var words=JSON.parse(g.dataset.words), fb=g.querySelector('.asfb'), hear=g.querySelector('.hear'), blobs=[].slice.call(g.querySelectorAll('.blob'));
+    var deck=[], cur=null, round=0, score=0, N=8;
+    function shuffle(a){for(var i=a.length-1;i>0;i--){var k=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[k];a[k]=t}return a}
+    function next(){ if(!deck.length) deck=shuffle(words.slice()); cur=deck.pop(); round++; blobs.forEach(function(b){b.disabled=false}); fb.textContent='Wort '+round+' / '+N+(canSay?'':': '+cur[1]); if(canSay) sayDe(cur[1]); hear.textContent='▶ Noch einmal'; }
+    blobs.forEach(function(b){ b.disabled=true; b.onclick=function(){
+      blobs.forEach(function(x){x.disabled=true});
+      var ok=b.dataset.v===cur[0]; if(ok) score++;
+      fb.innerHTML=(ok?'Richtig! ':'Nein: ')+'<b class="'+cur[0]+'">'+cur[0]+'</b> '+cur[1];
+      if(round>=N){ fb.innerHTML+='<br><b>'+score+' / '+N+'</b> — '+(score>=6?'super!':'noch einmal?'); hear.textContent='▶ Neues Spiel'; round=0; score=0; cur=null; }
+      else { hear.textContent='▶ Nächstes Wort'; cur.done=true; }
+    }; });
+    hear.onclick=function(){ if(cur && !cur.done && round>0){ if(canSay) sayDe(cur[1]); return; } if(cur) cur.done=false; next(); };
+  });
+
   go(0);
 })();
 </script>
