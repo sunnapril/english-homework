@@ -11,7 +11,8 @@
 const src = document.getElementById('deck');
 if (!src) return;
 const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-const norm = s => String(s || '').toLowerCase().replace(/[’‘`´]/g, "'").replace(/[.!?,]+$/, '').replace(/\s+/g, ' ').trim();
+// ä/ö/ü/ß may be typed as ae/oe/ue/ss (comparison only; the word is shown with umlauts)
+const norm = s => String(s || '').toLowerCase().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss').replace(/[’‘`´]/g, "'").replace(/[.!?,]+$/, '').replace(/\s+/g, ' ').trim();
 const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 
 // ---------- new words from a Google Sheet (optional) ----------
