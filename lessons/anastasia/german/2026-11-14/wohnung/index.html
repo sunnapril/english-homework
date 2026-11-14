@@ -69,7 +69,7 @@ details.say summary{cursor:pointer;font-weight:650;color:var(--teal)}
     <div class="stage" id="stage"></div>
     <div class="bar">
       <div class="budget" id="budget"></div>
-      <div class="row"><b>Wand</b><span id="walls" class="row"></span></div>
+      <div class="row"><b>Wand</b><span id="walls" class="row"></span><span id="wallname"></span></div>
     </div>
     <div class="panel tools" id="tools"></div>
     <div class="task">
@@ -91,11 +91,11 @@ details.say summary{cursor:pointer;font-weight:650;color:var(--teal)}
 (function(){
   var M = window.MOEBEL, KEY = 'traumwohnung-anastasia-v1', BUDGET = 5000;
   var COLORS = [['weiß','#f2efe9'],['grau','#9aa1a6'],['schwarz','#2f2f2f'],['blau','#3f6fa8'],['grün','#4f8a5b'],['rot','#c2453a'],['gelb','#e2b43c'],['braun','#8a5a36'],['rosa','#e4a1a8']];
-  var WALLS = ['#f4efe6','#e3ece9','#e6e9f2','#f3e3dc','#ece6d8'];
+  var WALLS = [['weiß','#f6f3ec'],['hellgrau','#e3e5e6'],['hellblau','#dde8f2'],['hellgrün','#e0ece2'],['hellgelb','#f5edd2'],['rosa','#f4e1df'],['dunkelgrün','#5b7564'],['dunkelblau','#4b5d78']];
   var DEF = {sofa:'#3f6fa8',sessel:'#e2b43c',stuhl:'#8a5a36',tisch:'#8a5a36',bett:'#8a5a36',schrank:'#9aa1a6',regal:'#8a5a36',lampe:'#e2b43c',teppich:'#c2453a',bild:'#2f2f2f',spiegel:'#e2b43c'};
   var SIZES = [['klein',0.8],['normal',1],['groß',1.25]];
   var ROOMS = [['wohn','das Wohnzimmer','гостиная'],['schlaf','das Schlafzimmer','спальня'],['arbeit','das Arbeitszimmer','кабинет']];
-  var state = load() || {room:'wohn', rooms:{wohn:{wall:WALLS[0],items:[]},schlaf:{wall:WALLS[1],items:[]},arbeit:{wall:WALLS[2],items:[]}}, sel:null, n:0};
+  var state = load() || {room:'wohn', rooms:{wohn:{wall:WALLS[0][1],items:[]},schlaf:{wall:WALLS[2][1],items:[]},arbeit:{wall:WALLS[3][1],items:[]}}, sel:null, n:0};
   function load(){ try { var s = JSON.parse(localStorage.getItem(KEY)); return s && s.rooms ? s : null; } catch(e){ return null; } }
   function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){} }
   function room(){ return state.rooms[state.room]; }
@@ -123,7 +123,8 @@ details.say summary{cursor:pointer;font-weight:650;color:var(--teal)}
   var rt = document.getElementById('rooms');
   function tabs(){ rt.innerHTML = ''; ROOMS.forEach(function(r){ var b = document.createElement('button'); b.type='button'; b.className = state.room===r[0]?'on':''; b.title = r[2]; b.textContent = r[1]; b.onclick=function(){ state.room=r[0]; state.sel=null; save(); render(); }; rt.appendChild(b); }); }
   var walls = document.getElementById('walls');
-  WALLS.forEach(function(w){ var b=document.createElement('button'); b.type='button'; b.className='sw'; b.style.background=w; b.onclick=function(){ room().wall=w; save(); render(); }; walls.appendChild(b); });
+  WALLS.forEach(function(w){ var b=document.createElement('button'); b.type='button'; b.className='sw'; b.title=w[0]; b.setAttribute('aria-label',w[0]); b.style.background=w[1]; b.onclick=function(){ room().wall=w[1]; save(); render(); }; walls.appendChild(b); });
+  function wallName(){ var w = WALLS.filter(function(w){return w[1]===room().wall})[0]; return w ? w[0] : ''; }
 
   // stage
   var stage = document.getElementById('stage'), svg;
@@ -184,21 +185,19 @@ details.say summary{cursor:pointer;font-weight:650;color:var(--teal)}
     h += '<div class="row"><b>Farbe</b>' + COLORS.map(function(c){ return '<button type="button" class="sw' + (c[1]===o.color?' on':'') + '" data-c="' + c[1] + '" title="' + c[0] + '" aria-label="' + c[0] + '" style="background:' + c[1] + '"></button>'; }).join('') + '</div>';
     h += '<div class="row"><b>Stil</b><span class="seg">' + ['modern','klassisch'].map(function(s){ return '<button type="button" data-s="' + s + '" class="' + (o.style===s?'on':'') + '">' + s + '</button>'; }).join('') + '</span></div>';
     h += '<div class="row"><b>Größe</b><span class="seg">' + SIZES.map(function(s){ return '<button type="button" data-z="' + s[0] + '" class="' + (o.size===s[0]?'on':'') + '">' + s[0] + '</button>'; }).join('') + '</span></div>';
-    h += '<div class="row">' + ('speechSynthesis' in window ? '<button type="button" class="btn main" id="say">▶ Anhören</button>' : '') + '<button type="button" class="btn warn" id="del">Entfernen</button></div>';
+    h += '<div class="row">' + '' + '<button type="button" class="btn warn" id="del">Entfernen</button></div>';
     tools.innerHTML = h;
     tools.querySelectorAll('[data-c]').forEach(function(b){ b.onclick=function(){ o.color=b.dataset.c; save(); render(); }; });
     tools.querySelectorAll('[data-s]').forEach(function(b){ b.onclick=function(){ o.style=b.dataset.s; save(); render(); }; });
     tools.querySelectorAll('[data-z]').forEach(function(b){ b.onclick=function(){ o.size=b.dataset.z; save(); render(); }; });
     tools.querySelector('#del').onclick = function(){ room().items = room().items.filter(function(x){return x!==o}); state.sel=null; save(); render(); };
-    var say = tools.querySelector('#say');
-    if (say) say.onclick = function(){ try { speechSynthesis.cancel(); var u = new SpeechSynthesisUtterance(plain(o)); u.lang='de-DE'; u.rate=0.85; var v = speechSynthesis.getVoices().filter(function(v){return /^de/i.test(v.lang)})[0]; if (v) u.voice=v; speechSynthesis.speak(u); } catch(e){} };
   }
   function budgetUI(){
     var total = 0; Object.keys(state.rooms).forEach(function(k){ state.rooms[k].items.forEach(function(o){ total += price(o); }); });
     var el = document.getElementById('budget'); el.className = 'budget' + (total > BUDGET ? ' over' : '');
     el.innerHTML = 'Gesamt: ' + total + ' € <small>· Budget 5000 €' + (total > BUDGET ? ' — <b>zu teuer!</b>' : ' — noch ' + (BUDGET - total) + ' €') + '</small>';
   }
-  function render(){ tabs(); scene(); toolsUI(); budgetUI(); }
+  function render(){ tabs(); scene(); toolsUI(); budgetUI(); document.getElementById('wallname').innerHTML='Die Wand ist <b>'+wallName()+'</b>.'; walls.querySelectorAll('.sw').forEach(function(b,i){ b.classList.toggle('on', WALLS[i][1]===room().wall); }); }
   window.TW = {state:state, render:render, add:add};
   render();
 })();
