@@ -112,6 +112,8 @@ h3{font-size:17px;margin:22px 0 6px}
 .pk .pn{font-size:14px;line-height:1.25}.pk .kg{font-size:12px;color:var(--muted)}
 .pk.in{background:#e3eeef;border-color:#2c6e74;box-shadow:inset 0 0 0 1px #2c6e74}
 @media(max-width:600px){.quotes{grid-template-columns:1fr}.gears{grid-template-columns:repeat(2,1fr)}}
+.speaking.plain{padding:14px 18px}
+.whys{font-size:18px;line-height:1.9;margin:6px 0 0;padding-left:24px}
 </style>
 </head>
 <body>
@@ -123,7 +125,7 @@ h3{font-size:17px;margin:22px 0 6px}
     <button class="tab" onclick="go(2)"><span class="n">03</span>Outdoor equipment</button>
     <button class="tab" onclick="go(3)"><span class="n">04</span>Ask the forum</button>
     <button class="tab" onclick="go(4)"><span class="n">05</span>Why? Purpose</button>
-    <button class="tab" onclick="go(5)"><span class="n">06</span>Packing for a festival</button>
+    <button class="tab" onclick="go(5)"><span class="n">06</span>Say it another way</button>
     <button class="tab" onclick="go(6)"><span class="n">07</span>Travel light</button>
     <button class="tab" onclick="go(7)"><span class="n">08</span>Reserve</button>
   </nav>
@@ -166,11 +168,9 @@ h3{font-size:17px;margin:22px 0 6px}
     <blockquote>“To travel is to live.”</blockquote>
   </div>
   <p class="intro">Which quote do you agree with more? When do you think people said them — 100 years ago, 500 years ago or even earlier?</p>
-  <div class="speaking">
+  <div class="speaking plain">
     <p><b>What would your trip of a lifetime be? Where would you go, for how long, and with whom?</b></p>
     <p class="muted">Think for 30 seconds, then speak for about 1 minute.</p>
-    <div class="levels" data-one="a once-in-a-lifetime trip · somewhere remote · the hardest part · worth it" data-two="If I could go anywhere, I’d … / I’ve always wanted to … / The main reason is …" data-three="If I could go anywhere, I’d spend two weeks in Patagonia. I’ve always wanted to see glaciers up close, and I’d go with a small group so that I wouldn’t have to plan every detail myself."></div>
-    <textarea placeholder="Optional notes"></textarea>
   </div>
   <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
 </section>
@@ -181,29 +181,29 @@ h3{font-size:17px;margin:22px 0 6px}
   <p class="intro">a · Write the name under each photo. <b>One item in the bank is extra.</b></p>
   <div class="bank"><span>sleeping bag</span><span>torch</span><span>binoculars</span><span>sunscreen</span><span>walking boots</span><span>insect repellent</span><span>hiking poles</span><span>backpack</span><span>tent</span><span>waterproof jacket</span><span>camping stove</span><span>sunglasses</span><span>portable charger</span></div>
   <div class="exercise"><div class="gears">
-    <div class="question gear"><div class="noimg">tent</div>
+    <div class="question gear"><img src="img/tent.jpg" alt="tent" loading="lazy">
       <input class="answer" data-answers='["tent"]' placeholder="..."><button class="hint">Hint</button><div class="hidden helper">Starts with “te…”</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">tent</div></div>
-    <div class="question gear"><div class="noimg">portable charger</div>
+    <div class="question gear"><img src="img/portable-charger.jpg" alt="portable charger" loading="lazy">
       <input class="answer" data-answers='["portable charger", "power bank"]' placeholder="..."><button class="hint">Hint</button><div class="hidden helper">Starts with “po…”</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">portable charger</div></div>
-    <div class="question gear"><div class="noimg">waterproof jacket</div>
+    <div class="question gear"><img src="img/waterproof-jacket.jpg" alt="waterproof jacket" loading="lazy">
       <input class="answer" data-answers='["waterproof jacket"]' placeholder="..."><button class="hint">Hint</button><div class="hidden helper">Starts with “wa…”</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">waterproof jacket</div></div>
-    <div class="question gear"><div class="noimg">backpack</div>
+    <div class="question gear"><img src="img/backpack.jpg" alt="backpack" loading="lazy">
       <input class="answer" data-answers='["backpack"]' placeholder="..."><button class="hint">Hint</button><div class="hidden helper">Starts with “ba…”</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">backpack</div></div>
-    <div class="question gear"><div class="noimg">sunglasses</div>
+    <div class="question gear"><img src="img/sunglasses.jpg" alt="sunglasses" loading="lazy">
       <input class="answer" data-answers='["sunglasses"]' placeholder="..."><button class="hint">Hint</button><div class="hidden helper">Starts with “su…”</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">sunglasses</div></div>
-    <div class="question gear"><div class="noimg">walking boots</div>
+    <div class="question gear"><img src="img/walking-boots.jpg" alt="walking boots" loading="lazy">
       <input class="answer" data-answers='["walking boots"]' placeholder="..."><button class="hint">Hint</button><div class="hidden helper">Starts with “wa…”</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">walking boots</div></div>
-    <div class="question gear"><div class="noimg">camping stove</div>
+    <div class="question gear"><img src="img/camping-stove.jpg" alt="camping stove" loading="lazy">
       <input class="answer" data-answers='["camping stove"]' placeholder="..."><button class="hint">Hint</button><div class="hidden helper">Starts with “ca…”</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">camping stove</div></div>
-    <div class="question gear"><div class="noimg">binoculars</div>
+    <div class="question gear"><img src="img/binoculars.jpg" alt="binoculars" loading="lazy">
       <input class="answer" data-answers='["binoculars"]' placeholder="..."><button class="hint">Hint</button><div class="hidden helper">Starts with “bi…”</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">binoculars</div></div>
-    <div class="question gear"><div class="noimg">sleeping bag</div>
+    <div class="question gear"><img src="img/sleeping-bag.jpg" alt="sleeping bag" loading="lazy">
       <input class="answer" data-answers='["sleeping bag"]' placeholder="..."><button class="hint">Hint</button><div class="hidden helper">Starts with “sl…”</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">sleeping bag</div></div>
-    <div class="question gear"><div class="noimg">torch</div>
+    <div class="question gear"><img src="img/torch.jpg" alt="torch" loading="lazy">
       <input class="answer" data-answers='["torch", "flashlight"]' placeholder="..."><button class="hint">Hint</button><div class="hidden helper">Starts with “to…”</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">torch</div></div>
-    <div class="question gear"><div class="noimg">insect repellent</div>
+    <div class="question gear"><img src="img/insect-repellent.jpg" alt="insect repellent" loading="lazy">
       <input class="answer" data-answers='["insect repellent"]' placeholder="..."><button class="hint">Hint</button><div class="hidden helper">Starts with “in…”</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">insect repellent</div></div>
-    <div class="question gear"><div class="noimg">sunscreen</div>
+    <div class="question gear"><img src="img/sunscreen.jpg" alt="sunscreen" loading="lazy">
       <input class="answer" data-answers='["sunscreen"]' placeholder="..."><button class="hint">Hint</button><div class="hidden helper">Starts with “su…”</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">sunscreen</div></div>
   </div>
     <button class="check">Check this block</button>
@@ -282,29 +282,41 @@ h3{font-size:17px;margin:22px 0 6px}
       <input class="answer" data-answers='["to travel", "in order to travel", "so that i can travel", "so i can travel"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Here “travel” is a verb → to + verb.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">to travel</div></div>
     <button class="check">Check this block</button>
   </div>
-  <div class="speaking">
+  <div class="speaking plain">
     <p><b>c · Finish the sentences about yourself.</b></p>
-    <p class="muted">Say them, don’t write. Use a different structure each time.</p>
-    <div class="levels" data-one="so that · in order to · for + -ing · in order not to" data-two="I’m learning English so that I … / On a long flight, I always take … to … / I keep … in my backpack for … / Last time I travelled, I … in order not to …" data-three="I’m learning English so that I can watch series without subtitles. On a long flight, I always take a neck pillow to sleep a bit. I keep a power bank in my backpack for charging my phone on the way, and last time I travelled, I checked in online in order not to wait at the airport."></div>
-    <textarea placeholder="Optional notes"></textarea>
+    <p class="muted">I’m learning English so that I … · On a long flight, I always take … to … · I keep … in my backpack for … · Last time I travelled, I … in order not to …</p>
   </div>
   <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
 </section>
 
 <section class="slide">
-  <div class="eyebrow">06 · 8 min</div>
-  <h2>Packing for a festival</h2>
-  <p class="intro">a · Rosie and Joey are going to a music festival. Listen and tick everything they <b>decide to take</b>.</p>
-  <iframe class="drive-audio" src="https://drive.google.com/file/d/1fY8cvgKkkp6w-kdUDoj0CrUUGlSQxwS9/preview" allow="autoplay" title="Recording 7.7"></iframe>
-  <div class="ticks" data-yes='["photo ID", "cash", "waterproof jackets", "waterproof boots", "hats", "sunglasses", "a tent", "sleeping bags", "a torch", "folding chairs", "a camping stove", "a pan", "a lighter or matches", "a portable charger"]'>
-    <button type="button">a camping stove</button><button type="button">sunscreen</button><button type="button">photo ID</button><button type="button">folding chairs</button><button type="button">a guidebook</button><button type="button">waterproof boots</button><button type="button">a torch</button><button type="button">insect repellent</button><button type="button">cash</button><button type="button">a lighter or matches</button><button type="button">binoculars</button><button type="button">sleeping bags</button><button type="button">hats</button><button type="button">an umbrella</button><button type="button">a portable charger</button><button type="button">a pan</button><button type="button">waterproof jackets</button><button type="button">a tent</button><button type="button">sunglasses</button>
+  <div class="eyebrow">06 · 10 min</div>
+  <h2>Say it another way</h2>
+  <p class="intro">Complete the second sentence so that it means the same. Use the word in brackets.</p>
+  <div class="exercise ">
+    <div class="question"><div class="prompt"><span class="num">1</span>I’m taking a power bank because I want to use my phone as a map.<br>→ I’m taking a power bank ___ my phone as a map. <b>(so that)</b></div>
+      <input class="answer" data-answers='["so that i can use", "so that i could use", "so i can use"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">so that + subject + can …</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">so that I can use</div></div>
+    <div class="question"><div class="prompt"><span class="num">2</span>We booked early because we wanted cheaper tickets.<br>→ We booked early ___ cheaper tickets. <b>(order)</b></div>
+      <input class="answer" data-answers='["in order to get", "in order to buy", "in order to have"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">in order to + verb</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">in order to get</div></div>
+    <div class="question"><div class="prompt"><span class="num">3</span>He whispered because he didn’t want to wake the baby.<br>→ He whispered ___ the baby. <b>(so that)</b></div>
+      <input class="answer" data-answers='["so that he wouldn&#39;t wake", "so that he didn&#39;t wake", "so he wouldn&#39;t wake", "so he didn&#39;t wake", "so that he would not wake", "so that he did not wake"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Negative + past: so that he wouldn’t …</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">so that he wouldn’t wake</div></div>
+    <div class="question"><div class="prompt"><span class="num">4</span>I use this app because it helps me learn words.<br>→ I use this app ___ words. <b>(for)</b></div>
+      <input class="answer" data-answers='["for learning"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">What is the app for? for + -ing</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">for learning</div></div>
+    <div class="question"><div class="prompt"><span class="num">5</span>We left at six because we didn’t want to get stuck in traffic.<br>→ We left at six ___ stuck in traffic. <b>(order)</b></div>
+      <input class="answer" data-answers='["in order not to get", "so as not to get"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Negative: in order not to …</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">in order not to get</div></div>
+    <div class="question"><div class="prompt"><span class="num">6</span>She called the hotel because she wanted to ask about late check-in.<br>→ She called the hotel ___ about late check-in. <b>(to)</b></div>
+      <input class="answer" data-answers='["to ask", "to find out", "to enquire", "to inquire"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">to + verb</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">to ask</div></div>
+    <button class="check">Check this block</button>
   </div>
-  <button type="button" class="check tickcheck">Check this block</button><p class="tickfb"></p>
-  <p class="intro">b · Listen to the end of the conversation.</p>
-  <iframe class="drive-audio" src="https://drive.google.com/file/d/1DUfgaqTOaH7EWJIbOBj6rcsIeDC7tzDS/preview" allow="autoplay" title="Recording 7.8"></iframe>
-  <div class="question"><div class="prompt"><span class="num">1</span>What’s the problem?</div><div class="choice" data-k="They’re going by train, so they can’t carry much." data-why=""><button data-v="The list is too expensive.">The list is too expensive.</button><button data-v="They’re going by train, so they can’t carry much.">They’re going by train, so they can’t carry much.</button><button data-v="They forgot the tickets.">They forgot the tickets.</button></div></div>
-  <div class="question"><div class="prompt"><span class="num">2</span>What do they decide to do?</div><div class="choice" data-k="Go through the list again and cross out what isn’t necessary." data-why=""><button data-v="Buy everything at the festival.">Buy everything at the festival.</button><button data-v="Go through the list again and cross out what isn’t necessary.">Go through the list again and cross out what isn’t necessary.</button><button data-v="Take a bigger backpack.">Take a bigger backpack.</button></div></div>
-  <div class="question"><div class="prompt"><span class="num">3</span>Which item do they decide not to take?</div><div class="choice" data-k="the camping stove" data-why="It’s heavy; they’ll eat energy bars and buy food there."><button data-v="the tent">the tent</button><button data-v="the camping stove">the camping stove</button><button data-v="the portable charger">the portable charger</button></div></div>
+  <h3>Why? Answer fast — a different structure each time</h3>
+  <ol class="whys">
+    <li>Why do climbers often start before sunrise?</li>
+    <li>What’s a dishwasher for?</li>
+    <li>Why do some people switch off their phone at night?</li>
+    <li>Why would anyone take binoculars to a football match?</li>
+    <li>Why did you start playing badminton?</li>
+    <li>Why are you learning English — really?</li>
+  </ol>
   <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
 </section>
 
@@ -312,12 +324,10 @@ h3{font-size:17px;margin:22px 0 6px}
   <div class="eyebrow">07 · 12 min</div>
   <h2>Travel light</h2>
   <p class="intro">Choose a trip: <b>a five-day hike in the Altai mountains</b>, <b>a weekend badminton tournament in Kazan</b> or <b>your own idea</b>. You can only take one backpack: <b>10 kg</b> maximum (the backpack itself weighs 1.5 kg). Click to pack.</p>
-  <div class="pack"><div class="packbar"><span>Backpack: <b class="kgsum">1.5</b> / 10 kg</span><span class="packmsg"></span></div><div class="packgrid"><button type="button" class="pk" data-kg="2.4"><div class="noimg">tent</div><span class="pn">tent</span><span class="kg">2.4 kg</span></button><button type="button" class="pk" data-kg="1.4"><div class="noimg">sleeping bag</div><span class="pn">sleeping bag</span><span class="kg">1.4 kg</span></button><button type="button" class="pk" data-kg="1.1"><div class="noimg">camping stove + pan</div><span class="pn">camping stove + pan</span><span class="kg">1.1 kg</span></button><button type="button" class="pk" data-kg="0.5"><div class="noimg">waterproof jacket</div><span class="pn">waterproof jacket</span><span class="kg">0.5 kg</span></button><button type="button" class="pk" data-kg="1.3"><div class="noimg">spare walking boots</div><span class="pn">spare walking boots</span><span class="kg">1.3 kg</span></button><button type="button" class="pk" data-kg="0.7"><div class="noimg">binoculars</div><span class="pn">binoculars</span><span class="kg">0.7 kg</span></button><button type="button" class="pk" data-kg="0.4"><div class="noimg">portable charger</div><span class="pn">portable charger</span><span class="kg">0.4 kg</span></button><button type="button" class="pk" data-kg="0.2"><div class="noimg">sunscreen</div><span class="pn">sunscreen</span><span class="kg">0.2 kg</span></button><button type="button" class="pk" data-kg="0.2"><div class="noimg">insect repellent</div><span class="pn">insect repellent</span><span class="kg">0.2 kg</span></button><button type="button" class="pk" data-kg="0.2"><div class="noimg">torch</div><span class="pn">torch</span><span class="kg">0.2 kg</span></button><button type="button" class="pk" data-kg="0.1"><div class="noimg">sunglasses</div><span class="pn">sunglasses</span><span class="kg">0.1 kg</span></button><button type="button" class="pk" data-kg="2.5"><span class="pn">clothes for 5 days</span><span class="kg">2.5 kg</span></button><button type="button" class="pk" data-kg="2.0"><span class="pn">food for 2 days</span><span class="kg">2 kg</span></button><button type="button" class="pk" data-kg="1.5"><span class="pn">water, 1.5 l</span><span class="kg">1.5 kg</span></button><button type="button" class="pk" data-kg="1.6"><span class="pn">laptop</span><span class="kg">1.6 kg</span></button><button type="button" class="pk" data-kg="0.9"><span class="pn">camera + lens</span><span class="kg">0.9 kg</span></button><button type="button" class="pk" data-kg="0.4"><span class="pn">a paper book</span><span class="kg">0.4 kg</span></button></div></div>
-  <div class="speaking">
+  <div class="pack"><div class="packbar"><span>Backpack: <b class="kgsum">1.5</b> / 10 kg</span><span class="packmsg"></span></div><div class="packgrid"><button type="button" class="pk" data-kg="2.4"><img src="img/tent.jpg" alt="tent" loading="lazy"><span class="pn">tent</span><span class="kg">2.4 kg</span></button><button type="button" class="pk" data-kg="1.4"><img src="img/sleeping-bag.jpg" alt="sleeping bag" loading="lazy"><span class="pn">sleeping bag</span><span class="kg">1.4 kg</span></button><button type="button" class="pk" data-kg="1.1"><img src="img/camping-stove.jpg" alt="camping stove + pan" loading="lazy"><span class="pn">camping stove + pan</span><span class="kg">1.1 kg</span></button><button type="button" class="pk" data-kg="0.5"><img src="img/waterproof-jacket.jpg" alt="waterproof jacket" loading="lazy"><span class="pn">waterproof jacket</span><span class="kg">0.5 kg</span></button><button type="button" class="pk" data-kg="1.3"><img src="img/walking-boots.jpg" alt="spare walking boots" loading="lazy"><span class="pn">spare walking boots</span><span class="kg">1.3 kg</span></button><button type="button" class="pk" data-kg="0.7"><img src="img/binoculars.jpg" alt="binoculars" loading="lazy"><span class="pn">binoculars</span><span class="kg">0.7 kg</span></button><button type="button" class="pk" data-kg="0.4"><img src="img/portable-charger.jpg" alt="portable charger" loading="lazy"><span class="pn">portable charger</span><span class="kg">0.4 kg</span></button><button type="button" class="pk" data-kg="0.2"><img src="img/sunscreen.jpg" alt="sunscreen" loading="lazy"><span class="pn">sunscreen</span><span class="kg">0.2 kg</span></button><button type="button" class="pk" data-kg="0.2"><img src="img/insect-repellent.jpg" alt="insect repellent" loading="lazy"><span class="pn">insect repellent</span><span class="kg">0.2 kg</span></button><button type="button" class="pk" data-kg="0.2"><img src="img/torch.jpg" alt="torch" loading="lazy"><span class="pn">torch</span><span class="kg">0.2 kg</span></button><button type="button" class="pk" data-kg="0.1"><img src="img/sunglasses.jpg" alt="sunglasses" loading="lazy"><span class="pn">sunglasses</span><span class="kg">0.1 kg</span></button><button type="button" class="pk" data-kg="2.5"><span class="pn">clothes for 5 days</span><span class="kg">2.5 kg</span></button><button type="button" class="pk" data-kg="2.0"><span class="pn">food for 2 days</span><span class="kg">2 kg</span></button><button type="button" class="pk" data-kg="1.5"><span class="pn">water, 1.5 l</span><span class="kg">1.5 kg</span></button><button type="button" class="pk" data-kg="1.6"><span class="pn">laptop</span><span class="kg">1.6 kg</span></button><button type="button" class="pk" data-kg="0.9"><span class="pn">camera + lens</span><span class="kg">0.9 kg</span></button><button type="button" class="pk" data-kg="0.4"><span class="pn">a paper book</span><span class="kg">0.4 kg</span></button></div></div>
+  <div class="speaking plain">
     <p><b>Explain your choices: what are you taking, why, and what did you leave at home?</b></p>
-    <p class="muted">Use at least three different ways to express purpose.</p>
-    <div class="levels" data-one="essential · just in case · I can buy it there · it weighs too much · travel light" data-two="I’d definitely take … to … / … so that I can … / … is useful for …-ing, but … / I’d leave … at home in order not to …" data-three="I’d definitely take the waterproof jacket to stay dry, and a portable charger so that I can use my phone as a map. Binoculars are great for watching animals, but they’re heavy, so I’d leave them at home in order not to go over ten kilos."></div>
-    <textarea placeholder="Optional notes"></textarea>
+    <p class="muted">Use at least three different ways to express purpose: to, in order (not) to, so that, for.</p>
   </div>
   <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
 </section>
@@ -341,11 +351,9 @@ h3{font-size:17px;margin:22px 0 6px}
       <input class="answer" data-answers='["cup"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">You drink tea from it.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">cup</div></div>
     <button class="check">Check this block</button>
   </div>
-  <div class="speaking">
+  <div class="speaking plain">
     <p><b>What’s your pet peeve when you travel?</b></p>
     <p class="muted">One minute, no preparation.</p>
-    <div class="levels" data-one="queues · noisy neighbours · late trains · people who … · it drives me crazy" data-two="My biggest pet peeve is … / It drives me crazy when … / What I really can’t stand is …" data-three="My biggest pet peeve is people who stand up the second the plane lands, even though the doors won’t open for ten minutes."></div>
-    <textarea placeholder="Optional notes"></textarea>
   </div>
   <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
 </section>
