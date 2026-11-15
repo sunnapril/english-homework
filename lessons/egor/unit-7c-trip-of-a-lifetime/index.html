@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Egor · Unit 7C · Travel light</title>
+<style>
+:root{
+  --bg:#f6f1ea; --card:#fffdf9; --ink:#2b2420; --muted:#7a6d64; --line:#e8ddd1;
+  --accent:#b5502f; --accent-soft:#f6e4da; --teal:#2f6f6a; --teal-soft:#e2efed;
+  --bad:#a8361c; --violet:#5d4a8a; --violet-soft:#efebf7;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+.top{position:sticky;top:0;z-index:10;background:var(--card);border-bottom:1px solid var(--line);padding:12px 16px 10px}
+.top h1{margin:0 0 9px;font:600 21px/1.2 Georgia,"Times New Roman",serif}
+.top h1 small{font:500 13px system-ui,sans-serif;color:var(--muted);margin-left:6px}
+.tabs{display:flex;gap:6px;overflow-x:auto;white-space:nowrap;padding-bottom:3px}
+.tab{flex:0 0 auto;background:transparent;border:1px solid var(--line);color:var(--ink);padding:6px 11px;border-radius:999px;font-size:12.5px;cursor:pointer}
+.tab .n{color:var(--accent);font-weight:700;margin-right:4px}
+.tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.tab.active .n{color:#fff}
+main{max-width:920px;margin:22px auto 80px;padding:0 16px}
+.slide{background:var(--card);padding:30px 34px;border:1px solid var(--line);border-radius:16px}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--accent)}
+h2{font:600 34px/1.15 Georgia,"Times New Roman",serif;margin:6px 0 12px}
+h3{font:600 22px/1.25 Georgia,serif;margin:0 0 8px}
+.intro{font-size:18px}
+.muted{color:var(--muted);font-size:15px}
+.new{font-weight:700;color:var(--accent)}
+.rule{padding:14px 18px;border-left:5px solid var(--accent);background:var(--accent-soft);border-radius:0 10px 10px 0;margin:18px 0}
+.rule p{margin:4px 0}
+.exercise{margin:14px 0}
+.question{border-bottom:1px solid var(--line);padding:15px 0;display:grid;grid-template-columns:minmax(0,1fr) 230px auto;gap:9px;align-items:center}
+.prompt{grid-column:1/-1}
+.prompt .num{display:inline-block;min-width:24px;font-weight:700;color:var(--accent)}
+.prompt .gloss{color:var(--muted)}
+.answer{padding:10px 12px;font-size:16px;border:1px solid #cdbfb2;border-radius:9px;min-width:0;background:#fff}
+.answer.ok{border-color:var(--teal);background:var(--teal-soft)}
+.answer.no{border-color:var(--bad);background:#fbece7}
+button{font:inherit}
+.hint,.reveal,.footnav button,.levels button,.tried{cursor:pointer;padding:8px 13px;border-radius:9px;border:1px solid #d6c8bb;background:#fff;color:var(--ink);font-size:14px}
+.hidden{display:none}
+.helper,.correct,.feedback{grid-column:1/-1;font-size:14.5px}
+.helper{background:#f3ece4;padding:8px 12px;border-radius:8px}
+.feedback.bad{color:var(--bad);font-weight:700}
+.feedback.good{color:var(--teal);font-weight:700}
+.correct{color:var(--teal);font-weight:700;padding:2px 0}
+.reveal{grid-column:1/-1;justify-self:start;border-color:var(--accent)!important;color:var(--accent)!important;font-weight:600}
+.showall{cursor:pointer;margin:16px 0 0 8px;padding:10px 16px;border-radius:10px;border:1px solid var(--accent);background:#fff;color:var(--accent);font-weight:700;font-size:15px}
+.check{cursor:pointer;margin-top:16px;padding:10px 18px;border-radius:10px;border:0;background:var(--teal);color:#fff;font-weight:700;font-size:15px}
+.speaking{border-left:4px solid var(--violet);padding:12px 18px 16px;margin:18px 0;background:var(--violet-soft);border-radius:0 12px 12px 0}
+.speaking p{margin:6px 0}
+.levels{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.levels button:disabled{opacity:.45;cursor:not-allowed}
+.levels .tried{border-color:var(--violet);color:var(--violet);font-weight:600}
+.level-box{padding:9px 13px;background:#fff;border-radius:9px;margin:8px 0;font-size:16px;border:1px solid #ddd5ea}
+.level-box .lab{display:block;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--violet);font-weight:700}
+.level-box.own{border-style:dashed}
+.speaking textarea{width:100%;min-height:70px;resize:vertical;border:1px solid #d8cfe6;border-radius:9px;padding:9px;font:inherit;margin-top:10px;background:#fff}
+.bank{display:flex;gap:8px;flex-wrap:wrap;margin:14px -8px 6px;padding:10px 8px;position:sticky;top:var(--top,96px);z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+.bank span{border:1px solid var(--accent);color:var(--accent);font-weight:600;padding:5px 14px;border-radius:999px;cursor:pointer;background:#fff}
+.bank span.used{text-decoration:line-through;color:#a99d93;border-color:#d8cdc2;background:#f3eee8;font-weight:400}
+.reading{background:#fff;border:1px solid var(--line);padding:22px 26px;border-radius:12px;font:18px/1.65 Georgia,serif}
+.reading p{margin:9px 0}
+.scenario{padding:14px 18px;background:#fff;border:1px solid var(--line);margin:14px 0;border-radius:10px}
+.footnav{display:flex;justify-content:space-between;margin-top:30px;border-top:1px solid var(--line);padding-top:16px}
+.footnav button:disabled{visibility:hidden}
+@media(max-width:680px){.slide{padding:20px 16px}.question{grid-template-columns:minmax(0,1fr) auto}.answer{grid-column:1/-1}h2{font-size:27px}}
+h3{font-size:17px;margin:22px 0 6px}
+.quotes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0}
+.quotes blockquote{margin:0;background:var(--card);border-left:4px solid var(--accent);border-radius:10px;padding:14px 16px;font:italic 19px/1.4 Georgia,serif}
+.gears{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:10px 0}
+.gear{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:6px}
+.gear img{width:100%;aspect-ratio:1;object-fit:contain;background:#fff;border-radius:8px}
+.gear .answer{width:100%}
+.noimg{aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:#f2f4f4;border-radius:8px;color:#9aa;font-size:13px;text-align:center;padding:6px}
+.forum{display:flex;flex-direction:column;gap:8px;margin:10px 0}
+.post{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.post.first{border-left:4px solid var(--accent)}
+.post b{font-size:14px;color:var(--muted)}
+.post p{margin:2px 0 0;font-size:17px;line-height:1.55}
+.hunt{background:#fff4dc;border-radius:5px;padding:1px 3px;cursor:pointer;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.hunt:hover{outline:2px solid #e6c37a}
+.hunt.yes{background:#d7efe4;outline:0}
+.hunt.no{background:#f6dcd6}
+.hunt[data-tip]::after{content:" — " attr(data-tip);font-size:13px;color:var(--muted);font-style:italic}
+.huntscore b{color:var(--accent);font-size:18px}
+.rule.grammar div{margin:7px 0}
+.rule .bad{color:#a8432c}.rule .good{color:#2c6e74}
+.choice{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.choice button{cursor:pointer;background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 12px;font:inherit;font-weight:600}
+.choice button.right{background:#2c6e74;border-color:#2c6e74;color:#fff}
+.choice button.wrong{border-color:#a8432c;color:#a8432c}
+.cfb{font-size:14px;margin-top:4px;min-height:1em}
+.cfb.good{color:#2c6e74}.cfb.bad{color:#a8432c}
+.drive-audio{width:100%;max-width:440px;height:96px;border:0;border-radius:10px;background:#f1f3f4;display:block;margin:8px 0}
+.ticks{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.ticks button{cursor:pointer;font:inherit;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 14px}
+.ticks button.on{background:#e3eeef;border-color:#2c6e74;color:#2c6e74;font-weight:600}
+.ticks button.on::before{content:"✓ "}
+.ticks button.ok{background:#2c6e74;color:#fff;border-color:#2c6e74}
+.ticks button.miss{border:2px dashed #2c6e74}
+.ticks button.extra{background:#f6dcd6;border-color:#a8432c;color:#a8432c;text-decoration:line-through}
+.tickfb{min-height:1.2em}
+.pack{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;margin:10px 0}
+.packbar{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:17px;margin-bottom:10px}
+.packbar.over{color:#a8432c}
+.packgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:8px}
+.pk{cursor:pointer;font:inherit;background:#f7f9f9;border:1px solid var(--line);border-radius:10px;padding:8px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
+.pk img{width:64px;height:64px;object-fit:contain}
+.pk .pn{font-size:14px;line-height:1.25}.pk .kg{font-size:12px;color:var(--muted)}
+.pk.in{background:#e3eeef;border-color:#2c6e74;box-shadow:inset 0 0 0 1px #2c6e74}
+@media(max-width:600px){.quotes{grid-template-columns:1fr}.gears{grid-template-columns:repeat(2,1fr)}}
+.speaking.plain{padding:14px 18px}
+.whys{font-size:18px;line-height:1.9;margin:6px 0 0;padding-left:24px}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Travel light <small>Egor · Unit 7C</small></h1>
+  <nav class="tabs">
+    <button class="tab" onclick="go(0)"><span class="n">01</span>Bring it back</button>
+    <button class="tab" onclick="go(1)"><span class="n">02</span>Trip of a lifetime</button>
+    <button class="tab" onclick="go(2)"><span class="n">03</span>Outdoor equipment</button>
+    <button class="tab" onclick="go(3)"><span class="n">04</span>Ask the forum</button>
+    <button class="tab" onclick="go(4)"><span class="n">05</span>Why? Purpose</button>
+    <button class="tab" onclick="go(5)"><span class="n">06</span>Say it another way</button>
+    <button class="tab" onclick="go(6)"><span class="n">07</span>Travel light</button>
+    <button class="tab" onclick="go(7)"><span class="n">08</span>Reserve</button>
+  </nav>
+</header>
+<main>
+
+<section class="slide">
+  <div class="eyebrow">01 · 5 min</div>
+  <h2>Bring the precise phrase back</h2>
+  <p class="intro">No word bank this time. The first letters and the number of words are your only help.</p>
+  <div class="exercise ">
+    <div class="question"><div class="prompt"><span class="num">1</span>The old wall began to ___ when we took the shelf down.</div>
+      <input class="answer" data-answers='["crumble"]' placeholder="c _ _ _ _ _ _  (1 word)"><button class="hint">Hint</button><div class="hidden helper">To break into very small pieces.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">crumble</div></div>
+    <div class="question"><div class="prompt"><span class="num">2</span>We should ___ the free practice court while it’s open.</div>
+      <input class="answer" data-answers='["make use of", "make good use of"]' placeholder="m _ _ _  u _ _  o _  (3 words)"><button class="hint">Hint</button><div class="hidden helper">To use an opportunity well.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">make use of</div></div>
+    <div class="question"><div class="prompt"><span class="num">3</span>Please give me the ___ time, not “around seven”.</div>
+      <input class="answer" data-answers='["precise", "exact"]' placeholder="p _ _ _ _ _ _  (1 word)"><button class="hint">Hint</button><div class="hidden helper">Exactly correct, with all the details.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">precise (also: exact)</div></div>
+    <div class="question"><div class="prompt"><span class="num">4</span>Put the results in a ___ with three columns.</div>
+      <input class="answer" data-answers='["table"]' placeholder="t _ _ _ _  (1 word)"><button class="hint">Hint</button><div class="hidden helper">Rows and columns.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">table</div></div>
+    <div class="question"><div class="prompt"><span class="num">5</span>A new lock should ___ anyone from opening this door.</div>
+      <input class="answer" data-answers='["prevent", "stop"]' placeholder="p _ _ _ _ _ _  (1 word)"><button class="hint">Hint</button><div class="hidden helper">To stop something from happening.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">prevent</div></div>
+    <div class="question"><div class="prompt"><span class="num">6</span>This badminton app is especially ___ beginners.</div>
+      <input class="answer" data-answers='["popular with"]' placeholder="p _ _ _ _ _ _  w _ _ _  (2 words)"><button class="hint">Hint</button><div class="hidden helper">Liked by a particular group of people.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">popular with</div></div>
+    <div class="question"><div class="prompt"><span class="num">7</span>Months of night shifts can ___ your health.</div>
+      <input class="answer" data-answers='["take a toll on", "take its toll on"]' placeholder="t _ _ _  a  t _ _ _  o _  (4 words)"><button class="hint">Hint</button><div class="hidden helper">To damage something slowly, over time.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">take a toll on</div></div>
+    <div class="question"><div class="prompt"><span class="num">8</span>In his talk, the coach put special ___ on warming up.</div>
+      <input class="answer" data-answers='["emphasis"]' placeholder="e _ _ _ _ _ _ _  (1 word)"><button class="hint">Hint</button><div class="hidden helper">Special importance or attention.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">emphasis</div></div>
+    <div class="question"><div class="prompt"><span class="num">9</span>People who stop right at the top of the escalator are my biggest ___.</div>
+      <input class="answer" data-answers='["pet peeve"]' placeholder="p _ _  p _ _ _ _ _  (2 words)"><button class="hint">Hint</button><div class="hidden helper">A small thing that annoys you much more than it should.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">pet peeve</div></div>
+    <button class="check">Check this block</button>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">02 · 5 min</div>
+  <h2>Trip of a lifetime</h2>
+  <div class="quotes">
+    <blockquote>“The world is a book, and those who do not travel read only one page.”</blockquote>
+    <blockquote>“To travel is to live.”</blockquote>
+  </div>
+  <p class="intro">Which quote do you agree with more? When do you think people said them — 100 years ago, 500 years ago or even earlier?</p>
+  <div class="speaking plain">
+    <p><b>What would your trip of a lifetime be? Where would you go, for how long, and with whom?</b></p>
+    <p class="muted">Think for 30 seconds, then speak for about 1 minute.</p>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">03 · 10 min</div>
+  <h2>Outdoor equipment</h2>
+  <p class="intro">a · Write the name under each photo. <b>One item in the bank is extra.</b></p>
+  <div class="bank"><span>sleeping bag</span><span>torch</span><span>binoculars</span><span>sunscreen</span><span>walking boots</span><span>insect repellent</span><span>hiking poles</span><span>backpack</span><span>tent</span><span>waterproof jacket</span><span>camping stove</span><span>sunglasses</span><span>portable charger</span></div>
+  <div class="exercise"><div class="gears">
+    <div class="question gear"><img src="img/tent.jpg" alt="tent" loading="lazy">
+      <input class="answer" data-answers='["tent"]' placeholder="..."><button class="hint">Hint</button><div class="hidden helper">Starts with “te…”</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">tent</div></div>
+    <div class="question gear"><img src="img/portable-charger.jpg" alt="portable charger" loading="lazy">
+      <input class="answer" data-answers='["portable charger", "power bank"]' placeholder="..."><button class="hint">Hint</button><div class="hidden helper">Starts with “po…”</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">portable charger</div></div>
+    <div class="question gear"><img src="img/waterproof-jacket.jpg" alt="waterproof jacket" loading="lazy">
+      <input class="answer" data-answers='["waterproof jacket"]' placeholder="..."><button class="hint">Hint</button><div class="hidden helper">Starts with “wa…”</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">waterproof jacket</div></div>
+    <div class="question gear"><img src="img/backpack.jpg" alt="backpack" loading="lazy">
+      <input class="answer" data-answers='["backpack"]' placeholder="..."><button class="hint">Hint</button><div class="hidden helper">Starts with “ba…”</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">backpack</div></div>
+    <div class="question gear"><img src="img/sunglasses.jpg" alt="sunglasses" loading="lazy">
+      <input class="answer" data-answers='["sunglasses"]' placeholder="..."><button class="hint">Hint</button><div class="hidden helper">Starts with “su…”</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">sunglasses</div></div>
+    <div class="question gear"><img src="img/walking-boots.jpg" alt="walking boots" loading="lazy">
+      <input class="answer" data-answers='["walking boots"]' placeholder="..."><button class="hint">Hint</button><div class="hidden helper">Starts with “wa…”</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">walking boots</div></div>
+    <div class="question gear"><img src="img/camping-stove.jpg" alt="camping stove" loading="lazy">
+      <input class="answer" data-answers='["camping stove"]' placeholder="..."><button class="hint">Hint</button><div class="hidden helper">Starts with “ca…”</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">camping stove</div></div>
+    <div class="question gear"><img src="img/binoculars.jpg" alt="binoculars" loading="lazy">
+      <input class="answer" data-answers='["binoculars"]' placeholder="..."><button class="hint">Hint</button><div class="hidden helper">Starts with “bi…”</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">binoculars</div></div>
+    <div class="question gear"><img src="img/sleeping-bag.jpg" alt="sleeping bag" loading="lazy">
+      <input class="answer" data-answers='["sleeping bag"]' placeholder="..."><button class="hint">Hint</button><div class="hidden helper">Starts with “sl…”</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">sleeping bag</div></div>
+    <div class="question gear"><img src="img/torch.jpg" alt="torch" loading="lazy">
+      <input class="answer" data-answers='["torch", "flashlight"]' placeholder="..."><button class="hint">Hint</button><div class="hidden helper">Starts with “to…”</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">torch</div></div>
+    <div class="question gear"><img src="img/insect-repellent.jpg" alt="insect repellent" loading="lazy">
+      <input class="answer" data-answers='["insect repellent"]' placeholder="..."><button class="hint">Hint</button><div class="hidden helper">Starts with “in…”</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">insect repellent</div></div>
+    <div class="question gear"><img src="img/sunscreen.jpg" alt="sunscreen" loading="lazy">
+      <input class="answer" data-answers='["sunscreen"]' placeholder="..."><button class="hint">Hint</button><div class="hidden helper">Starts with “su…”</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">sunscreen</div></div>
+  </div>
+    <button class="check">Check this block</button>
+  </div>
+  <div class="rule"><b>UK / US:</b> <b>torch</b> (UK) = flashlight (US) · <b>portable charger</b> = power bank · <b>sunscreen</b> = sun cream</div>
+  <p class="intro">b · Now without the bank: what is it?</p>
+  <div class="exercise ">
+    <div class="question"><div class="prompt"><span class="num">1</span>It keeps mosquitoes away from you.</div>
+      <input class="answer" data-answers='["insect repellent", "repellent", "mosquito repellent"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Two words: insect + …</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">insect repellent</div></div>
+    <div class="question"><div class="prompt"><span class="num">2</span>They help you see birds or animals that are far away.</div>
+      <input class="answer" data-answers='["binoculars"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">You hold them with both hands.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">binoculars</div></div>
+    <div class="question"><div class="prompt"><span class="num">3</span>You can charge your phone with it when there’s no socket nearby.</div>
+      <input class="answer" data-answers='["portable charger", "power bank"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">You can carry it in your pocket.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">portable charger</div></div>
+    <div class="question"><div class="prompt"><span class="num">4</span>You cook on it at the campsite.</div>
+      <input class="answer" data-answers='["camping stove", "stove"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">It uses gas.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">camping stove</div></div>
+    <div class="question"><div class="prompt"><span class="num">5</span>It doesn’t let the rain through.</div>
+      <input class="answer" data-answers='["waterproof jacket", "a waterproof jacket"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">water + proof</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">waterproof jacket</div></div>
+    <div class="question"><div class="prompt"><span class="num">6</span>Strong shoes for long walks on rough paths.</div>
+      <input class="answer" data-answers='["walking boots", "hiking boots"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Not trainers.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">walking boots</div></div>
+    <button class="check">Check this block</button>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">04 · 10 min</div>
+  <h2>Ask the forum</h2>
+  <div class="forum">
+    <div class="post first"><b>Lena</b><p>Hi everyone! In August I’m going on a seven-day group hike in Kamchatka: two volcanoes, hot springs and a night by Kuril Lake. I want to travel light, but I don’t want to freeze or get eaten alive by mosquitoes. What do I really need?</p></div>
+    <div class="post"><b>Artyom</b><p>Proper walking boots. The paths are volcanic sand and sharp stones, and trainers fall apart in two days.</p></div>
+    <div class="post"><b>Masha</b><p>It can be 25 °C in the valley and close to zero at the top, <span class="hunt" data-k="n" data-why="This “so” gives a result (= therefore), not a purpose.">so you’ll need warm layers</span>.</p></div>
+    <div class="post"><b>Ilya</b><p>Bring a head torch <span class="hunt" data-k="y" data-why="to + verb">to find the toilet tent at night</span> without waking everyone up.</p></div>
+    <div class="post"><b>Katya</b><p>Don’t buy insect repellent at home. Get it in Petropavlovsk <span class="hunt" data-k="y" data-why="in order to + verb">in order to save space in your luggage</span>.</p></div>
+    <div class="post"><b>Oleg</b><p>Take a portable charger <span class="hunt" data-k="y" data-why="so that + can">so that you can use your phone as a map</span> — there’s no signal for days.</p></div>
+    <div class="post"><b>Nina</b><p>Put your documents and cash in a zip bag <span class="hunt" data-k="y" data-why="so + clause">so they don’t get wet</span> when you cross the rivers.</p></div>
+    <div class="post"><b>Sasha</b><p>Binoculars are great <span class="hunt" data-k="y" data-why="for + -ing: what something is for">for watching bears</span> from a safe distance!</p></div>
+    <div class="post"><b>Dima</b><p>It rained for three days on our trip, <span class="hunt" data-k="n" data-why="Result again (= that’s why), not a purpose.">so we spent a whole day in the tent</span> playing cards. Take a pack of cards!</p></div>
+    <div class="post"><b>Vera</b><p>And pack a swimsuit <span class="hunt" data-k="y" data-why="for + noun">for the hot springs</span>. Best part of the trip!</p></div>
+  </div>
+  <p class="intro">a · Read Lena’s question. What three things is she worried about? Tell your teacher.</p>
+  <p class="intro">b · Find the <b>purpose</b> phrases: click them. Careful — two of the coloured phrases are traps.</p>
+  <p class="huntscore">Purpose phrases found: <b>0</b> / 6</p>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">05 · 12 min</div>
+  <h2>Why? Expressing purpose</h2>
+  <div class="rule grammar">
+    <div><b>to</b> + verb — <i>I went to Tokyo <b>to see</b> the cherry blossoms.</i></div>
+    <div><b>in order to</b> + verb (more formal) — <i>Please arrive early <b>in order to</b> finish the registration.</i><br>negative: <b>in order not to</b> — <i>We left at 5 a.m. <b>in order not to</b> miss the sunrise.</i></div>
+    <div><b>so (that)</b> + clause, often with can / could / will / would — <i>I downloaded the maps <b>so that</b> I could use them offline.</i> Use it when the subject changes: <i>I’ll text you the address <b>so that</b> you don’t get lost.</i></div>
+    <div><b>for</b> + noun — <i>She went to the pharmacy <b>for</b> some plasters.</i></div>
+    <div><b>for</b> + -ing = what a <u>thing</u> is used for — <i>A head torch is <b>for walking</b> in the dark.</i><br><span class="bad">✗ I went to the shop for buying bread.</span> → <span class="good">✓ to buy bread / for bread</span></div>
+    <div class="muted">Pronunciation: <b>to</b> /tə/, <b>for</b> /fə/, <b>that</b> /ðət/ are not stressed.</div>
+  </div>
+  <h3>a · Choose the correct option</h3>
+  <div class="question"><div class="prompt"><span class="num">1</span>Bring a head torch ___ the night walk.</div><div class="choice" data-k="for" data-why="for + noun (the night walk)."><button data-v="to">to</button><button data-v="for">for</button><button data-v="so that">so that</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">2</span>Charge the radio every evening ___ we can contact the base.</div><div class="choice" data-k="so that" data-why="A new subject (we) + can → so that."><button data-v="to">to</button><button data-v="for">for</button><button data-v="so that">so that</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">3</span>Keep food in the metal box ___ bears can’t smell it.</div><div class="choice" data-k="so that" data-why="A new subject (bears) → so that."><button data-v="to">to</button><button data-v="so that">so that</button><button data-v="for">for</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">4</span>This blue bag is ___ rubbish only.</div><div class="choice" data-k="for" data-why="for + noun."><button data-v="to">to</button><button data-v="for">for</button><button data-v="so that">so that</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">5</span>The hooks by the door are ___ drying wet socks.</div><div class="choice" data-k="for" data-why="for + -ing: what the hooks are used for."><button data-v="for">for</button><button data-v="to">to</button><button data-v="in order to">in order to</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">6</span>We left at 5 a.m. ___ not to miss the sunrise.</div><div class="choice" data-k="in order" data-why="in order not to + verb."><button data-v="so">so</button><button data-v="in order">in order</button><button data-v="for">for</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">7</span>The guide stopped every hour ___ count the group.</div><div class="choice" data-k="to" data-why="to + verb."><button data-v="for">for</button><button data-v="so that">so that</button><button data-v="to">to</button></div></div>
+  <div class="question"><div class="prompt"><span class="num">8</span>Wear long sleeves ___ the mosquitoes don’t bite you.</div><div class="choice" data-k="so that" data-why="A new subject (the mosquitoes) → so that."><button data-v="to">to</button><button data-v="so that">so that</button><button data-v="for">for</button></div></div>
+
+  <h3>b · Fix it: rewrite the underlined part</h3>
+  <div class="exercise ">
+    <div class="question"><div class="prompt"><span class="num">1</span>I went to the pharmacy <u>for buying</u> some plasters.</div>
+      <input class="answer" data-answers='["to buy", "in order to buy"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">A person’s reason → to + verb.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">to buy</div></div>
+    <div class="question"><div class="prompt"><span class="num">2</span>I set two alarms <u>for not oversleeping</u>.</div>
+      <input class="answer" data-answers='["so that i wouldn&#39;t oversleep", "so i wouldn&#39;t oversleep", "in order not to oversleep", "so as not to oversleep", "so that i didn&#39;t oversleep", "so i didn&#39;t oversleep", "so that i would not oversleep", "not to oversleep"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Negative purpose: in order not to … / so that I wouldn’t …</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">in order not to oversleep / so that I wouldn’t oversleep</div></div>
+    <div class="question"><div class="prompt"><span class="num">3</span>Take this jacket <u>so that to stay</u> dry.</div>
+      <input class="answer" data-answers='["to stay", "in order to stay", "so that you stay", "so that you can stay", "so you stay", "so you can stay"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">so that needs a subject; to doesn’t.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">to stay / so that you can stay</div></div>
+    <div class="question"><div class="prompt"><span class="num">4</span>I’m saving money <u>for travel</u> to Japan again.</div>
+      <input class="answer" data-answers='["to travel", "in order to travel", "so that i can travel", "so i can travel"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Here “travel” is a verb → to + verb.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">to travel</div></div>
+    <button class="check">Check this block</button>
+  </div>
+  <div class="speaking plain">
+    <p><b>c · Finish the sentences about yourself.</b></p>
+    <p class="muted">I’m learning English so that I … · On a long flight, I always take … to … · I keep … in my backpack for … · Last time I travelled, I … in order not to …</p>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">06 · 10 min</div>
+  <h2>Say it another way</h2>
+  <p class="intro">Complete the second sentence so that it means the same. Use the word in brackets.</p>
+  <div class="exercise ">
+    <div class="question"><div class="prompt"><span class="num">1</span>I’m taking a power bank because I want to use my phone as a map.<br>→ I’m taking a power bank ___ my phone as a map. <b>(so that)</b></div>
+      <input class="answer" data-answers='["so that i can use", "so that i could use", "so i can use"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">so that + subject + can …</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">so that I can use</div></div>
+    <div class="question"><div class="prompt"><span class="num">2</span>We booked early because we wanted cheaper tickets.<br>→ We booked early ___ cheaper tickets. <b>(order)</b></div>
+      <input class="answer" data-answers='["in order to get", "in order to buy", "in order to have"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">in order to + verb</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">in order to get</div></div>
+    <div class="question"><div class="prompt"><span class="num">3</span>He whispered because he didn’t want to wake the baby.<br>→ He whispered ___ the baby. <b>(so that)</b></div>
+      <input class="answer" data-answers='["so that he wouldn&#39;t wake", "so that he didn&#39;t wake", "so he wouldn&#39;t wake", "so he didn&#39;t wake", "so that he would not wake", "so that he did not wake"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Negative + past: so that he wouldn’t …</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">so that he wouldn’t wake</div></div>
+    <div class="question"><div class="prompt"><span class="num">4</span>I use this app because it helps me learn words.<br>→ I use this app ___ words. <b>(for)</b></div>
+      <input class="answer" data-answers='["for learning"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">What is the app for? for + -ing</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">for learning</div></div>
+    <div class="question"><div class="prompt"><span class="num">5</span>We left at six because we didn’t want to get stuck in traffic.<br>→ We left at six ___ stuck in traffic. <b>(order)</b></div>
+      <input class="answer" data-answers='["in order not to get", "so as not to get"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Negative: in order not to …</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">in order not to get</div></div>
+    <div class="question"><div class="prompt"><span class="num">6</span>She called the hotel because she wanted to ask about late check-in.<br>→ She called the hotel ___ about late check-in. <b>(to)</b></div>
+      <input class="answer" data-answers='["to ask", "to find out", "to enquire", "to inquire"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">to + verb</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">to ask</div></div>
+    <button class="check">Check this block</button>
+  </div>
+  <h3>Why? Answer fast — a different structure each time</h3>
+  <ol class="whys">
+    <li>Why do climbers often start before sunrise?</li>
+    <li>What’s a dishwasher for?</li>
+    <li>Why do some people switch off their phone at night?</li>
+    <li>Why would anyone take binoculars to a football match?</li>
+    <li>Why did you start playing badminton?</li>
+    <li>Why are you learning English — really?</li>
+  </ol>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">07 · 12 min</div>
+  <h2>Travel light</h2>
+  <p class="intro">Choose a trip: <b>a five-day hike in the Altai mountains</b>, <b>a weekend badminton tournament in Kazan</b> or <b>your own idea</b>. You can only take one backpack: <b>10 kg</b> maximum (the backpack itself weighs 1.5 kg). Click to pack.</p>
+  <div class="pack"><div class="packbar"><span>Backpack: <b class="kgsum">1.5</b> / 10 kg</span><span class="packmsg"></span></div><div class="packgrid"><button type="button" class="pk" data-kg="2.4"><img src="img/tent.jpg" alt="tent" loading="lazy"><span class="pn">tent</span><span class="kg">2.4 kg</span></button><button type="button" class="pk" data-kg="1.4"><img src="img/sleeping-bag.jpg" alt="sleeping bag" loading="lazy"><span class="pn">sleeping bag</span><span class="kg">1.4 kg</span></button><button type="button" class="pk" data-kg="1.1"><img src="img/camping-stove.jpg" alt="camping stove + pan" loading="lazy"><span class="pn">camping stove + pan</span><span class="kg">1.1 kg</span></button><button type="button" class="pk" data-kg="0.5"><img src="img/waterproof-jacket.jpg" alt="waterproof jacket" loading="lazy"><span class="pn">waterproof jacket</span><span class="kg">0.5 kg</span></button><button type="button" class="pk" data-kg="1.3"><img src="img/walking-boots.jpg" alt="spare walking boots" loading="lazy"><span class="pn">spare walking boots</span><span class="kg">1.3 kg</span></button><button type="button" class="pk" data-kg="0.7"><img src="img/binoculars.jpg" alt="binoculars" loading="lazy"><span class="pn">binoculars</span><span class="kg">0.7 kg</span></button><button type="button" class="pk" data-kg="0.4"><img src="img/portable-charger.jpg" alt="portable charger" loading="lazy"><span class="pn">portable charger</span><span class="kg">0.4 kg</span></button><button type="button" class="pk" data-kg="0.2"><img src="img/sunscreen.jpg" alt="sunscreen" loading="lazy"><span class="pn">sunscreen</span><span class="kg">0.2 kg</span></button><button type="button" class="pk" data-kg="0.2"><img src="img/insect-repellent.jpg" alt="insect repellent" loading="lazy"><span class="pn">insect repellent</span><span class="kg">0.2 kg</span></button><button type="button" class="pk" data-kg="0.2"><img src="img/torch.jpg" alt="torch" loading="lazy"><span class="pn">torch</span><span class="kg">0.2 kg</span></button><button type="button" class="pk" data-kg="0.1"><img src="img/sunglasses.jpg" alt="sunglasses" loading="lazy"><span class="pn">sunglasses</span><span class="kg">0.1 kg</span></button><button type="button" class="pk" data-kg="2.5"><span class="pn">clothes for 5 days</span><span class="kg">2.5 kg</span></button><button type="button" class="pk" data-kg="2.0"><span class="pn">food for 2 days</span><span class="kg">2 kg</span></button><button type="button" class="pk" data-kg="1.5"><span class="pn">water, 1.5 l</span><span class="kg">1.5 kg</span></button><button type="button" class="pk" data-kg="1.6"><span class="pn">laptop</span><span class="kg">1.6 kg</span></button><button type="button" class="pk" data-kg="0.9"><span class="pn">camera + lens</span><span class="kg">0.9 kg</span></button><button type="button" class="pk" data-kg="0.4"><span class="pn">a paper book</span><span class="kg">0.4 kg</span></button></div></div>
+  <div class="speaking plain">
+    <p><b>Explain your choices: what are you taking, why, and what did you leave at home?</b></p>
+    <p class="muted">Use at least three different ways to express purpose: to, in order (not) to, so that, for.</p>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">08 · Reserve · 5–10 min</div>
+  <h2>One word, two compounds</h2>
+  <p class="intro">The same word completes both sentences.</p>
+  <div class="exercise ">
+    <div class="question"><div class="prompt"><span class="num">1</span>Don’t forget your ___glasses. · I got ___burnt on the first day.</div>
+      <input class="answer" data-answers='["sun"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">It’s hot and bright.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">sun</div></div>
+    <div class="question"><div class="prompt"><span class="num">2</span>My ___pack is too heavy. · After a 20-kilometre walk, I had terrible ___ache.</div>
+      <input class="answer" data-answers='["back"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">A part of your body.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">back</div></div>
+    <div class="question"><div class="prompt"><span class="num">3</span>We bought a guide___ about Altai. · There’s no space left on my ___shelf.</div>
+      <input class="answer" data-answers='["book"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">You read it.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">book</div></div>
+    <div class="question"><div class="prompt"><span class="num">4</span>We spent five hours at the ___port. · The hotel room had no ___ conditioning.</div>
+      <input class="answer" data-answers='["air"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">You breathe it.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">air</div></div>
+    <div class="question"><div class="prompt"><span class="num">5</span>My flat___ never washes the dishes. · I’m going to the cinema with some work___s.</div>
+      <input class="answer" data-answers='["mate"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">A friend or someone you share something with.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">mate</div></div>
+    <div class="question"><div class="prompt"><span class="num">6</span>Put the plates in the ___board. · Can you pass me that coffee ___?</div>
+      <input class="answer" data-answers='["cup"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">You drink tea from it.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">cup</div></div>
+    <button class="check">Check this block</button>
+  </div>
+  <div class="speaking plain">
+    <p><b>What’s your pet peeve when you travel?</b></p>
+    <p class="muted">One minute, no preparation.</p>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+</main>
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide')), tabs=[].slice.call(document.querySelectorAll('.tab')), cur=0;
+  window.go=function(i){
+    cur=Math.max(0,Math.min(slides.length-1,i));
+    slides.forEach(function(s,j){s.style.display=j===cur?'block':'none'});
+    tabs.forEach(function(t,j){t.classList.toggle('active',j===cur)});
+    window.scrollTo(0,0);
+  };
+  slides.forEach(function(s,j){
+    var p=s.querySelector('.prev'), n=s.querySelector('.next');
+    p.disabled=j===0; n.disabled=j===slides.length-1;
+    p.onclick=function(){go(j-1)}; n.onclick=function(){go(j+1)};
+  });
+
+  // answers: case, extra spaces, end punctuation and all apostrophe types are ignored
+  function norm(s){return String(s||'').toLowerCase().replace(/[\u2019\u2018\u0060\u00b4\u02bc\u2032]/g,"'").replace(/[.,!?;:]+/g,' ').replace(/\s+/g,' ').trim()}
+  window.normAnswer=norm;
+
+  document.querySelectorAll('.hint').forEach(function(b){b.onclick=function(){b.nextElementSibling.classList.toggle('hidden')}});
+  document.querySelectorAll('.reveal').forEach(function(b){b.onclick=function(){b.nextElementSibling.classList.remove('hidden')}});
+  document.querySelectorAll('.check').forEach(function(b){b.onclick=function(){
+    b.closest('.exercise').querySelectorAll('.question').forEach(function(q){
+      var inp=q.querySelector('.answer'), list=JSON.parse(inp.dataset.answers), v=inp.value.trim(),
+          f=q.querySelector('.feedback'), rev=q.querySelector('.reveal');
+      inp.classList.remove('ok','no');
+      if(!v){f.textContent='Type your answer first.';f.className='feedback bad';rev.classList.add('hidden');return}
+      var ok=list.some(function(a){return norm(a)===norm(v)});
+      inp.classList.add(ok?'ok':'no');
+      f.textContent=ok?'Correct.':'Not quite. Try again or show the answer.';
+      f.className='feedback '+(ok?'good':'bad');
+      rev.classList.toggle('hidden',ok);
+      if(ok) q.querySelector('.correct').classList.add('hidden');
+    });
+    var ex=b.closest('.exercise'), all=ex.querySelector('.showall');
+    if(!all){all=document.createElement('button');all.className='showall';all.textContent='Show all correct answers';b.after(all);
+      all.onclick=function(){ex.querySelectorAll('.question').forEach(function(q){if(!q.querySelector('.reveal').classList.contains('hidden'))q.querySelector('.correct').classList.remove('hidden')})}}
+    all.classList.toggle('hidden',!ex.querySelector('.reveal:not(.hidden)'));
+  }});
+  function setTop(){document.documentElement.style.setProperty('--top',document.querySelector('.top').offsetHeight+'px')}
+  setTop(); window.addEventListener('resize',setTop);
+  document.querySelectorAll('.answer').forEach(function(i){i.setAttribute('autocomplete','off');i.setAttribute('spellcheck','false');i.setAttribute('autocapitalize','off')});
+
+  // word bank: shuffled on every load, never in answer order
+  document.querySelectorAll('.bank').forEach(function(bank){
+    var items=[].slice.call(bank.children);
+    for(var i=items.length-1;i>0;i--){var k=Math.floor(Math.random()*(i+1));var t=items[i];items[i]=items[k];items[k]=t}
+    items.forEach(function(x){bank.appendChild(x);x.onclick=function(){x.classList.toggle('used')}});
+  });
+
+  // three levels of support: in order; the example only after the student has said her own answer
+  var targets=['in order not to','in order to','so that','so as not to'];
+  function mark(t){var h=t.replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]});
+    targets.forEach(function(w){h=h.replace(new RegExp('\\b('+w.replace(/-/g,'\\-')+')\\b','gi'),'<span class="new">$1</span>')});return h}
+  document.querySelectorAll('.levels').forEach(function(box){
+    var sp=box.closest('.speaking'), out=document.createElement('div');
+    box.after(out);
+    var b1=btn('Ideas'), b2=btn('Useful beginnings'), tried=btn('✓ I said my answer'), b3=btn('Example answer');
+    tried.className='tried'; b2.disabled=true; b3.disabled=true;
+    [b1,b2,tried,b3].forEach(function(b){box.appendChild(b)});
+    function btn(t){var b=document.createElement('button');b.type='button';b.textContent=t;return b}
+    function show(label,text,cls){var d=document.createElement('div');d.className='level-box'+(cls?' '+cls:'');d.innerHTML='<span class="lab">'+label+'</span>'+text;out.appendChild(d)}
+    b1.onclick=function(){show('Ideas',mark(box.dataset.one));b1.disabled=true;b2.disabled=false};
+    b2.onclick=function(){show('Useful beginnings',mark(box.dataset.two));b2.disabled=true};
+    tried.onclick=function(){tried.disabled=true;b3.disabled=false};
+    b3.onclick=function(){show('Example answer',mark(box.dataset.three));show('Your turn','Now say your answer again in your own words — change at least two things.','own');b3.disabled=true};
+  });
+
+  // one-click choice
+  document.querySelectorAll('.choice').forEach(function(c){
+    var fb=document.createElement('div');fb.className='cfb';c.after(fb);
+    c.querySelectorAll('button').forEach(function(b){b.type='button';b.onclick=function(){
+      var ok=b.dataset.v===c.dataset.k;
+      c.querySelectorAll('button').forEach(function(x){x.classList.remove('wrong')});
+      if(ok){b.classList.add('right');c.querySelectorAll('button').forEach(function(x){x.disabled=true});fb.className='cfb good';fb.textContent='Correct. '+(c.dataset.why||'')}
+      else{b.classList.add('wrong');fb.className='cfb bad';fb.textContent='Not quite — try again.'}
+    }});
+  });
+  // purpose hunt
+  var hs=[].slice.call(document.querySelectorAll('.hunt')), hscore=document.querySelector('.huntscore b');
+  hs.forEach(function(h){h.onclick=function(){ if(h.classList.contains('yes')||h.classList.contains('no'))return;
+    h.classList.add(h.dataset.k==='y'?'yes':'no'); h.setAttribute('data-tip',h.dataset.why);
+    if(hscore) hscore.textContent=document.querySelectorAll('.hunt.yes').length; };});
+  // listening ticks
+  document.querySelectorAll('.ticks').forEach(function(t){
+    var yes=JSON.parse(t.dataset.yes), bs=[].slice.call(t.querySelectorAll('button')), fb=t.parentNode.querySelector('.tickfb');
+    bs.forEach(function(b){b.onclick=function(){ if(t.dataset.done)return; b.classList.toggle('on'); };});
+    t.parentNode.querySelector('.tickcheck').onclick=function(){
+      t.dataset.done=1; var right=0, wrong=0;
+      bs.forEach(function(b){ var y=yes.indexOf(b.textContent)>-1, on=b.classList.contains('on'); b.classList.remove('on');
+        if(y&&on){b.classList.add('ok');right++} else if(y){b.classList.add('miss')} else if(on){b.classList.add('extra');wrong++} });
+      fb.textContent=right+' of '+yes.length+' found'+(wrong?' · '+wrong+' not in the recording (crossed out)':'')+'. Dashed = missed.';
+    };
+  });
+  // packing game
+  document.querySelectorAll('.pack').forEach(function(p){
+    var sum=p.querySelector('.kgsum'), bar=p.querySelector('.packbar'), msg=p.querySelector('.packmsg');
+    function upd(){ var kg=1.5; p.querySelectorAll('.pk.in').forEach(function(b){kg+=parseFloat(b.dataset.kg)}); kg=Math.round(kg*10)/10;
+      sum.textContent=kg; bar.classList.toggle('over',kg>10); msg.textContent=kg>10?'Too heavy! Take something out.':(kg>9?'Almost full.':''); }
+    p.querySelectorAll('.pk').forEach(function(b){b.onclick=function(){b.classList.toggle('in');upd();};});
+  });
+
+  go(0);
+})();
+</script>
+</body>
+</html>
