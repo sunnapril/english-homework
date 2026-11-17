@@ -13,6 +13,8 @@ Applies to every student, every homework (site page or Google Doc) and every les
 8. Workbook (WB) only in homework, never in a lesson.
 9. Every gap has one answer or all correct answers are listed; one Check per block, "Show correct answer" + "Show all correct answers".
 10. Speaking: Ideas → Useful beginnings → "✓ I said my answer" → Example answer → "Your turn — change at least two things".
+11. Multiple choice / drop-downs / matching: the correct option is **never always in the same position** (not first, not in task order). Vary positions on purpose and count them before sending.
+12. Don't overuse one topic across a student's lessons and homework (Sergey 16.11: fear/horror was used enough — pick another theme next).
 
 ## Role-model techniques (from @a_zephyrus_)
 - **Summary line at the top** ("Итог"): what to submit and the deadline, in one line.
