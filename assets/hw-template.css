@@ -104,4 +104,5 @@ details.script p{margin:6px 0}
 .vocab-fold dl div{display:grid;grid-template-columns:minmax(8em,14em) 1fr;gap:12px;padding:5px 0;border-top:1px solid #ddd5ea}
 .vocab-fold dt{font-weight:700;color:var(--ink)}
 .vocab-fold dd{margin:0;color:var(--muted)}
+.vocab-fold dd .ru{display:block;color:var(--purple);font-size:.9em}
 @media(max-width:560px){.vocab-fold dl div{grid-template-columns:1fr;gap:0}}
