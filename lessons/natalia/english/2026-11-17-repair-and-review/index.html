@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Natalia · Unexpected results</title>
+<style>
+:root{
+  --bg:#f6f1ea; --card:#fffdf9; --ink:#2b2420; --muted:#7a6d64; --line:#e8ddd1;
+  --accent:#b5502f; --accent-soft:#f6e4da; --teal:#2f6f6a; --teal-soft:#e2efed;
+  --bad:#a8361c; --violet:#5d4a8a; --violet-soft:#efebf7;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+.top{position:sticky;top:0;z-index:10;background:var(--card);border-bottom:1px solid var(--line);padding:12px 16px 10px}
+.top h1{margin:0 0 9px;font:600 21px/1.2 Georgia,"Times New Roman",serif}
+.top h1 small{font:500 13px system-ui,sans-serif;color:var(--muted);margin-left:6px}
+.tabs{display:flex;gap:6px;overflow-x:auto;white-space:nowrap;padding-bottom:3px}
+.tab{flex:0 0 auto;background:transparent;border:1px solid var(--line);color:var(--ink);padding:6px 11px;border-radius:999px;font-size:12.5px;cursor:pointer}
+.tab .n{color:var(--accent);font-weight:700;margin-right:4px}
+.tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.tab.active .n{color:#fff}
+main{max-width:920px;margin:22px auto 80px;padding:0 16px}
+.slide{background:var(--card);padding:30px 34px;border:1px solid var(--line);border-radius:16px}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--accent)}
+h2{font:600 34px/1.15 Georgia,"Times New Roman",serif;margin:6px 0 12px}
+h3{font:600 22px/1.25 Georgia,serif;margin:0 0 8px}
+.intro{font-size:18px}
+.muted{color:var(--muted);font-size:15px}
+.new{font-weight:700;color:var(--accent)}
+.rule{padding:14px 18px;border-left:5px solid var(--accent);background:var(--accent-soft);border-radius:0 10px 10px 0;margin:18px 0}
+.rule p{margin:4px 0}
+.exercise{margin:14px 0}
+.question{border-bottom:1px solid var(--line);padding:15px 0;display:grid;grid-template-columns:minmax(0,1fr) 230px auto;gap:9px;align-items:center}
+.prompt{grid-column:1/-1}
+.prompt .num{display:inline-block;min-width:24px;font-weight:700;color:var(--accent)}
+.prompt .gloss{color:var(--muted)}
+.answer{padding:10px 12px;font-size:16px;border:1px solid #cdbfb2;border-radius:9px;min-width:0;background:#fff}
+.answer.ok{border-color:var(--teal);background:var(--teal-soft)}
+.answer.no{border-color:var(--bad);background:#fbece7}
+button{font:inherit}
+.hint,.reveal,.footnav button,.levels button,.tried{cursor:pointer;padding:8px 13px;border-radius:9px;border:1px solid #d6c8bb;background:#fff;color:var(--ink);font-size:14px}
+.hidden{display:none}
+.helper,.correct,.feedback{grid-column:1/-1;font-size:14.5px}
+.helper{background:#f3ece4;padding:8px 12px;border-radius:8px}
+.feedback.bad{color:var(--bad);font-weight:700}
+.feedback.good{color:var(--teal);font-weight:700}
+.correct{color:var(--teal);font-weight:700;padding:2px 0}
+.reveal{grid-column:1/-1;justify-self:start;border-color:var(--accent)!important;color:var(--accent)!important;font-weight:600}
+.showall{cursor:pointer;margin:16px 0 0 8px;padding:10px 16px;border-radius:10px;border:1px solid var(--accent);background:#fff;color:var(--accent);font-weight:700;font-size:15px}
+.check{cursor:pointer;margin-top:16px;padding:10px 18px;border-radius:10px;border:0;background:var(--teal);color:#fff;font-weight:700;font-size:15px}
+.speaking{border-left:4px solid var(--violet);padding:12px 18px 16px;margin:18px 0;background:var(--violet-soft);border-radius:0 12px 12px 0}
+.speaking p{margin:6px 0}
+.levels{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.levels button:disabled{opacity:.45;cursor:not-allowed}
+.levels .tried{border-color:var(--violet);color:var(--violet);font-weight:600}
+.level-box{padding:9px 13px;background:#fff;border-radius:9px;margin:8px 0;font-size:16px;border:1px solid #ddd5ea}
+.level-box .lab{display:block;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--violet);font-weight:700}
+.level-box.own{border-style:dashed}
+.speaking textarea{width:100%;min-height:70px;resize:vertical;border:1px solid #d8cfe6;border-radius:9px;padding:9px;font:inherit;margin-top:10px;background:#fff}
+.bank{display:flex;gap:8px;flex-wrap:wrap;margin:14px -8px 6px;padding:10px 8px;position:sticky;top:var(--top,96px);z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+.bank span{border:1px solid var(--accent);color:var(--accent);font-weight:600;padding:5px 14px;border-radius:999px;cursor:pointer;background:#fff}
+.bank span.used{text-decoration:line-through;color:#a99d93;border-color:#d8cdc2;background:#f3eee8;font-weight:400}
+.reading{background:#fff;border:1px solid var(--line);padding:22px 26px;border-radius:12px;font:18px/1.65 Georgia,serif}
+.reading p{margin:9px 0}
+.scenario{padding:14px 18px;background:#fff;border:1px solid var(--line);margin:14px 0;border-radius:10px}
+.footnav{display:flex;justify-content:space-between;margin-top:30px;border-top:1px solid var(--line);padding-top:16px}
+.footnav button:disabled{visibility:hidden}
+@media(max-width:680px){.slide{padding:20px 16px}.question{grid-template-columns:minmax(0,1fr) auto}.answer{grid-column:1/-1}h2{font-size:27px}}
+h3{font-size:17px;margin:24px 0 6px}
+.winl{list-style:none;padding:0;margin:10px 0}
+.winl li{background:var(--card);border:1px solid var(--line);border-left:4px solid #2c6e74;border-radius:0 10px 10px 0;padding:8px 14px;margin:6px 0;font-size:17px}
+.winl li b{color:#2c6e74;background:#e3eeef;padding:0 4px;border-radius:4px}
+.winl li small{float:right;color:var(--muted);font-size:12.5px;margin-left:10px;margin-top:3px}
+.star{background:#fff;border:2px solid #2c6e74;border-radius:14px;padding:12px 16px;margin:16px 0;font-size:17px}
+.star small{display:block;font-weight:700;font-size:12px;color:#2c6e74;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px}
+.fm{border-bottom:1px solid var(--line);padding:14px 0}
+.fm .sent{font-size:18px;line-height:2.1}
+.fm .num{font-weight:700;color:var(--accent);margin-right:6px}
+.fm .chunk{cursor:pointer;padding:2px 6px;border-radius:7px;border:1px dashed #d6c8bb;background:#fff;margin:0 1px}
+.fm .chunk:hover{border-color:var(--accent)}
+.fm .chunk.sel{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:700}
+.fm .chunk.right{background:#e3eeef;border-color:#2c6e74;color:#2c6e74;border-style:solid}
+.fm .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:6px}
+.fm .row input{flex:1;min-width:200px;max-width:340px;padding:9px 11px;border:1px solid #d6c8bb;border-radius:9px;font:inherit}
+.fm .row input.ok{border-color:#2c6e74;background:#e3eeef}.fm .row input.no{border-color:#a8432c;background:#fbece7}
+.fm .helper{flex-basis:100%}
+.fmcheck{cursor:pointer;margin-top:14px}
+.choice.col{flex-direction:column;align-items:flex-start}
+.choice.col button{text-align:left;font-weight:500}
+.choice button.right{background:#2c6e74;border-color:#2c6e74;color:#fff}
+.choice button.wrong{border-color:#a8432c;color:#a8432c}
+.choice{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.choice button{cursor:pointer;background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 12px;font:inherit}
+.cfb{font-size:14px;margin-top:4px;min-height:1em}.cfb.good{color:#2c6e74}.cfb.bad{color:#a8432c}
+.say{display:block;background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:0 9px 9px 0;padding:8px 12px;margin:4px 0 8px;font-style:italic}
+.tg{color:var(--accent)}
+.rule>div{margin:7px 0}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Unexpected results <small>Natalia · 17 November</small></h1>
+  <nav class="tabs">
+    <button class="tab" onclick="go(0)"><span class="n">01</span>Bring it back</button>
+    <button class="tab" onclick="go(1)"><span class="n">02</span>What worked</button>
+    <button class="tab" onclick="go(2)"><span class="n">03</span>Find the mistake</button>
+    <button class="tab" onclick="go(3)"><span class="n">04</span>Repair words</button>
+    <button class="tab" onclick="go(4)"><span class="n">05</span>One-minute review</button>
+    <button class="tab" onclick="go(5)"><span class="n">06</span>Clear and confident</button>
+    <button class="tab" onclick="go(6)"><span class="n">07</span>Unexpected results</button>
+    <button class="tab" onclick="go(7)"><span class="n">08</span>Your story</button>
+    <button class="tab" onclick="go(8)"><span class="n">09</span>Reserve</button>
+  </nav>
+</header>
+<main>
+
+<section class="slide">
+  <div class="eyebrow">01 · 5 min</div>
+  <h2>Bring it back</h2>
+  <p class="intro">Words from different lessons. No word bank — the first letters and the number of words help you.</p>
+  <div class="exercise ">
+    <div class="question"><div class="prompt"><span class="num">1</span>Her ___ reaction was surprise, but later she really liked the idea.</div>
+      <input class="answer" data-answers='["initial", "first"]' placeholder="i _ _ _ _ _ _  (1 word)"><button class="hint">Hint</button><div class="hidden helper">Happening at the very beginning.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">initial</div></div>
+    <div class="question"><div class="prompt"><span class="num">2</span>The heater doesn’t work ___ — the room is still cold.</div>
+      <input class="answer" data-answers='["properly"]' placeholder="p _ _ _ _ _ _ _  (1 word)"><button class="hint">Hint</button><div class="hidden helper">In the correct way.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">properly</div></div>
+    <div class="question"><div class="prompt"><span class="num">3</span>Speaking clubs helped him ___ confidence.</div>
+      <input class="answer" data-answers='["gain"]' placeholder="g _ _ _  (1 word)"><button class="hint">Hint</button><div class="hidden helper">To get something useful through effort.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">gain</div></div>
+    <div class="question"><div class="prompt"><span class="num">4</span>He decided to ___ the job offer because the salary was too low.</div>
+      <input class="answer" data-answers='["refuse", "turn down", "reject"]' placeholder="r _ _ _ _ _  (1 word)"><button class="hint">Hint</button><div class="hidden helper">To say no to something.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">refuse</div></div>
+    <div class="question"><div class="prompt"><span class="num">5</span>Pasta is easy to ___ — take it off the heat after nine minutes.</div>
+      <input class="answer" data-answers='["overcook"]' placeholder="o _ _ _ _ _ _ _  (1 word)"><button class="hint">Hint</button><div class="hidden helper">To cook for too long.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">overcook</div></div>
+    <div class="question"><div class="prompt"><span class="num">6</span>The guide told the story so well that it ___ for two hours.</div>
+      <input class="answer" data-answers='["held our attention", "held my attention", "kept our attention"]' placeholder="h _ _ _  o _ _  a _ _ _ _ _ _ _ _ _  (3 words)"><button class="hint">Hint</button><div class="hidden helper">To keep people interested all the time.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">held our attention</div></div>
+    <div class="question"><div class="prompt"><span class="num">7</span>The set menu ___ three courses and a drink.</div>
+      <input class="answer" data-answers='["consists of", "includes"]' placeholder="c _ _ _ _ _ _ _  o _  (2 words)"><button class="hint">Hint</button><div class="hidden helper">Is made of these parts.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">consists of</div></div>
+    <button class="check">Check this block</button>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">02 · 3 min</div>
+  <h2>What worked in your homework</h2>
+  <p class="intro">These are <b>your</b> sentences from the Repair Café homework. The green part is exactly what you did well.</p>
+  <ul class="winl"><li><small>video</small>The Repair Café fixes things <b>for free</b>.</li><li><small>video</small>When we throw things away, they <b>end up in</b> a garbage dump or in a waste-to-energy plant.</li><li><small>video</small>He answers that it looks very complicated, but he’ll <b>give it a go</b>.</li><li><small>polite question · correct word order</small>Could you please tell me <b>how long the repair will take</b>?</li><li><small>request</small><b>Could you show me how to</b> fix it myself?</li><li><small>request</small><b>Is it OK if I</b> leave it and pick it up tomorrow?</li><li><small>Fix it: you corrected it</small>I took it to the Repair Café and asked for <b>advice</b>.</li><li><small>Fix it: you corrected it</small>I want them <b>to fix</b> my headphones before my trip.</li><li><small>Fix it: you corrected it</small>Cesar suggested <b>bringing</b> the speaker back on Saturday.</li><li><small>your own opinion</small><b>I’d rather</b> repair a broken thing <b>than</b> buy a new one.</li></ul>
+  <div class="star"><small>Progress</small>In the <i>Fix it</i> task you found and corrected five mistakes out of six yourself — including <i>advice</i>, <i>want someone to do</i> and <i>suggest + -ing</i>.</div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">03 · 8 min</div>
+  <h2>Find the mistake</h2>
+  <p class="intro">Each sentence has <b>one</b> mistake. Tap the part with the mistake, then write the correct version of that part.</p>
+  <div class="exercise fmx">
+    <div class="fm" data-bad="1" data-answers='["in the town of Suzdal", "the town of Suzdal", "town of Suzdal", "in Suzdal"]'><div class="sent"><span class="num">1</span><span class="chunk" data-i="0">We spent three days</span> <span class="chunk" data-i="1">in the town Suzdal</span> <span class="chunk" data-i="2">and visited</span> <span class="chunk" data-i="3">five old churches.</span></div>
+      <div class="row"><input class="fix" placeholder="Write the correct part"><button class="hint">Hint</button><div class="hidden helper">the town ___ Suzdal: one small word is missing.</div></div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">We spent three days in the town of Suzdal and visited five old churches.</div></div>
+    <div class="fm" data-bad="1" data-answers='["but I found a good repairman", "but I found a good repairer", "but I found a good technician", "a good repairman", "a good repairer", "a good technician", "repairman", "repairer", "technician"]'><div class="sent"><span class="num">2</span><span class="chunk" data-i="0">My washing machine broke,</span> <span class="chunk" data-i="1">but I found a good master</span> <span class="chunk" data-i="2">who fixed it</span> <span class="chunk" data-i="3">in an hour.</span></div>
+      <div class="row"><input class="fix" placeholder="Write the correct part"><button class="hint">Hint</button><div class="hidden helper">“Мастер” in English is not “master”. Who repairs things?</div></div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">My washing machine broke, but I found a good repairman who fixed it in an hour.</div></div>
+    <div class="fm" data-bad="2" data-answers='["spare parts"]'><div class="sent"><span class="num">3</span><span class="chunk" data-i="0">The shop</span> <span class="chunk" data-i="1">doesn’t sell</span> <span class="chunk" data-i="2">repair parts</span> <span class="chunk" data-i="3">for this old printer.</span></div>
+      <div class="row"><input class="fix" placeholder="Write the correct part"><button class="hint">Hint</button><div class="hidden helper">Extra parts you keep or buy to replace broken ones.</div></div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">The shop doesn’t sell spare parts for this old printer.</div></div>
+    <div class="fm" data-bad="2" data-answers='["it wasn’t finished", "it wasn&#39;t finished", "it was not finished", "wasn’t", "wasn&#39;t"]'><div class="sent"><span class="num">4</span><span class="chunk" data-i="0">When I first saw the painting,</span> <span class="chunk" data-i="1">I thought</span> <span class="chunk" data-i="2">it isn’t finished,</span> <span class="chunk" data-i="3">but it was.</span></div>
+      <div class="row"><input class="fix" placeholder="Write the correct part"><button class="hint">Hint</button><div class="hidden helper">thought is in the past, so the next verb goes to the past too.</div></div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">When I first saw the painting, I thought it wasn’t finished but it was.</div></div>
+    <div class="fm" data-bad="1" data-answers='["it isn’t cheaper", "it isn&#39;t cheaper", "it is not cheaper", "isn’t", "isn&#39;t"]'><div class="sent"><span class="num">5</span><span class="chunk" data-i="0">In general,</span> <span class="chunk" data-i="1">it wouldn’t be cheaper</span> <span class="chunk" data-i="2">to repair</span> <span class="chunk" data-i="3">an old kettle.</span></div>
+      <div class="row"><input class="fix" placeholder="Write the correct part"><button class="hint">Hint</button><div class="hidden helper">A general fact, not an imaginary situation.</div></div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">In general, it isn’t cheaper to repair an old kettle.</div></div>
+    <div class="fm" data-bad="1" data-answers='["consisted of"]'><div class="sent"><span class="num">6</span><span class="chunk" data-i="0">The dessert</span> <span class="chunk" data-i="1">consisted from</span> <span class="chunk" data-i="2">three layers:</span> <span class="chunk" data-i="3">chocolate, cream and raspberries.</span></div>
+      <div class="row"><input class="fix" placeholder="Write the correct part"><button class="hint">Hint</button><div class="hidden helper">consist + which preposition?</div></div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">The dessert consisted of three layers: chocolate, cream and raspberries.</div></div>
+    <div class="fm" data-bad="1" data-answers='["I baked a cake", "I made a cake", "baked a cake", "made a cake"]'><div class="sent"><span class="num">7</span><span class="chunk" data-i="0">On Sunday</span> <span class="chunk" data-i="1">I cooked a cake</span> <span class="chunk" data-i="2">with raspberries</span> <span class="chunk" data-i="3">for my mother’s birthday.</span></div>
+      <div class="row"><input class="fix" placeholder="Write the correct part"><button class="hint">Hint</button><div class="hidden helper">We don’t usually say cook with a cake.</div></div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">On Sunday I baked a cake with raspberries for my mother’s birthday.</div></div>
+    <div class="fm" data-bad="2" data-answers='["a different kind of person", "a different type of person", "a different person"]'><div class="sent"><span class="num">8</span><span class="chunk" data-i="0">After twenty years,</span> <span class="chunk" data-i="1">he seemed</span> <span class="chunk" data-i="2">a different kind person</span> <span class="chunk" data-i="3">to me.</span></div>
+      <div class="row"><input class="fix" placeholder="Write the correct part"><button class="hint">Hint</button><div class="hidden helper">kind ___ person: one small word is missing.</div></div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">After twenty years, he seemed a different kind of person to me.</div></div>
+    <button class="fmcheck">Check this block</button>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">04 · 7 min</div>
+  <h2>Words from the Repair Café</h2>
+  <p class="intro">No word bank. The first letters and the number of words help you.</p>
+  <div class="exercise ">
+    <div class="question"><div class="prompt"><span class="num">1</span>Old phones shouldn’t end up in ___ — they can be recycled.</div>
+      <input class="answer" data-answers='["landfill", "a landfill"]' placeholder="l _ _ _ _ _ _ _  (1 word)"><button class="hint">Hint</button><div class="hidden helper">A place where rubbish is buried in the ground.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">landfill</div></div>
+    <div class="question"><div class="prompt"><span class="num">2</span>This camera is twenty years old, so it’s hard to find ___ for it.</div>
+      <input class="answer" data-answers='["spare parts"]' placeholder="s _ _ _ _  p _ _ _ _  (2 words)"><button class="hint">Hint</button><div class="hidden helper">Parts you buy to replace broken ones.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">spare parts</div></div>
+    <div class="question"><div class="prompt"><span class="num">3</span>The screen is cracked, but don’t worry — it’s ___.</div>
+      <input class="answer" data-answers='["repairable", "fixable"]' placeholder="r _ _ _ _ _ _ _ _ _  (1 word)"><button class="hint">Hint</button><div class="hidden helper">It can be fixed.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">repairable</div></div>
+    <div class="question"><div class="prompt"><span class="num">4</span>Please take all your ___ with you when you leave the train.</div>
+      <input class="answer" data-answers='["belongings"]' placeholder="b _ _ _ _ _ _ _ _ _  (1 word)"><button class="hint">Hint</button><div class="hidden helper">The things that you own and carry with you.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">belongings</div></div>
+    <div class="question"><div class="prompt"><span class="num">5</span>I’ve never made my own pasta, but I’ll ___.</div>
+      <input class="answer" data-answers='["give it a go", "give it a try"]' placeholder="g _ _ _  i _  a  g _  (4 words)"><button class="hint">Hint</button><div class="hidden helper">Try something for the first time.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">give it a go</div></div>
+    <div class="question"><div class="prompt"><span class="num">6</span>We didn’t book a hotel, so we ___ sleeping at the station.</div>
+      <input class="answer" data-answers='["ended up"]' placeholder="e _ _ _ _  u _  (2 words)"><button class="hint">Hint</button><div class="hidden helper">Finally found ourselves in a situation we didn’t plan.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">ended up</div></div>
+    <button class="check">Check this block</button>
+  </div>
+
+  <h3>“How do you know?”</h3>
+  <div class="rule"><b>How do you know?</b> = What in the text or video shows this? Answer with <b>evidence</b>: <i>Because he says … / In the video, she … / The text says …</i></div>
+  <p class="intro">Read each short text. Choose the best answer to the question.</p>
+  <div class="question"><div class="prompt"><span class="num">1</span><span class="say">Cesar opened the toaster, looked inside and said: “Sorry, the motor is burnt. We can’t save this one.”</span> Can Cesar fix the toaster? How do you know?</div><div class="choice col" data-k="No — he says the motor is burnt and they can’t save it." data-why="The answer repeats what he actually says."><button data-v="Yes, because he looked inside it carefully.">Yes, because he looked inside it carefully.</button><button data-v="No, because toasters are usually cheap.">No, because toasters are usually cheap.</button><button data-v="No — he says the motor is burnt and they can’t save it.">No — he says the motor is burnt and they can’t save it.</button></div></div>
+
+  <div class="question"><div class="prompt"><span class="num">2</span><span class="say">Karen smiled at the long queue: “Every Saturday it’s like this. Some people come at nine, before we even open.”</span> Is the Repair Café popular? How do you know?</div><div class="choice col" data-k="Yes — Karen says there is a long queue every Saturday." data-why="The evidence is the queue every Saturday."><button data-v="Yes — Karen says there is a long queue every Saturday.">Yes — Karen says there is a long queue every Saturday.</button><button data-v="Yes, because repairing things is a good idea.">Yes, because repairing things is a good idea.</button><button data-v="No, because people come too early.">No, because people come too early.</button></div></div>
+
+  <div class="question"><div class="prompt"><span class="num">3</span><span class="say">Will looked at the tiny screws and said: “Hmm. Maybe next time I’ll just watch.”</span> Is Will confident he can fix his phone himself? How do you know?</div><div class="choice col" data-k="Not really — he says that next time he’ll maybe just watch." data-why="His words show he isn’t sure."><button data-v="Yes, because he has watched Cesar.">Yes, because he has watched Cesar.</button><button data-v="Not really — he says that next time he’ll maybe just watch.">Not really — he says that next time he’ll maybe just watch.</button><button data-v="Yes, because the screws are tiny.">Yes, because the screws are tiny.</button></div></div>
+
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+
+  <div class="eyebrow">05 · 10 min · from 13 November</div>
+  <h2>One-minute review</h2>
+  <p class="intro">Prepare first, then give a short review of a book or film you know.</p>
+  <div class="speaking">
+    <p><b>Say what kind of book or film it is, what works well, and ONE disadvantage. Who would you recommend it to?</b></p>
+    <p class="muted">Think for 1 minute, then say 3–4 sentences.</p>
+    <div class="levels" data-one="genre · plot · characters · engaging · moving · predictable · slow" data-two="It's a… about… / I found the… / However, … / I'd recommend it to…" data-three="It's a science-fiction novel about difficult choices. I found the ideas thought-provoking and the characters engaging. However, the beginning is quite slow. I'd recommend it to people who enjoy discussing ideas."></div>
+    <textarea placeholder="Optional notes"></textarea>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+
+  <div class="eyebrow">06 · 8 min · from 13 November</div>
+  <h2>Clear and confident</h2>
+  <p class="intro">Polite does not mean apologising for everything. A clear request is polite.</p>
+  <div class="rule">
+    <p><span class="new">I'd like…</span> · <span class="new">Could you…?</span> · <span class="new">Is it possible to…?</span> · <span class="new">I need…</span></p>
+  </div>
+  <div class="exercise">
+    <div class="question"><div class="prompt"><span class="num">1</span>Too direct: “Give me my money back.” → Clear and polite: “I'd like ___ for these tickets, please.”</div>
+      <input class="answer" data-answers='["a refund"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Two words: article + noun.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">a refund</div></div>
+    <div class="question"><div class="prompt"><span class="num">2</span>The hotel sent me the transfer details. I'll ___ their email to you, so you can see the times.</div>
+      <input class="answer" data-answers='["forward","send"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">To pass on an email you received.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">forward (also: send)</div></div>
+    <div class="question"><div class="prompt"><span class="num">3</span>Could you send me the new schedule ___ email, please?</div>
+      <input class="answer" data-answers='["by","via"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">A preposition, like <i>___ phone</i>, <i>___ post</i>.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">by (also: via)</div></div>
+    <div class="question"><div class="prompt"><span class="num">4</span>My room is next to the lift and it's very noisy. Could I ___ to another floor?</div>
+      <input class="answer" data-answers='["move"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Change to a different room.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">move</div></div>
+    <button class="check">Check this block</button>
+  </div>
+  <div class="speaking">
+    <p><b>You booked a place at a book club meeting, but the date has changed to Thursday, and you work late on Thursdays. Ask the organiser to move you to the next meeting and give ONE reason. No “I'm sorry”.</b></p>
+    <p class="muted">Think for 30 seconds, then say 2 sentences.</p>
+    <div class="levels" data-one="move · next meeting · work late · keep my place" data-two="Could you…? / Is it possible to…?" data-three="Could you move my place to the next meeting, please? I work late on Thursdays, so I can't come this week."></div>
+    <textarea placeholder="Optional notes"></textarea>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">07 · 12 min</div>
+  <h2>Unexpected results</h2>
+  <p class="intro">Things don’t always go as planned. These phrases help you tell what happened <b>in the end</b>.</p>
+  <div class="rule">
+    <div><b class="tg">turn out</b> — the result was different from what you expected: <b>turn out + to + verb</b> (<i>The lecture looked boring, but it <b class="tg">turned out to be</b> really interesting.</i>) · <b>turn out + adjective</b> (<i>Everything <b class="tg">turned out</b> fine.</i>) · <b>it turned out that …</b> (<i><b class="tg">It turned out that</b> the shop was closed.</i>)</div>
+    <div><b class="tg">end up</b> + <b>-ing</b> / + place — you finally do something you didn’t plan (never <i>end up to do</i>): <i>Nobody wanted to organise the party, so I <b class="tg">ended up</b> doing everything myself.</i></div>
+    <div><b class="tg">in the end</b> = finally, after some time · <b class="tg">at the end</b> (of something) = at the last part: <i>at the end of the film</i></div>
+    <div><b class="tg">better / worse than I expected</b> · <b class="tg">not as good as</b> the first one · <b class="tg">by mistake</b> · <b class="tg">luckily</b> / unfortunately</div>
+  </div>
+  <p class="intro">a · Complete the mini-stories. Tap a phrase in the bank to cross it out. <b>One phrase is extra.</b></p>
+  <div class="bank"><span>by mistake</span><span>ended up</span><span>turned out</span><span>Luckily</span><span>in the end</span><span>than I expected</span><span>as good as</span><span>at the end</span></div>
+  <div class="exercise ">
+    <div class="question"><div class="prompt"><span class="num">1</span>I used salt instead of sugar ___, so the biscuits tasted terrible.</div>
+      <input class="answer" data-answers='["by mistake", "by accident"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">You didn’t want to do it — it just happened.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">by mistake</div></div>
+    <div class="question"><div class="prompt"><span class="num">2</span>We couldn’t find a free table anywhere, so we ___ having dinner in our hotel room.</div>
+      <input class="answer" data-answers='["ended up"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">You finally did something you hadn’t planned.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">ended up</div></div>
+    <div class="question"><div class="prompt"><span class="num">3</span>I almost didn’t go to the exhibition, but it ___ to be the best part of the trip.</div>
+      <input class="answer" data-answers='["turned out"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">The result was a surprise.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">turned out</div></div>
+    <div class="question"><div class="prompt"><span class="num">4</span>The train was cancelled. ___, a colleague was driving to the same city and gave me a lift.</div>
+      <input class="answer" data-answers='["luckily", "fortunately"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Something good happened by chance.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">Luckily</div></div>
+    <div class="question"><div class="prompt"><span class="num">5</span>We argued for an hour about the colour of the kitchen, but ___ we chose white.</div>
+      <input class="answer" data-answers='["in the end", "finally", "eventually"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Finally, after some time — not “the last part of something”.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">in the end</div></div>
+    <div class="question"><div class="prompt"><span class="num">6</span>The new Georgian restaurant was much better ___ — we’ll definitely go again.</div>
+      <input class="answer" data-answers='["than I expected", "than we expected"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">A comparison with your expectations.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">than I expected</div></div>
+    <div class="question"><div class="prompt"><span class="num">7</span>The second book wasn’t ___ the first one, but I still enjoyed it.</div>
+      <input class="answer" data-answers='["as good as"]' placeholder="Type your answer"><button class="hint">Hint</button><div class="hidden helper">Two books are compared; the second is worse.</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="hidden correct">as good as</div></div>
+    <button class="check">Check this block</button>
+  </div>
+
+  <p class="intro">b · <b>turned out</b> or <b>ended up</b>? Think about the meaning: a surprising result, or something you finally did?</p>
+  <div class="question"><div class="prompt"><span class="num">1</span>The weather forecast was terrible, but the day ___ sunny and warm.</div><div class="choice col" data-k="turned out" data-why="A surprising result: turn out + adjective."><button data-v="ended up">ended up</button><button data-v="turned out">turned out</button></div></div>
+
+  <div class="question"><div class="prompt"><span class="num">2</span>We missed the last bus and ___ walking home.</div><div class="choice col" data-k="ended up" data-why="end up + -ing: something you finally did."><button data-v="ended up">ended up</button><button data-v="turned out">turned out</button></div></div>
+
+  <div class="question"><div class="prompt"><span class="num">3</span>The “quick” repair ___ to cost more than a new kettle.</div><div class="choice col" data-k="turned out" data-why="turn out + to be / to do: a surprising fact."><button data-v="turned out">turned out</button><button data-v="ended up">ended up</button></div></div>
+
+  <div class="question"><div class="prompt"><span class="num">4</span>She wanted to be a doctor, but she ___ working in a bank.</div><div class="choice col" data-k="ended up" data-why="end up + -ing."><button data-v="turned out">turned out</button><button data-v="ended up">ended up</button></div></div>
+
+  <div class="question"><div class="prompt"><span class="num">5</span>The strange-looking soup ___ to be delicious.</div><div class="choice col" data-k="turned out" data-why="turn out to be + adjective."><button data-v="ended up">ended up</button><button data-v="turned out">turned out</button></div></div>
+
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">08 · 12 min</div>
+  <h2>Your unexpected result</h2>
+  <p class="intro">Choose <b>two</b> situations. Think first, then speak. Use the help only if you need it — one step at a time.</p>
+  <div class="speaking">
+    <p><b>A recipe or a meal that didn’t go as planned. What happened, and how did it end?</b></p>
+    <p class="muted">Think for 1 minute, then say 3–4 sentences.</p>
+    <div class="levels" data-one="by mistake · forgot · overcook · ended up · luckily · in the end" data-two="I was making… / By mistake, I… / In the end, we… / It turned out…" data-three="Once I was making fish for guests, but I left it in the oven too long and overcooked it. Luckily, there was some salad and cheese in the fridge. In the end, we ended up having a cold dinner, and it turned out to be a very funny evening."></div>
+  </div>
+  <div class="speaking">
+    <p><b>Something that turned out better than you expected: a trip, a performance, a book or a place.</b></p>
+    <p class="muted">Think for 1 minute, then say 3–4 sentences.</p>
+    <div class="levels" data-one="didn’t expect much · turned out · better than I expected · held my attention" data-two="I didn’t expect much from… / But it turned out… / The best part was…" data-three="I didn’t expect much from a small local theatre, because the tickets were very cheap. But the play turned out to be excellent. It held my attention from start to finish, and it was much better than I expected."></div>
+  </div>
+  <div class="speaking">
+    <p><b>Your first opinion of something or someone changed. What did you think at first, and what changed your mind or your opinion?</b></p>
+    <p class="muted">Think for 1 minute, then say 3–4 sentences.</p>
+    <div class="levels" data-one="at first · seemed · turned out · changed my opinion" data-two="At first, I thought… / Later it turned out… / Now I…" data-three="At first, I thought the new museum building was ugly. Later it turned out that the architect had copied the shape of old local houses. Now I see its value, and I’ve completely changed my opinion of it."></div>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+
+  <div class="eyebrow">09 · Reserve</div>
+  <h2>Reserve conversation</h2>
+  <p class="muted">Only if there is time left.</p>
+  <div class="speaking">
+    <p><b>A film adaptation leaves out an important character. Give ONE advantage and ONE disadvantage of this change.</b></p>
+    <p class="muted">Think for 30 seconds, then say 2 sentences.</p>
+    <div class="levels" data-one="shorter film · easier to follow · lose an idea" data-two="One advantage is that… / On the other hand, …" data-three="One advantage is that the film is easier to follow. On the other hand, the story may lose an important idea."></div>
+    <textarea placeholder="Optional notes"></textarea>
+  </div>
+  <div class="speaking">
+    <p><b>A friend asks whether her favourite book from school is worth rereading after 20 years. What would you say, and why?</b></p>
+    <p class="muted">Think for 30 seconds, then say 2 sentences.</p>
+    <div class="levels" data-one="memories · different perspective · notice new things" data-two="I'd say… / You might notice…" data-three="I'd say it's worth rereading. You might notice a different side of the characters now."></div>
+    <textarea placeholder="Optional notes"></textarea>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+</main>
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide')), tabs=[].slice.call(document.querySelectorAll('.tab')), cur=0;
+  window.go=function(i){
+    cur=Math.max(0,Math.min(slides.length-1,i));
+    slides.forEach(function(s,j){s.style.display=j===cur?'block':'none'});
+    tabs.forEach(function(t,j){t.classList.toggle('active',j===cur)});
+    window.scrollTo(0,0);
+  };
+  slides.forEach(function(s,j){
+    var p=s.querySelector('.prev'), n=s.querySelector('.next');
+    p.disabled=j===0; n.disabled=j===slides.length-1;
+    p.onclick=function(){go(j-1)}; n.onclick=function(){go(j+1)};
+  });
+
+  // answers: case, extra spaces, end punctuation and all apostrophe types are ignored
+  function norm(s){return String(s||'').toLowerCase().replace(/[\u2019\u2018\u0060\u00b4\u02bc\u2032]/g,"'").replace(/[.,!?;:]+/g,' ').replace(/\s+/g,' ').trim()}
+  window.normAnswer=norm;
+
+  document.querySelectorAll('.hint').forEach(function(b){b.onclick=function(){b.nextElementSibling.classList.toggle('hidden')}});
+  document.querySelectorAll('.reveal').forEach(function(b){b.onclick=function(){b.nextElementSibling.classList.remove('hidden')}});
+  document.querySelectorAll('.check').forEach(function(b){b.onclick=function(){
+    b.closest('.exercise').querySelectorAll('.question').forEach(function(q){
+      var inp=q.querySelector('.answer'), list=JSON.parse(inp.dataset.answers), v=inp.value.trim(),
+          f=q.querySelector('.feedback'), rev=q.querySelector('.reveal');
+      inp.classList.remove('ok','no');
+      if(!v){f.textContent='Type your answer first.';f.className='feedback bad';rev.classList.add('hidden');return}
+      var ok=list.some(function(a){return norm(a)===norm(v)});
+      inp.classList.add(ok?'ok':'no');
+      f.textContent=ok?'Correct.':'Not quite. Try again or show the answer.';
+      f.className='feedback '+(ok?'good':'bad');
+      rev.classList.toggle('hidden',ok);
+      if(ok) q.querySelector('.correct').classList.add('hidden');
+    });
+    var ex=b.closest('.exercise'), all=ex.querySelector('.showall');
+    if(!all){all=document.createElement('button');all.className='showall';all.textContent='Show all correct answers';b.after(all);
+      all.onclick=function(){ex.querySelectorAll('.question').forEach(function(q){if(!q.querySelector('.reveal').classList.contains('hidden'))q.querySelector('.correct').classList.remove('hidden')})}}
+    all.classList.toggle('hidden',!ex.querySelector('.reveal:not(.hidden)'));
+  }});
+  function setTop(){document.documentElement.style.setProperty('--top',document.querySelector('.top').offsetHeight+'px')}
+  setTop(); window.addEventListener('resize',setTop);
+  document.querySelectorAll('.answer').forEach(function(i){i.setAttribute('autocomplete','off');i.setAttribute('spellcheck','false');i.setAttribute('autocapitalize','off')});
+
+  // word bank: shuffled on every load, never in answer order
+  document.querySelectorAll('.bank').forEach(function(bank){
+    var items=[].slice.call(bank.children);
+    for(var i=items.length-1;i>0;i--){var k=Math.floor(Math.random()*(i+1));var t=items[i];items[i]=items[k];items[k]=t}
+    items.forEach(function(x){bank.appendChild(x);x.onclick=function(){x.classList.toggle('used')}});
+  });
+
+  // three levels of support: in order; the example only after the student has said her own answer
+  var targets=['turned out','ended up','in the end','by mistake','luckily','better than I expected','held my attention','overcooked','overcook','refund','thought-provoking','engaging','moving','predictable'];
+  function mark(t){var h=t.replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]});
+    targets.forEach(function(w){h=h.replace(new RegExp('\\b('+w.replace(/-/g,'\\-')+')\\b','gi'),'<span class="new">$1</span>')});return h}
+  document.querySelectorAll('.levels').forEach(function(box){
+    var sp=box.closest('.speaking'), out=document.createElement('div');
+    box.after(out);
+    var b1=btn('Idea words'), b2=btn('Useful beginnings'), tried=btn('✓ I said my answer'), b3=btn('Example answer');
+    tried.className='tried'; b2.disabled=true; b3.disabled=true;
+    [b1,b2,tried,b3].forEach(function(b){box.appendChild(b)});
+    function btn(t){var b=document.createElement('button');b.type='button';b.textContent=t;return b}
+    function show(label,text,cls){var d=document.createElement('div');d.className='level-box'+(cls?' '+cls:'');d.innerHTML='<span class="lab">'+label+'</span>'+text;out.appendChild(d)}
+    b1.onclick=function(){show('Idea words',mark(box.dataset.one));b1.disabled=true;b2.disabled=false};
+    b2.onclick=function(){show('Useful beginnings',mark(box.dataset.two));b2.disabled=true};
+    tried.onclick=function(){tried.disabled=true;b3.disabled=false};
+    b3.onclick=function(){show('Example answer',mark(box.dataset.three));show('Your turn','Now say your answer again in your own words — change at least two things.','own');b3.disabled=true};
+  });
+
+  // one-click choice
+  document.querySelectorAll('.choice').forEach(function(c){
+    var fb=document.createElement('div');fb.className='cfb';c.after(fb);
+    c.querySelectorAll('button').forEach(function(b){b.type='button';b.onclick=function(){
+      var ok=b.dataset.v===c.dataset.k;
+      c.querySelectorAll('button').forEach(function(x){x.classList.remove('wrong')});
+      if(ok){b.classList.add('right');c.querySelectorAll('button').forEach(function(x){x.disabled=true});fb.className='cfb good';fb.textContent='Correct. '+(c.dataset.why||'')}
+      else{b.classList.add('wrong');fb.className='cfb bad';fb.textContent='Not quite — read the text again.'}
+    }});
+  });
+  // find the mistake
+  document.querySelectorAll('.fm').forEach(function(q){q.querySelectorAll('.chunk').forEach(function(c){c.onclick=function(){
+    if(q.classList.contains('done'))return;q.querySelectorAll('.chunk').forEach(function(x){x.classList.remove('sel')});c.classList.add('sel');q.querySelector('.fix').focus()}})});
+  document.querySelectorAll('.fix').forEach(function(i){i.setAttribute('autocomplete','off');i.setAttribute('spellcheck','false');i.setAttribute('autocapitalize','off')});
+  document.querySelectorAll('.fmcheck').forEach(function(b){b.onclick=function(){
+    var ex=b.closest('.exercise'),miss=false;
+    ex.querySelectorAll('.fm').forEach(function(q){if(q.classList.contains('done'))return;
+      var sel=q.querySelector('.chunk.sel'),inp=q.querySelector('.fix'),f=q.querySelector('.feedback'),rev=q.querySelector('.reveal');
+      inp.classList.remove('ok','no');
+      function say(ok,t){f.textContent=t;f.className='feedback '+(ok?'good':'bad')}
+      if(!sel){say(false,'Tap the part with the mistake first.');rev.classList.add('hidden');miss=true;return}
+      if(+sel.dataset.i!==+q.dataset.bad){say(false,'This part is correct. The mistake is somewhere else.');rev.classList.remove('hidden');miss=true;return}
+      if(!inp.value.trim()){say(false,'Right place! Now write the correct version.');rev.classList.add('hidden');miss=true;return}
+      var ok=JSON.parse(q.dataset.answers).some(function(a){return normAnswer(a)===normAnswer(inp.value)});
+      inp.classList.add(ok?'ok':'no');
+      if(ok){say(true,'Found and fixed!');sel.classList.remove('sel');sel.classList.add('right');sel.textContent=inp.value.trim();q.classList.add('done');rev.classList.add('hidden');q.querySelector('.correct').classList.add('hidden')}
+      else{say(false,'Right place, but the correction isn’t right yet.');rev.classList.remove('hidden');miss=true}
+    });
+    var all=ex.querySelector('.showall');
+    if(!all){all=document.createElement('button');all.className='showall';all.textContent='Show all correct answers';b.after(all);
+      all.onclick=function(){ex.querySelectorAll('.fm:not(.done) .correct').forEach(function(c){c.classList.remove('hidden')})}}
+    all.classList.toggle('hidden',!miss);
+  }});
+
+  go(0);
+})();
+</script>
+</body>
+</html>
