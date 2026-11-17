@@ -58,6 +58,9 @@ details.script p{margin:6px 0}
 
 .videobtn{display:inline-block;background:#c4302b;color:#fff;font-weight:800;text-decoration:none;border-radius:12px;padding:12px 18px;font-size:1.05rem}
 .videobtn:hover{filter:brightness(1.08)}
+.media.video.embed .frame{position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
+.media.video.embed iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.media.video.embed .sub{margin:6px 0 0;font-size:.85rem}
 .namebox{display:block;font-weight:800;margin:10px 0}
 .namebox input{display:block;margin-top:6px;width:min(100%,360px);font:inherit;padding:10px;border:2px solid #7daaa1;border-radius:10px}
 
@@ -91,3 +94,15 @@ details.script p{margin:6px 0}
 @media(max-width:560px){.theme-magazine .masthead{letter-spacing:.16em;font-size:.62rem;gap:7px}.theme-magazine .vocab dl div{grid-template-columns:1fr;gap:2px}}
 @media(min-width:900px){.theme-magazine section.article .text{columns:2;column-gap:40px;column-rule:1px solid var(--line)}}
 .theme-magazine section.article .media{margin:6px 0 18px}.theme-magazine section.article .media img{width:100%}
+
+.vocab-fold{margin:10px 0 12px;border:1px solid var(--line);border-radius:14px;background:var(--lav)}
+.vocab-fold summary{cursor:pointer;list-style:none;padding:10px 14px;font-weight:800;color:var(--purple)}
+.vocab-fold summary::-webkit-details-marker{display:none}
+.vocab-fold summary::before{content:"▸ ";}
+.vocab-fold[open] summary::before{content:"▾ ";}
+.vocab-fold dl{margin:0;padding:2px 14px 10px}
+.vocab-fold dl div{display:grid;grid-template-columns:minmax(8em,14em) 1fr;gap:12px;padding:5px 0;border-top:1px solid #ddd5ea}
+.vocab-fold dt{font-weight:700;color:var(--ink)}
+.vocab-fold dd{margin:0;color:var(--muted)}
+.vocab-fold dd .ru{display:block;color:var(--purple);font-size:.9em}
+@media(max-width:560px){.vocab-fold dl div{grid-template-columns:1fr;gap:0}}
