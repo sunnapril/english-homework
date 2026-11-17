@@ -118,7 +118,8 @@ sections.forEach(s => {
   let h = `<h2>${fmt(s.title)}</h2>`;
   if (s.items.length) h += `<p class="count">${s.items.length} ${s.items.length === 1 ? 'task' : 'tasks'}</p>`;
   h += textBlock(s.text, s.image);
-  if (s.vocab) h += `<div class="vocab"><h3>New vocabulary</h3><dl>${s.vocab.map(v => `<div><dt>${fmt(v.w)}</dt><dd>${fmt(v.d)}</dd></div>`).join('')}</dl></div>`;
+  if (s.vocab && theme === 'magazine') h += `<div class="vocab"><h3>New vocabulary</h3><dl>${s.vocab.map(v => `<div><dt>${fmt(v.w)}</dt><dd>${fmt(v.d)}</dd></div>`).join('')}</dl></div>`;
+  else if (s.vocab) h += `<details class="vocab vocab-fold"><summary>New vocabulary · ${s.vocab.length} words</summary><dl>${s.vocab.map(v => `<div><dt>${fmt(v.w)}</dt><dd>${fmt(v.d)}</dd></div>`).join('')}</dl></details>`;
   const ytId = s.video && s.video.embed ? ((s.video.url.match(/(?:youtu\.be\/|[?&]v=|embed\/)([\w-]{11})/) || [])[1]) : null;
   if (ytId) h += `<div class="media video embed"><div class="frame"><iframe src="https://www.youtube-nocookie.com/embed/${ytId}?rel=0&playsinline=1" title="${esc(s.video.label)}" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe></div><p class="sub">If the video does not play, turn on your VPN or <a href="${esc(s.video.url)}" target="_blank" rel="noopener">open it on YouTube</a>.</p></div>`;
   else if (s.video) h += `<div class="media video"><a class="videobtn" href="${esc(s.video.url)}" target="_blank" rel="noopener">▶ ${esc(s.video.label)}</a><p class="sub">The video opens on YouTube in a new tab. Then come back to this page. If YouTube does not open, turn on your VPN.</p></div>`;
