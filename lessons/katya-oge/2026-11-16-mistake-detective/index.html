@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Katya · Mistake detective</title>
+<style>
+:root{
+  --bg:#f6f1ea; --card:#fffdf9; --ink:#2b2420; --muted:#7a6d64; --line:#e8ddd1;
+  --accent:#b5502f; --accent-soft:#f6e4da; --teal:#2f6f6a; --teal-soft:#e2efed;
+  --bad:#a8361c; --violet:#5d4a8a; --violet-soft:#efebf7;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+.top{position:sticky;top:0;z-index:10;background:var(--card);border-bottom:1px solid var(--line);padding:12px 16px 10px}
+.top h1{margin:0 0 9px;font:600 21px/1.2 Georgia,"Times New Roman",serif}
+.top h1 small{font:500 13px system-ui,sans-serif;color:var(--muted);margin-left:6px}
+.tabs{display:flex;gap:6px;overflow-x:auto;white-space:nowrap;padding-bottom:3px}
+.tab{flex:0 0 auto;background:transparent;border:1px solid var(--line);color:var(--ink);padding:6px 11px;border-radius:999px;font-size:12.5px;cursor:pointer}
+.tab .n{color:var(--accent);font-weight:700;margin-right:4px}
+.tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.tab.active .n{color:#fff}
+main{max-width:920px;margin:22px auto 80px;padding:0 16px}
+.slide{background:var(--card);padding:30px 34px;border:1px solid var(--line);border-radius:16px}
+.eyebrow{font-size:14px;font-weight:700;color:var(--accent)}
+h2{font:600 34px/1.15 Georgia,"Times New Roman",serif;margin:6px 0 12px}
+h3{font:600 22px/1.25 Georgia,serif;margin:0 0 8px}
+.intro{font-size:18px}
+.muted{color:var(--muted);font-size:15px}
+.new{font-weight:700;color:var(--accent)}
+.rule{padding:14px 18px;border-left:5px solid var(--accent);background:var(--accent-soft);border-radius:0 10px 10px 0;margin:18px 0}
+.rule p{margin:4px 0}
+.exercise{margin:14px 0}
+.question{border-bottom:1px solid var(--line);padding:15px 0;display:grid;grid-template-columns:minmax(0,1fr) 230px auto;gap:9px;align-items:center}
+.prompt{grid-column:1/-1}
+.prompt .num{display:inline-block;min-width:24px;font-weight:700;color:var(--accent)}
+.prompt .gloss{color:var(--muted)}
+.answer{padding:10px 12px;font-size:16px;border:1px solid #cdbfb2;border-radius:9px;min-width:0;background:#fff}
+.answer.ok{border-color:var(--teal);background:var(--teal-soft)}
+.answer.no{border-color:var(--bad);background:#fbece7}
+button{font:inherit}
+.hint,.reveal,.footnav button,.levels button,.tried{cursor:pointer;padding:8px 13px;border-radius:9px;border:1px solid #d6c8bb;background:#fff;color:var(--ink);font-size:14px}
+.hidden{display:none}
+.helper,.correct,.feedback{grid-column:1/-1;font-size:14.5px}
+.helper{background:#f3ece4;padding:8px 12px;border-radius:8px}
+.feedback.bad{color:var(--bad);font-weight:700}
+.feedback.good{color:var(--teal);font-weight:700}
+.correct{color:var(--teal);font-weight:700;padding:2px 0}
+.reveal{grid-column:1/-1;justify-self:start;border-color:var(--accent)!important;color:var(--accent)!important;font-weight:600}
+.showall{cursor:pointer;margin:16px 0 0 8px;padding:10px 16px;border-radius:10px;border:1px solid var(--accent);background:#fff;color:var(--accent);font-weight:700;font-size:15px}
+.check{cursor:pointer;margin-top:16px;padding:10px 18px;border-radius:10px;border:0;background:var(--teal);color:#fff;font-weight:700;font-size:15px}
+.speaking{border-left:4px solid var(--violet);padding:12px 18px 16px;margin:18px 0;background:var(--violet-soft);border-radius:0 12px 12px 0}
+.speaking p{margin:6px 0}
+.levels{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.levels button:disabled{opacity:.45;cursor:not-allowed}
+.levels .tried{border-color:var(--violet);color:var(--violet);font-weight:600}
+.level-box{padding:9px 13px;background:#fff;border-radius:9px;margin:8px 0;font-size:16px;border:1px solid #ddd5ea}
+.level-box .lab{display:block;font-size:13px;color:var(--violet);font-weight:700}
+.level-box.own{border-style:dashed}
+.speaking textarea{width:100%;min-height:70px;resize:vertical;border:1px solid #d8cfe6;border-radius:9px;padding:9px;font:inherit;margin-top:10px;background:#fff}
+.bank{display:flex;gap:8px;flex-wrap:wrap;margin:14px -8px 6px;padding:10px 8px;position:sticky;top:var(--top,96px);z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+.bank span{border:1px solid var(--accent);color:var(--accent);font-weight:600;padding:5px 14px;border-radius:999px;cursor:pointer;background:#fff}
+.bank span.used{text-decoration:line-through;color:#a99d93;border-color:#d8cdc2;background:#f3eee8;font-weight:400}
+.reading{background:#fff;border:1px solid var(--line);padding:22px 26px;border-radius:12px;font:18px/1.65 Georgia,serif}
+.reading p{margin:9px 0}
+.scenario{padding:14px 18px;background:#fff;border:1px solid var(--line);margin:14px 0;border-radius:10px}
+.footnav{display:flex;justify-content:space-between;margin-top:30px;border-top:1px solid var(--line);padding-top:16px}
+.footnav button:disabled{visibility:hidden}
+@media(max-width:680px){.slide{padding:20px 16px}.question{grid-template-columns:minmax(0,1fr) auto}.answer{grid-column:1/-1}h2{font-size:27px}}
+
+.formula{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-weight:700;margin:12px 0}
+.formula span{background:#fff;border:2px solid var(--violet);color:var(--violet);border-radius:999px;padding:5px 14px}
+.formula i{font-style:normal;color:var(--muted)}
+table.rt{border-collapse:collapse;width:100%;margin:6px 0}table.rt td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}table.rt td:first-child{font-weight:800;width:70px;font-size:18px}
+.sx-ment{color:#2f6f6a}.sx-ful{color:#c0561f}.sx-un{color:#6a4fb0}b.sx-ment,b.sx-ful,b.sx-un{font-weight:800}
+.steps{margin:16px 0 6px;display:grid;gap:8px}
+.st{display:flex;gap:14px;align-items:center;color:#fff;border-radius:12px;padding:10px 16px;line-height:1.35}
+.st b{font-size:26px;min-width:38px}.st span{font-size:15px}.st i{font-style:normal;opacity:.9}
+.st-in{background:#2f6f6a;width:100%}.st-on{background:#c0561f;width:86%}.st-at{background:#6a4fb0;width:72%}
+@media(max-width:520px){.st-on,.st-at{width:100%}.st{padding:9px 12px}}
+table.rt td:first-child{white-space:nowrap}
+.base{font-weight:700;color:var(--teal);font-size:15px;letter-spacing:.03em}
+
+.ru{font-size:16px}
+.wins{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+.wins span{background:var(--teal-soft);color:var(--teal);border:1px solid #bcd9d5;border-radius:999px;padding:5px 13px;font-size:15px;font-weight:600}
+.wins span::before{content:"✓ ";font-weight:800}
+.winl{list-style:none;padding:0;margin:10px 0}
+.winl li{background:#fff;border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:0 10px 10px 0;padding:8px 14px;margin:6px 0;font-size:17px}
+.winl li b{color:var(--teal);background:var(--teal-soft);padding:0 4px;border-radius:4px}
+.winl li small{float:right;color:var(--muted);font-size:12.5px;margin-left:10px;margin-top:3px}
+.sx{color:var(--accent);font-weight:800}
+details.script{margin:12px 0;background:#fff;border:1px dashed #cdbfb2;border-radius:10px;padding:8px 14px;font-size:15.5px}
+details.script summary{cursor:pointer;color:var(--muted);font-weight:600}
+details.script p{margin:7px 0}
+.star{background:#fff;border:2px solid var(--teal);border-radius:14px;padding:14px 18px;margin:16px 0;font:19px/1.5 Georgia,serif}
+.star small{display:block;font:600 13px system-ui;color:var(--teal);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.got{display:inline-block;margin:14px 0 0 10px;color:var(--teal);font-weight:800;font-size:16px}
+.badge{float:right;background:var(--teal);color:#fff;border-radius:999px;padding:3px 11px;font:700 13px system-ui;margin-top:2px}
+.fm{border-bottom:1px solid var(--line);padding:14px 0}
+.fm .sent{font-size:19px;line-height:2.1}
+.fm .chunk{cursor:pointer;padding:2px 6px;border-radius:7px;border:1px dashed #d6c8bb;background:#fff;margin:0 1px}
+.fm .chunk:hover{border-color:#cdbfb2}
+.fm .chunk.sel{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:700}
+.fm .chunk.right{background:var(--teal-soft);border-color:var(--teal);color:var(--teal)}
+.fm .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:6px}
+.fm .row input{max-width:260px}
+.fm .feedback,.fm .helper,.fm .correct{margin-top:6px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{cursor:pointer;border:1px solid #cdbfb2;background:#fff;border-radius:999px;padding:5px 12px;font-weight:700;font-size:15px}
+.chips button.yes{background:var(--teal);border-color:var(--teal);color:#fff}
+.chips button.nope{background:#fbece7;border-color:var(--bad);color:var(--bad);text-decoration:line-through}
+.build{display:grid;grid-template-columns:150px 1fr 200px;gap:10px;align-items:center;border-bottom:1px solid var(--line);padding:11px 0}
+.build .bw{font-weight:800;letter-spacing:.05em;color:var(--violet)}
+.build .feedback,.build .correct{grid-column:1/-1}
+.sfx{color:var(--accent);font-weight:800}
+.chg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.chg div{background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:16px}
+.chg div small{display:block;color:var(--muted);font-size:13px}
+.story{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 20px;font:18px/2.2 Georgia,serif;text-align:justify;hyphens:auto}
+.story input{font:16px system-ui;width:150px;padding:4px 8px;border:1px solid #cdbfb2;border-radius:7px}
+.story input.ok{border-color:var(--teal);background:var(--teal-soft)}
+.story input.no{border-color:var(--bad);background:#fbece7}
+.story b.cap{font:700 13px system-ui;color:var(--violet);letter-spacing:.04em}
+.player{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0}
+.player audio{flex:1;min-width:220px}
+.det{list-style:none;padding:0;margin:10px 0;counter-reset:d}
+.det li{counter-increment:d;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 14px 10px 44px;margin:7px 0;position:relative;cursor:pointer;font-size:17px}
+.det li::before{content:counter(d);position:absolute;left:14px;top:10px;font-weight:800;color:var(--accent)}
+.det li.sus{border-color:var(--accent);background:var(--accent-soft)}
+.det li.found{border-color:var(--teal);background:var(--teal-soft);cursor:default}
+.det li.missed{border-color:#d99a3a;background:#fdf3e1}
+.det li.fine{opacity:.75}
+.det li .fix{display:block;margin-top:5px;color:var(--teal);font-weight:700;font-size:15.5px}
+.det li .fix.hidden{display:none}
+.det li .note{display:block;margin-top:4px;font-size:14px;color:var(--muted)}
+.pp{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:center;border-bottom:1px solid var(--line);padding:11px 0}
+.pp .said{font-style:italic}
+.pp .said::before{content:"🎧 ";font-style:normal}
+.pp select,.mc select{padding:8px;border:1px solid #cdbfb2;border-radius:9px;font:inherit;font-size:15px;background:#fff;max-width:100%}
+.pp select.ok,.mc select.ok{border-color:var(--teal);background:var(--teal-soft)}
+.pp select.no,.mc select.no{border-color:var(--bad);background:#fbece7}
+.pp .feedback,.pp .correct{grid-column:1/-1}
+.pp>*,.mc>*{min-width:0}.pp select,.mc select{width:100%}
+.mc{border-bottom:1px solid var(--line);padding:12px 0}
+.mc .say{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 13px;font-style:italic;margin:4px 0 8px}
+.exit textarea{width:100%;min-height:58px;border:1px solid #d6c8bb;border-radius:9px;padding:9px;font:inherit;background:#fff;margin:4px 0 12px}
+.total{font:600 24px Georgia,serif;color:var(--teal);margin:8px 0 16px}
+.gw{white-space:nowrap}
+@media(max-width:680px){.story{text-align:left;padding:14px 16px}.story input{width:120px}.build{grid-template-columns:1fr}.pp{grid-template-columns:1fr}.chg{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Mistake detective <small>Katya · 16 November</small></h1>
+  <nav class="tabs"><button class="tab" onclick="go(0)"><span class="n">01</span>Получается</button><button class="tab" onclick="go(1)"><span class="n">02</span>Найди ошибку</button><button class="tab" onclick="go(2)"><span class="n">03</span>Мастерская слов</button><button class="tab" onclick="go(3)"><span class="n">04</span>Детектив</button><button class="tab" onclick="go(4)"><span class="n">05</span>Перефраз</button><button class="tab" onclick="go(5)"><span class="n">06</span>Итог</button></nav>
+</header>
+<main>
+<section class="slide">
+  <div class="eyebrow">01 · 2 мин</div>
+  <h2>Что уже получается</h2>
+  <p class="intro ru">Ты сделала оба домашних задания: <b>75%</b> и <b>85%</b>. Вот что ты написала правильно сама:</p>
+  <ul class="winl"><li><small>Past Simple</small>I <b>lost</b> my keys yesterday, but I found them later.</li><li><small>Past Simple</small>We <b>visited</b> our grandparents last weekend.</li><li><small>неправильный глагол</small>He <b>threw</b> the ball across the garden yesterday.</li><li><small>сравнение</small>His phone was much <b>heavier</b> than hers.</li><li><small>превосходная степень</small>“It was the <b>worst</b> day of my week,” Jack said.</li><li><small>Past Perfect</small>By the time Jack came home, she <b>had hidden</b> the phone under a cushion.</li><li><small>пассив</small>The next day the phone <b>was repaired</b> in a small shop.</li><li><small>приставка un-</small>Emma felt very <b>unhappy</b> about what she had done.</li><li><small>-less</small>He was <b>careless</b> with his password and shared it with everyone.</li><li><small>-ment</small>There was a big <b>improvement</b> in her pronunciation this month.</li><li><small>-sion</small>We had an interesting <b>discussion</b> about online safety.</li><li><small>аудирование</small>Where does Molly do yoga in the morning? — <b>In her bedroom.</b></li></ul>
+  <div class="star"><small>Твоя фраза из ДЗ</small>“She does it before bed to relax and sleep easily.”</div>
+  <p class="ru">Коротко и точно — так и нужно отвечать на вопрос в аудировании. Сегодня разберём то немногое, что пока не получилось, и в конце посмотрим, сколько стало «получилось».</p>
+  <div class="rule ru"><p><b>Сегодня:</b> найди ошибку → мастерская слов → детектив-аудирование → перефраз → итог.</p></div>
+  <div class="footnav"><button class="prev">← Назад</button><button class="next">Дальше →</button></div>
+</section>
+<section class="slide">
+  <div class="eyebrow">02 · 7 мин</div>
+  <h2>Найди ошибку</h2>
+  <p class="intro ru">В каждом предложении <b>одна</b> ошибка. Нажми на неё, потом напиши, как правильно (только исправленную часть).</p>
+  <div class="exercise fmx"><div class="fm" data-bad="1" data-answers="[&quot;shouldn&#x27;t&quot;, &quot;should not&quot;]"><div class="sent"><span class="num" style="font-weight:700;color:var(--accent);margin-right:6px">1</span><span class="chunk" data-i="0">You</span> <span class="chunk" data-i="1">should don&#x27;t</span> <span class="chunk" data-i="2">eat</span> <span class="chunk" data-i="3">so much sugar</span> <span class="chunk" data-i="4">before bed.</span></div>
+<div class="row"><input class="answer fix" placeholder="Как правильно?"><button class="hint" type="button">Подсказка</button><div class="hidden helper">После should сразу идёт глагол. Отрицание — в самом should.</div></div><div class="feedback"></div>
+<button class="reveal hidden" type="button">Показать ответ</button><div class="hidden correct">You shouldn&#x27;t eat so much sugar before bed.</div></div><div class="fm" data-bad="1" data-answers="[&quot;has watched&quot;]"><div class="sent"><span class="num" style="font-weight:700;color:var(--accent);margin-right:6px">2</span><span class="chunk" data-i="0">My brother</span> <span class="chunk" data-i="1">watched</span> <span class="chunk" data-i="2">this series</span> <span class="chunk" data-i="3">four times</span> <span class="chunk" data-i="4">so far.</span></div>
+<div class="row"><input class="answer fix" placeholder="Как правильно?"><button class="hint" type="button">Подсказка</button><div class="hidden helper">so far = до сих пор, к этому моменту. Какое время?</div></div><div class="feedback"></div>
+<button class="reveal hidden" type="button">Показать ответ</button><div class="hidden correct">My brother has watched this series four times so far.</div></div><div class="fm" data-bad="0" data-answers="[&quot;both&quot;, &quot;both of&quot;]"><div class="sent"><span class="num" style="font-weight:700;color:var(--accent);margin-right:6px">3</span><span class="chunk" data-i="0">By both</span> <span class="chunk" data-i="1">of my friends</span> <span class="chunk" data-i="2">love</span> <span class="chunk" data-i="3">horror films.</span></div>
+<div class="row"><input class="answer fix" placeholder="Как правильно?"><button class="hint" type="button">Подсказка</button><div class="hidden helper">Двое друзей, оба. Слово начинается на B — и всё.</div></div><div class="feedback"></div>
+<button class="reveal hidden" type="button">Показать ответ</button><div class="hidden correct">both of my friends love horror films.</div></div><div class="fm" data-bad="3" data-answers="[&quot;hopeful&quot;]"><div class="sent"><span class="num" style="font-weight:700;color:var(--accent);margin-right:6px">4</span><span class="chunk" data-i="0">The vet said</span> <span class="chunk" data-i="1">my cat would get better,</span> <span class="chunk" data-i="2">so I felt</span> <span class="chunk" data-i="3">hopeless.</span></div>
+<div class="row"><input class="answer fix" placeholder="Как правильно?"><button class="hint" type="button">Подсказка</button><div class="hidden helper">Новость хорошая. Полный надежды или без надежды?</div></div><div class="feedback"></div>
+<button class="reveal hidden" type="button">Показать ответ</button><div class="hidden correct">The vet said my cat would get better, so I felt hopeful</div></div><div class="fm" data-bad="2" data-answers="[&quot;decision&quot;]"><div class="sent"><span class="num" style="font-weight:700;color:var(--accent);margin-right:6px">5</span><span class="chunk" data-i="0">It was</span> <span class="chunk" data-i="1">a difficult</span> <span class="chunk" data-i="2">decidement,</span> <span class="chunk" data-i="3">but I chose the cheaper trip.</span></div>
+<div class="row"><input class="answer fix" placeholder="Как правильно?"><button class="hint" type="button">Подсказка</button><div class="hidden helper">Существительное от decide. Буква d меняется.</div></div><div class="feedback"></div>
+<button class="reveal hidden" type="button">Показать ответ</button><div class="hidden correct">It was a difficult decision but I chose the cheaper trip.</div></div><div class="fm" data-bad="2" data-answers="[&quot;apology&quot;]"><div class="sent"><span class="num" style="font-weight:700;color:var(--accent);margin-right:6px">6</span><span class="chunk" data-i="0">He wrote me</span> <span class="chunk" data-i="1">a long</span> <span class="chunk" data-i="2">apologise</span> <span class="chunk" data-i="3">for breaking my headphones.</span></div>
+<div class="row"><input class="answer fix" placeholder="Как правильно?"><button class="hint" type="button">Подсказка</button><div class="hidden helper">Нужно существительное: извинение.</div></div><div class="feedback"></div>
+<button class="reveal hidden" type="button">Показать ответ</button><div class="hidden correct">He wrote me a long apology for breaking my headphones.</div></div><div class="fm" data-bad="1" data-answers="[&quot;visited&quot;]"><div class="sent"><span class="num" style="font-weight:700;color:var(--accent);margin-right:6px">7</span><span class="chunk" data-i="0">We</span> <span class="chunk" data-i="1">have visited</span> <span class="chunk" data-i="2">the science museum</span> <span class="chunk" data-i="3">last Friday.</span></div>
+<div class="row"><input class="answer fix" placeholder="Как правильно?"><button class="hint" type="button">Подсказка</button><div class="hidden helper">last Friday — время закончилось.</div></div><div class="feedback"></div>
+<button class="reveal hidden" type="button">Показать ответ</button><div class="hidden correct">We visited the science museum last Friday.</div></div><div class="fm" data-bad="1" data-answers="[&quot;lent&quot;]"><div class="sent"><span class="num" style="font-weight:700;color:var(--accent);margin-right:6px">8</span><span class="chunk" data-i="0">Have you ever</span> <span class="chunk" data-i="1">lend</span> <span class="chunk" data-i="2">your bike</span> <span class="chunk" data-i="3">to a friend?</span></div>
+<div class="row"><input class="answer fix" placeholder="Как правильно?"><button class="hint" type="button">Подсказка</button><div class="hidden helper">Have you ever + третья форма. lend – lent – lent.</div></div><div class="feedback"></div>
+<button class="reveal hidden" type="button">Показать ответ</button><div class="hidden correct">Have you ever lent your bike to a friend?</div></div><button class="check fmcheck" type="button">Проверить</button></div>
+  <div class="footnav"><button class="prev">← Назад</button><button class="next">Дальше →</button></div>
+</section>
+<section class="slide">
+  <div class="eyebrow">03 · 10 мин</div>
+  <h2>Мастерская слов</h2>
+  <p class="intro ru"><b>Шаг 1.</b> Выбери окончание, потом напиши слово целиком. Смотри, как меняется написание!</p>
+  <div class="chg">
+    <div>divi<b>d</b>e → divi<span class="sfx">sion</span><small>d → s</small></div>
+    <div>adm<b>it</b> → admi<span class="sfx">ssion</span><small>t → ss</small></div>
+    <div>subscri<b>be</b> → subscri<span class="sfx">ption</span><small>-be → -ption</small></div>
+    <div>enjoy → enjoy<span class="sfx">ment</span><small>без изменений</small></div>
+    <div>educat<b>e</b> → educat<span class="sfx">ion</span><small>-e исчезает</small></div>
+    <div>explain, apologise<small>тоже меняются — догадайся как!</small></div>
+  </div>
+  <div class="exercise"><div class="build" data-s="-sion"><div class="bw">DECIDE</div><div class="chips"><button type="button" data-s="-ment">-ment</button><button type="button" data-s="-tion">-tion</button><button type="button" data-s="-sion">-sion</button><button type="button" data-s="-y">-y</button></div>
+<input class="answer" data-answers="[&quot;decision&quot;]" placeholder="Всё слово"><div class="feedback"></div><div class="hidden correct">decision</div></div><div class="build" data-s="-sion"><div class="bw">DISCUSS</div><div class="chips"><button type="button" data-s="-ment">-ment</button><button type="button" data-s="-tion">-tion</button><button type="button" data-s="-sion">-sion</button><button type="button" data-s="-y">-y</button></div>
+<input class="answer" data-answers="[&quot;discussion&quot;]" placeholder="Всё слово"><div class="feedback"></div><div class="hidden correct">discussion</div></div><div class="build" data-s="-sion"><div class="bw">PERMIT</div><div class="chips"><button type="button" data-s="-ment">-ment</button><button type="button" data-s="-tion">-tion</button><button type="button" data-s="-sion">-sion</button><button type="button" data-s="-y">-y</button></div>
+<input class="answer" data-answers="[&quot;permission&quot;]" placeholder="Всё слово"><div class="feedback"></div><div class="hidden correct">permission</div></div><div class="build" data-s="-tion"><div class="bw">EXPLAIN</div><div class="chips"><button type="button" data-s="-ment">-ment</button><button type="button" data-s="-tion">-tion</button><button type="button" data-s="-sion">-sion</button><button type="button" data-s="-y">-y</button></div>
+<input class="answer" data-answers="[&quot;explanation&quot;]" placeholder="Всё слово"><div class="feedback"></div><div class="hidden correct">explanation</div></div><div class="build" data-s="-tion"><div class="bw">DESCRIBE</div><div class="chips"><button type="button" data-s="-ment">-ment</button><button type="button" data-s="-tion">-tion</button><button type="button" data-s="-sion">-sion</button><button type="button" data-s="-y">-y</button></div>
+<input class="answer" data-answers="[&quot;description&quot;]" placeholder="Всё слово"><div class="feedback"></div><div class="hidden correct">description</div></div><div class="build" data-s="-tion"><div class="bw">INFORM</div><div class="chips"><button type="button" data-s="-ment">-ment</button><button type="button" data-s="-tion">-tion</button><button type="button" data-s="-sion">-sion</button><button type="button" data-s="-y">-y</button></div>
+<input class="answer" data-answers="[&quot;information&quot;]" placeholder="Всё слово"><div class="feedback"></div><div class="hidden correct">information</div></div><div class="build" data-s="-y"><div class="bw">APOLOGISE</div><div class="chips"><button type="button" data-s="-ment">-ment</button><button type="button" data-s="-tion">-tion</button><button type="button" data-s="-sion">-sion</button><button type="button" data-s="-y">-y</button></div>
+<input class="answer" data-answers="[&quot;apology&quot;]" placeholder="Всё слово"><div class="feedback"></div><div class="hidden correct">apology</div></div><div class="build" data-s="-ment"><div class="bw">ARRANGE</div><div class="chips"><button type="button" data-s="-ment">-ment</button><button type="button" data-s="-tion">-tion</button><button type="button" data-s="-sion">-sion</button><button type="button" data-s="-y">-y</button></div>
+<input class="answer" data-answers="[&quot;arrangement&quot;]" placeholder="Всё слово"><div class="feedback"></div><div class="hidden correct">arrangement</div></div><div class="build" data-s="-ment"><div class="bw">ENTERTAIN</div><div class="chips"><button type="button" data-s="-ment">-ment</button><button type="button" data-s="-tion">-tion</button><button type="button" data-s="-sion">-sion</button><button type="button" data-s="-y">-y</button></div>
+<input class="answer" data-answers="[&quot;entertainment&quot;]" placeholder="Всё слово"><div class="feedback"></div><div class="hidden correct">entertainment</div></div><button class="check bcheck" type="button">Проверить</button></div>
+
+  <p class="intro ru" style="margin-top:28px"><b>Шаг 2.</b> <span class="sx">-ful</span> или <span class="sx">-less</span>? Решает <b>смысл</b>: <span class="sx">-ful</span> = полный, <span class="sx">-less</span> = без.</p>
+  <div class="rule ru"><p><b>use</b><span class="sx">ful</span> — полезный · <b>use</b><span class="sx">less</span> — бесполезный</p></div>
+  <div class="exercise"><div class="question"><div class="prompt"><span class="num">1</span>Our team is ___ about the final: we have won every game this year. <span class="base">HOPE</span></div>
+<input class="answer" data-answers="[&quot;hopeful&quot;]" placeholder="Слово"><button class="hint" type="button">Подсказка</button><div class="hidden helper">Они верят, что выиграют.</div><div class="feedback"></div><button class="reveal hidden" type="button">Показать ответ</button><div class="hidden correct">hopeful</div></div><div class="question"><div class="prompt"><span class="num">2</span>I looked for my keys for an hour. It was ___, so I called Mum. <span class="base">HOPE</span></div>
+<input class="answer" data-answers="[&quot;hopeless&quot;]" placeholder="Слово"><button class="hint" type="button">Подсказка</button><div class="hidden helper">Найти невозможно.</div><div class="feedback"></div><button class="reveal hidden" type="button">Показать ответ</button><div class="hidden correct">hopeless</div></div><div class="question"><div class="prompt"><span class="num">3</span>Don’t worry, this little spider is ___. It can’t hurt you. <span class="base">HARM</span></div>
+<input class="answer" data-answers="[&quot;harmless&quot;]" placeholder="Слово"><button class="hint" type="button">Подсказка</button><div class="hidden helper">Не причиняет вреда.</div><div class="feedback"></div><button class="reveal hidden" type="button">Показать ответ</button><div class="hidden correct">harmless</div></div><div class="question"><div class="prompt"><span class="num">4</span>Energy drinks can be ___ for teenagers. <span class="base">HARM</span></div>
+<input class="answer" data-answers="[&quot;harmful&quot;]" placeholder="Слово"><button class="hint" type="button">Подсказка</button><div class="hidden helper">Они вредные.</div><div class="feedback"></div><button class="reveal hidden" type="button">Показать ответ</button><div class="hidden correct">harmful</div></div><div class="question"><div class="prompt"><span class="num">5</span>The injection was ___: I didn’t feel anything! <span class="base">PAIN</span></div>
+<input class="answer" data-answers="[&quot;painless&quot;]" placeholder="Слово"><button class="hint" type="button">Подсказка</button><div class="hidden helper">Ничего не почувствовала.</div><div class="feedback"></div><button class="reveal hidden" type="button">Показать ответ</button><div class="hidden correct">painless</div></div><div class="question"><div class="prompt"><span class="num">6</span>I fell off my bike, and my knee was really ___. <span class="base">PAIN</span></div>
+<input class="answer" data-answers="[&quot;painful&quot;]" placeholder="Слово"><button class="hint" type="button">Подсказка</button><div class="hidden helper">Очень больно.</div><div class="feedback"></div><button class="reveal hidden" type="button">Показать ответ</button><div class="hidden correct">painful</div></div><button class="check" type="button">Проверить</button></div>
+
+  <p class="intro ru" style="margin-top:28px"><b>Шаг 3. Как на ОГЭ.</b> Образуй слово от слова в скобках после пропуска.</p>
+  <div class="exercise storyx"><div class="story">Last month our class went on a school trip to Kazan. Before the trip, our teacher gave us a long <span class="gw"><input class="sg" data-answers="[&quot;explanation&quot;]" autocomplete="off" spellcheck="false" autocapitalize="off"> <b class="cap">(EXPLAIN)</b></span> of the rules. We also needed written <span class="gw"><input class="sg" data-answers="[&quot;permission&quot;]" autocomplete="off" spellcheck="false" autocapitalize="off"> <b class="cap">(PERMIT)</b></span> from our parents to go on a boat trip. On the first day we made the <span class="gw"><input class="sg" data-answers="[&quot;decision&quot;]" autocomplete="off" spellcheck="false" autocapitalize="off"> <b class="cap">(DECIDE)</b></span> to visit the Kremlin first. In the evening Dima sat on Olga’s sunglasses by accident. He made a funny <span class="gw"><input class="sg" data-answers="[&quot;apology&quot;]" autocomplete="off" spellcheck="false" autocapitalize="off"> <b class="cap">(APOLOGISE)</b></span>, and she laughed. Our guide’s <span class="gw"><input class="sg" data-answers="[&quot;description&quot;]" autocomplete="off" spellcheck="false" autocapitalize="off"> <b class="cap">(DESCRIBE)</b></span> of the old streets was so interesting that nobody looked at their phones. Now we are all <span class="gw"><input class="sg" data-answers="[&quot;hopeful&quot;]" autocomplete="off" spellcheck="false" autocapitalize="off"> <b class="cap">(HOPE)</b></span> that we will go on another trip in spring.</div><button class="check scheck" type="button">Проверить</button><div class="feedback sfb"></div><div class="hidden correct scor">explanation · permission · decision · apology · description · hopeful</div></div>
+  <div class="footnav"><button class="prev">← Назад</button><button class="next">Дальше →</button></div>
+</section>
+<section class="slide">
+  <div class="eyebrow">04 · 10 мин</div>
+  <h2>Детектив-аудирование</h2>
+  <p class="intro ru">Это пересказ аудио, которое ты уже слушала в ДЗ. В пересказе <b>2 ошибки</b>. Сначала прочитай, потом слушай и нажми на предложения, где ошибка. Потом скажи вслух, как правильно.</p>
+  <h3>A · Четыре влога</h3>
+  <div class="player"><b>3 мин</b><audio controls preload="metadata" src="/homework/katya-oge/2026-10-26/life-vision-elementary-sb-track-1.06.mp3"></audio><button class="hint back5" type="button">↶ 5 сек</button></div>
+  <div class="exercise detx"><ol class="det"><li>Sam makes fashion videos and buys clothes with the money from his vlog.</li><li>He makes only one video a week because he is busy with school.</li><li>Lukas and Hanna play video games together in their daily vlog.</li><li data-wrong="1">On Saturdays they do their homework.<span class="fix hidden">✓ On Saturdays they edit their videos. They do homework on Sundays.</span></li><li>Demi talks about beauty products, and two million people watch her videos.</li><li data-wrong="1">She can relax on the bus because nobody recognises her there.<span class="fix hidden">✓ She can never relax on the bus: everybody takes photos of her.</span></li><li>Megan, Tom’s cousin, plays the guitar in her vlog and gives lessons online.</li><li>Tom hasn’t got a vlog because some people write horrible comments.</li></ol><button class="check dcheck" type="button">Проверить</button><div class="feedback"></div></div>
+  <details class="script"><summary>Текст аудио (открыть, если нужно)</summary><p><b>Sam:</b> Hi guys. I’m Sam. I buy clothes with the money from my vlog. Then I get dressed in the clothes and I talk about fashion in my videos. I only make one video a week because I’m busy with school. Like most people in Mumbai, I get up early. My family and I have breakfast, and Mum and Dad go to work at 11 a.m., but I have lessons at half past eight. After school, I go home and I can’t relax because I do my homework for three hours.</p><p><b>Lukas:</b> Hi there, I’m Lukas, I’m sixteen and this is my sister, Hanna.</p><p><b>Hanna:</b> Hi, I’m sixteen too. Lukas and I have got a daily vlog. We play video games together. It’s fun!</p><p><b>Lukas:</b> Yes, but I’m tired, and I want to spend more time with my friends. My best friend finishes school, goes home, listens to music or goes out, but I can’t see him because we make videos every day.</p><p><b>Hanna:</b> That’s true. Our weekends are busy too. On Saturdays we edit videos, and on Sundays we do our homework.</p><p><b>Demi:</b> Hey, I’m Demi. Lots of people want to become vloggers. They think it’s easy. In my videos, I put on make-up, I brush my teeth and hair and I talk about beauty products. I do this nearly every day because 2 million people watch my videos! I’ve got lots of money, and that’s good, but the problem is that I work all the time. I never relax when I take the bus or have dinner in my home town because everybody takes photos of me. I like vlogging, but I want some free time too.</p><p><b>Tom:</b> Hi. I’m Tom, and my cousin, Megan, lives in Cape Town. Megan plays the guitar in her vlog and people have guitar lessons with her online. She gets up late, has lunch, has a shower, gets dressed in jeans and a T-shirt and then she makes videos all afternoon. She loves vlogging, but some people write horrible comments. For example, they say ‘You can’t play the guitar well’ or ‘I hate your music’. This is why I haven’t got a vlog.</p></details>
+  <h3 style="margin-top:26px">B · Молли и йога</h3>
+  <div class="player"><b>1 мин</b><audio controls preload="metadata" src="/homework/sonya/english/wb8-10-real-english-listening/audio/wb_track_1_04.mp3"></audio><button class="hint back5" type="button">↶ 5 сек</button></div>
+  <div class="exercise detx"><ol class="det"><li>Molly does yoga for ten minutes in her bedroom in the morning.</li><li data-wrong="1">She has piano lessons on Thursdays.<span class="fix hidden">✓ Piano is on Tuesdays. Tennis is on Thursdays.</span></li><li>She does her homework in the dining room.</li><li data-wrong="1">In the evening she does yoga for twenty minutes.<span class="fix hidden">✓ In the evening she does yoga for 30 minutes.</span></li><li>After yoga it is easy for her to sleep.</li></ol><button class="check dcheck" type="button">Проверить</button><div class="feedback"></div></div>
+  <details class="script"><summary>Текст аудио (открыть, если нужно)</summary><p><b>Molly:</b> Yoga is part of my daily routine. I do it for ten minutes in my bedroom when I get up in the morning. Then I have a shower, get dressed, have some breakfast and go to school. And I’m ready to study!</p><p><b>Molly:</b> After school, I have lots of things to do: piano lessons on Tuesdays and tennis lessons on Thursdays. Then, in the evening, I have dinner and do my homework in the dining room. There’s no time to watch TV!</p><p><b>Molly:</b> I’m always tired after my busy day, but I can’t relax. That’s when I do more yoga. I do it for 30 minutes before I go to bed, and then it’s easy to sleep!</p><p><b>Molly:</b> Now, it’s time for you to do some yoga … You’re probably new to yoga, but don’t worry about it … just watch, listen and copy me …</p></details>
+  <div class="rule ru"><p><b>Ловушка ОГЭ:</b> в аудио звучат <b>оба</b> варианта (10 и 30 минут, вторник и четверг). Слушай, к чему относится каждое число и каждый день.</p></div>
+  <div class="footnav"><button class="prev">← Назад</button><button class="next">Дальше →</button></div>
+</section>
+<section class="slide">
+  <div class="eyebrow">05 · 6 мин</div>
+  <h2>Перефраз</h2>
+  <p class="intro ru">В задании ОГЭ почти никогда нет тех же слов, что в аудио. Слева — что <b>сказали</b>, выбери, как это написано <b>в задании</b>. Один вариант лишний.</p>
+  <div class="exercise ppx"><div class="pp" data-a="She teaches guitar on the internet."><div class="said">people have guitar lessons with her online</div><select><option value="">Выбери…</option><option>It helps her fall asleep.</option><option>He doesn’t post new videos very often.</option><option>She gets up very early.</option><option>She teaches guitar on the internet.</option><option>Some viewers are rude to her.</option><option>His parents start work late in the morning.</option><option>She can’t rest on public transport.</option><option>They spend part of the weekend on their videos.</option><option>She is too busy for TV.</option></select><div class="feedback"></div><div class="hidden correct">She teaches guitar on the internet.</div></div><div class="pp" data-a="She can’t rest on public transport."><div class="said">I never relax when I take the bus</div><select><option value="">Выбери…</option><option>It helps her fall asleep.</option><option>He doesn’t post new videos very often.</option><option>She gets up very early.</option><option>She teaches guitar on the internet.</option><option>Some viewers are rude to her.</option><option>His parents start work late in the morning.</option><option>She can’t rest on public transport.</option><option>They spend part of the weekend on their videos.</option><option>She is too busy for TV.</option></select><div class="feedback"></div><div class="hidden correct">She can’t rest on public transport.</div></div><div class="pp" data-a="He doesn’t post new videos very often."><div class="said">I only make one video a week</div><select><option value="">Выбери…</option><option>It helps her fall asleep.</option><option>He doesn’t post new videos very often.</option><option>She gets up very early.</option><option>She teaches guitar on the internet.</option><option>Some viewers are rude to her.</option><option>His parents start work late in the morning.</option><option>She can’t rest on public transport.</option><option>They spend part of the weekend on their videos.</option><option>She is too busy for TV.</option></select><div class="feedback"></div><div class="hidden correct">He doesn’t post new videos very often.</div></div><div class="pp" data-a="His parents start work late in the morning."><div class="said">Mum and Dad go to work at 11 a.m.</div><select><option value="">Выбери…</option><option>It helps her fall asleep.</option><option>He doesn’t post new videos very often.</option><option>She gets up very early.</option><option>She teaches guitar on the internet.</option><option>Some viewers are rude to her.</option><option>His parents start work late in the morning.</option><option>She can’t rest on public transport.</option><option>They spend part of the weekend on their videos.</option><option>She is too busy for TV.</option></select><div class="feedback"></div><div class="hidden correct">His parents start work late in the morning.</div></div><div class="pp" data-a="She is too busy for TV."><div class="said">There’s no time to watch TV!</div><select><option value="">Выбери…</option><option>It helps her fall asleep.</option><option>He doesn’t post new videos very often.</option><option>She gets up very early.</option><option>She teaches guitar on the internet.</option><option>Some viewers are rude to her.</option><option>His parents start work late in the morning.</option><option>She can’t rest on public transport.</option><option>They spend part of the weekend on their videos.</option><option>She is too busy for TV.</option></select><div class="feedback"></div><div class="hidden correct">She is too busy for TV.</div></div><div class="pp" data-a="It helps her fall asleep."><div class="said">then it’s easy to sleep</div><select><option value="">Выбери…</option><option>It helps her fall asleep.</option><option>He doesn’t post new videos very often.</option><option>She gets up very early.</option><option>She teaches guitar on the internet.</option><option>Some viewers are rude to her.</option><option>His parents start work late in the morning.</option><option>She can’t rest on public transport.</option><option>They spend part of the weekend on their videos.</option><option>She is too busy for TV.</option></select><div class="feedback"></div><div class="hidden correct">It helps her fall asleep.</div></div><div class="pp" data-a="Some viewers are rude to her."><div class="said">some people write horrible comments</div><select><option value="">Выбери…</option><option>It helps her fall asleep.</option><option>He doesn’t post new videos very often.</option><option>She gets up very early.</option><option>She teaches guitar on the internet.</option><option>Some viewers are rude to her.</option><option>His parents start work late in the morning.</option><option>She can’t rest on public transport.</option><option>They spend part of the weekend on their videos.</option><option>She is too busy for TV.</option></select><div class="feedback"></div><div class="hidden correct">Some viewers are rude to her.</div></div><div class="pp" data-a="They spend part of the weekend on their videos."><div class="said">On Saturdays we edit videos</div><select><option value="">Выбери…</option><option>It helps her fall asleep.</option><option>He doesn’t post new videos very often.</option><option>She gets up very early.</option><option>She teaches guitar on the internet.</option><option>Some viewers are rude to her.</option><option>His parents start work late in the morning.</option><option>She can’t rest on public transport.</option><option>They spend part of the weekend on their videos.</option><option>She is too busy for TV.</option></select><div class="feedback"></div><div class="hidden correct">They spend part of the weekend on their videos.</div></div><button class="check pcheck" type="button">Проверить</button></div>
+  <p class="intro ru" style="margin-top:26px"><b>Ловушка с числами.</b> Прочитай, что говорит человек, и выбери ответ.</p>
+  <div class="exercise ppx"><div class="mc" data-a="2) about an hour"><div class="say">I practise the piano for twenty minutes before school, but at weekends I play for almost an hour.</div><b>1. How long does she play at weekends?</b><br><select><option value="">Выбери…</option><option>1) twenty minutes</option><option>2) about an hour</option><option>3) two hours</option></select><div class="feedback"></div></div><div class="mc" data-a="3) at 7:50"><div class="say">The bus usually comes at 7:40, but today it was ten minutes late.</div><b>2. When did the bus come today?</b><br><select><option value="">Выбери…</option><option>1) at 7:30</option><option>2) at 7:40</option><option>3) at 7:50</option></select><div class="feedback"></div></div><div class="mc" data-a="2) two"><div class="say">We wanted to buy three tickets, but my brother got ill, so in the end we bought only two.</div><b>3. How many tickets did they buy?</b><br><select><option value="">Выбери…</option><option>1) one</option><option>2) two</option><option>3) three</option></select><div class="feedback"></div></div><button class="check pcheck" type="button">Проверить</button></div>
+  <div class="footnav"><button class="prev">← Назад</button><button class="next">Дальше →</button></div>
+</section>
+<section class="slide exit">
+  <div class="eyebrow">06 · 2 мин</div>
+  <h2>Итог</h2>
+  <div class="total">Сегодня получилось: <span id="total">0</span> ✓</div>
+  <p class="ru"><b>1.</b> Одно слово, которое я сегодня написала правильно сама:</p><textarea></textarea>
+  <p class="ru"><b>2.</b> Одна ошибка, которую я больше не сделаю (напиши правильный вариант):</p><textarea></textarea>
+  <p class="ru"><b>3.</b> Что было труднее всего?</p><textarea></textarea>
+  <div class="footnav"><button class="prev">← Назад</button><button class="next">Дальше →</button></div>
+</section>
+</main>
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide')), tabs=[].slice.call(document.querySelectorAll('.tab'));
+  var got={};  // block id -> number correct
+  function total(){var n=0;for(var k in got)n+=got[k];document.getElementById('total').textContent=n}
+  window.go=function(i){i=Math.max(0,Math.min(slides.length-1,i));
+    slides.forEach(function(s,j){s.style.display=j===i?'block':'none'});tabs.forEach(function(t,j){t.classList.toggle('active',j===i)});total();window.scrollTo(0,0)};
+  slides.forEach(function(s,j){var p=s.querySelector('.prev'),n=s.querySelector('.next');p.disabled=j===0;n.disabled=j===slides.length-1;p.onclick=function(){go(j-1)};n.onclick=function(){go(j+1)}});
+  function norm(s){return String(s||'').toLowerCase().replace(/[’‘`´ʼ′]/g,"'").replace(/[.,!?;:]+/g,' ').replace(/\s+/g,' ').trim()}
+  function match(list,v){return list.some(function(a){return norm(a)===norm(v)})}
+  document.querySelectorAll('.hint:not(.back5)').forEach(function(b){b.onclick=function(){b.nextElementSibling.classList.toggle('hidden')}});
+  document.querySelectorAll('.reveal').forEach(function(b){b.onclick=function(){b.nextElementSibling.classList.remove('hidden')}});
+  document.querySelectorAll('input').forEach(function(i){i.setAttribute('autocomplete','off');i.setAttribute('spellcheck','false');i.setAttribute('autocapitalize','off')});
+  var bid=0;
+  function score(btn,ok,all){var ex=btn.closest('.exercise');if(!ex.dataset.id)ex.dataset.id='b'+(bid++);got[ex.dataset.id]=ok;
+    var g=ex.querySelector(':scope > .got');if(!g){g=document.createElement('span');g.className='got';btn.after(g)}
+    g.textContent='Получилось: '+ok+' из '+all+(ok===all?' 🎉':'');total()}
+  function fb(f,ok,txt){f.textContent=txt;f.className='feedback '+(ok?'good':'bad')}
+  function showAll(btn,sel){var ex=btn.closest('.exercise'),a=ex.querySelector(':scope > .showall');
+    if(!a){a=document.createElement('button');a.type='button';a.className='showall';a.textContent='Показать все ответы';btn.after(a);
+      a.onclick=function(){ex.querySelectorAll(sel).forEach(function(c){c.classList.remove('hidden')})}}return a}
+
+  // generic gap questions
+  document.querySelectorAll('.check:not(.fmcheck):not(.bcheck):not(.scheck):not(.dcheck):not(.pcheck)').forEach(function(b){b.onclick=function(){
+    var qs=b.closest('.exercise').querySelectorAll('.question'),ok=0,miss=false;
+    qs.forEach(function(q){var inp=q.querySelector('.answer'),v=inp.value.trim(),f=q.querySelector('.feedback'),rev=q.querySelector('.reveal');
+      inp.classList.remove('ok','no');if(!v){fb(f,false,'Сначала напиши ответ.');rev.classList.add('hidden');miss=true;return}
+      var y=match(JSON.parse(inp.dataset.answers),v);inp.classList.add(y?'ok':'no');fb(f,y,y?'Верно!':'Пока нет. Попробуй ещё раз или посмотри ответ.');
+      rev.classList.toggle('hidden',y);if(y){ok++;q.querySelector('.correct').classList.add('hidden')}else miss=true});
+    score(b,ok,qs.length);showAll(b,'.question .correct').classList.toggle('hidden',!miss)}});
+
+  // find the mistake
+  document.querySelectorAll('.fm').forEach(function(q){q.querySelectorAll('.chunk').forEach(function(c){c.onclick=function(){
+    if(q.classList.contains('done'))return;q.querySelectorAll('.chunk').forEach(function(x){x.classList.remove('sel')});c.classList.add('sel');q.querySelector('.fix').focus()}})});
+  document.querySelector('.fmcheck').onclick=function(){var b=this,qs=document.querySelectorAll('.fm'),ok=0,miss=false;
+    qs.forEach(function(q){var sel=q.querySelector('.chunk.sel'),inp=q.querySelector('.fix'),f=q.querySelector('.feedback'),rev=q.querySelector('.reveal');
+      inp.classList.remove('ok','no');
+      if(!sel){fb(f,false,'Нажми на часть предложения с ошибкой.');miss=true;rev.classList.add('hidden');return}
+      if(+sel.dataset.i!==+q.dataset.bad){fb(f,false,'Эта часть верная. Ошибка в другом месте.');miss=true;rev.classList.remove('hidden');return}
+      if(!inp.value.trim()){fb(f,false,'Место найдено! Теперь напиши, как правильно.');miss=true;rev.classList.add('hidden');return}
+      var y=match(JSON.parse(q.dataset.answers),inp.value);inp.classList.add(y?'ok':'no');
+      if(y){ok++;fb(f,true,'Нашла и исправила!');sel.classList.remove('sel');sel.classList.add('right');sel.textContent=inp.value.trim();q.classList.add('done');rev.classList.add('hidden')}
+      else{fb(f,false,'Место верное, а исправление пока нет.');miss=true;rev.classList.remove('hidden')}});
+    score(b,ok,qs.length);showAll(b,'.fm .correct').classList.toggle('hidden',!miss)};
+
+  // word builder
+  document.querySelectorAll('.build').forEach(function(r){r.querySelectorAll('.chips button').forEach(function(c){c.onclick=function(){
+    if(c.dataset.s===r.dataset.s){r.querySelectorAll('.chips button').forEach(function(x){x.classList.remove('nope')});c.classList.add('yes');r.querySelector('.answer').focus()}
+    else c.classList.add('nope')}})});
+  document.querySelector('.bcheck').onclick=function(){var b=this,rs=document.querySelectorAll('.build'),ok=0,miss=false;
+    rs.forEach(function(r){var inp=r.querySelector('.answer'),f=r.querySelector('.feedback'),v=inp.value.trim();inp.classList.remove('ok','no');
+      if(!v){fb(f,false,'Сначала напиши слово.');miss=true;return}
+      var y=match(JSON.parse(inp.dataset.answers),v);inp.classList.add(y?'ok':'no');fb(f,y,y?'Верно!':'Проверь написание.');if(y){ok++;r.querySelector('.correct').classList.add('hidden')}else miss=true});
+    score(b,ok,rs.length);showAll(b,'.build .correct').classList.toggle('hidden',!miss)};
+
+  // OGE story
+  document.querySelector('.scheck').onclick=function(){var b=this,ins=document.querySelectorAll('.sg'),ok=0;
+    ins.forEach(function(i){i.classList.remove('ok','no');if(!i.value.trim())return;var y=match(JSON.parse(i.dataset.answers),i.value);i.classList.add(y?'ok':'no');if(y)ok++});
+    var f=b.closest('.exercise').querySelector('.sfb');fb(f,ok===ins.length,ok===ins.length?'Всё верно!':'Красные пропуски исправь ещё раз.');
+    score(b,ok,ins.length);showAll(b,'.scor').classList.toggle('hidden',ok===ins.length)};
+
+  // detective
+  document.querySelectorAll('.det li').forEach(function(li){li.onclick=function(){if(!li.closest('.det').classList.contains('done'))li.classList.toggle('sus')}});
+  document.querySelectorAll('.dcheck').forEach(function(b){b.onclick=function(){var ex=b.closest('.exercise'),ol=ex.querySelector('.det'),ok=0,extra=0,n=0;
+    ol.querySelectorAll('li').forEach(function(li){li.classList.remove('found','missed','fine');var w=li.dataset.wrong,s=li.classList.contains('sus');
+      if(w){n++;if(s){ok++;li.classList.add('found');li.querySelector('.fix').classList.remove('hidden')}}
+      else if(s){extra++;li.classList.add('fine')}});
+    var f=ex.querySelector(':scope > .feedback');
+    if(ok===n&&!extra){fb(f,true,'Обе ошибки найдены! Скажи вслух, как правильно.');ol.classList.add('done')}
+    else fb(f,false,(ok?'Найдено ошибок: '+ok+' из '+n+'. ':'')+(extra?'Отмечено лишнее — там всё верно. ':'')+(ok<n?'Послушай ещё раз.':''));
+    score(b,ok,n);
+    var a=showAll(b,'x');a.textContent='Показать ошибки';a.onclick=function(){ol.querySelectorAll('li[data-wrong]').forEach(function(li){if(!li.classList.contains('found')){li.classList.add('missed');li.querySelector('.fix').classList.remove('hidden')}});ol.classList.add('done')};
+    a.classList.toggle('hidden',ok===n)}});
+  document.querySelectorAll('.back5').forEach(function(b){b.onclick=function(){var a=b.parentNode.querySelector('audio');a.currentTime=Math.max(0,a.currentTime-5)}});
+
+  // paraphrase + traps
+  document.querySelectorAll('.pcheck').forEach(function(b){b.onclick=function(){var rs=b.closest('.exercise').querySelectorAll('.pp,.mc'),ok=0,miss=false;
+    rs.forEach(function(r){var s=r.querySelector('select'),f=r.querySelector('.feedback');s.classList.remove('ok','no');
+      if(!s.value){fb(f,false,'Сначала выбери ответ.');miss=true;return}
+      var y=s.value===r.dataset.a;s.classList.add(y?'ok':'no');fb(f,y,y?'Верно!':'Пока нет.');if(y){ok++;var c=r.querySelector('.correct');if(c)c.classList.add('hidden')}else miss=true});
+    score(b,ok,rs.length);var a=showAll(b,'.pp .correct');a.classList.toggle('hidden',!miss||!rs[0].classList.contains('pp'))}});
+  go(0);
+})();
+</script>
+</body>
+</html>
