@@ -163,7 +163,9 @@ sections.forEach(s => {
   }
   sec.innerHTML = h; main.appendChild(sec);
 });
-main.insertAdjacentHTML('beforeend', `<div class="submitbox"><b>Send your work to Irina</b><p>When you have finished, send your answers. Wait for <b>✓ Received by Irina</b>.</p>`
+// SEND: no → lesson page: no sending box, nothing goes to the results table
+const noSend = /^no$/i.test(meta.SEND || '');
+if (!noSend) main.insertAdjacentHTML('beforeend', `<div class="submitbox"><b>Send your work to Irina</b><p>When you have finished, send your answers. Wait for <b>✓ Received by Irina</b>.</p>`
   + (askName ? `<label class="namebox">Your name <input id="studentName" class="student-name" autocomplete="name" placeholder="First name and surname"></label>` : '')
   + `<button class="send" id="send" type="button">Send answers</button> <button class="reset" id="reset" type="button">Clear saved answers</button><div id="status" aria-live="polite"></div></div>`);
 src.after(header, main);
@@ -197,7 +199,7 @@ document.addEventListener('click', e => {
     t.nextElementSibling.textContent = `${good} / ${qs.length} correct`;
   }
 });
-document.getElementById('reset').onclick = () => {
+if (document.getElementById('reset')) document.getElementById('reset').onclick = () => {
   if (!confirm('Clear all saved answers and start again?')) return;
   document.querySelectorAll('main input,main textarea').forEach(x => x.value = '');
   document.querySelectorAll('main select').forEach(x => x.selectedIndex = 0);
@@ -210,6 +212,7 @@ document.getElementById('reset').onclick = () => {
   try { localStorage.removeItem(nameKey); } catch (e) {}
   window.scrollTo(0, 0);
 };
+if (noSend) return;  // lesson page: no sending
 if (errors.length) { document.getElementById('send').disabled = true; return; }  // never send a broken page
 
 // ---------- confirmed sending (shared, unchanged) ----------
