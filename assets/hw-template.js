@@ -20,7 +20,10 @@ src.textContent.split(/\r?\n/).forEach((raw, ln) => {
   const line = raw.trim();
   if (!line || line.startsWith('//') || /^(ПРОВЕРКА|ПРОВЕРКА:|CHECK:)/i.test(line)) return;  // comments and the count line from ChatGPT
   let m;
-  if ((m = line.match(/^##\s+(.+)$/))) { cur = { title: m[1], type: 'gap', text: [], items: [], prompt: '' }; sections.push(cur); return; }
+  if ((m = line.match(/^##\s+(.+)$/))) { cur = { title: m[1], type: 'gap', text: [], items: [], prompt: '', flow: [], grouped: false }; sections.push(cur); return; }
+  // ### Title inside a section = a framed group (e.g. one short dialogue); plain lines after it stay inside the frame
+  if ((m = line.match(/^###\s+(.+)$/)) && cur) { cur.grouped = true; cur.flow.push({ group: m[1] }); return; }
+  if (cur && cur.grouped && /^[A-Z]{1,2}:\s/.test(line)) { cur.flow.push({ line }); return; }
   if ((m = line.match(/^([A-Z]+):\s*(.*)$/))) {
     const k = m[1], v = m[2];
     if (!cur) { meta[k] = v; return; }
@@ -56,15 +59,16 @@ src.textContent.split(/\r?\n/).forEach((raw, ln) => {
       else if (!item.answers.some(a => item.options.some(o => norm(o) === norm(a)))) errors.push(`line ${ln + 1}: the answer is not one of the options`);
     }
     if (!item.answers.length) errors.push(`line ${ln + 1}: empty answer`);
-    cur.items.push(item);
+    if (cur.type === 'fix' && item.answers.some(a => norm(a) === norm(item.sentence))) errors.push(`line ${ln + 1}: the correct sentence is the same as the sentence with the mistake`);
+    cur.items.push(item); cur.flow.push({ item });
     return;
   }
-  cur.text.push(line);
+  if (cur.grouped) cur.flow.push({ line }); else cur.text.push(line);
 });
 ['STUDENT', 'HOMEWORK', 'TITLE'].forEach(k => { if (!meta[k]) errors.push(`missing ${k}:`); });
 sections.forEach(s => {
-  if (!['gap', 'choose', 'open', 'info', 'article'].includes(s.type)) errors.push(`section "${s.title}": unknown TYPE ${s.type}`);
-  if ((s.type === 'gap' || s.type === 'choose') && !s.items.length) errors.push(`section "${s.title}": no numbered tasks`);
+  if (!['gap', 'choose', 'fix', 'open', 'info', 'article'].includes(s.type)) errors.push(`section "${s.title}": unknown TYPE ${s.type}`);
+  if ((s.type === 'gap' || s.type === 'choose' || s.type === 'fix') && !s.items.length) errors.push(`section "${s.title}": no numbered tasks`);
   s.items.forEach((it, i) => { if (it.n !== i + 1) errors.push(`section "${s.title}": task numbers jump at ${it.n}`); });
 });
 
@@ -126,20 +130,30 @@ sections.forEach(s => {
   if (s.audio) h += `<div class="media"><audio controls preload="metadata" src="${esc(s.audio)}"></audio><button class="back5" type="button">↶ Back 5 seconds</button></div>`;
   if (s.script) h += `<details class="script"><summary>Script · open after listening</summary>${s.script.map(l => `<p>${fmt(l)}</p>`).join('')}</details>`;
   if (s.bank) h += `<div class="sticky"><b>Word bank</b> <span class="sub">· tap a word after you use it</span><div class="bank">${s.bank.map(w => `<button class="chip" type="button">${esc(w)}</button>`).join('')}</div></div>`;
-  s.items.forEach(it => {
+  const itemHtml = it => {
     const data = esc(it.answers.join('|'));
     // "___ (b…)" → the first letter is shown inside the gap as grey placeholder text
     let sent = it.sentence, ph = '';
     const pm = sent.match(/___\s*\(([^()]{1,4}…)\)/);
     if (pm && s.type !== 'choose') { ph = pm[1]; sent = sent.replace(pm[0], '___'); }
+    if (s.type === 'fix') return `<div class="q fix" data-answer="${data}"><div class="sentence"><b>${it.n}.</b> <span class="fixbox" contenteditable="true" spellcheck="false" role="textbox" aria-label="Correct sentence ${it.n}" data-orig="${esc(it.sentence)}">${esc(it.sentence)}</span><input type="hidden" class="fixval"></div>${helpers(it)}</div>`;
     const field = s.type === 'choose'
       ? `<select class="inline" aria-label="Answer ${it.n}"><option value="">choose…</option>${it.options.map(o => `<option value="${esc(o)}">${esc(o)}</option>`).join('')}</select>`
       : `<input class="inline" autocomplete="off" spellcheck="false" aria-label="Answer ${it.n}"${ph ? ` placeholder="${esc(ph)}"` : ''}>`;
     const gap = sent.indexOf('___');
     const sentence = gap >= 0 ? fmt(sent.slice(0, gap)) + field + fmt(sent.slice(gap + 3)) : `${fmt(sent)} ${field}`;
-    h += `<div class="q" data-answer="${data}"><div class="sentence"><b>${it.n}.</b> ${sentence}</div>${helpers(it)}</div>`;
-  });
-  if (s.type === 'gap' || s.type === 'choose') h += `<button class="check" type="button" data-section="${id}">Check this section</button><div class="score"></div>`;
+    return `<div class="q" data-answer="${data}"><div class="sentence"><b>${it.n}.</b> ${s.grouped ? sentence.replace(/^([A-Z]{1,2}):/, '<b>$1:</b>') : sentence}</div>${helpers(it)}</div>`;
+  };
+  if (s.grouped) {
+    let open = false;
+    s.flow.forEach(f => {
+      if (f.group) { h += (open ? '</div>' : '') + `<div class="group"><h3>${fmt(f.group)}</h3>`; open = true; }
+      else if (f.line) h += `<p class="gline">${fmt(f.line).replace(/^([A-Z]{1,2}):/, '<b>$1:</b>')}</p>`;
+      else h += itemHtml(f.item);
+    });
+    if (open) h += '</div>';
+  } else s.items.forEach(it => { h += itemHtml(it); });
+  if (s.type === 'gap' || s.type === 'choose' || s.type === 'fix') h += `<button class="check" type="button" data-section="${id}">Check this section</button><div class="score"></div>`;
   if (s.type === 'open') {
     if (s.support) h += `<button class="supportbtn" type="button">Useful language</button><div class="support">${fmt(s.support)}</div>`;
     const p = s.prompt || s.title.replace(/^\d+[.·)]?\s*/, '');
@@ -157,6 +171,12 @@ src.after(header, main);
 // ---------- behaviour ----------
 const nameKey = 'hw-name:' + (meta.HOMEWORK || '');
 const valueOf = q => q.querySelector('input,select')?.value || '';
+// TYPE fix: the student edits the sentence itself; the hidden field keeps the edited sentence (empty while unchanged)
+const fixText = b => b.textContent.replace(/\s+/g, ' ').trim();
+document.addEventListener('input', e => { const b = e.target.closest && e.target.closest('.fixbox'); if (!b) return; const t = fixText(b); b.nextElementSibling.value = norm(t) === norm(b.dataset.orig) ? '' : t; b.classList.toggle('edited', !!b.nextElementSibling.value); }, true);
+document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.closest && e.target.closest('.fixbox')) e.preventDefault(); });
+document.addEventListener('paste', e => { const b = e.target.closest && e.target.closest('.fixbox'); if (!b) return; e.preventDefault(); document.execCommand('insertText', false, (e.clipboardData.getData('text/plain') || '').replace(/\s+/g, ' ')); });
+const syncFix = () => document.querySelectorAll('.fixbox').forEach(b => { const v = b.nextElementSibling.value; b.textContent = v || b.dataset.orig; b.classList.toggle('edited', !!v); });
 document.addEventListener('click', e => {
   const t = e.target;
   if (t.classList.contains('chip')) t.classList.toggle('used');
@@ -181,6 +201,7 @@ document.getElementById('reset').onclick = () => {
   if (!confirm('Clear all saved answers and start again?')) return;
   document.querySelectorAll('main input,main textarea').forEach(x => x.value = '');
   document.querySelectorAll('main select').forEach(x => x.selectedIndex = 0);
+  syncFix();
   document.querySelectorAll('.chip').forEach(x => x.classList.remove('used'));
   document.querySelectorAll('.q').forEach(x => x.classList.remove('good', 'bad'));
   document.querySelectorAll('.feedback,.score').forEach(x => x.textContent = '');
@@ -214,5 +235,6 @@ if (askName) {
   }, true);
 }
 const shared = document.createElement('script'); shared.src = '/assets/homework-submission.js';
+shared.onload = () => setTimeout(syncFix, 0);  // saved answers are restored by the shared script
 document.body.appendChild(shared);
 })();
