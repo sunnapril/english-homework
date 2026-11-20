@@ -106,3 +106,15 @@ details.script p{margin:6px 0}
 .vocab-fold dd{margin:0;color:var(--muted)}
 .vocab-fold dd .ru{display:block;color:var(--purple);font-size:.9em}
 @media(max-width:560px){.vocab-fold dl div{grid-template-columns:1fr;gap:0}}
+
+/* TYPE: fix — edit the sentence in place */
+.fixbox{display:block;margin-top:8px;padding:9px 11px;border:2px dashed #87a69a;border-radius:10px;background:#f8fbf9;outline:none;cursor:text;line-height:1.5;word-break:break-word}
+.fixbox:focus{border-style:solid;border-color:var(--teal,#2f7a6b);background:#fff}
+.fixbox.edited{border-color:#7a6bb0}
+/* ### groups (e.g. short dialogues) */
+.group{border:1px solid var(--line);border-radius:16px;background:#fbfaf6;padding:6px 14px 10px;margin:14px 0}
+.group h3{margin:8px 0 2px;font-size:.95rem;color:var(--muted)}
+.group .gline{margin:8px 0 6px}
+.group .q{background:transparent;border:0;border-radius:0;padding:6px 0;margin:0}
+.group .q.good{background:#eff8f3;border-radius:10px;padding:6px 8px}
+.group .q.bad{background:#fff3f1;border-radius:10px;padding:6px 8px}
