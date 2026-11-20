@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Getting around · Test practice</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1f2933;--muted:#6b7785;--line:#b9c4d0;--accent:#2f6fde;--soft:#eef3fc;--ok:#1e8a4c;--okbg:#e6f5ec;--bad:#c62f3a;--badbg:#fdeaec;--bg:#f6f7f9}
+*{box-sizing:border-box}
+body{margin:0;font-family:Nunito,system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5;font-size:17px}
+.top{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid #e3e7ec}
+.top .row{max-width:900px;margin:0 auto;padding:8px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.top h1{font-size:18px;margin:0;flex:1;min-width:200px}
+.score{font-weight:800;background:var(--soft);border-radius:999px;padding:4px 12px}
+.tabs{max-width:900px;margin:0 auto;padding:0 10px 8px;display:flex;gap:6px;overflow-x:auto}
+.tabs button{white-space:nowrap}
+button{font:inherit;font-size:15px;font-weight:700;border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 11px;cursor:pointer;color:var(--ink)}
+button:hover{border-color:var(--accent);color:var(--accent)}
+button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tools{display:flex;gap:6px}
+.tools button{font-size:13px;padding:4px 9px}
+main{max-width:900px;margin:0 auto;padding:16px 14px 60px}
+section.slide{display:none;background:#fff;border:1px solid #e3e7ec;border-radius:14px;padding:18px 20px}
+section.slide.active{display:block}
+.sh{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:2px}
+.sh h2{margin:0;font-size:22px;flex:1}
+.pts{font-size:13px;color:var(--muted);font-weight:700;border:1px solid #e3e7ec;border-radius:6px;padding:1px 7px}
+.time{font-size:13px;color:var(--muted);font-weight:700}
+.ru{color:var(--muted);font-size:15px;margin:2px 0 10px}
+.hintbtn{font-size:13px;padding:2px 9px}
+.hint{display:none;background:#fff8e1;border:1px solid #f0e2a8;border-radius:8px;padding:6px 10px;margin:6px 0 10px;font-size:15px}
+.hint.show{display:block}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 12px}
+.chip{border:1.5px solid #c9d6ee;background:var(--soft);border-radius:999px;padding:3px 13px;font-weight:700;cursor:pointer;user-select:none}
+.chip.used{text-decoration:line-through;opacity:.45}
+.item{margin:8px 0 2px}
+.q{display:flex;gap:8px;align-items:flex-start}
+.q .n{font-weight:800;min-width:24px}
+.q .txt{flex:1}
+input.g{font:inherit;font-weight:700;color:#1d4ea8;border:none;border-bottom:2px solid var(--ink);background:#fafcff;padding:0 4px;margin:0 2px;outline:none;width:7.5em;text-align:center;border-radius:3px 3px 0 0}
+input.g.w{width:100%;text-align:left;margin:4px 0 0}
+input.g.num{width:2.2em}
+input.g:focus{border-bottom-color:var(--accent);background:#eef3fc}
+input.g.right{border-bottom-color:var(--ok);background:var(--okbg);color:var(--ok)}
+input.g.wrong{border-bottom-color:var(--bad);background:var(--badbg);color:var(--bad)}
+.corr{display:none;color:var(--ok);font-weight:800;font-size:15px;margin-left:4px}
+.showcorr .wrong + .corr{display:inline}
+.sign input.g{width:4.6em}
+.sign .cap{display:block}
+.wl{min-height:30px;margin:2px 0 6px 32px;border-bottom:1.5px solid var(--line);outline:none;padding:3px 2px 1px;color:#7a3db8;font-size:17px}
+.wl:focus{border-bottom-color:#7a3db8}
+.actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:14px}
+.check{background:var(--accent);color:#fff;border-color:var(--accent)}
+.check:hover{color:#fff;opacity:.9}
+.sca{display:none}
+.res{font-weight:800}
+.light{display:inline-flex;gap:3px;background:#2b2f36;border-radius:7px;padding:3px 5px;vertical-align:middle}
+.light i{width:11px;height:11px;border-radius:50%;background:#555b64}
+.light.r i:nth-child(1){background:#ff4d4d}.light.y i:nth-child(2){background:#ffc93c}.light.g i:nth-child(3){background:#3ad16f}
+.notes{margin-top:18px;border-top:1px dashed #d5dbe2;padding-top:8px}
+.notes .lab{font-size:13px;color:var(--muted);font-weight:700}
+.notes .pad{min-height:124px;outline:none;padding:0 4px;color:#7a3db8;line-height:31px;background-image:linear-gradient(to bottom,transparent 30px,#dfe5ec 30px,#dfe5ec 31px);background-size:100% 31px}
+.nonotes .notes{display:none}
+.signs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px 14px;margin:10px 0}
+.sign{text-align:center}
+.sign svg{width:84px;height:84px;display:block;margin:0 auto 6px}
+.sign .cap{font-size:16px}
+.sign .wl{margin:4px 0}
+.pics{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin:10px 0}
+.pic{text-align:center;border:1px solid #edf0f3;border-radius:10px;padding:8px}
+.pic img{height:110px;max-width:100%;object-fit:contain;display:block;margin:0 auto 6px}
+.pic .n{font-weight:800;color:var(--muted);font-size:13px}
+.pic input.g{width:100%}
+.dlg .line{display:flex;align-items:center;gap:10px;margin:7px 0}
+.dlg .who{font-weight:800;width:22px;color:var(--muted)}
+.map{width:100%;max-width:680px;display:block;margin:6px auto 12px;border-radius:10px}
+.useful{background:var(--soft);border-radius:10px;padding:8px 12px;margin:6px 0 10px;font-size:15px}
+.sample{display:none;color:var(--ok);font-weight:700;font-size:15px;margin:2px 0 4px 32px}
+.sample.show{display:block}
+.final{text-align:center;padding:10px}
+.big{font-size:44px;font-weight:800;margin:6px 0}
+.bigl{transform:scale(2.4);margin:22px 0}
+table.sum{margin:12px auto;border-collapse:collapse;font-size:16px}
+table.sum td{padding:3px 12px;border-bottom:1px dashed #e3e7ec}
+table.sum td:last-child{text-align:right;font-weight:800}
+.nav{display:flex;justify-content:space-between;margin-top:16px}
+
+.pics{grid-template-columns:repeat(3,1fr)!important;gap:16px!important}
+.pic{display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:10px}
+.pic input.g.w{text-align:center;margin-top:8px}
+.pic .corr{font-size:14px}
+.pic img{height:130px!important}
+.slot{margin-top:8px;min-width:80%;text-align:center;border-bottom:2px solid var(--ink);font-weight:800;color:#9aa6b2;padding:2px 6px}
+.slot.filled{color:#1d4ea8;background:var(--soft);border-radius:6px 6px 0 0}
+.slot.right{color:var(--ok);background:var(--okbg);border-bottom-color:var(--ok)}
+.slot.wrong{color:var(--bad);background:var(--badbg);border-bottom-color:var(--bad)}
+.slot .fix{display:none;color:var(--ok);font-size:14px}
+.showcorr .slot.wrong .fix{display:block}
+.mbank{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 14px;justify-content:center}
+.mchip{border:1.5px solid #c9d6ee;background:#fff;border-radius:999px;padding:4px 14px;font-weight:800;cursor:pointer;user-select:none}
+.mchip.sel{background:var(--accent);color:#fff;border-color:var(--accent)}
+.mchip.used{text-decoration:line-through;opacity:.4;pointer-events:none}
+.lw{display:inline-flex;gap:3px;align-items:flex-end;margin-left:2px}
+.lw b{font-size:18px;padding:0 1px}
+.lw input{font:inherit;font-weight:800;width:1.35em;text-align:center;border:none;border-bottom:2px solid var(--ink);background:#fafcff;color:#1d4ea8;outline:none;padding:0;border-radius:3px 3px 0 0}
+.lw input:focus{background:#eef3fc;border-bottom-color:var(--accent)}
+.lw.right input{color:var(--ok);background:var(--okbg);border-bottom-color:var(--ok)}
+.lw.wrong input{color:var(--bad);background:var(--badbg);border-bottom-color:var(--bad)}
+.showcorr .lw.wrong + .corr{display:inline}
+.c-in{color:#1f6fd1}.c-on{color:#d1343f}.c-by{color:#1e8a4c}.c-of{color:#7d3fc2}
+.chip.p-in{background:#e3eefc;border-color:#1f6fd1;color:#1f6fd1}.chip.p-on{background:#fde7e8;border-color:#d1343f;color:#d1343f}
+.chip.p-by{background:#e3f4ea;border-color:#1e8a4c;color:#1e8a4c}.chip.p-of{background:#efe6fa;border-color:#7d3fc2;color:#7d3fc2}
+.prep input.g[data-col=in]{color:#1f6fd1;border-bottom-color:#1f6fd1}.prep input.g[data-col=on]{color:#d1343f;border-bottom-color:#d1343f}
+.prep input.g[data-col=by]{color:#1e8a4c;border-bottom-color:#1e8a4c}.prep input.g[data-col=of]{color:#7d3fc2;border-bottom-color:#7d3fc2}
+.prep input.g.right,.prep input.g.wrong{border-bottom-width:3px}
+.prep input.g{width:3.2em}
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.dlines .line{display:flex;align-items:center;gap:8px;margin:0 0 8px;padding:6px 8px;border:1px solid #e3e7ec;border-radius:8px;cursor:pointer}
+.dlines .line:hover{border-color:#9bb6ea}
+.dlines .line.numd{background:#f3f6fb;color:var(--muted)}
+.dbuild{background:#fbfcfe;border:1px dashed #c9d3df;border-radius:10px;padding:10px 12px}
+.dbuild .lab{font-size:13px;color:var(--muted);font-weight:800;margin-bottom:6px}
+.dout .r{display:flex;gap:8px;margin:5px 0}
+.dout .r b{width:20px;flex:none}
+.dout .r.A b{color:#1f6fd1}.dout .r.B b{color:#d1343f}
+.dout .empty{color:#9aa6b2;font-size:15px}
+input.g.w.answ{margin:6px 0 2px 32px;width:calc(100% - 32px)}
+.mapwrap{overflow-x:auto;border-radius:10px}
+.map{cursor:zoom-in}
+.mapwrap.zoom .map{max-width:none;width:1100px;cursor:zoom-out}
+.maptip{display:none;text-align:center;margin-top:-4px}
+.pics.p4{grid-template-columns:repeat(4,1fr)!important}
+
+[hidden]{display:none!important}
+.gmenu{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:8px 0}
+.gtile{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;padding:14px;border-radius:12px;border:1.5px solid #dbe3ee;background:#fbfcfe;min-height:110px}
+.gtile:hover{border-color:var(--accent)}
+.gtile .gsrc{font-size:12px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.gtile .gt{font-size:17px;font-weight:800;color:var(--ink)}
+.gtile .gn{font-size:13px;color:var(--muted);margin-top:auto}
+.gtile.done{border-color:var(--ok);background:var(--okbg)}
+.ghead{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.gtitle{font-weight:800;font-size:19px;flex:1}
+.glives{display:inline-flex;gap:5px;background:#2b2f36;border-radius:10px;padding:5px 7px}
+.glives i{width:16px;height:16px;border-radius:50%;background:#555b64}
+.glives i.on:nth-child(1){background:#3ad16f}.glives i.on:nth-child(2){background:#ffc93c}.glives i.on:nth-child(3){background:#ff4d4d}
+.gbar{height:6px;background:#e8edf3;border-radius:6px;margin:12px 0 4px;overflow:hidden}
+.gbar span{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.gq{font-size:24px;font-weight:800;text-align:center;margin:18px 0 18px;min-height:64px;display:flex;align-items:center;justify-content:center}
+.gopts{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.gopts button{font-size:18px;padding:14px 10px;border-radius:12px;border-width:2px}
+.gopts button.ok{background:var(--okbg);border-color:var(--ok);color:var(--ok)}
+.gopts button.no{background:var(--badbg);border-color:var(--bad);color:var(--bad)}
+.gfb{min-height:44px;text-align:center;margin-top:12px;font-weight:800}
+.gfb .next{margin-left:8px}
+.gstat{text-align:center;color:var(--muted);font-size:14px}
+.gend{text-align:center;padding:10px 0}
+.gend .big{font-size:38px}
+.gopts.gpics{grid-template-columns:repeat(3,1fr)}
+.gopts.gpics.four{grid-template-columns:repeat(4,1fr)}
+.gopts.gpics button{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 8px;background:#fff}
+.gopts.gpics button img{height:96px;max-width:100%;object-fit:contain}
+.gopts.gpics button span{font-size:16px}
+@media(max-width:640px){
+ .gopts.gpics,.gopts.gpics.four{grid-template-columns:1fr 1fr}.gopts.gpics button img{height:70px}
+ .gmenu{grid-template-columns:1fr 1fr}.gq{font-size:20px}.gopts{grid-template-columns:1fr}
+ .maptip{display:block}
+ .pics.p4{grid-template-columns:repeat(2,1fr)!important}.pics.p4 .pic img{height:100px!important}
+ body{font-size:16px}
+ .dgrid{grid-template-columns:1fr}
+ .pics{gap:8px!important}.pic{padding:6px}.pic img{height:76px!important}
+ .top h1{font-size:15px;min-width:0}.top .row{padding:6px 10px}
+ main{padding:10px 8px 40px}section.slide{padding:14px 12px}
+ .sh h2{font-size:19px}
+ .signs{grid-template-columns:repeat(2,1fr)}
+ input.g,.lw input{font-size:16px}
+ input.g.w.answ{margin-left:0;width:100%}
+}
+@media print{.top,.actions,.nav,.tog,.hintbtn{display:none!important}section.slide{display:block!important;border:none;break-after:page}body{background:#fff}}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="row">
+    <h1>Getting around · Test practice</h1>
+    <span class="score">Score: <span id="total">0</span> / 100</span>
+    <div class="tools">
+            <button id="bNotes" class="on">Заметки</button>
+    </div>
+  </div>
+  <nav class="tabs" id="tabs"></nav>
+</div>
+
+<main id="root">
+
+<!-- 0 WARM-UP -->
+<section class="slide" data-tab="Warm-up">
+  <div class="sh"><h2>Warm-up: What is it?</h2><span class="time">4 min</span></div>
+  <p class="ru">Впиши слово под картинкой. Слово из банка можно зачеркнуть, когда использовал. Без очков.</p>
+  <div class="bank"><span class="chip">bus</span><span class="chip">bike</span><span class="chip">speed limit</span><span class="chip">traffic lights</span><span class="chip">helmet</span><span class="chip">zebra crossing</span></div>
+  <div class="block" data-pp="0">
+    <div class="pics"><div class="pic"><img src="img/lights.jpg" alt=""><input class="g w" data-a="traffic lights|traffic light" autocomplete="off" autocapitalize="off"><span class="corr"></span></div><div class="pic"><img src="img/zebra.jpg" alt=""><input class="g w" data-a="zebra crossing|a zebra crossing" autocomplete="off" autocapitalize="off"><span class="corr"></span></div><div class="pic"><img src="img/helmet.jpg" alt=""><input class="g w" data-a="helmet|a helmet|bike helmet|bicycle helmet" autocomplete="off" autocapitalize="off"><span class="corr"></span></div><div class="pic"><img src="img/bike.jpg" alt=""><input class="g w" data-a="bike|a bike|bicycle|a bicycle" autocomplete="off" autocapitalize="off"><span class="corr"></span></div><div class="pic"><img src="img/bus.jpg" alt=""><input class="g w" data-a="bus|a bus" autocomplete="off" autocapitalize="off"><span class="corr"></span></div><div class="pic"><img src="img/speed.jpg" alt=""><input class="g w" data-a="speed limit|a speed limit|speed limit sign|traffic sign|a traffic sign" autocomplete="off" autocapitalize="off"><span class="corr"></span></div></div>
+    <div class="actions"><button class="check">Check</button><button class="sca">Show correct answer</button><span class="res"></span></div>
+  </div>
+  <div class="notes"><div class="lab">Заметки</div><div class="pad" contenteditable></div></div>
+</section>
+
+<!-- 1 SIGNS -->
+<section class="slide" data-tab="1 · Signs">
+  <div class="sh"><h2>1. Can or can't?</h2><span class="pts">5 × 3 = 15</span><span class="time">6 min</span><button class="hintbtn">Hint</button></div>
+  <div class="hint"><b>can</b> = можно · <b>can't</b> = нельзя. Красный круг обычно значит «нельзя». Синий квадрат — «можно».</div>
+  <p class="ru">Посмотри на знак и впиши <b>can</b> или <b>can't</b>.</p>
+  <div class="block" data-pp="3">
+    <div class="signs">
+      <div class="sign item"><svg viewBox="0 0 84 84"><circle cx="42" cy="42" r="38" fill="#d62828"/><circle cx="42" cy="42" r="29" fill="#fff"/><path d="M42 64 V30" stroke="#1f2933" stroke-width="7"/><path d="M30 34 L42 19 L54 34 Z" fill="#1f2933"/><line x1="22" y1="22" x2="62" y2="62" stroke="#d62828" stroke-width="7"/></svg><div class="cap"><b>A</b> You <input class="g" data-a="can't|cannot|can not"><span class="corr"></span> go straight.</div></div>
+      <div class="sign item"><svg viewBox="0 0 84 84"><rect x="6" y="6" width="72" height="72" rx="9" fill="#1f5fbf"/><text x="42" y="61" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="52" fill="#fff">P</text></svg><div class="cap"><b>B</b> You <input class="g" data-a="can"><span class="corr"></span> park here.</div></div>
+      <div class="sign item"><svg viewBox="0 0 84 84"><circle cx="42" cy="42" r="38" fill="#d62828"/><circle cx="42" cy="42" r="29" fill="#fff"/><g fill="none" stroke="#1f2933" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="29" cy="49" r="8"/><circle cx="55" cy="49" r="8"/><path d="M29 49 L37 36 L50 36 L55 49 M37 36 L42 49 L50 36 M35 32 L41 32 M50 36 L48 31 L53 31"/></g></svg><div class="cap"><b>C</b> You <input class="g" data-a="can't|cannot|can not"><span class="corr"></span> ride a bike here.</div></div>
+      <div class="sign item"><svg viewBox="0 0 84 84"><circle cx="42" cy="42" r="38" fill="#d62828"/><circle cx="42" cy="42" r="29" fill="#fff"/><path d="M49 63 V40 H32" fill="none" stroke="#1f2933" stroke-width="6"/><path d="M35 31 L24 40 L35 49 Z" fill="#1f2933"/><line x1="22" y1="22" x2="62" y2="62" stroke="#d62828" stroke-width="7"/></svg><div class="cap"><b>D</b> You <input class="g" data-a="can't|cannot|can not"><span class="corr"></span> turn left.</div></div>
+      <div class="sign item"><svg viewBox="0 0 84 84"><circle cx="42" cy="42" r="38" fill="#d62828"/><circle cx="42" cy="42" r="29" fill="#fff"/><text x="42" y="54" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="32" fill="#1f2933">30</text></svg><div class="cap"><b>E</b> You <input class="g" data-a="can"><span class="corr"></span> drive at 20 mph here.</div></div>
+    </div>
+    <div class="actions"><button class="check">Check</button><button class="sca">Show correct answer</button><span class="res"></span></div>
+  </div>
+  <div class="notes"><div class="lab">Заметки</div><div class="pad" contenteditable></div></div>
+</section>
+
+<!-- 2 WORDS -->
+<section class="slide" data-tab="2 · Words">
+  <div class="sh"><h2>2. Guess the words</h2><span class="pts">6 × 3 = 18</span><span class="time">6 min</span><button class="hintbtn">Hint</button></div>
+  <div class="hint">ремень безопасности · пешеходный переход · зона парковки · жёлтая разметка · дорожные знаки · тротуар</div>
+  <p class="ru">Впиши буквы прямо в чёрточки. Сколько чёрточек, столько букв.</p>
+  <div class="block" data-pp="3">
+    <div class="item"><div class="q"><span class="n">1</span><span class="txt"><span class="lw" data-a="seat"></span><span class="corr"></span> belt</span></div></div>
+    <div class="item"><div class="q"><span class="n">2</span><span class="txt"><span class="lw" data-a="zebra"></span><span class="corr"></span> crossing</span></div></div>
+    <div class="item"><div class="q"><span class="n">3</span><span class="txt"><span class="lw" data-a="parking"></span><span class="corr"></span> zone</span></div></div>
+    <div class="item"><div class="q"><span class="n">4</span><span class="txt"><span class="lw" data-a="yellow"></span><span class="corr"></span> lines</span></div></div>
+    <div class="item"><div class="q"><span class="n">5</span><span class="txt"><span class="lw" data-a="traffic"></span><span class="corr"></span> signs</span></div></div>
+    <div class="item"><div class="q"><span class="n">6</span><span class="txt">Walk on the <span class="lw" data-a="pavement"></span><span class="corr"></span>.</span></div></div>
+    <div class="actions"><button class="check">Check</button><button class="sca">Show correct answer</button><span class="res"></span></div>
+  </div>
+  <div class="notes"><div class="lab">Заметки</div><div class="pad" contenteditable></div></div>
+</section>
+
+<!-- 3 PREPOSITIONS -->
+<section class="slide" data-tab="3 · in/on/by/of">
+  <div class="sh"><h2>3. Fill in: in, on, by, of</h2><span class="pts">6 × 2 = 12</span><span class="time">6 min</span><button class="hintbtn">Hint</button></div>
+  <div class="hint"><b class="c-by">by</b> car / train / plane &nbsp;·&nbsp; <b class="c-on">on</b> foot, <b class="c-on">on</b> the pavement &nbsp;·&nbsp; <b class="c-in">in</b> the park &nbsp;·&nbsp; out <b class="c-of">of</b> the window, afraid <b class="c-of">of</b></div>
+  <p class="ru">Слова можно использовать несколько раз.</p>
+  <div class="bank"><span class="chip p-in">in</span><span class="chip p-on">on</span><span class="chip p-by">by</span><span class="chip p-of">of</span></div>
+  <div class="block prep" data-pp="2">
+    <div class="item"><div class="q"><span class="n">1</span><span class="txt">My dad goes to work <input class="g" data-a="by"><span class="corr"></span> car.</span></div></div>
+    <div class="item"><div class="q"><span class="n">2</span><span class="txt">I ride my bike <input class="g" data-a="in"><span class="corr"></span> the park.</span></div></div>
+    <div class="item"><div class="q"><span class="n">3</span><span class="txt">Mike is afraid <input class="g" data-a="of"><span class="corr"></span> dogs.</span></div></div>
+    <div class="item"><div class="q"><span class="n">4</span><span class="txt">We go to the park <input class="g" data-a="on"><span class="corr"></span> foot.</span></div></div>
+    <div class="item"><div class="q"><span class="n">5</span><span class="txt">Don't lean out <input class="g" data-a="of"><span class="corr"></span> the train window.</span></div></div>
+    <div class="item"><div class="q"><span class="n">6</span><span class="txt">Grandma is travelling <input class="g" data-a="by"><span class="corr"></span> plane.</span></div></div>
+    <div class="actions"><button class="check">Check</button><button class="sca">Show correct answer</button><span class="res"></span></div>
+  </div>
+  <div class="notes"><div class="lab">Заметки</div><div class="pad" contenteditable></div></div>
+</section>
+
+<!-- 4 VERBS -->
+<section class="slide" data-tab="4 · Verbs">
+  <div class="sh"><h2>4. Complete with these words</h2><span class="pts">5 × 3 = 15</span><span class="time">6 min</span><button class="hintbtn">Hint</button></div>
+  <div class="hint"><b>ride</b> a bike · <b>drive</b> a car · <b>fly</b> a plane · <b>sail</b> a boat · <b>cross</b> the road</div>
+  <p class="ru">Каждое слово — один раз. Нажми на слово в банке, чтобы зачеркнуть.</p>
+  <div class="bank"><span class="chip">sail</span><span class="chip">drive</span><span class="chip">ride</span><span class="chip">fly</span><span class="chip">cross</span></div>
+  <div class="block" data-pp="3">
+    <div class="item"><div class="q"><span class="n">1</span><span class="txt">My uncle is a pilot. He can <input class="g" data-a="fly"><span class="corr"></span> a plane.</span></div></div>
+    <div class="item"><div class="q"><span class="n">2</span><span class="txt">Look both ways before you <input class="g" data-a="cross"><span class="corr"></span> the road.</span></div></div>
+    <div class="item"><div class="q"><span class="n">3</span><span class="txt">In summer we <input class="g" data-a="sail"><span class="corr"></span> a boat on the lake.</span></div></div>
+    <div class="item"><div class="q"><span class="n">4</span><span class="txt">My mum can <input class="g" data-a="drive"><span class="corr"></span> a car, but my dad can't.</span></div></div>
+    <div class="item"><div class="q"><span class="n">5</span><span class="txt">My little brother can't <input class="g" data-a="ride"><span class="corr"></span> a bike.</span></div></div>
+    <div class="actions"><button class="check">Check</button><button class="sca">Show correct answer</button><span class="res"></span></div>
+  </div>
+  <div class="notes"><div class="lab">Заметки</div><div class="pad" contenteditable></div></div>
+</section>
+
+<!-- 5 OPPOSITES -->
+<section class="slide" data-tab="5 · Opposites">
+  <div class="sh"><h2>5. Write the opposites</h2><span class="pts">5 × 2 = 10</span><span class="time">5 min</span><button class="hintbtn">Hint</button></div>
+  <div class="hint">go · turn left · go up the street · red lights · fast</div>
+  <p class="ru">Напиши противоположное.</p>
+  <div class="block" data-pp="2">
+    <div class="item"><div class="q"><span class="n">1</span><span class="txt">stop ≠ <input class="g" style="width:9em" data-a="go"><span class="corr"></span></span></div></div>
+    <div class="item"><div class="q"><span class="n">2</span><span class="txt">turn right ≠ <input class="g" style="width:9em" data-a="turn left|left"><span class="corr"></span></span></div></div>
+    <div class="item"><div class="q"><span class="n">3</span><span class="txt">go down the street ≠ <input class="g" style="width:11em" data-a="go up the street|go up|up the street"><span class="corr"></span></span></div></div>
+    <div class="item"><div class="q"><span class="n">4</span><span class="txt">green lights ≠ <input class="g" style="width:9em" data-a="red lights|red light|red"><span class="corr"></span></span></div></div>
+    <div class="item"><div class="q"><span class="n">5</span><span class="txt">slow ≠ <input class="g" style="width:9em" data-a="fast|quick"><span class="corr"></span></span></div></div>
+    <div class="actions"><button class="check">Check</button><button class="sca">Show correct answer</button><span class="res"></span></div>
+  </div>
+  <div class="notes"><div class="lab">Заметки</div><div class="pad" contenteditable></div></div>
+</section>
+
+<!-- 6 WORD ORDER -->
+<section class="slide" data-tab="6 · Word order">
+  <div class="sh"><h2>6. Put the words in the correct order</h2><span class="pts">5 × 2 = 10</span><span class="time">7 min</span><button class="hintbtn">Hint</button></div>
+  <div class="hint">Правило начинается с глагола: <b>Wear…</b>, <b>Cross…</b>, <b>Walk…</b>. Запрет — с <b>Don't…</b>. Слово <b>always</b> ставим в самое начало.</div>
+  <p class="ru">Напиши предложение сам. Слова, которые уже использовал, можно зачеркнуть.</p>
+  <div class="block" data-pp="2">
+    <div class="item"><div class="q"><span class="n">1</span><div class="txt"><div class="bank"><span class="chip">helmet</span><span class="chip">a</span><span class="chip">wear</span><span class="chip">always</span></div><input class="g w" data-a="always wear a helmet" autocomplete="off" autocapitalize="off"><span class="corr"></span></div></div></div>
+    <div class="item"><div class="q"><span class="n">2</span><div class="txt"><div class="bank"><span class="chip">the</span><span class="chip">road</span><span class="chip">cross</span><span class="chip">at</span><span class="chip">the</span><span class="chip">zebra crossing</span></div><input class="g w" data-a="cross the road at the zebra crossing" autocomplete="off" autocapitalize="off"><span class="corr"></span></div></div></div>
+    <div class="item"><div class="q"><span class="n">3</span><div class="txt"><div class="bank"><span class="chip">the</span><span class="chip">window</span><span class="chip">lean</span><span class="chip">don't</span><span class="chip">of</span><span class="chip">out</span></div><input class="g w" data-a="don't lean out of the window" autocomplete="off" autocapitalize="off"><span class="corr"></span></div></div></div>
+    <div class="item"><div class="q"><span class="n">4</span><div class="txt"><div class="bank"><span class="chip">your</span><span class="chip">put on</span><span class="chip">belt</span><span class="chip">seat</span></div><input class="g w" data-a="put on your seat belt|put your seat belt on" autocomplete="off" autocapitalize="off"><span class="corr"></span></div></div></div>
+    <div class="item"><div class="q"><span class="n">5</span><div class="txt"><div class="bank"><span class="chip">is</span><span class="chip">red</span><span class="chip">don't</span><span class="chip">cross</span><span class="chip">the light</span><span class="chip">when</span><span class="chip">the road</span></div><input class="g w" data-a="don't cross the road when the light is red" autocomplete="off" autocapitalize="off"><span class="corr"></span></div></div></div>
+    <div class="actions"><button class="check">Check</button><button class="sca">Show correct answer</button><span class="res"></span></div>
+  </div>
+  <div class="notes"><div class="lab">Заметки</div><div class="pad" contenteditable></div></div>
+</section>
+
+<!-- 7 DIALOGUE -->
+<section class="slide" data-tab="7 · Dialogue">
+  <div class="sh"><h2>7. Put the sentences in order</h2><span class="pts">5 × 4 = 20</span><span class="time">6 min</span><button class="hintbtn">Hint</button></div>
+  <div class="hint">Сначала спрашивают, есть ли место рядом → как туда пройти → объяснение дороги → спасибо → ответ на спасибо.</div>
+  <p class="ru">Нажимай на реплики по порядку (или впиши номер). В рамке «Your dialogue» диалог будет собираться. Повторное нажатие убирает номер.</p>
+  <div class="block dlg" data-pp="4">
+    <div class="dgrid"><div class="dlines"><div class="line"><input class="g num" value="1" disabled><span>Excuse me, is there a park near here?</span></div><div class="line"><input class="g num" data-a="6"><span class="corr"></span><span>You're welcome.</span></div><div class="line"><input class="g num" data-a="4"><span class="corr"></span><span>Go down Main Street and go straight. It's on your right.</span></div><div class="line"><input class="g num" data-a="2"><span class="corr"></span><span>Yes, there's one quite near.</span></div><div class="line"><input class="g num" data-a="5"><span class="corr"></span><span>Thank you very much.</span></div><div class="line"><input class="g num" data-a="3"><span class="corr"></span><span>How do I get there?</span></div></div>
+    <div class="dbuild"><div class="lab">Your dialogue</div><div class="dout"></div></div></div>
+    <div class="actions"><button class="check">Check</button><button class="sca">Show correct answer</button><span class="res"></span></div>
+  </div>
+  <div class="notes"><div class="lab">Заметки</div><div class="pad" contenteditable></div></div>
+</section>
+
+<!-- 8 MAP -->
+<section class="slide" data-tab="Bonus · Map">
+  <div class="sh"><h2>Bonus: Look at the map</h2><span class="time">7 min</span><button class="hintbtn">Hint</button></div>
+  <div class="hint">Ты идёшь вправо (→). Всё, что выше Main Street, — <b>on your left</b>, ниже — <b>on your right</b>. Если повернул <b>right into Park Road</b>, ты идёшь вниз.</div>
+  <p class="ru">Ты стоишь у звезды. Очки за этот слайд не идут в общий счёт.</p>
+  <div class="mapwrap"><img class="map" src="img/map.jpg" alt="Map: Main Street and Park Road"></div><p class="ru maptip">Нажми на карту, чтобы увеличить.</p>
+  <div class="block" data-pp="0">
+    <div class="item"><div class="q"><span class="n">1</span><span class="txt">Go down Main Street and go straight. It's on your left, after the cinema. It's the <input class="g" style="width:8em" data-a="library|the library"><span class="corr"></span>.</span></div></div>
+    <div class="item"><div class="q"><span class="n">2</span><span class="txt">Go down Main Street and turn right into Park Road. It's on your right. It's the <input class="g" style="width:8em" data-a="bakery|the bakery"><span class="corr"></span>.</span></div></div>
+    <div class="item"><div class="q"><span class="n">3</span><span class="txt">Go down Main Street and turn right into Park Road. It's on your left. It's the <input class="g" style="width:8em" data-a="park|the park"><span class="corr"></span>.</span></div></div>
+    <div class="item"><div class="q"><span class="n">4</span><span class="txt">Go down Main Street and go straight. It's on your right, after the park. It's the <input class="g" style="width:8em" data-a="museum|the museum"><span class="corr"></span>.</span></div></div>
+    <div class="actions"><button class="check">Check</button><button class="sca">Show correct answer</button><span class="res"></span></div>
+  </div>
+  <div class="item" style="margin-top:14px"><div class="q"><span class="n">5</span><span class="txt">Explain the way from the star to the <b>cinema</b>. <button class="hintbtn smp">Sample answer</button></span></div>
+    <input class="g w answ"><div class="sample">Go down Main Street and go straight. The cinema is on your left.</div></div>
+  <div class="notes"><div class="lab">Заметки</div><div class="pad" contenteditable></div></div>
+</section>
+
+<!-- 9 SPEAKING -->
+<section class="slide" data-tab="Speaking">
+  <div class="sh"><h2>Let's talk</h2><span class="time">5–8 min</span></div>
+  <p class="ru">Резервные вопросы, если осталось время. Отвечай полными предложениями.</p>
+  <div class="useful"><b>Useful language:</b> I go to school by… / on foot. · I can… / I can't… · Look… / Wear… / Don't… · Go down… · Turn left into… · Go straight. · It's on your left / right.</div>
+  <div class="item"><div class="q"><span class="n">1</span><span class="txt">How do you get to school? <button class="hintbtn smp">Sample answer</button></span></div><input class="g w answ"><div class="sample">I go to school on foot. It takes ten minutes.</div></div>
+  <div class="item"><div class="q"><span class="n">2</span><span class="txt">What do you do before you cross the road? <button class="hintbtn smp">Sample answer</button></span></div><input class="g w answ"><div class="sample">I look both ways. I cross at the zebra crossing.</div></div>
+  <div class="item"><div class="q"><span class="n">3</span><span class="txt">Can you ride a bike? Where do you ride it? <button class="hintbtn smp">Sample answer</button></span></div><input class="g w answ"><div class="sample">Yes, I can. I ride my bike in the park in summer.</div></div>
+  <div class="item"><div class="q"><span class="n">4</span><span class="txt">Tell me three road safety rules. <button class="hintbtn smp">Sample answer</button></span></div><input class="g w answ"><div class="sample">Look both ways before you cross the road. Wear a helmet. Walk on the pavement.</div></div>
+  <div class="item"><div class="q"><span class="n">5</span><span class="txt">What does a red light mean? And a green light? <button class="hintbtn smp">Sample answer</button></span></div><input class="g w answ"><div class="sample">Red means "stop". You can't cross the road. Green means "go".</div></div>
+  <div class="item"><div class="q"><span class="n">6</span><span class="txt">Can you sail a boat or fly a plane? Would you like to? <button class="hintbtn smp">Sample answer</button></span></div><input class="g w answ"><div class="sample">No, I can't. I would like to fly a plane.</div></div>
+  <div class="notes"><div class="lab">Заметки</div><div class="pad" contenteditable></div></div>
+</section>
+
+<section class="slide" data-tab="Games">
+  <div class="sh"><h2>Game zone: Road Rush</h2><span class="time">2–3 min each</span></div>
+  <p class="ru">Выбери игру. У тебя три сигнала светофора: за каждую ошибку гаснет один. Без очков в общий счёт.</p>
+  <div class="gmenu"><button class="gtile" data-g="0"><span class="gsrc">3a</span><span class="gt">Safe or dangerous?</span><span class="gn">15 questions</span></button><button class="gtile" data-g="1"><span class="gsrc">3a</span><span class="gt">Bicycle, bus or car?</span><span class="gn">11 questions</span></button><button class="gtile" data-g="2"><span class="gsrc">3b</span><span class="gt">Homographs</span><span class="gn">8 questions</span></button><button class="gtile" data-g="3"><span class="gsrc">English in Use</span><span class="gt">Asking or giving directions?</span><span class="gn">10 questions</span></button><button class="gtile" data-g="4"><span class="gsrc">Extensive Reading</span><span class="gt">What does red mean?</span><span class="gn">6 questions</span></button><button class="gtile" data-g="5"><span class="gsrc">Culture Corner</span><span class="gt">Getting around in London</span><span class="gn">8 questions</span></button></div>
+  <div class="gplay" hidden>
+    <div class="ghead"><button class="gback">← All games</button><span class="gtitle"></span><span class="glives"><i></i><i></i><i></i></span></div>
+    <div class="gbar"><span></span></div>
+    <div class="gru ru"></div>
+    <div class="gq"></div>
+    <div class="gopts"></div>
+    <div class="gfb"></div>
+    <div class="gstat"></div>
+  </div>
+  <div class="notes"><div class="lab">Заметки</div><div class="pad" contenteditable></div></div>
+</section>
+
+<!-- 10 SCORE -->
+<section class="slide" data-tab="My score">
+  <div class="final">
+    <h2>My score</h2>
+    <div class="big"><span id="fin">0</span> / 100</div>
+    <div><span class="light bigl" id="finl"><i></i><i></i><i></i></span></div>
+    <p id="finmsg" class="ru" style="font-size:17px">Сделай задания 1–7 и нажми Check в каждом.</p>
+    <table class="sum" id="sumt"></table>
+    <button id="reset">Начать заново</button>
+  </div>
+  <div class="notes"><div class="lab">Заметки</div><div class="pad" contenteditable></div></div>
+</section>
+
+</main>
+
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('section.slide'));
+  var tabs=document.getElementById('tabs');
+  function show(i){
+    slides.forEach(function(s,k){s.classList.toggle('active',k===i);});
+    [].forEach.call(tabs.children,function(b,k){b.classList.toggle('on',k===i);});
+    if(slides[i].querySelector('#fin')) renderFinal();
+    window.scrollTo(0,0);
+  }
+  slides.forEach(function(s,i){
+    var b=document.createElement('button');b.textContent=s.dataset.tab;
+    b.onclick=function(){show(i);};tabs.appendChild(b);
+    var nav=document.createElement('div');nav.className='nav';
+    var p=document.createElement('button');p.textContent='← Back';p.style.visibility=i?'visible':'hidden';p.onclick=function(){show(i-1);};
+    var n=document.createElement('button');n.textContent='Next →';n.style.visibility=i<slides.length-1?'visible':'hidden';n.onclick=function(){show(i+1);};
+    nav.appendChild(p);nav.appendChild(n);s.appendChild(nav);
+  });
+  show(0);
+
+  // word bank: strike / unstrike
+  document.querySelectorAll('.chip').forEach(function(c){c.onclick=function(){c.classList.toggle('used');};});
+  // hints & samples
+  document.querySelectorAll('.hintbtn').forEach(function(b){
+    b.onclick=function(){
+      if(b.classList.contains('smp')){b.closest('.item').querySelector('.sample').classList.toggle('show');}
+      else{b.closest('section').querySelector('.hint').classList.toggle('show');}
+    };
+  });
+  
+  var root=document.getElementById('root');
+  document.getElementById('bNotes').onclick=function(){var h=root.classList.toggle('nonotes');this.classList.toggle('on',!h);};
+
+  function norm(s){return (s||'').toLowerCase().replace(/[’‘`]/g,"'").replace(/[.!?,]/g,' ').replace(/\s+/g,' ').trim();}
+
+  // ----- letter boxes -----
+  document.querySelectorAll('.lw').forEach(function(w){
+    var a=w.dataset.a; w.innerHTML='<b>'+a[0]+'</b>';
+    for(var k=1;k<a.length;k++){var i=document.createElement('input');i.maxLength=1;i.setAttribute('autocomplete','off');i.setAttribute('autocapitalize','off');w.appendChild(i);}
+    var ins=[].slice.call(w.querySelectorAll('input'));
+    ins.forEach(function(i,k){
+      i.addEventListener('input',function(){w.classList.remove('right','wrong');if(i.value&&k<ins.length-1)ins[k+1].focus();});
+      i.addEventListener('keydown',function(e){if(e.key==='Backspace'&&!i.value&&k>0){ins[k-1].focus();}});
+    });
+  });
+
+  // ----- preposition colours -----
+  document.querySelectorAll('.prep input.g').forEach(function(i){
+    i.addEventListener('input',function(){var v=norm(i.value);if(['in','on','by','of'].indexOf(v)>-1)i.dataset.col=v;else delete i.dataset.col;});
+  });
+
+  // ----- matching game -----
+  document.querySelectorAll('.match').forEach(function(bl){
+    var sel=null;
+    bl.querySelectorAll('.mchip').forEach(function(c){c.onclick=function(){
+      bl.querySelectorAll('.mchip').forEach(function(x){if(x!==c)x.classList.remove('sel');});
+      c.classList.toggle('sel');sel=c.classList.contains('sel')?c:null;};});
+    bl.querySelectorAll('.pic').forEach(function(pic){
+      var slot=pic.querySelector('.slot');
+      pic.onclick=function(){
+        if(slot.dataset.v){ // return word to bank
+          var back=bl.querySelector('.mchip[data-w="'+slot.dataset.v+'"]');back.classList.remove('used');
+          delete slot.dataset.v;slot.className='slot';slot.textContent='?';
+          if(!sel)return;
+        }
+        if(!sel)return;
+        slot.dataset.v=sel.dataset.w;slot.className='slot filled';slot.innerHTML=sel.dataset.w+'<span class="fix">→ '+pic.dataset.ans+'</span>';
+        sel.classList.remove('sel');sel.classList.add('used');sel=null;
+      };
+    });
+  });
+
+  // ----- dialogue builder -----
+  document.querySelectorAll('.dlg').forEach(function(bl){
+    var lines=[].slice.call(bl.querySelectorAll('.dlines .line'));
+    var out=bl.querySelector('.dout');
+    function build(){
+      var arr=lines.map(function(l){var n=parseInt(l.querySelector('input').value,10);l.classList.toggle('numd',!!n);return {n:n,t:l.querySelector('span:last-child').textContent};})
+        .filter(function(x){return x.n;}).sort(function(a,b){return a.n-b.n;});
+      out.innerHTML=arr.length?arr.map(function(x){var who=x.n%2?'A':'B';return '<div class="r '+who+'"><b>'+who+'</b><span>'+x.t+'</span></div>';}).join(''):'<div class="empty">Здесь появится диалог.</div>';
+    }
+    lines.forEach(function(l){
+      var inp=l.querySelector('input');
+      inp.addEventListener('input',function(){inp.classList.remove('right','wrong');build();});
+      inp.addEventListener('click',function(e){e.stopPropagation();});
+      l.addEventListener('click',function(){
+        if(inp.disabled)return;
+        if(inp.value){inp.value='';}
+        else{var used=lines.map(function(x){return parseInt(x.querySelector('input').value,10)||0;});var m=Math.max.apply(null,used);inp.value=m+1;}
+        inp.classList.remove('right','wrong');build();
+      });
+    });
+    build();
+  });
+
+  document.querySelectorAll('.mapwrap').forEach(function(w){w.onclick=function(){w.classList.toggle('zoom');};});
+
+  // ----- GAMES -----
+  var GAMES=[{"id": "safe", "t": "Safe or dangerous?", "src": "3a", "ru": "Это безопасно или опасно?", "opts": ["safe", "dangerous"], "items": [["wear a seat belt", "safe"], ["run onto the road", "dangerous"], ["lean out of the window", "dangerous"], ["walk on the pavement", "safe"], ["look both ways before you cross", "safe"], ["talk to the driver", "dangerous"], ["cross between parked cars", "dangerous"], ["wear bright clothes in daytime", "safe"], ["carry a second person on your bike", "dangerous"], ["ride against the traffic", "dangerous"], ["use bike lanes", "safe"], ["play with the car door handles", "dangerous"], ["wave from the bus window", "dangerous"], ["stand well back until the bus has stopped", "safe"], ["sit in the back seat (under 12)", "safe"]]}, {"id": "spider", "t": "Bicycle, bus or car?", "src": "3a", "ru": "К какому транспорту относится?", "opts": ["bicycle", "bus", "car"], "items": [["brakes", "bicycle"], ["tyres", "bicycle"], ["crash helmet", "bicycle"], ["bike lanes", "bicycle"], ["handgrips", "bus"], ["double-decker", "bus"], ["upper deck", "bus"], ["seat belt", "car"], ["rear view mirror", "car"], ["door handles", "car"], ["back seat", "car"]], "img": {"bicycle": "img/bike.jpg", "bus": "img/bus.jpg", "car": "img/car.jpg"}}, {"id": "homo", "t": "Homographs", "src": "3b", "ru": "Что значит слово в этом предложении?", "opts": null, "items": [["I keep my money in the <b>bank</b>.", "a place for money", ["a place for money", "the side of a river"]], ["We sat on the river <b>bank</b>.", "the side of a river", ["a place for money", "the side of a river"]], ["Turn <b>right</b> into Apple Street.", "opposite of left", ["opposite of left", "correct"]], ["Your answer is <b>right</b>!", "correct", ["opposite of left", "correct"]], ["My bag is very <b>light</b>.", "not heavy", ["not heavy", "not dark"]], ["Her hair is <b>light</b> brown.", "not dark", ["not heavy", "not dark"]], ["Write on a <b>sheet</b> of paper.", "a single piece of paper", ["a bed cover", "a single piece of paper"]], ["Put a clean <b>sheet</b> on the bed.", "a bed cover", ["a bed cover", "a single piece of paper"]]]}, {"id": "ask", "t": "Asking or giving directions?", "src": "English in Use", "ru": "Это говорит тот, кто спрашивает дорогу, или тот, кто объясняет?", "opts": ["asking", "giving"], "items": [["Excuse me, how can I get to the museum?", "asking"], ["Go down this street.", "giving"], ["Is it far?", "asking"], ["Take the first turning on your left.", "giving"], ["I'm new to the area.", "asking"], ["Could you tell me the way to the library?", "asking"], ["Do you know where the bank is?", "asking"], ["Turn right and go straight on.", "giving"], ["It's on your left, next to the café.", "giving"], ["Not really. It's very near.", "giving"]]}, {"id": "red", "t": "What does red mean?", "src": "Extensive Reading", "ru": "Что значит красный цвет здесь?", "opts": ["danger", "respect", "protection", "love"], "items": [["a red traffic light", "danger"], ["a red carpet for kings and queens", "respect"], ["the red cross", "protection"], ["red roses on Valentine's Day", "love"], ["red boxes of chocolates that look like hearts", "love"], ["Red lights warn drivers to stop.", "danger"]], "img": {"danger": "img/lights.jpg", "respect": "img/carpet.jpg", "protection": "img/redcross.jpg", "love": "img/roses.jpg"}}, {"id": "london", "t": "Getting around in London", "src": "Culture Corner", "ru": "О каком транспорте речь?", "opts": ["the Tube", "double-decker bus", "black cab"], "items": [["It has 275 stations.", "the Tube"], ["It's red and tall, but not very fast.", "double-decker bus"], ["The drivers know 25,000 streets.", "black cab"], ["Tourists love the view from the upper deck.", "double-decker bus"], ["It has a lot of room for passengers and their luggage.", "black cab"], ["It has 12 lines.", "the Tube"], ["It's also called the Underground.", "the Tube"], ["The drivers take a test of their knowledge of London.", "black cab"]], "img": {"the Tube": "img/tube.jpg", "double-decker bus": "img/dbus.jpg", "black cab": "img/cab.jpg"}}];
+  (function(){
+    var sec=document.querySelector('section[data-tab="Games"]');if(!sec)return;
+    var menu=sec.querySelector('.gmenu'),play=sec.querySelector('.gplay');
+    var q=play.querySelector('.gq'),opts=play.querySelector('.gopts'),fb=play.querySelector('.gfb'),bar=play.querySelector('.gbar span'),stat=play.querySelector('.gstat'),lives=[].slice.call(play.querySelectorAll('.glives i'));
+    var G,order,idx,life,right,streak,best,gi;
+    function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+    function setLives(){lives.forEach(function(l,k){l.classList.toggle('on',k<life);});}
+    function start(i){gi=i;G=GAMES[i];order=shuffle(G.items.slice());idx=0;life=3;right=0;streak=0;best=0;
+      menu.hidden=true;play.hidden=false;play.querySelector('.gtitle').textContent=G.t;play.querySelector('.gru').textContent=G.ru;setLives();show();}
+    function show(){
+      bar.style.width=(idx/order.length*100)+'%';
+      if(idx>=order.length||life<=0){return end();}
+      var it=order[idx];q.innerHTML='<span>'+it[0]+'</span>';fb.innerHTML='';
+      var o=it[2]||G.opts;opts.innerHTML='';
+      opts.classList.toggle('gpics',!!G.img);opts.classList.toggle('four',o.length===4);
+      o.forEach(function(v){var b=document.createElement('button');b.dataset.v=v;if(G.img&&G.img[v]){b.innerHTML='<img src="'+G.img[v]+'" alt=""><span>'+v+'</span>';}else b.textContent=v;b.onclick=function(){answer(b,v,it[1]);};opts.appendChild(b);});
+      stat.textContent='Question '+(idx+1)+' / '+order.length+(streak>1?'  ·  streak '+streak:'');
+    }
+    function answer(b,v,a){
+      [].forEach.call(opts.children,function(x){x.disabled=true;if(x.dataset.v===a)x.classList.add('ok');});
+      if(v===a){right++;streak++;best=Math.max(best,streak);fb.innerHTML='<span style="color:var(--ok)">Right!</span>';idx++;setTimeout(show,750);}
+      else{b.classList.add('no');streak=0;life--;setLives();
+        fb.innerHTML='<span style="color:var(--bad)">Correct answer: '+a+'</span><button class="next">Next →</button>';
+        fb.querySelector('.next').onclick=function(){idx++;show();};}
+    }
+    function end(){
+      bar.style.width='100%';opts.innerHTML='';fb.innerHTML='';stat.textContent='';
+      var win=life>0;
+      q.innerHTML='<div class="gend"><div class="big">'+right+' / '+order.length+'</div><div>'+(win?(life===3?'Green light! No mistakes.':'You made it to the finish!'):'Out of lights! Try again.')+'</div><div class="ru">Best streak: '+best+'</div></div>';
+      opts.classList.remove('gpics','four');var again=document.createElement('button');again.textContent='Play again';again.onclick=function(){start(gi);};
+      var back=document.createElement('button');back.textContent='All games';back.onclick=toMenu;
+      opts.appendChild(again);opts.appendChild(back);
+      if(win)menu.querySelector('[data-g="'+gi+'"]').classList.add('done');
+    }
+    function toMenu(){play.hidden=true;menu.hidden=false;}
+    menu.querySelectorAll('.gtile').forEach(function(t){t.onclick=function(){start(+t.dataset.g);};});
+    play.querySelector('.gback').onclick=toMenu;
+  })();
+
+  // ----- checking -----
+  function unitsOf(bl){
+    var u=[];
+    bl.querySelectorAll('input.g[data-a], .lw').forEach(function(el){
+      if(el.classList.contains('lw')){
+        u.push({ans:[el.dataset.a],val:function(){return el.dataset.a[0]+[].map.call(el.querySelectorAll('input'),function(i){return i.value;}).join('');},el:el,corr:el.nextElementSibling});
+      } else if(el.classList.contains('pic')){
+        var sl=el.querySelector('.slot');u.push({ans:[el.dataset.ans],val:function(){return sl.dataset.v||'';},el:sl,corr:null});
+      } else {
+        u.push({ans:el.dataset.a.split('|'),val:function(){return el.value;},el:el,corr:el.nextElementSibling});
+      }
+    });
+    return u;
+  }
+  var scores={};
+  var blocks=[].slice.call(document.querySelectorAll('.block'));
+  blocks.forEach(function(bl,bi){
+    var pp=+bl.dataset.pp, units=unitsOf(bl);
+    bl.dataset.n=units.length;
+    var res=bl.querySelector('.res'),sca=bl.querySelector('.sca');
+    bl.querySelectorAll('input.g[data-a]').forEach(function(inp){inp.addEventListener('input',function(){inp.classList.remove('right','wrong');});});
+    bl.querySelector('.check').onclick=function(){
+      var ok=0;
+      units.forEach(function(u){
+        var good=u.ans.map(norm).indexOf(norm(u.val()))>-1;
+        u.el.classList.toggle('right',good);u.el.classList.toggle('wrong',!good);
+        if(u.corr&&u.corr.classList.contains('corr'))u.corr.textContent='→ '+u.ans[0];
+        if(good)ok++;
+      });
+      bl.classList.remove('showcorr');
+      sca.style.display=ok<units.length?'inline-block':'none';
+      var max=units.length*pp;
+      if(pp){
+        scores[bi]={got:ok*pp,max:max};
+        var r=ok/units.length,cls=r>=.85?'g':(r>=.6?'y':'r');
+        res.innerHTML='<span class="light '+cls+'"><i></i><i></i><i></i></span> Points: '+ok*pp+' / '+max;
+      } else res.textContent=ok+' / '+units.length+' correct';
+      updateTotal();
+    };
+    sca.onclick=function(){bl.classList.add('showcorr');sca.style.display='none';};
+  });
+  function updateTotal(){var t=0;for(var k in scores)t+=scores[k].got;document.getElementById('total').textContent=t;return t;}
+  function renderFinal(){
+    var t=updateTotal();document.getElementById('fin').textContent=t;
+    document.getElementById('finl').className='light bigl '+(t>=85?'g':(t>=60?'y':'r'));
+    var done=Object.keys(scores).length;
+    document.getElementById('finmsg').textContent= done<7 ? 'Проверено заданий: '+done+' из 7. Нажми Check в каждом.' : (t>=85?'Green light! Ты готов к контрольной.':(t>=60?'Yellow light: почти готов, повтори задания с ошибками.':'Red light: давай ещё раз пройдём трудные задания.'));
+    var h='';blocks.forEach(function(bl,bi){var pp=+bl.dataset.pp;if(pp){var s=scores[bi];h+='<tr><td>'+bl.closest('section').dataset.tab+'</td><td>'+(s?s.got:'–')+' / '+(+bl.dataset.n*pp)+'</td></tr>';}});
+    document.getElementById('sumt').innerHTML=h;
+  }
+  document.getElementById('reset').onclick=function(){location.reload();};
+})();
+</script>
+</body>
+</html>
