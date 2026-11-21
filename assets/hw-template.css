@@ -118,3 +118,17 @@ details.script p{margin:6px 0}
 .group .q{background:transparent;border:0;border-radius:0;padding:6px 0;margin:0}
 .group .q.good{background:#eff8f3;border-radius:10px;padding:6px 8px}
 .group .q.bad{background:#fff3f1;border-radius:10px;padding:6px 8px}
+
+/* TYPE order: tap events in order; numbered cards move up */
+.orderlist{display:flex;flex-direction:column}
+.q.order{padding:8px 10px;margin:6px 0}
+.ordcard{display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;background:none;border:0;padding:4px 2px;font:inherit;color:var(--ink);cursor:pointer}
+.ordn{flex:0 0 30px;height:30px;border-radius:50%;border:2px dashed #b9c9c2;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff}
+.q.order.picked .ordn{border:0;background:var(--green)}
+.q.order.picked{border-color:#97b8ac}
+.ordtip{margin:4px 0 6px}
+.q.order .actions{margin-left:40px}
+section.article .text p{text-align:justify;hyphens:auto}
+.hl{cursor:pointer;border-radius:3px}
+.hl.on{background:#ffe27a;box-shadow:0 0 0 2px #ffe27a}
+.hltip{margin:2px 0 8px}

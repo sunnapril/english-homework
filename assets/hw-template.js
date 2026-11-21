@@ -67,8 +67,10 @@ src.textContent.split(/\r?\n/).forEach((raw, ln) => {
 });
 ['STUDENT', 'HOMEWORK', 'TITLE'].forEach(k => { if (!meta[k]) errors.push(`missing ${k}:`); });
 sections.forEach(s => {
-  if (!['gap', 'choose', 'fix', 'open', 'info', 'article'].includes(s.type)) errors.push(`section "${s.title}": unknown TYPE ${s.type}`);
-  if ((s.type === 'gap' || s.type === 'choose' || s.type === 'fix') && !s.items.length) errors.push(`section "${s.title}": no numbered tasks`);
+  if (!['gap', 'choose', 'fix', 'order', 'open', 'info', 'article'].includes(s.type)) errors.push(`section "${s.title}": unknown TYPE ${s.type}`);
+  if ((s.type === 'gap' || s.type === 'choose' || s.type === 'fix' || s.type === 'order') && !s.items.length) errors.push(`section "${s.title}": no numbered tasks`);
+  // TYPE order: the answers must be the positions 1…N, each used once
+  if (s.type === 'order') { const pos = s.items.map(it => +it.answers[0]).sort((a, b) => a - b); if (pos.some((p, i) => p !== i + 1)) errors.push(`section "${s.title}": order answers must be 1–${s.items.length}, each once`); }
   s.items.forEach((it, i) => { if (it.n !== i + 1) errors.push(`section "${s.title}": task numbers jump at ${it.n}`); });
 });
 
@@ -136,6 +138,8 @@ sections.forEach(s => {
     let sent = it.sentence, ph = '';
     const pm = sent.match(/___\s*\(([^()]{1,4}…)\)/);
     if (pm && s.type !== 'choose') { ph = pm[1]; sent = sent.replace(pm[0], '___'); }
+    // TYPE order: the student taps the events in the order they happen; the cards line up in that order
+    if (s.type === 'order') return `<div class="q order" data-answer="${data}"><button type="button" class="ordcard"><span class="ordn" aria-hidden="true"></span><span class="ordtext">${fmt(it.sentence.replace(/^_{3,}\s*/, ''))}</span></button><input type="hidden" class="ordval">${helpers(it)}</div>`;
     if (s.type === 'fix') return `<div class="q fix" data-answer="${data}"><div class="sentence"><b>${it.n}.</b> <span class="fixbox" contenteditable="true" spellcheck="false" role="textbox" aria-label="Correct sentence ${it.n}" data-orig="${esc(it.sentence)}">${esc(it.sentence)}</span><input type="hidden" class="fixval"></div>${helpers(it)}</div>`;
     const field = s.type === 'choose'
       ? `<select class="inline" aria-label="Answer ${it.n}"><option value="">choose…</option>${it.options.map(o => `<option value="${esc(o)}">${esc(o)}</option>`).join('')}</select>`
@@ -152,8 +156,9 @@ sections.forEach(s => {
       else h += itemHtml(f.item);
     });
     if (open) h += '</div>';
-  } else s.items.forEach(it => { h += itemHtml(it); });
-  if (s.type === 'gap' || s.type === 'choose' || s.type === 'fix') h += `<button class="check" type="button" data-section="${id}">Check this section</button><div class="score"></div>`;
+  } else if (s.type === 'order') h += `<p class="sub ordtip">Tap the events in order: first, second, third… Tap a numbered event again to remove its number.</p><div class="orderlist">${s.items.map(itemHtml).join('')}</div>`;
+  else s.items.forEach(it => { h += itemHtml(it); });
+  if (s.type === 'gap' || s.type === 'choose' || s.type === 'fix' || s.type === 'order') h += `<button class="check" type="button" data-section="${id}">Check this section</button><div class="score"></div>`;
   if (s.type === 'open') {
     if (s.support) h += `<button class="supportbtn" type="button">Useful language</button><div class="support">${fmt(s.support)}</div>`;
     const p = s.prompt || s.title.replace(/^\d+[.·)]?\s*/, '');
@@ -169,6 +174,18 @@ if (!noSend) main.insertAdjacentHTML('beforeend', `<div class="submitbox"><b>Sen
   + (askName ? `<label class="namebox">Your name <input id="studentName" class="student-name" autocomplete="name" placeholder="First name and surname"></label>` : '')
   + `<button class="send" id="send" type="button">Send answers</button> <button class="reset" id="reset" type="button">Clear saved answers</button><div id="status" aria-live="polite"></div></div>`);
 src.after(header, main);
+// TYPE article: every word can be tapped to highlight it (like a marker); tap again to remove
+document.querySelectorAll('section.article .text').forEach(box => {
+  box.insertAdjacentHTML('beforebegin', '<p class="sub hltip">Tap a word in the text to highlight it, like with a marker. Tap again to remove.</p>');
+  const walker = document.createTreeWalker(box, NodeFilter.SHOW_TEXT), nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(n => {
+    if (!/[A-Za-z]/.test(n.nodeValue)) return;
+    const span = document.createElement('span');
+    span.innerHTML = esc(n.nodeValue).replace(/[A-Za-z][A-Za-z'’-]*/g, w => `<span class="hl">${w}</span>`);
+    n.replaceWith(...span.childNodes);
+  });
+});
 
 // ---------- behaviour ----------
 const nameKey = 'hw-name:' + (meta.HOMEWORK || '');
@@ -178,9 +195,26 @@ const fixText = b => b.textContent.replace(/\s+/g, ' ').trim();
 document.addEventListener('input', e => { const b = e.target.closest && e.target.closest('.fixbox'); if (!b) return; const t = fixText(b); b.nextElementSibling.value = norm(t) === norm(b.dataset.orig) ? '' : t; b.classList.toggle('edited', !!b.nextElementSibling.value); }, true);
 document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.closest && e.target.closest('.fixbox')) e.preventDefault(); });
 document.addEventListener('paste', e => { const b = e.target.closest && e.target.closest('.fixbox'); if (!b) return; e.preventDefault(); document.execCommand('insertText', false, (e.clipboardData.getData('text/plain') || '').replace(/\s+/g, ' ')); });
+// TYPE order: the hidden field keeps the number; cards are reordered only visually (CSS order),
+// so the order of the answers sent to the table never changes
+const syncOrder = () => document.querySelectorAll('.orderlist').forEach(list => {
+  const qs = [...list.querySelectorAll('.q.order')];
+  qs.forEach((q, i) => { const v = +q.querySelector('.ordval').value || 0; q.style.order = v ? v : 100 + i; q.querySelector('.ordn').textContent = v || ''; q.classList.toggle('picked', !!v); });
+});
 const syncFix = () => document.querySelectorAll('.fixbox').forEach(b => { const v = b.nextElementSibling.value; b.textContent = v || b.dataset.orig; b.classList.toggle('edited', !!v); });
 document.addEventListener('click', e => {
   const t = e.target;
+  const card = t.closest && t.closest('.ordcard');
+  if (card) {
+    const q = card.closest('.q'), inp = q.querySelector('.ordval'), others = [...q.parentElement.querySelectorAll('.ordval')];
+    const v = +inp.value || 0;
+    if (v) { inp.value = ''; others.forEach(o => { if (+o.value > v) o.value = +o.value - 1; }); }
+    else inp.value = Math.max(0, ...others.map(o => +o.value || 0)) + 1;
+    q.parentElement.querySelectorAll('.q').forEach(x => { x.classList.remove('good', 'bad'); x.querySelector('.feedback').textContent = ''; });
+    syncOrder(); inp.dispatchEvent(new Event('input', { bubbles: true }));
+    return;
+  }
+  if (t.classList.contains('hl')) t.classList.toggle('on');
   if (t.classList.contains('chip')) t.classList.toggle('used');
   if (t.classList.contains('hintbtn')) t.closest('.q').querySelector('.hint').classList.toggle('open');
   if (t.classList.contains('show')) t.closest('.q').querySelector('.answer').classList.toggle('open');
@@ -203,7 +237,7 @@ if (document.getElementById('reset')) document.getElementById('reset').onclick =
   if (!confirm('Clear all saved answers and start again?')) return;
   document.querySelectorAll('main input,main textarea').forEach(x => x.value = '');
   document.querySelectorAll('main select').forEach(x => x.selectedIndex = 0);
-  syncFix();
+  syncFix(); syncOrder();
   document.querySelectorAll('.chip').forEach(x => x.classList.remove('used'));
   document.querySelectorAll('.q').forEach(x => x.classList.remove('good', 'bad'));
   document.querySelectorAll('.feedback,.score').forEach(x => x.textContent = '');
@@ -212,6 +246,7 @@ if (document.getElementById('reset')) document.getElementById('reset').onclick =
   try { localStorage.removeItem(nameKey); } catch (e) {}
   window.scrollTo(0, 0);
 };
+syncOrder();
 if (noSend) return;  // lesson page: no sending
 if (errors.length) { document.getElementById('send').disabled = true; return; }  // never send a broken page
 
@@ -238,6 +273,6 @@ if (askName) {
   }, true);
 }
 const shared = document.createElement('script'); shared.src = '/assets/homework-submission.js';
-shared.onload = () => setTimeout(syncFix, 0);  // saved answers are restored by the shared script
+shared.onload = () => setTimeout(() => { syncFix(); syncOrder(); }, 0);  // saved answers are restored by the shared script
 document.body.appendChild(shared);
 })();
