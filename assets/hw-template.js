@@ -38,6 +38,7 @@ src.textContent.split(/\r?\n/).forEach((raw, ln) => {
     else if (k === 'IMAGE') { const [file, alt] = v.split('|').map(x => x.trim()); cur.image = { file, alt: alt || '' }; cur.text.push('\u0000IMG'); }
     else if (k === 'SUPPORT') cur.support = v;
     else if (k === 'PROMPT') cur.prompt = v;
+    else if (k === 'COLUMNS') cur.columns = +v || 1;
     else if (k === 'VOCAB') { const [w, d, ru] = v.split('|').map(x => x.trim()); if (!w || !d) errors.push(`line ${ln + 1}: VOCAB needs "word | meaning"`); else (cur.vocab = cur.vocab || []).push({ w, d, ru }); }
     else errors.push(`line ${ln + 1}: unknown field ${k}`);
     return;
@@ -69,11 +70,15 @@ src.textContent.split(/\r?\n/).forEach((raw, ln) => {
 });
 ['STUDENT', 'HOMEWORK', 'TITLE'].forEach(k => { if (!meta[k]) errors.push(`missing ${k}:`); });
 sections.forEach(s => {
-  if (!['gap', 'choose', 'fix', 'order', 'open', 'info', 'article'].includes(s.type)) errors.push(`section "${s.title}": unknown TYPE ${s.type}`);
-  if ((s.type === 'gap' || s.type === 'choose' || s.type === 'fix' || s.type === 'order') && !s.items.length) errors.push(`section "${s.title}": no numbered tasks`);
+  if (!['gap', 'choose', 'fix', 'order', 'open', 'info', 'article', 'lotto', 'chain'].includes(s.type)) errors.push(`section "${s.title}": unknown TYPE ${s.type}`);
+  if (['gap', 'choose', 'fix', 'order', 'lotto', 'chain'].includes(s.type) && !s.items.length) errors.push(`section "${s.title}": no numbered tasks`);
   // TYPE order: the answers must be the positions 1…N, each used once
   if (s.type === 'order') { const pos = s.items.map(it => +it.answers[0]).sort((a, b) => a - b); if (pos.some((p, i) => p !== i + 1)) errors.push(`section "${s.title}": order answers must be 1–${s.items.length}, each once`); }
   s.items.forEach((it, i) => { if (it.n !== i + 1) errors.push(`section "${s.title}": task numbers jump at ${it.n}`); });
+  // TYPE lotto: the answer is the list of numbers (1–49) to cross out
+  if (s.type === 'lotto') s.items.forEach(it => { const ns = it.answers[0].split(',').map(x => +x.trim()); if (ns.some(n => !(n >= 1 && n <= 49))) errors.push(`section "${s.title}": lotto answer must be numbers 1–49 separated by commas`); else it.answers = [ns.sort((a, b) => a - b).join(', ')]; });
+  // TYPE chain: every answer word must be in the chain
+  if (s.type === 'chain') s.items.forEach(it => { const ch = it.sentence.replace(/[\[\]|\s]/g, '').toLowerCase(); it.answers[0].split(',').map(w => w.trim().toLowerCase()).forEach(w => { if (!ch.includes(w)) errors.push(`section "${s.title}": "${w}" is not in the word chain`); }); });
 });
 
 // Word bank: never shown in the order of the answers. Shuffled with a fixed seed (same order on every visit),
@@ -95,24 +100,27 @@ sections.forEach((s, si) => {
 });
 
 // ---------- render ----------
-// LANG: de → German buttons and messages (for German homework; English is the default)
-const L = /^de$/i.test(meta.LANG || '') ? 'de' : 'en';
+// UI: ru → Russian buttons and messages (beginners' pages; task content stays in the target language). English is the default.
+// LANG: de → German answers: ä/ae, ö/oe, ü/ue, ß/ss count as the same.
+const L = /^ru$/i.test(meta.UI || '') ? 'ru' : 'en';
 const UI = {
-  de: { 'Hint': 'Hinweis', 'Show correct answer': 'Richtige Antwort zeigen', 'Correct answer:': 'Richtige Antwort:', 'task': 'Aufgabe', 'tasks': 'Aufgaben',
-    'New vocabulary': 'Neue Wörter', 'Script · open after listening': 'Text · erst nach dem Hören öffnen', 'Word bank': 'Wörter', '· tap a word after you use it': '· Wort antippen, wenn Sie es benutzt haben',
-    '↶ Back 5 seconds': '↶ 5 Sekunden zurück', 'choose…': 'wählen…', 'Check this section': 'Diese Aufgabe prüfen', 'Useful language': 'Hilfe', 'Write your answer here.': 'Schreiben Sie hier.',
-    'Tap the events in order: first, second, third… Tap a numbered event again to remove its number.': 'Tippen Sie in der richtigen Reihenfolge: erstens, zweitens … Noch einmal tippen = Nummer löschen.',
-    '✓ Correct': '✓ Richtig', 'Not quite. Open the hint, try again, or show the correct answer.': 'Noch nicht richtig. Lesen Sie den Hinweis, versuchen Sie es noch einmal oder zeigen Sie die Antwort.', 'Complete this item first.': 'Bitte zuerst ausfüllen.', 'correct': 'richtig',
-    'Clear all saved answers and start again?': 'Alle gespeicherten Antworten löschen und neu beginnen?',
-    'Send your work to Irina': 'Hausaufgabe an Irina senden', 'When you have finished, send your answers. Wait for': 'Wenn Sie fertig sind, senden Sie Ihre Antworten. Warten Sie auf', 'Send answers': 'Antworten senden', 'Clear saved answers': 'Antworten löschen', 'Next:': 'Weiter:',
-    'Tap a word in the text to highlight it, like with a marker. Tap again to remove.': 'Tippen Sie auf ein Wort, um es zu markieren. Noch einmal tippen = Markierung weg.' },
+  ru: { 'Hint': 'Подсказка', 'Show correct answer': 'Показать ответ', 'Correct answer:': 'Правильный ответ:',
+    'New vocabulary': 'Новые слова', 'Script · open after listening': 'Текст аудио · откройте после прослушивания', 'Word bank': 'Слова', '· tap a word after you use it': '· нажмите на слово, когда используете его',
+    '↶ Back 5 seconds': '↶ Назад на 5 секунд', 'choose…': 'выберите…', 'Check this section': 'Проверить задание', 'Useful language': 'Подсказки', 'Write your answer here.': 'Напишите ответ здесь.',
+    'Tap the events in order: first, second, third… Tap a numbered event again to remove its number.': 'Нажимайте по порядку: первое, второе… Нажмите ещё раз, чтобы убрать номер.',
+    '✓ Correct': '✓ Верно', 'Not quite. Open the hint, try again, or show the correct answer.': 'Пока неверно. Откройте подсказку и попробуйте ещё раз или посмотрите ответ.', 'Complete this item first.': 'Сначала выполните этот пункт.', 'correct': 'верно',
+    'Clear all saved answers and start again?': 'Удалить все сохранённые ответы и начать заново?',
+    'Send your work to Irina': 'Отправить ДЗ Ирине', 'When you have finished, send your answers. Wait for': 'Когда закончите, отправьте ответы и дождитесь надписи', 'Send answers': 'Отправить ответы', 'Clear saved answers': 'Очистить ответы', 'Next:': 'Дальше:',
+    'Tap a word in the text to highlight it, like with a marker. Tap again to remove.': 'Нажмите на слово, чтобы выделить его маркером. Нажмите ещё раз — выделение исчезнет.',
+    'crossed out': 'зачёркнуто', 'Tap letters to mark each word. Tap again to remove.': 'Нажимайте на буквы, чтобы выделить каждое слово. Повторное нажатие снимает выделение.', 'words marked': 'слов выделено' },
   // messages of the shared sender (display only; the sending itself is unchanged)
-  deStatus: { '✓ Received by Irina': '✓ Irina hat die Antworten erhalten', '✓ Received by Irina. Start again for a new attempt.': '✓ Irina hat die Antworten erhalten.', 'Received': 'Erhalten', 'Retry': 'Noch einmal senden', 'Send answers': 'Antworten senden', 'Sending…': 'Wird gesendet…',
-    'Not confirmed. Your answers are stored on this device. Click Retry.': 'Nicht bestätigt. Ihre Antworten sind auf diesem Gerät gespeichert. Tippen Sie auf „Noch einmal senden“.',
-    'You are offline. Your answers are saved. Click Retry when online.': 'Kein Internet. Ihre Antworten sind gespeichert. Senden Sie später noch einmal.',
-    'A submission was previously confirmed.': '✓ Irina hat die Antworten schon erhalten.', 'An earlier submission is pending. Click Send answers to retry it.': 'Die Antworten sind noch nicht bestätigt. Tippen Sie noch einmal auf „Antworten senden“.' }
+  ruStatus: { '✓ Received by Irina': '✓ Ирина получила ответы', '✓ Received by Irina. Start again for a new attempt.': '✓ Ирина получила ответы.', 'Received': 'Получено', 'Retry': 'Отправить ещё раз', 'Send answers': 'Отправить ответы', 'Sending…': 'Отправляется…',
+    'Not confirmed. Your answers are stored on this device. Click Retry.': 'Получение не подтверждено. Ответы сохранены на этом устройстве. Нажмите «Отправить ещё раз».',
+    'You are offline. Your answers are saved. Click Retry when online.': 'Нет интернета. Ответы сохранены — отправьте, когда появится связь.',
+    'A submission was previously confirmed.': '✓ Ирина уже получила ответы.', 'An earlier submission is pending. Click Send answers to retry it.': 'Отправка не подтверждена. Нажмите «Отправить ответы» ещё раз.' }
 };
-const T = k => (L === 'de' && UI.de[k]) || k;
+const T = k => (L === 'ru' && UI.ru[k]) || k;
+const countLabel = n => L === 'ru' ? `${n} ${n % 10 === 1 && n % 100 !== 11 ? 'пункт' : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? 'пункта' : 'пунктов'}` : `${n} ${n === 1 ? 'task' : 'tasks'}`;
 // STUDENT: ask → a universal page: the student types their name before sending
 const askName = /^ask$/i.test(meta.STUDENT || '');
 document.title = askName ? (meta.TITLE || 'Homework') : `${meta.STUDENT || ''} · ${meta.TITLE || 'Homework'}`;
@@ -142,7 +150,7 @@ sections.forEach(s => {
   const id = 's' + (++sid);
   const sec = document.createElement('section'); sec.id = id; if (s.type === 'article') sec.className = 'article';
   let h = `<h2>${fmt(s.title)}</h2>`;
-  if (s.items.length) h += `<p class="count">${s.items.length} ${T(s.items.length === 1 ? 'task' : 'tasks')}</p>`;
+  if (s.items.length && s.type !== 'lotto' && s.type !== 'chain') h += `<p class="count">${countLabel(s.items.length)}</p>`;
   h += textBlock(s.text, s.image);
   if (s.vocab && theme === 'magazine') h += `<div class="vocab"><h3>${T('New vocabulary')}</h3><dl>${s.vocab.map(v => `<div><dt>${fmt(v.w)}</dt><dd>${fmt(v.d)}</dd></div>`).join('')}</dl></div>`;
   else if (s.vocab) h += `<details class="vocab vocab-fold"><summary>${T('New vocabulary')} · ${s.vocab.length} words</summary><dl>${s.vocab.map(v => `<div><dt>${fmt(v.w)}</dt><dd>${fmt(v.d)}${v.ru ? `<span class="ru">${fmt(v.ru)}</span>` : ''}</dd></div>`).join('')}</dl></details>`;
@@ -160,6 +168,12 @@ sections.forEach(s => {
     if (pm && s.type !== 'choose') { ph = pm[1]; sent = sent.replace(pm[0], '___'); }
     // TYPE order: the student taps the events in the order they happen; the cards line up in that order
     if (s.type === 'order') return `<div class="q order" data-answer="${data}"><button type="button" class="ordcard"><span class="ordn" aria-hidden="true"></span><span class="ordtext">${fmt(it.sentence.replace(/^_{3,}\s*/, ''))}</span></button><input type="hidden" class="ordval">${helpers(it)}</div>`;
+    // TYPE lotto: a lottery ticket 1–49; the student crosses out numbers (as many as the answer has)
+    if (s.type === 'lotto') { const max = it.answers[0].split(',').length; let g = ''; for (let n = 1; n <= 49; n++) g += `<button type="button" class="tkn" data-n="${n}">${n}</button>`;
+      return `<div class="q lotto" data-answer="${data}" data-max="${max}"><div class="ticket"><div class="tkhead"><span>${fmt(it.sentence.replace(/_{3,}/, '').trim() || 'Lotto 6 aus 49')}</span><span class="tkcount">0 / ${max}</span></div><div class="tkgrid">${g}</div></div><input type="hidden" class="lotval">${helpers(it)}</div>`; }
+    // TYPE chain: a word chain; the student taps letters to mark the words. [word] = example, already marked
+    if (s.type === 'chain') { let k = 0; const letters = it.sentence.replace(/\s+/g, '').replace(/\[([^\]]+)\]|([^\[\]|])/g, (m0, ex, ch) => ex ? [...ex].map(c => `<span class="cl ex">${esc(c)}</span>`).join('') : `<button type="button" class="cl" data-i="${k++}">${esc(ch)}</button>`).replace(/\|/g, '');
+      return `<div class="q chain" data-answer="${data}"><p class="sub chaintip">${T('Tap letters to mark each word. Tap again to remove.')}</p><div class="chainrow">${letters}</div><p class="sub chaincount"></p><input type="hidden" class="chainval">${helpers(it)}</div>`; }
     if (s.type === 'fix') return `<div class="q fix" data-answer="${data}"><div class="sentence"><b>${it.n}.</b> <span class="fixbox" contenteditable="true" spellcheck="false" role="textbox" aria-label="Correct sentence ${it.n}" data-orig="${esc(it.sentence)}">${esc(it.sentence)}</span><input type="hidden" class="fixval"></div>${helpers(it)}</div>`;
     const field = s.type === 'choose'
       ? `<select class="inline" aria-label="Answer ${it.n}"><option value="">${T('choose…')}</option>${it.options.map(o => `<option value="${esc(o)}">${esc(o)}</option>`).join('')}</select>`
@@ -177,8 +191,9 @@ sections.forEach(s => {
     });
     if (open) h += '</div>';
   } else if (s.type === 'order') h += `<p class="sub ordtip">${T('Tap the events in order: first, second, third… Tap a numbered event again to remove its number.')}</p><div class="orderlist">${s.items.map(itemHtml).join('')}</div>`;
+  else if (s.columns === 2) h += `<div class="cols2">${s.items.map(itemHtml).join('')}</div>`;
   else s.items.forEach(it => { h += itemHtml(it); });
-  if (s.type === 'gap' || s.type === 'choose' || s.type === 'fix' || s.type === 'order') h += `<button class="check" type="button" data-section="${id}">${T('Check this section')}</button><div class="score"></div>`;
+  if (['gap', 'choose', 'fix', 'order', 'lotto', 'chain'].includes(s.type)) h += `<button class="check" type="button" data-section="${id}">${T('Check this section')}</button><div class="score"></div>`;
   if (s.type === 'open') {
     if (s.support) h += `<button class="supportbtn" type="button">${T('Useful language')}</button><div class="support">${fmt(s.support)}</div>`;
     const p = s.prompt || s.title.replace(/^\d+[.·)]?\s*/, '');
@@ -190,7 +205,7 @@ sections.forEach(s => {
 });
 // SEND: no → lesson page: no sending box, nothing goes to the results table
 const noSend = /^no$/i.test(meta.SEND || '');
-if (!noSend) main.insertAdjacentHTML('beforeend', `<div class="submitbox"><b>${T('Send your work to Irina')}</b><p>${T('When you have finished, send your answers. Wait for')} <b>${L === 'de' ? UI.deStatus['✓ Received by Irina'] : '✓ Received by Irina'}</b>.</p>`
+if (!noSend) main.insertAdjacentHTML('beforeend', `<div class="submitbox"><b>${T('Send your work to Irina')}</b><p>${T('When you have finished, send your answers. Wait for')} <b>${L === 'ru' ? UI.ruStatus['✓ Received by Irina'] : '✓ Received by Irina'}</b>.</p>`
   + (askName ? `<label class="namebox">Your name <input id="studentName" class="student-name" autocomplete="name" placeholder="First name and surname"></label>` : '')
   + `<button class="send" id="send" type="button">${T('Send answers')}</button> <button class="reset" id="reset" type="button">${T('Clear saved answers')}</button><div id="status" aria-live="polite"></div></div>`);
 src.after(header, main);
@@ -228,6 +243,23 @@ const fixText = b => b.textContent.replace(/\s+/g, ' ').trim();
 document.addEventListener('input', e => { const b = e.target.closest && e.target.closest('.fixbox'); if (!b) return; const t = fixText(b); b.nextElementSibling.value = norm(t) === norm(b.dataset.orig) ? '' : t; b.classList.toggle('edited', !!b.nextElementSibling.value); }, true);
 document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.closest && e.target.closest('.fixbox')) e.preventDefault(); });
 document.addEventListener('paste', e => { const b = e.target.closest && e.target.closest('.fixbox'); if (!b) return; e.preventDefault(); document.execCommand('insertText', false, (e.clipboardData.getData('text/plain') || '').replace(/\s+/g, ' ')); });
+// TYPE lotto / chain: the hidden field keeps the answer text; the ticket / letters are redrawn from it
+const syncLotto = () => document.querySelectorAll('.q.lotto').forEach(q => {
+  const set = new Set((q.querySelector('.lotval').value || '').split(',').map(x => +x.trim()).filter(Boolean));
+  q.querySelectorAll('.tkn').forEach(b => b.classList.toggle('x', set.has(+b.dataset.n)));
+  q.querySelector('.tkcount').textContent = `✗ ${set.size} / ${q.dataset.max}`;
+});
+const chainWords = q => { const out = []; let w = ''; q.querySelectorAll('.cl').forEach(c => { if (c.classList.contains('on')) w += c.textContent; else { if (w) out.push(w); w = ''; } }); if (w) out.push(w); return out; };
+const syncChain = () => document.querySelectorAll('.q.chain').forEach(q => {
+  const saved = q.querySelector('.chainval').value;
+  if (q.dataset.restored !== '1' && saved) {  // restore marks from the saved words (in chain order)
+    const btns = [...q.querySelectorAll('button.cl')], txt = btns.map(b => b.textContent).join('').toLowerCase(); let from = 0;
+    saved.split(',').map(x => x.trim().toLowerCase()).filter(Boolean).forEach(w => { const at = txt.indexOf(w, from); if (at >= 0) { for (let i = at; i < at + w.length; i++) btns[i].classList.add('on'); from = at + w.length; } });
+  }
+  if (!saved) q.querySelectorAll('.cl.on').forEach(c => c.classList.remove('on'));
+  q.dataset.restored = '1';
+  const n = chainWords(q).length; q.querySelector('.chaincount').textContent = n ? `${n} ${T('words marked')}` : '';
+});
 // TYPE order: the hidden field keeps the number; cards are reordered only visually (CSS order),
 // so the order of the answers sent to the table never changes
 const syncOrder = () => document.querySelectorAll('.orderlist').forEach(list => {
@@ -247,6 +279,19 @@ document.addEventListener('click', e => {
     syncOrder(); inp.dispatchEvent(new Event('input', { bubbles: true }));
     return;
   }
+  if (t.classList.contains('tkn')) {
+    const q = t.closest('.q'), inp = q.querySelector('.lotval'), set = new Set((inp.value || '').split(',').map(x => +x.trim()).filter(Boolean)), n = +t.dataset.n;
+    if (set.has(n)) set.delete(n); else if (set.size < +q.dataset.max) set.add(n); else return;
+    inp.value = [...set].sort((a, b) => a - b).join(', ');
+    q.classList.remove('good', 'bad'); q.querySelectorAll('.tkn').forEach(b => b.classList.remove('hit', 'miss')); q.querySelector('.feedback').textContent = '';
+    syncLotto(); inp.dispatchEvent(new Event('input', { bubbles: true })); return;
+  }
+  if (t.matches('button.cl')) {
+    const q = t.closest('.q'), inp = q.querySelector('.chainval');
+    t.classList.toggle('on'); inp.value = chainWords(q).join(', ');
+    q.classList.remove('good', 'bad'); q.querySelector('.feedback').textContent = '';
+    syncChain(); inp.dispatchEvent(new Event('input', { bubbles: true })); return;
+  }
   if (t.classList.contains('hl')) t.classList.toggle('on');
   if (t.classList.contains('chip')) t.classList.toggle('used');
   if (t.classList.contains('hintbtn')) t.closest('.q').querySelector('.hint').classList.toggle('open');
@@ -262,15 +307,22 @@ document.addEventListener('click', e => {
       q.querySelector('.feedback').textContent = T(ok ? '✓ Correct' : v ? 'Not quite. Open the hint, try again, or show the correct answer.' : 'Complete this item first.');
       q.querySelector('.show').classList.toggle('available', !!v && !ok);
       if (ok) q.querySelector('.answer').classList.remove('open');
+      if (q.classList.contains('lotto')) { const right = new Set(q.dataset.answer.split('|')[0].split(',').map(x => +x)); q.querySelectorAll('.tkn.x').forEach(b => { b.classList.toggle('hit', right.has(+b.dataset.n)); b.classList.toggle('miss', !right.has(+b.dataset.n)); }); }
     });
     t.nextElementSibling.textContent = `${good} / ${qs.length} ${T('correct')}`;
+    // one ticket / one chain: count the numbers / words instead of "1 / 1"
+    if (qs.length === 1 && (qs[0].classList.contains('lotto') || qs[0].classList.contains('chain'))) {
+      const q = qs[0], right = q.dataset.answer.split('|')[0].split(',').map(x => norm(x)), got = valueOf(q).split(',').map(x => norm(x)).filter(Boolean);
+      t.nextElementSibling.textContent = `${got.filter(x => right.includes(x)).length} / ${right.length} ${T('correct')}`;
+    }
   }
 });
 if (document.getElementById('reset')) document.getElementById('reset').onclick = () => {
   if (!confirm(T('Clear all saved answers and start again?'))) return;
   document.querySelectorAll('main input,main textarea').forEach(x => x.value = '');
   document.querySelectorAll('main select').forEach(x => x.selectedIndex = 0);
-  syncFix(); syncOrder();
+  syncFix(); syncOrder(); syncLotto(); syncChain();
+  document.querySelectorAll('.tkn').forEach(b => b.classList.remove('hit', 'miss'));
   document.querySelectorAll('.chip').forEach(x => x.classList.remove('used'));
   document.querySelectorAll('.q').forEach(x => x.classList.remove('good', 'bad'));
   document.querySelectorAll('.feedback,.score').forEach(x => x.textContent = '');
@@ -279,7 +331,7 @@ if (document.getElementById('reset')) document.getElementById('reset').onclick =
   try { localStorage.removeItem(nameKey); } catch (e) {}
   window.scrollTo(0, 0);
 };
-syncOrder();
+syncOrder(); syncLotto(); syncChain();
 if (noSend) return;  // lesson page: no sending
 if (errors.length) { document.getElementById('send').disabled = true; return; }  // never send a broken page
 
@@ -305,11 +357,11 @@ if (askName) {
     statusEl.textContent = 'Please write your name first.'; nameEl.focus();
   }, true);
 }
-if (L === 'de') {  // shown text only: the shared sender keeps working in English internally
-  const tr = el => { if (!el) return; const t = UI.deStatus[el.textContent.trim()]; if (t) el.textContent = t; };
+if (L === 'ru') {  // shown text only: the shared sender keeps working in English internally
+  const tr = el => { if (!el) return; const t = UI.ruStatus[el.textContent.trim()]; if (t) el.textContent = t; };
   ['status', 'send'].forEach(id => { const el = document.getElementById(id); if (el) new MutationObserver(() => tr(el)).observe(el, { childList: true, characterData: true, subtree: true }); });
 }
 const shared = document.createElement('script'); shared.src = '/assets/homework-submission.js';
-shared.onload = () => setTimeout(() => { syncFix(); syncOrder(); }, 0);  // saved answers are restored by the shared script
+shared.onload = () => setTimeout(() => { syncFix(); syncOrder(); document.querySelectorAll('.q.chain').forEach(q => q.dataset.restored = ''); syncLotto(); syncChain(); }, 0);  // saved answers are restored by the shared script
 document.body.appendChild(shared);
 })();

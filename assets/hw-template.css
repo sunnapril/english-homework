@@ -143,3 +143,23 @@ section.article .text p{text-align:justify;hyphens:auto}
 section .text p{overflow-wrap:break-word}
 /* the whole answer is a sentence ("1. ___ = …"): a full-width field */
 .q input.inline.wide{width:calc(100% - 2.2em);max-width:34em}
+
+/* TYPE lotto: a lottery ticket; tapped numbers are crossed out like with a pen */
+.ticket{max-width:430px;background:#fffdf7;border:2px solid #d8443c;border-radius:10px;box-shadow:0 3px 10px rgba(0,0,0,.08);overflow:hidden;margin:6px 0 10px}
+.tkhead{display:flex;justify-content:space-between;align-items:center;background:#d8443c;color:#fff;padding:7px 12px;font-weight:800;letter-spacing:.04em}
+.tkcount{font-weight:600;font-size:.85em;opacity:.95}
+.tkgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;padding:10px;background:repeating-linear-gradient(0deg,#fffdf7 0 28px,#fdf1ef 28px 29px)}
+.tkn{position:relative;aspect-ratio:1;min-height:34px;border:1.5px solid #e9a19c;border-radius:5px;background:#fff;color:#c8352d;font:700 15px/1 system-ui,sans-serif;cursor:pointer;padding:0}
+.tkn:hover{background:#fff1ef}
+.tkn.x::before,.tkn.x::after{content:"";position:absolute;left:12%;right:12%;top:50%;height:3px;margin-top:-1.5px;background:#1f3d7a;border-radius:2px;transform:rotate(45deg)}
+.tkn.x::after{transform:rotate(-45deg)}
+.tkn.x{color:#9aa}
+.tkn.hit{box-shadow:0 0 0 3px #2e8b57}
+.tkn.miss{box-shadow:0 0 0 3px #b0b0b0}
+/* TYPE chain: a word chain; marked letters look highlighted */
+.q.chain .chainrow{display:flex;flex-wrap:wrap;gap:2px;margin:6px 0;font:600 18px/1 ui-monospace,Menlo,Consolas,monospace}
+.q.chain .cl{min-width:22px;height:30px;padding:0 2px;border:0;border-bottom:2px solid #d9d4c8;background:none;font:inherit;color:inherit;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.q.chain .cl.on{background:#ffe27a;border-bottom-color:#c99a00}
+.q.chain .cl.ex{background:#d9ecdf;border-bottom:2px solid #6aa57f;cursor:default}
+/* COLUMNS: 2 → two columns on wide screens, one on phones */
+@media (min-width:760px){.cols2{display:grid;grid-template-columns:1fr 1fr;gap:0 18px;align-items:start}}
