@@ -118,3 +118,58 @@ details.script p{margin:6px 0}
 .group .q{background:transparent;border:0;border-radius:0;padding:6px 0;margin:0}
 .group .q.good{background:#eff8f3;border-radius:10px;padding:6px 8px}
 .group .q.bad{background:#fff3f1;border-radius:10px;padding:6px 8px}
+
+/* TYPE order: tap events in order; numbered cards move up */
+.orderlist{display:flex;flex-direction:column}
+.q.order{padding:8px 10px;margin:6px 0}
+.ordcard{display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;background:none;border:0;padding:4px 2px;font:inherit;color:var(--ink);cursor:pointer}
+.ordn{flex:0 0 30px;height:30px;border-radius:50%;border:2px dashed #b9c9c2;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff}
+.q.order.picked .ordn{border:0;background:var(--green)}
+.q.order.picked{border-color:#97b8ac}
+.ordtip{margin:4px 0 6px}
+.q.order .actions{margin-left:40px}
+section.article .text p{text-align:justify;hyphens:auto}
+.hl{cursor:pointer;border-radius:3px}
+.hl.on{background:#ffe27a;box-shadow:0 0 0 2px #ffe27a}
+.hltip{margin:2px 0 8px}
+.slidetabs{position:sticky;top:0;z-index:5;display:flex;gap:6px;overflow-x:auto;white-space:nowrap;padding:10px 2px;margin-bottom:12px;background:#f1efea}
+.stab{flex:0 0 auto;background:#fff;border:1px solid var(--line);color:var(--ink);padding:6px 12px;border-radius:999px;font:inherit;font-size:13.5px;cursor:pointer}
+.stab .n{color:var(--green);font-weight:700;margin-right:5px}
+.stab.active{background:var(--green);border-color:var(--green);color:#fff}
+.stab.active .n{color:#fff}
+.nextslide{display:block;margin:22px 0 4px auto;background:var(--sage);border:1px solid #9fc2b5;color:var(--ink);padding:9px 15px;border-radius:12px;font:inherit;font-weight:600;cursor:pointer}
+
+/* very long words (e.g. a word chain) wrap instead of widening the page on phones */
+section .text p{overflow-wrap:break-word}
+/* the whole answer is a sentence ("1. ___ = …"): a full-width field */
+.q input.inline.wide{width:calc(100% - 2.2em);max-width:34em}
+
+/* TYPE lotto: a lottery ticket; tapped numbers are crossed out like with a pen */
+.ticket{max-width:430px;background:#fffdf7;border:2px solid #d8443c;border-radius:10px;box-shadow:0 3px 10px rgba(0,0,0,.08);overflow:hidden;margin:6px 0 10px}
+.tkhead{display:flex;justify-content:space-between;align-items:center;background:#d8443c;color:#fff;padding:7px 12px;font-weight:800;letter-spacing:.04em}
+.tkcount{font-weight:600;font-size:.85em;opacity:.95}
+.tkgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;padding:10px;background:repeating-linear-gradient(0deg,#fffdf7 0 28px,#fdf1ef 28px 29px)}
+.tkn{position:relative;aspect-ratio:1;min-height:34px;border:1.5px solid #e9a19c;border-radius:5px;background:#fff;color:#c8352d;font:700 15px/1 system-ui,sans-serif;cursor:pointer;padding:0}
+.tkn:hover{background:#fff1ef}
+.tkn.x::before,.tkn.x::after{content:"";position:absolute;left:12%;right:12%;top:50%;height:3px;margin-top:-1.5px;background:#1f3d7a;border-radius:2px;transform:rotate(45deg)}
+.tkn.x::after{transform:rotate(-45deg)}
+.tkn.x{color:#c8352d}
+.tkn.hit{box-shadow:0 0 0 3px #2e8b57}
+.tkn.miss{box-shadow:0 0 0 3px #b0b0b0}
+/* TYPE chain: a word chain; marked letters look highlighted */
+.q.chain .chainrow{display:flex;flex-wrap:wrap;gap:2px;margin:6px 0;font:600 18px/1 ui-monospace,Menlo,Consolas,monospace}
+.q.chain .cl{min-width:22px;height:30px;padding:0 2px;border:0;border-bottom:2px solid #d9d4c8;background:none;font:inherit;color:inherit;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.q.chain .cl.on{background:#ffe27a;border-bottom-color:#c99a00}
+.q.chain .cl.ex{background:#d9ecdf;border-bottom:2px solid #6aa57f;cursor:default}
+/* COLUMNS: 2 → two columns on wide screens, one on phones */
+@media (min-width:760px){.cols2{display:grid;grid-template-columns:1fr 1fr;gap:0 18px;align-items:start}}
+.q.chain .cl.on.c0{background:#ffe27a;border-bottom-color:#c99a00}
+.q.chain .cl.on.c1{background:#bfe3ff;border-bottom-color:#3d8fd1}
+.q.chain .cl.on.c2{background:#ffc9d6;border-bottom-color:#d65a7a}
+.q.chain .cl.on.c3{background:#c9f0c4;border-bottom-color:#4f9e46}
+.q.chain .cl.on.c4{background:#e3d2ff;border-bottom-color:#8a5fd1}
+.q.chain .cl.on.c5{background:#ffd9b3;border-bottom-color:#d9822b}
+.q.chain .cl.on.c6{background:#b8efe8;border-bottom-color:#2a9c8f}
+.q.chain .cl.on.c7{background:#f2e1c9;border-bottom-color:#a87b45}
+/* the ticket is centred and a little larger on a computer */
+@media (min-width:760px){.ticket{max-width:460px;margin-left:auto;margin-right:auto}}

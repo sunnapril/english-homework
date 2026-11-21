@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sergey · Progress map · Units 3–5</title>
+<style>
+:root{--ink:#e9eef2;--muted:#9aa8b3;--bg:#11161c;--card:#1a2129;--line:#2b3540;--gold:#e8b44a;--teal:#4fc1a6;--lock:#5b6670;--red:#e07a6b}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 20% 0,#1d2833 0,#11161c 55%);color:var(--ink);font:17px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:34px 20px 60px}
+.kick{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:700}
+h1{font-size:clamp(30px,5vw,46px);line-height:1.08;margin:8px 0 10px}
+.sub{color:var(--muted);margin:0 0 26px;max-width:640px}
+h2{font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:36px 0 14px}
+/* map */
+.map{position:relative;display:grid;grid-template-columns:repeat(6,1fr);gap:10px;padding:10px 0}
+.map:before{content:"";position:absolute;left:10%;right:10%;top:44px;height:4px;background:linear-gradient(90deg,var(--teal) 0,var(--teal) 76%,var(--lock) 76%);border-radius:4px}
+.node{position:relative;text-align:center}
+.dot{width:72px;height:72px;margin:8px auto 10px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;background:var(--card);border:3px solid var(--teal);color:var(--teal);position:relative;z-index:1}
+.node.boss .dot{border-color:var(--gold);color:var(--gold);box-shadow:0 0 0 6px rgba(232,180,74,.15)}
+.node.lock .dot{border-color:var(--lock);color:var(--lock);border-style:dashed}
+.node b{display:block;font-size:15px}
+.node small{display:block;color:var(--muted);font-size:13px;line-height:1.35;margin-top:3px}
+.badge{display:inline-block;margin-top:6px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:rgba(79,193,166,.14);color:var(--teal);font-weight:700}
+.boss .badge{background:rgba(232,180,74,.16);color:var(--gold)}
+.lock .badge{background:rgba(91,102,112,.2);color:var(--muted)}
+@media(max-width:700px){.map{grid-template-columns:1fr;gap:4px}.map:before{left:35px;right:auto;top:20px;bottom:20px;width:4px;height:auto;background:linear-gradient(180deg,var(--teal) 0,var(--teal) 78%,var(--lock) 78%)}.node{display:grid;grid-template-columns:72px 1fr;gap:14px;text-align:left;align-items:center}.dot{margin:4px 0}}
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+.stat .num{font-size:34px;font-weight:800;color:var(--gold);line-height:1}
+.stat p{margin:6px 0 0;color:var(--muted);font-size:14.5px}
+@media(max-width:700px){.stats{grid-template-columns:1fr}}
+/* achievements */
+.ach{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.a{display:flex;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.a svg{flex:0 0 38px;height:38px}
+.a b{display:block}
+.a span{color:var(--muted);font-size:14.5px}
+@media(max-width:700px){.ach{grid-template-columns:1fr}}
+/* skills */
+.skills{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:8px 18px}
+.sk{display:grid;grid-template-columns:230px 1fr;gap:14px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
+.sk:last-child{border-bottom:0}
+.sk em{font-style:normal;color:var(--muted);font-size:13.5px;display:block}
+.bar{height:10px;background:#0d1217;border-radius:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),#7fd8c3);border-radius:6px}
+.bar i.warm{background:linear-gradient(90deg,var(--gold),#f3cf80)}
+@media(max-width:700px){.sk{grid-template-columns:1fr;gap:6px}}
+/* quest */
+.quest{border:1px solid rgba(232,180,74,.45);background:linear-gradient(135deg,rgba(232,180,74,.10),rgba(232,180,74,.02));border-radius:18px;padding:18px 20px}
+.quest ol{margin:8px 0 0;padding-left:22px}
+.quest li{margin:6px 0}
+.hl{color:var(--gold);font-weight:700}
+.note{color:var(--muted);font-size:13px;margin-top:26px}
+.tn{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tn .col{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 18px}
+.tn .col.now{border-color:rgba(79,193,166,.5)}
+.tn h3{margin:0 0 8px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.tn .now h3{color:var(--teal)}
+.tn ul{margin:0;padding-left:18px}.tn li{margin:5px 0;font-size:15.5px}
+.tn q{font-style:italic;color:#cfd8de}
+@media(max-width:700px){.tn{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kick">Roadmap B2 · Progress map</div>
+  <h1>Units 1–5 cleared. Mid-course boss defeated.</h1>
+  <p class="sub">Where you started in spring, where you are now, and what the next level looks like.</p>
+
+  <h2>The route</h2>
+  <div class="map">
+    <div class="node"><div class="dot">1–2</div><div><b>Units 1–2</b><small>Talking to strangers, life lessons, personalities · the truth, social action, complaints</small><span class="badge">Cleared</span></div></div>
+    <div class="node"><div class="dot">3</div><div><b>Unit 3</b><small>Memory, character adjectives, comparatives</small><span class="badge">Cleared</span></div></div>
+    <div class="node"><div class="dot">4</div><div><b>Unit 4</b><small>Possessions, relative clauses, digital detox</small><span class="badge">Cleared</span></div></div>
+    <div class="node"><div class="dot">5</div><div><b>Unit 5</b><small>Money, crime, quantifiers, conflicts</small><span class="badge">Cleared</span></div></div>
+    <div class="node boss"><div class="dot">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4zM17 6h3a3 3 0 0 1-3 4M7 6H4a3 3 0 0 0 3 4"/></svg>
+    </div><div><b>Mid-course test</b><small>Units 1–5 · grammar, vocabulary, functions</small><span class="badge">Passed</span></div></div>
+    <div class="node lock"><div class="dot">6</div><div><b>Unit 6</b><small>Next level</small><span class="badge">Unlocked next</span></div></div>
+  </div>
+
+  <h2>Stats</h2>
+  <div class="stats">
+    <div class="stat"><div class="num">440+</div><p>words and phrases in your quiz deck since April</p></div>
+    <div class="stat"><div class="num">40+</div><p>homework assignments since April: in Google Docs until July, on the site since August</p></div>
+    <div class="stat"><div class="num">≈50 h</div><p>of English since April: about 50 one-hour lessons · 5 units of Roadmap B2</p></div>
+  </div>
+
+  <h2>Achievements unlocked</h2>
+  <div class="ach">
+    <div class="a"><svg viewBox="0 0 24 24" fill="none" stroke="#4fc1a6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><div><b>Word Explain</b><span>You explain words in English, without translation, like <i>high-end</i>. A big active vocabulary.</span></div></div>
+    <div class="a"><svg viewBox="0 0 24 24" fill="none" stroke="#4fc1a6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="3"/><path d="M6 12h4M8 10v4M15 11h.01M18 13h.01"/></svg><div><b>Game talk</b><span>Long, detailed answers about games, releases and what makes horror scary.</span></div></div>
+    <div class="a"><svg viewBox="0 0 24 24" fill="none" stroke="#4fc1a6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg><div><b>Money & markets</b><span>Discussed bubbles, hype and investing with B2 vocabulary.</span></div></div>
+    <div class="a"><svg viewBox="0 0 24 24" fill="none" stroke="#4fc1a6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><div><b>Precision</b><span>40+ groups of close words: possibility / opportunity, unacceptable / inappropriate, torch / flashlight, cancel / delay / take down, scary / hair-raising / blood-curdling…</span></div></div>
+  </div>
+
+  <h2>Your writing · June → November</h2>
+  <div class="tn">
+    <div class="col"><h3>June · The Witcher adaptations</h3><ul>
+      <li>Great ideas, but very long sentences that run into each other.</li>
+      <li>Many small words missing: <i>a</i>, <i>the</i>.</li>
+      <li>Direct translations: <q>the series dropped too hard</q>.</li>
+      <li>Spelling slips: <i>unfortunatelly, succesfull</i>.</li>
+    </ul></div>
+    <div class="col now"><h3>November · A cyberpunk city, pumpkins, work messages</h3><ul>
+      <li>Clear structure: <q>On the one hand… However… What's particularly important to me is…</q></li>
+      <li>New words used naturally: <i>splash out on, be in debt, scarce, unattainable, a superficial knowledge</i>.</li>
+      <li>Quantifiers from Unit 5 in your own text: <i>plenty of, very little chance, none of, only a few</i>.</li>
+      <li>Far fewer article and spelling mistakes.</li>
+    </ul></div>
+  </div>
+
+  <h2>Skill check</h2>
+  <div class="skills">
+    <div class="sk"><div><b>Speaking on familiar topics</b><em>games, technology, money</em></div><div class="bar"><i style="width:88%"></i></div></div>
+    <div class="sk"><div><b>Grammar of Units 1–5</b><em>mid-course test: few mistakes, self-corrected</em></div><div class="bar"><i style="width:82%"></i></div></div>
+    <div class="sk"><div><b>Homework accuracy</b><em>exercises checked and corrected before sending</em></div><div class="bar"><i style="width:90%"></i></div></div>
+    <div class="sk"><div><b>Adverb + adjective</b><em>highly qualified, bitterly cold… almost automatic</em></div><div class="bar"><i class="warm" style="width:76%"></i></div></div>
+    
+  </div>
+
+  <div style="height:28px"></div>
+  <div class="quest">
+    <b class="hl">Next quest · Unit 6</b>
+    <ol>
+      <li>Make <b>adverb + adjective</b> automatic: a pair or two in every lesson until it is 100% automatic.</li>
+      <li>After Unit 6: <b>Achievement test 3</b>, the next boss.</li>
+      <li>Keep collecting words from games: they go straight into your quiz under <b>Games</b>.</li>
+    </ol>
+  </div>
+  <p class="note">Bars are an approximate picture based on lessons and homework, not test points.</p>
+</div>
+</body>
+</html>

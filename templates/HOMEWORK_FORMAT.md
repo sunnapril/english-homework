@@ -39,11 +39,16 @@ PROMPT: What should they have done differently?
 **Top of the page (once):**
 - `STUDENT:` name as it should appear in the results table.
 - `HOMEWORK:` exact name of the homework for the table (include the due date).
+- `LAYOUT: slides` — lesson look: each `##` section becomes a slide with clickable tabs at the top and a “Next” button (use for lesson pages and tests done in class).
 - `SEND: no` — lesson page: no “Send answers” box, nothing goes to the results table (checking still works).
+- `UI: ru` — buttons and messages in Russian (beginners; the tasks stay in the target language). `LANG: de` — German answers: ä/ae, ö/oe, ü/ue, ß/ss count as the same.
 - `TITLE:` big heading on the page. `TAG:` and `INTRO:` are optional.
 
 **Each section starts with `## Title`**, then:
-- `TYPE:` `gap` (student types the answer), `choose` (drop-down list), `open` (written answer), `info` (text only), `fix` (find the mistake: the sentence itself is editable, the student corrects it in place; after ` = ` write the whole correct sentence).
+- `TYPE:` `gap` (student types the answer), `choose` (drop-down list), `open` (written answer), `info` (text only), `fix` (find the mistake: the sentence itself is editable, the student corrects it in place; after ` = ` write the whole correct sentence). `order` (put events in order: the student taps the cards one by one and they line up in that order; after ` = ` write the correct position, e.g. `3. Wednesday opens a book. = 2`; the positions must be 1–N, each once). Use `order` instead of `gap` for story-order tasks.
+- `TYPE: lotto` — a lottery ticket 1–49; the student crosses out the numbers they hear: `1. LOTTO 6 aus 49 = 12, 48, 29, 7, 35, 16`.
+- `TYPE: chain` — a word chain; the student taps letters to mark the words. `[word]` = example, already marked: `1. [wohnen]sprechensrenheißen… = sprechen, heißen, …` (answers in chain order).
+- `COLUMNS: 2` — the tasks of the section stand in two columns on a computer (one column on a phone).
 - `TEXT:` instructions (several `TEXT:` lines allowed). Lines starting with `- ` become a list. `**word**` = bold.
 - `BANK:` words for a word bank, separated by `;` (optional). The page shuffles the bank itself (same order on every visit, never the order of the answers), so the order you write does not matter.
 - `AUDIO:` file name of an mp3 placed next to the page (optional). A “Back 5 seconds” button is added.
@@ -67,5 +72,5 @@ If something is wrong (no answer, the answer is not among the options, a number 
 
 Add at the top: `THEME: magazine` (serif "print magazine" design), `ISSUE: Reading room | The Autumn Issue | №1 / 2026` (thin line above the title),
 `KICKER:` (the question under the title). In `TITLE:` a word in `*stars*` is printed in the accent colour.
-`TYPE: article` = a reading text (drop cap, two columns on a computer). `VOCAB: word | meaning` lines add a **New vocabulary** box under the section.
+`TYPE: article` = a reading text (justified; on a computer two columns in the magazine look). Every word in it can be tapped to highlight it like a marker (tap again to remove). `VOCAB: word | meaning` lines add a **New vocabulary** box under the section.
 Example: `homework/reading/autumn-reset/`.
