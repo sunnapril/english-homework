@@ -174,6 +174,19 @@ if (!noSend) main.insertAdjacentHTML('beforeend', `<div class="submitbox"><b>Sen
   + (askName ? `<label class="namebox">Your name <input id="studentName" class="student-name" autocomplete="name" placeholder="First name and surname"></label>` : '')
   + `<button class="send" id="send" type="button">Send answers</button> <button class="reset" id="reset" type="button">Clear saved answers</button><div id="status" aria-live="polite"></div></div>`);
 src.after(header, main);
+// LAYOUT: slides → lesson look: tabs at the top, one section at a time, "Next" at the bottom of each section
+if (/^slides$/i.test(meta.LAYOUT || '')) {
+  document.body.classList.add('layout-slides');
+  const secs = [...main.querySelectorAll(':scope > section')];
+  const nav = document.createElement('nav'); nav.className = 'slidetabs';
+  nav.innerHTML = secs.map((sec, i) => { const t = sec.querySelector('h2').textContent.replace(/^\s*\d+\s*[.·)]\s*/, ''); return `<button type="button" class="stab" data-i="${i}"><span class="n">${i + 1}</span>${esc(t)}</button>`; }).join('');
+  main.before(nav);
+  secs.forEach((sec, i) => { if (i < secs.length - 1) sec.insertAdjacentHTML('beforeend', `<button type="button" class="nextslide" data-i="${i + 1}">Next: ${esc(secs[i + 1].querySelector('h2').textContent)} →</button>`); });
+  const show = i => { secs.forEach((x, j) => x.hidden = j !== i); nav.querySelectorAll('.stab').forEach((b, j) => b.classList.toggle('active', j === i)); const sb = main.querySelector('.submitbox'); if (sb) sb.hidden = i !== secs.length - 1; };
+  nav.addEventListener('click', e => { const b = e.target.closest('.stab'); if (b) { show(+b.dataset.i); window.scrollTo(0, 0); } });
+  main.addEventListener('click', e => { const b = e.target.closest('.nextslide'); if (b) { show(+b.dataset.i); window.scrollTo(0, 0); } });
+  show(0);
+}
 // TYPE article: every word can be tapped to highlight it (like a marker); tap again to remove
 document.querySelectorAll('section.article .text').forEach(box => {
   box.insertAdjacentHTML('beforebegin', '<p class="sub hltip">Tap a word in the text to highlight it, like with a marker. Tap again to remove.</p>');

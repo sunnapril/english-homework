@@ -39,6 +39,7 @@ PROMPT: What should they have done differently?
 **Top of the page (once):**
 - `STUDENT:` name as it should appear in the results table.
 - `HOMEWORK:` exact name of the homework for the table (include the due date).
+- `LAYOUT: slides` — lesson look: each `##` section becomes a slide with clickable tabs at the top and a “Next” button (use for lesson pages and tests done in class).
 - `SEND: no` — lesson page: no “Send answers” box, nothing goes to the results table (checking still works).
 - `TITLE:` big heading on the page. `TAG:` and `INTRO:` are optional.
 
