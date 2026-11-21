@@ -258,6 +258,8 @@ const syncChain = () => document.querySelectorAll('.q.chain').forEach(q => {
   }
   if (!saved) q.querySelectorAll('.cl.on').forEach(c => c.classList.remove('on'));
   q.dataset.restored = '1';
+  // every marked word gets its own colour (c0…c7, in chain order)
+  let run = -1, prev = false; q.querySelectorAll('.cl').forEach(c => { for (let i = 0; i < 8; i++) c.classList.remove('c' + i); const on = c.classList.contains('on'); if (on && !prev) run++; if (on) c.classList.add('c' + (run % 8)); prev = on; });
   const n = chainWords(q).length; q.querySelector('.chaincount').textContent = n ? `${n} ${T('words marked')}` : '';
 });
 // TYPE order: the hidden field keeps the number; cards are reordered only visually (CSS order),
