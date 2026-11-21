@@ -11,7 +11,9 @@ const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(
 // light formatting inside texts: **bold**
 const fmt = s => esc(s).replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>').replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/(^|[\s(])\*([^*\s][^*]*?)\*(?=[\s.,;:!?)]|$)/g, '$1<em>$2</em>');
 const list = s => String(s || '').split(';').map(x => x.trim()).filter(Boolean);
-const norm = s => String(s || '').trim().toLowerCase().replace(/[’‘`´]/g, "'").replace(/[.!?]+$/, '').replace(/\s+/g, ' ');
+const norm = s => { const r = String(s || '').trim().toLowerCase().replace(/[’‘`´]/g, "'").replace(/[.!?]+$/, '').replace(/\s+/g, ' ');
+  // LANG: de → ä/ae, ö/oe, ü/ue, ß/ss count as the same (students without a German keyboard)
+  return /^de$/i.test(meta.LANG || '') ? r.replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss') : r; };
 
 // ---------- parse ----------
 const meta = {}, sections = [], errors = [];
@@ -93,6 +95,24 @@ sections.forEach((s, si) => {
 });
 
 // ---------- render ----------
+// LANG: de → German buttons and messages (for German homework; English is the default)
+const L = /^de$/i.test(meta.LANG || '') ? 'de' : 'en';
+const UI = {
+  de: { 'Hint': 'Hinweis', 'Show correct answer': 'Richtige Antwort zeigen', 'Correct answer:': 'Richtige Antwort:', 'task': 'Aufgabe', 'tasks': 'Aufgaben',
+    'New vocabulary': 'Neue Wörter', 'Script · open after listening': 'Text · erst nach dem Hören öffnen', 'Word bank': 'Wörter', '· tap a word after you use it': '· Wort antippen, wenn Sie es benutzt haben',
+    '↶ Back 5 seconds': '↶ 5 Sekunden zurück', 'choose…': 'wählen…', 'Check this section': 'Diese Aufgabe prüfen', 'Useful language': 'Hilfe', 'Write your answer here.': 'Schreiben Sie hier.',
+    'Tap the events in order: first, second, third… Tap a numbered event again to remove its number.': 'Tippen Sie in der richtigen Reihenfolge: erstens, zweitens … Noch einmal tippen = Nummer löschen.',
+    '✓ Correct': '✓ Richtig', 'Not quite. Open the hint, try again, or show the correct answer.': 'Noch nicht richtig. Lesen Sie den Hinweis, versuchen Sie es noch einmal oder zeigen Sie die Antwort.', 'Complete this item first.': 'Bitte zuerst ausfüllen.', 'correct': 'richtig',
+    'Clear all saved answers and start again?': 'Alle gespeicherten Antworten löschen und neu beginnen?',
+    'Send your work to Irina': 'Hausaufgabe an Irina senden', 'When you have finished, send your answers. Wait for': 'Wenn Sie fertig sind, senden Sie Ihre Antworten. Warten Sie auf', 'Send answers': 'Antworten senden', 'Clear saved answers': 'Antworten löschen', 'Next:': 'Weiter:',
+    'Tap a word in the text to highlight it, like with a marker. Tap again to remove.': 'Tippen Sie auf ein Wort, um es zu markieren. Noch einmal tippen = Markierung weg.' },
+  // messages of the shared sender (display only; the sending itself is unchanged)
+  deStatus: { '✓ Received by Irina': '✓ Irina hat die Antworten erhalten', '✓ Received by Irina. Start again for a new attempt.': '✓ Irina hat die Antworten erhalten.', 'Received': 'Erhalten', 'Retry': 'Noch einmal senden', 'Send answers': 'Antworten senden', 'Sending…': 'Wird gesendet…',
+    'Not confirmed. Your answers are stored on this device. Click Retry.': 'Nicht bestätigt. Ihre Antworten sind auf diesem Gerät gespeichert. Tippen Sie auf „Noch einmal senden“.',
+    'You are offline. Your answers are saved. Click Retry when online.': 'Kein Internet. Ihre Antworten sind gespeichert. Senden Sie später noch einmal.',
+    'A submission was previously confirmed.': '✓ Irina hat die Antworten schon erhalten.', 'An earlier submission is pending. Click Send answers to retry it.': 'Die Antworten sind noch nicht bestätigt. Tippen Sie noch einmal auf „Antworten senden“.' }
+};
+const T = k => (L === 'de' && UI.de[k]) || k;
 // STUDENT: ask → a universal page: the student types their name before sending
 const askName = /^ask$/i.test(meta.STUDENT || '');
 document.title = askName ? (meta.TITLE || 'Homework') : `${meta.STUDENT || ''} · ${meta.TITLE || 'Homework'}`;
@@ -115,23 +135,23 @@ const textBlock = (lines, img) => {
   lines.forEach(l => { if (l === '\u0000IMG') { flush(); h += img ? `</div><div class="media"><img src="${esc(img.file)}" alt="${esc(img.alt)}" loading="lazy"></div><div class="text">` : ''; } else if (l.startsWith('- ')) ul.push(l.slice(2)); else { flush(); h += `<p>${fmt(l)}</p>`; } });
   flush(); return h ? `<div class="text">${h}</div>`.replace(/<div class="text"><\/div>/g, '') : '';
 };
-const helpers = it => `<div class="actions">${it.hint ? '<button class="hintbtn" type="button">Hint</button>' : ''}<button class="show" type="button">Show correct answer</button></div>`
-  + (it.hint ? `<div class="hint">${fmt(it.hint)}</div>` : '') + `<div class="answer"><b>Correct answer:</b> ${esc(it.answers[0])}</div><div class="feedback"></div>`;
+const helpers = it => `<div class="actions">${it.hint ? `<button class="hintbtn" type="button">${T('Hint')}</button>` : ''}<button class="show" type="button">${T('Show correct answer')}</button></div>`
+  + (it.hint ? `<div class="hint">${fmt(it.hint)}</div>` : '') + `<div class="answer"><b>${T('Correct answer:')}</b> ${esc(it.answers[0])}</div><div class="feedback"></div>`;
 
 sections.forEach(s => {
   const id = 's' + (++sid);
   const sec = document.createElement('section'); sec.id = id; if (s.type === 'article') sec.className = 'article';
   let h = `<h2>${fmt(s.title)}</h2>`;
-  if (s.items.length) h += `<p class="count">${s.items.length} ${s.items.length === 1 ? 'task' : 'tasks'}</p>`;
+  if (s.items.length) h += `<p class="count">${s.items.length} ${T(s.items.length === 1 ? 'task' : 'tasks')}</p>`;
   h += textBlock(s.text, s.image);
-  if (s.vocab && theme === 'magazine') h += `<div class="vocab"><h3>New vocabulary</h3><dl>${s.vocab.map(v => `<div><dt>${fmt(v.w)}</dt><dd>${fmt(v.d)}</dd></div>`).join('')}</dl></div>`;
-  else if (s.vocab) h += `<details class="vocab vocab-fold"><summary>New vocabulary · ${s.vocab.length} words</summary><dl>${s.vocab.map(v => `<div><dt>${fmt(v.w)}</dt><dd>${fmt(v.d)}${v.ru ? `<span class="ru">${fmt(v.ru)}</span>` : ''}</dd></div>`).join('')}</dl></details>`;
+  if (s.vocab && theme === 'magazine') h += `<div class="vocab"><h3>${T('New vocabulary')}</h3><dl>${s.vocab.map(v => `<div><dt>${fmt(v.w)}</dt><dd>${fmt(v.d)}</dd></div>`).join('')}</dl></div>`;
+  else if (s.vocab) h += `<details class="vocab vocab-fold"><summary>${T('New vocabulary')} · ${s.vocab.length} words</summary><dl>${s.vocab.map(v => `<div><dt>${fmt(v.w)}</dt><dd>${fmt(v.d)}${v.ru ? `<span class="ru">${fmt(v.ru)}</span>` : ''}</dd></div>`).join('')}</dl></details>`;
   const ytId = s.video && s.video.embed ? ((s.video.url.match(/(?:youtu\.be\/|[?&]v=|embed\/)([\w-]{11})/) || [])[1]) : null;
   if (ytId) h += `<div class="media video embed"><div class="frame"><iframe src="https://www.youtube-nocookie.com/embed/${ytId}?rel=0&playsinline=1" title="${esc(s.video.label)}" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe></div><p class="sub">If the video does not play, turn on your VPN or <a href="${esc(s.video.url)}" target="_blank" rel="noopener">open it on YouTube</a>.</p></div>`;
   else if (s.video) h += `<div class="media video"><a class="videobtn" href="${esc(s.video.url)}" target="_blank" rel="noopener">▶ ${esc(s.video.label)}</a><p class="sub">The video opens on YouTube in a new tab. Then come back to this page. If YouTube does not open, turn on your VPN.</p></div>`;
-  if (s.audio) h += `<div class="media"><audio controls preload="metadata" src="${esc(s.audio)}"></audio><button class="back5" type="button">↶ Back 5 seconds</button></div>`;
-  if (s.script) h += `<details class="script"><summary>Script · open after listening</summary>${s.script.map(l => `<p>${fmt(l)}</p>`).join('')}</details>`;
-  if (s.bank) h += `<div class="sticky"><b>Word bank</b> <span class="sub">· tap a word after you use it</span><div class="bank">${s.bank.map(w => `<button class="chip" type="button">${esc(w)}</button>`).join('')}</div></div>`;
+  if (s.audio) h += `<div class="media"><audio controls preload="metadata" src="${esc(s.audio)}"></audio><button class="back5" type="button">${T('↶ Back 5 seconds')}</button></div>`;
+  if (s.script) h += `<details class="script"><summary>${T('Script · open after listening')}</summary>${s.script.map(l => `<p>${fmt(l)}</p>`).join('')}</details>`;
+  if (s.bank) h += `<div class="sticky"><b>${T('Word bank')}</b> <span class="sub">${T('· tap a word after you use it')}</span><div class="bank">${s.bank.map(w => `<button class="chip" type="button">${esc(w)}</button>`).join('')}</div></div>`;
   const itemHtml = it => {
     const data = esc(it.answers.join('|'));
     // "___ (b…)" → the first letter is shown inside the gap as grey placeholder text
@@ -142,8 +162,8 @@ sections.forEach(s => {
     if (s.type === 'order') return `<div class="q order" data-answer="${data}"><button type="button" class="ordcard"><span class="ordn" aria-hidden="true"></span><span class="ordtext">${fmt(it.sentence.replace(/^_{3,}\s*/, ''))}</span></button><input type="hidden" class="ordval">${helpers(it)}</div>`;
     if (s.type === 'fix') return `<div class="q fix" data-answer="${data}"><div class="sentence"><b>${it.n}.</b> <span class="fixbox" contenteditable="true" spellcheck="false" role="textbox" aria-label="Correct sentence ${it.n}" data-orig="${esc(it.sentence)}">${esc(it.sentence)}</span><input type="hidden" class="fixval"></div>${helpers(it)}</div>`;
     const field = s.type === 'choose'
-      ? `<select class="inline" aria-label="Answer ${it.n}"><option value="">choose…</option>${it.options.map(o => `<option value="${esc(o)}">${esc(o)}</option>`).join('')}</select>`
-      : `<input class="inline" autocomplete="off" spellcheck="false" aria-label="Answer ${it.n}"${ph ? ` placeholder="${esc(ph)}"` : ''}>`;
+      ? `<select class="inline" aria-label="Answer ${it.n}"><option value="">${T('choose…')}</option>${it.options.map(o => `<option value="${esc(o)}">${esc(o)}</option>`).join('')}</select>`
+      : `<input class="inline${sent.trim() === '___' ? ' wide' : ''}" autocomplete="off" spellcheck="false" aria-label="Answer ${it.n}"${ph ? ` placeholder="${esc(ph)}"` : ''}>`;
     const gap = sent.indexOf('___');
     const sentence = gap >= 0 ? fmt(sent.slice(0, gap)) + field + fmt(sent.slice(gap + 3)) : `${fmt(sent)} ${field}`;
     return `<div class="q" data-answer="${data}"><div class="sentence"><b>${it.n}.</b> ${s.grouped ? sentence.replace(/^([A-Z]{1,2}):/, '<b>$1:</b>') : sentence}</div>${helpers(it)}</div>`;
@@ -156,23 +176,23 @@ sections.forEach(s => {
       else h += itemHtml(f.item);
     });
     if (open) h += '</div>';
-  } else if (s.type === 'order') h += `<p class="sub ordtip">Tap the events in order: first, second, third… Tap a numbered event again to remove its number.</p><div class="orderlist">${s.items.map(itemHtml).join('')}</div>`;
+  } else if (s.type === 'order') h += `<p class="sub ordtip">${T('Tap the events in order: first, second, third… Tap a numbered event again to remove its number.')}</p><div class="orderlist">${s.items.map(itemHtml).join('')}</div>`;
   else s.items.forEach(it => { h += itemHtml(it); });
-  if (s.type === 'gap' || s.type === 'choose' || s.type === 'fix' || s.type === 'order') h += `<button class="check" type="button" data-section="${id}">Check this section</button><div class="score"></div>`;
+  if (s.type === 'gap' || s.type === 'choose' || s.type === 'fix' || s.type === 'order') h += `<button class="check" type="button" data-section="${id}">${T('Check this section')}</button><div class="score"></div>`;
   if (s.type === 'open') {
-    if (s.support) h += `<button class="supportbtn" type="button">Useful language</button><div class="support">${fmt(s.support)}</div>`;
+    if (s.support) h += `<button class="supportbtn" type="button">${T('Useful language')}</button><div class="support">${fmt(s.support)}</div>`;
     const p = s.prompt || s.title.replace(/^\d+[.·)]?\s*/, '');
     // the question must be visible: if no TEXT line asks it, show PROMPT above the box
     if (s.prompt && !s.text.some(l => l.includes('?'))) h += `<p class="openq"><b>${fmt(s.prompt)}</b></p>`;
-    h += `<textarea class="openanswer" data-prompt="${esc(p)}" aria-label="${esc(p)}" placeholder="Write your answer here."></textarea>`;
+    h += `<textarea class="openanswer" data-prompt="${esc(p)}" aria-label="${esc(p)}" placeholder="${T('Write your answer here.')}"></textarea>`;
   }
   sec.innerHTML = h; main.appendChild(sec);
 });
 // SEND: no → lesson page: no sending box, nothing goes to the results table
 const noSend = /^no$/i.test(meta.SEND || '');
-if (!noSend) main.insertAdjacentHTML('beforeend', `<div class="submitbox"><b>Send your work to Irina</b><p>When you have finished, send your answers. Wait for <b>✓ Received by Irina</b>.</p>`
+if (!noSend) main.insertAdjacentHTML('beforeend', `<div class="submitbox"><b>${T('Send your work to Irina')}</b><p>${T('When you have finished, send your answers. Wait for')} <b>${L === 'de' ? UI.deStatus['✓ Received by Irina'] : '✓ Received by Irina'}</b>.</p>`
   + (askName ? `<label class="namebox">Your name <input id="studentName" class="student-name" autocomplete="name" placeholder="First name and surname"></label>` : '')
-  + `<button class="send" id="send" type="button">Send answers</button> <button class="reset" id="reset" type="button">Clear saved answers</button><div id="status" aria-live="polite"></div></div>`);
+  + `<button class="send" id="send" type="button">${T('Send answers')}</button> <button class="reset" id="reset" type="button">${T('Clear saved answers')}</button><div id="status" aria-live="polite"></div></div>`);
 src.after(header, main);
 // LAYOUT: slides → lesson look: tabs at the top, one section at a time, "Next" at the bottom of each section
 if (/^slides$/i.test(meta.LAYOUT || '')) {
@@ -181,7 +201,7 @@ if (/^slides$/i.test(meta.LAYOUT || '')) {
   const nav = document.createElement('nav'); nav.className = 'slidetabs';
   nav.innerHTML = secs.map((sec, i) => { const t = sec.querySelector('h2').textContent.replace(/^\s*\d+\s*[.·)]\s*/, ''); return `<button type="button" class="stab" data-i="${i}"><span class="n">${i + 1}</span>${esc(t)}</button>`; }).join('');
   main.before(nav);
-  secs.forEach((sec, i) => { if (i < secs.length - 1) sec.insertAdjacentHTML('beforeend', `<button type="button" class="nextslide" data-i="${i + 1}">Next: ${esc(secs[i + 1].querySelector('h2').textContent)} →</button>`); });
+  secs.forEach((sec, i) => { if (i < secs.length - 1) sec.insertAdjacentHTML('beforeend', `<button type="button" class="nextslide" data-i="${i + 1}">${T('Next:')} ${esc(secs[i + 1].querySelector('h2').textContent)} →</button>`); });
   const show = i => { secs.forEach((x, j) => x.hidden = j !== i); nav.querySelectorAll('.stab').forEach((b, j) => b.classList.toggle('active', j === i)); const sb = main.querySelector('.submitbox'); if (sb) sb.hidden = i !== secs.length - 1; };
   nav.addEventListener('click', e => { const b = e.target.closest('.stab'); if (b) { show(+b.dataset.i); window.scrollTo(0, 0); } });
   main.addEventListener('click', e => { const b = e.target.closest('.nextslide'); if (b) { show(+b.dataset.i); window.scrollTo(0, 0); } });
@@ -189,7 +209,7 @@ if (/^slides$/i.test(meta.LAYOUT || '')) {
 }
 // TYPE article: every word can be tapped to highlight it (like a marker); tap again to remove
 document.querySelectorAll('section.article .text').forEach(box => {
-  box.insertAdjacentHTML('beforebegin', '<p class="sub hltip">Tap a word in the text to highlight it, like with a marker. Tap again to remove.</p>');
+  box.insertAdjacentHTML('beforebegin', `<p class="sub hltip">${T('Tap a word in the text to highlight it, like with a marker. Tap again to remove.')}</p>`);
   const walker = document.createTreeWalker(box, NodeFilter.SHOW_TEXT), nodes = [];
   while (walker.nextNode()) nodes.push(walker.currentNode);
   nodes.forEach(n => {
@@ -239,15 +259,15 @@ document.addEventListener('click', e => {
       const v = valueOf(q), ok = !!v && q.dataset.answer.split('|').some(a => norm(a) === norm(v));
       if (ok) good++;
       q.classList.toggle('good', ok); q.classList.toggle('bad', !!v && !ok);
-      q.querySelector('.feedback').textContent = ok ? '✓ Correct' : v ? 'Not quite. Open the hint, try again, or show the correct answer.' : 'Complete this item first.';
+      q.querySelector('.feedback').textContent = T(ok ? '✓ Correct' : v ? 'Not quite. Open the hint, try again, or show the correct answer.' : 'Complete this item first.');
       q.querySelector('.show').classList.toggle('available', !!v && !ok);
       if (ok) q.querySelector('.answer').classList.remove('open');
     });
-    t.nextElementSibling.textContent = `${good} / ${qs.length} correct`;
+    t.nextElementSibling.textContent = `${good} / ${qs.length} ${T('correct')}`;
   }
 });
 if (document.getElementById('reset')) document.getElementById('reset').onclick = () => {
-  if (!confirm('Clear all saved answers and start again?')) return;
+  if (!confirm(T('Clear all saved answers and start again?'))) return;
   document.querySelectorAll('main input,main textarea').forEach(x => x.value = '');
   document.querySelectorAll('main select').forEach(x => x.selectedIndex = 0);
   syncFix(); syncOrder();
@@ -284,6 +304,10 @@ if (askName) {
     e.preventDefault(); e.stopImmediatePropagation();
     statusEl.textContent = 'Please write your name first.'; nameEl.focus();
   }, true);
+}
+if (L === 'de') {  // shown text only: the shared sender keeps working in English internally
+  const tr = el => { if (!el) return; const t = UI.deStatus[el.textContent.trim()]; if (t) el.textContent = t; };
+  ['status', 'send'].forEach(id => { const el = document.getElementById(id); if (el) new MutationObserver(() => tr(el)).observe(el, { childList: true, characterData: true, subtree: true }); });
 }
 const shared = document.createElement('script'); shared.src = '/assets/homework-submission.js';
 shared.onload = () => setTimeout(() => { syncFix(); syncOrder(); }, 0);  // saved answers are restored by the shared script

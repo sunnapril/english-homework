@@ -138,3 +138,8 @@ section.article .text p{text-align:justify;hyphens:auto}
 .stab.active{background:var(--green);border-color:var(--green);color:#fff}
 .stab.active .n{color:#fff}
 .nextslide{display:block;margin:22px 0 4px auto;background:var(--sage);border:1px solid #9fc2b5;color:var(--ink);padding:9px 15px;border-radius:12px;font:inherit;font-weight:600;cursor:pointer}
+
+/* very long words (e.g. a word chain) wrap instead of widening the page on phones */
+section .text p{overflow-wrap:break-word}
+/* the whole answer is a sentence ("1. ___ = …"): a full-width field */
+.q input.inline.wide{width:calc(100% - 2.2em);max-width:34em}
