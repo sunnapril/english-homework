@@ -1,67 +1,249 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sergey · HW review: Tetris and the price of a gamble</title>
-<link rel="stylesheet" href="/assets/hw-template.css">
+<title>Sergey · HW review: Tetris and a gamble</title>
+<style>
+:root{
+  --bg:#eef1f6; --card:#ffffff; --ink:#1d2433; --muted:#6b7385; --line:#dfe4ee;
+  --accent:#3b4fc4; --accent-soft:#e8ebfb; --good:#1f7a5c; --good-soft:#e3f3ec;
+  --bad:#b3402a; --bad-soft:#fbebe6; --gold:#b7791f; --gold-soft:#fdf3e1;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+.top{position:sticky;top:0;z-index:10;background:var(--card);border-bottom:1px solid var(--line);padding:12px 16px 12px}
+.top h1{margin:0 auto 10px;font:700 21px/1.2 Georgia,"Times New Roman",serif;max-width:920px}
+.top h1 small{font:500 13px system-ui,sans-serif;color:var(--muted);margin-left:6px}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:920px;margin:0 auto}
+.tab{background:#fff;border:1px solid var(--line);color:var(--ink);padding:8px 10px;border-radius:12px;font-size:14px;cursor:pointer;text-align:left;line-height:1.25}
+.tab .n{display:block;color:var(--accent);font-weight:800;font-size:12px;letter-spacing:.08em}
+.tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.tab.active .n{color:#cfd6ff}
+main{max-width:920px;margin:22px auto 80px;padding:0 16px}
+.slide{background:var(--card);padding:30px 34px;border:1px solid var(--line);border-radius:18px;box-shadow:0 6px 24px rgba(29,36,51,.05)}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--accent)}
+h2{font:700 32px/1.15 Georgia,"Times New Roman",serif;margin:6px 0 14px}
+h3{font:700 19px/1.3 system-ui,sans-serif;margin:22px 0 8px}
+.intro{font-size:18px;margin:0 0 10px}
+.muted{color:var(--muted);font-size:15px}
+.hidden{display:none!important}
+button{font:inherit}
+.score{display:flex;gap:18px;align-items:center;background:linear-gradient(135deg,#3b4fc4,#5a6fe0);color:#fff;border-radius:16px;padding:18px 22px;margin:6px 0 16px}
+.score b{font:800 54px/1 Georgia,serif}
+.score span{font-size:16px;line-height:1.4}
+.areas{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 6px}
+.areas span{background:var(--good-soft);color:var(--good);border-radius:999px;padding:5px 13px;font-size:15px;font-weight:600}
+.areas span::before{content:"✓ ";font-weight:800}
+.wins{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0}
+.win{background:#fff;border:1px solid var(--line);border-left:4px solid var(--good);border-radius:0 12px 12px 0;padding:10px 14px}
+.win .ph{font:italic 18px/1.4 Georgia,serif}
+.win .ph b{font-style:normal;color:var(--good);background:var(--good-soft);padding:0 4px;border-radius:4px}
+.win small{display:block;color:var(--muted);font-size:13.5px;margin-top:4px}
+.fixed{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.fixed span{background:#fff;border:1px solid var(--line);border-radius:10px;padding:6px 12px;font-size:15.5px}
+.fixed span b{color:var(--good)}
+.fm{border-bottom:1px solid var(--line);padding:14px 0}
+.fm .sent{font-size:19px;line-height:2.15}
+.num{display:inline-block;min-width:26px;font-weight:800;color:var(--accent)}
+.chunk{cursor:pointer;padding:2px 6px;border-radius:7px;border:1px dashed #c9d0de;background:#fff;margin:0 1px}
+.chunk:hover{border-color:#9aa6c2}
+.chunk.sel{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:700}
+.chunk.right{background:var(--good-soft);border-color:var(--good);color:var(--good);border-style:solid;font-weight:700}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:6px}
+.answer{padding:9px 12px;font-size:16px;border:1px solid #c9d0de;border-radius:9px;background:#fff;min-width:0}
+.row .answer{flex:1;max-width:420px}
+.answer.ok{border-color:var(--good);background:var(--good-soft)}
+.answer.no{border-color:var(--bad);background:var(--bad-soft)}
+.hint,.reveal,.footnav button{cursor:pointer;padding:8px 13px;border-radius:9px;border:1px solid #c9d0de;background:#fff;color:var(--ink);font-size:14px}
+.helper{background:var(--gold-soft);padding:8px 12px;border-radius:8px;font-size:14.5px;margin-top:6px}
+.feedback{font-size:14.5px;margin-top:6px}
+.feedback.good{color:var(--good);font-weight:700}.feedback.bad{color:var(--bad);font-weight:700}
+.correct{color:var(--good);font-weight:700;font-size:15px;margin-top:4px}
+.reveal{border-color:var(--accent)!important;color:var(--accent)!important;font-weight:600;margin-top:6px}
+.check{cursor:pointer;margin-top:18px;padding:11px 20px;border-radius:10px;border:0;background:var(--accent);color:#fff;font-weight:700;font-size:15px}
+.got{display:inline-block;margin:18px 0 0 12px;color:var(--good);font-weight:800}
+.para{background:#fff;border:2px solid var(--good);border-radius:14px;padding:14px 18px;margin:18px 0 0;font:18px/1.6 Georgia,serif}
+.para small{display:block;font:700 12px system-ui;letter-spacing:.08em;text-transform:uppercase;color:var(--good);margin-bottom:4px}
+.para b{color:var(--good)}
+.note{background:var(--accent-soft);border-left:4px solid var(--accent);border-radius:0 12px 12px 0;padding:10px 14px;margin:14px 0;font-size:15.5px}
+.note b{color:var(--accent)}
+.q{border-bottom:1px solid var(--line);padding:13px 0}
+.q .p{font-size:18px}
+.choice{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.choice button{cursor:pointer;background:#fff;border:1px solid #c9d0de;border-radius:9px;padding:6px 13px;font-weight:600}
+.choice button.right{background:var(--good);border-color:var(--good);color:#fff}
+.choice button.wrong{border-color:var(--bad);color:var(--bad);text-decoration:line-through}
+.rule{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0 6px}
+.rule div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.rule div b.f{display:block;font:700 20px Georgia,serif;color:var(--accent)}
+.rule i b{color:var(--accent);font-style:normal}
+.bank{display:flex;gap:8px;flex-wrap:wrap;margin:12px -8px 6px;padding:10px 8px;position:sticky;top:var(--top,120px);z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+.bank span{border:1px solid var(--accent);color:var(--accent);font-weight:600;padding:5px 14px;border-radius:999px;cursor:pointer;background:#fff}
+.bank span.used{text-decoration:line-through;color:#a3abbd;border-color:#d5dae5;background:#f3f5f9;font-weight:400}
+.gq{border-bottom:1px solid var(--line);padding:14px 0}
+.gq .p{font-size:18px;margin-bottom:6px}
+.footnav{display:flex;justify-content:space-between;margin-top:30px;border-top:1px solid var(--line);padding-top:16px}
+.footnav button:disabled{visibility:hidden}
+@media(max-width:680px){.slide{padding:20px 16px}.tabs{grid-template-columns:1fr 1fr}.wins,.rule{grid-template-columns:1fr}h2{font-size:26px}.score b{font-size:42px}}
+</style>
 </head>
 <body>
-<script type="text/plain" id="hw-content">
-STUDENT: Sergey
-SEND: no
-LAYOUT: slides
-HOMEWORK: Roadmap B2 · HW review · Rent, rivals, Tetris · lesson 23.11.2026
-TITLE: 66 out of 66, and a *gamble*
-TAG: HW review · 23 November 2026 · about 20 minutes
-INTRO: Your homework “Rent, rivals, Tetris and shop tricks”: what went well, and how to make your opinion about Henk even stronger.
+<header class="top">
+  <h1>66 out of 66, and a gamble <small>Sergey · HW review · 22 November</small></h1>
+  <nav class="tabs">
+    <button class="tab" onclick="go(0)"><span class="n">01</span>What went well</button>
+    <button class="tab" onclick="go(1)"><span class="n">02</span>Your answer about Henk</button>
+    <button class="tab" onclick="go(2)"><span class="n">03</span>Would or will?</button>
+    <button class="tab" onclick="go(3)"><span class="n">04</span>Say it like a publisher</button>
+  </nav>
+</header>
+<main>
 
-## 1. What went well
-TYPE: info
-TEXT: **66 / 66.** Both Mid-course listenings, the Tetris scene, the shop-tricks reading, similes and the Fix it task — all correct.
-TEXT: In Fix it you corrected exactly the mistakes that used to appear in your writing: *a studio **sends***, *could be **a** problem*, *the **other** developers*, *answered **our questions***, *a big **celebration***, *It is **unacceptable***.
-TEXT: Strong language from your opinion about Henk:
-TEXT: · *it could easily not **recoup the costs*** — a precise B2 business phrase
-TEXT: · *innovative gameplay **could have led to** phenomenal success* — modal + have + past participle, used correctly for a possibility in the past
-TEXT: · **On the other hand, …** — you weighed both sides before giving your answer
-TEXT: · *people **saw this potential*** — natural collocation
+<section class="slide">
+  <div class="eyebrow">01 · 3 min</div>
+  <h2>What went well</h2>
+  <div class="score"><b>66 / 66</b><span>Homework “Rent, rivals, Tetris and shop tricks”:<br>every closed task correct.</span></div>
+  <div class="areas"><span>Mid-course listening 1–3</span><span>Tetris scene</span><span>Phrases from the film</span><span>Shop tricks reading</span><span>Similes</span><span>Fix it</span></div>
 
-## 2. Fix it: your answer about Henk
-TYPE: fix
-TEXT: These sentences come from your answer. Each has **one** problem. Correct it right in the sentence.
-1. I'm not sure if I will take the risk of publishing Tetris alone. = I'm not sure if I would take the risk of publishing Tetris alone. ; I'm not sure I would take the risk of publishing Tetris alone. ; I'm not sure whether I would take the risk of publishing Tetris alone. ; I'm not sure if I'd take the risk of publishing Tetris alone. | hint: You imagine yourself in 1988: it's hypothetical, not real future.
-2. For those years, it required a lot of money. = In those years, it required a lot of money. ; At that time, it required a lot of money. ; Back then, it required a lot of money. | hint: The preposition for a period in the past is not “for”.
-3. And a lot people saw this potential too. = And a lot of people saw this potential too. ; And lots of people saw this potential too. | hint: a lot … people
-4. Maybe I wouldn't risk like Henk did. = Maybe I wouldn't take a risk like Henk did. ; Maybe I wouldn't take the risk Henk did. ; Maybe I wouldn't take risks like Henk did. | hint: The verb “risk” needs an object (risk your money); here a set phrase is better: take a …
-5. It could be advertised as the first Soviet game in west. = It could be advertised as the first Soviet game in the West. | hint: the political West, like the East, takes an article and a capital letter.
-6. I'd try to sell the game for price as high as possible. = I'd try to sell the game for as high a price as possible. ; I'd try to sell the game at as high a price as possible. ; I'd try to sell the game for the highest possible price. ; I'd try to sell the game at the highest possible price. | hint: as high a price as possible / the highest possible price
+  <h3>Old mistakes, now fixed</h3>
+  <p class="muted">In Fix it you corrected exactly the mistakes that used to appear in your writing:</p>
+  <div class="fixed"><span>the studio <b>sends</b></span><span>could be <b>a</b> problem</span><span><b>other</b> developers</span><span>answered <b>our questions</b></span><span>a big <b>celebration</b></span><span>It <b>is unacceptable</b></span></div>
 
-## 3. Would or will?
-TYPE: choose
-TEXT: Real future or an imagined situation? Choose the correct form.
-1. If I were Henk, I ___ the money and run. = would take | options: will take ; would take ; take
-2. I'm absolutely sure I ___ to sell it at the highest possible price. = would try | options: tried ; will try ; would try
-3. If the patch comes out tomorrow, I ___ the game again. = will play | options: will play ; would play ; would have played
-4. In 1988, I'm not sure a small company ___ the costs. = could recoup | options: could recoup ; can recoup ; will recoup
-5. Without the deal, Tetris ___ the West so quickly. = wouldn't have reached | options: won't reach ; wouldn't have reached ; didn't reach
+  <h3>Strong language in your opinion about Henk</h3>
+  <div class="wins">
+    <div class="win"><div class="ph">… could not <b>recoup the costs</b></div><small>a precise business collocation: get back the money you spent</small></div>
+    <div class="win"><div class="ph">innovative gameplay <b>could have led to</b> phenomenal success</div><small>could have + past participle: a possibility in the past, used correctly</small></div>
+    <div class="win"><div class="ph"><b>On the other hand</b>, …</div><small>you weighed both sides before giving your answer</small></div>
+    <div class="win"><div class="ph">people <b>saw this potential</b></div><small>natural collocation</small></div>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
 
-## 4. Say it like a publisher
-TYPE: gap
-TEXT: Phrases for talking about business risk. **One phrase is extra.**
-BANK: a gamble; paid off; fail to recoup; market it as; as high a price as possible; take the plunge; break even
-1. Publishing a game alone in 1988 was a real ___: it could make him rich or ruin him. = a gamble | hint: a risk that may bring a big win or a big loss
-2. In the end, the risk ___: the game sold millions of copies. = paid off | hint: brought a good result (past)
-3. A small studio can easily ___ the costs of a big launch. = fail to recoup | hint: not get back the money it spent
-4. You could ___ “the first game from behind the Iron Curtain”. = market it as | hint: advertise and present it as
-5. Before you sell the rights, ask for ___. = as high a price as possible | hint: the maximum money you can get
-6. The studio needs to sell 50,000 copies just to ___. = break even | hint: earn exactly what it spent, no profit, no loss
+<section class="slide">
+  <div class="eyebrow">02 · 8 min</div>
+  <h2>Your answer about Henk</h2>
+  <p class="intro">These are your sentences, word for word. In each line, <b>click the part with the mistake</b>, then write the correct version.</p>
+  <div class="exercise">
+    <div class="fm" data-bad="1" data-answers='["would take","&#39;d take"]'>
+      <div class="sent"><span class="num">1</span><span class="chunk" data-i="0">I'm not sure if I</span> <span class="chunk" data-i="1">will take</span> <span class="chunk" data-i="2">the risk of publishing Tetris alone,</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">You imagine yourself in 1988: it's not real future.</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">would take</div>
+    </div>
+    <div class="fm" data-bad="1" data-answers='["in those years","at that time","back then","in those days"]'>
+      <div class="sent"><span class="num">2</span><span class="chunk" data-i="0">because</span> <span class="chunk" data-i="1">for those years</span> <span class="chunk" data-i="2">it required a lot of money</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">A period in the past: not “for” but …</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">in those years / at that time / back then</div>
+    </div>
+    <div class="fm" data-bad="1" data-answers='["could easily fail to recoup","might fail to recoup","might not recoup","could fail to recoup"]'>
+      <div class="sent"><span class="num">3</span><span class="chunk" data-i="0">and</span> <span class="chunk" data-i="1">easily could not recoup</span> <span class="chunk" data-i="2">the costs.</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">You mean “it was very possible that it wouldn't get the money back”: could easily fail to …</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">could easily fail to recoup / might not recoup</div>
+    </div>
+    <div class="fm" data-bad="1" data-answers='["marketing it as the first Soviet game in the West","advertising it as the first Soviet game in the West","promoting it as the first Soviet game in the West","presenting it as the first Soviet game in the West"]'>
+      <div class="sent"><span class="num">4</span><span class="chunk" data-i="0">But, on the other hand,</span> <span class="chunk" data-i="1">advertisement like the first Soviet game in west,</span> <span class="chunk" data-i="2">and innovative gameplay could have led to phenomenal success,</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">Two things: an advertisement is one banner or video; here you mean promoting the product (…ing it as …). And the political West needs “the”.</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">marketing it as the first Soviet game in the West</div>
+    </div>
+    <div class="fm" data-bad="1" data-answers='["a lot of people","lots of people","many people"]'>
+      <div class="sent"><span class="num">5</span><span class="chunk" data-i="0">and</span> <span class="chunk" data-i="1">a lot people</span> <span class="chunk" data-i="2">saw this potential too.</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">a lot … people</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">a lot of people</div>
+    </div>
+    <div class="fm" data-bad="1" data-answers='["take a risk","take the risk","take risks","take such a risk","take the same risk"]'>
+      <div class="sent"><span class="num">6</span><span class="chunk" data-i="0">So, maybe I wouldn't</span> <span class="chunk" data-i="1">risk</span> <span class="chunk" data-i="2">like Henk did,</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">The verb “risk” needs an object (risk your money). Here the set phrase is better: … a risk.</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">take a risk</div>
+    </div>
+    <div class="fm" data-bad="1" data-answers='["I&#39;m absolutely sure that I would try","I&#39;m absolutely sure I would try","I&#39;m absolutely sure I&#39;d try","I&#39;m absolutely sure that I&#39;d try","I am absolutely sure that I would try","I am absolutely sure I would try"]'>
+      <div class="sent"><span class="num">7</span><span class="chunk" data-i="0">but</span> <span class="chunk" data-i="1">absolutely sure that I tried</span> <span class="chunk" data-i="2">to sell the game</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">Two things: the sentence needs “I'm”, and you are still imagining: would …</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">I'm absolutely sure (that) I would try</div>
+    </div>
+    <div class="fm" data-bad="1" data-answers='["for as high a price as possible","at as high a price as possible","for the highest possible price","at the highest possible price","for the highest price possible","at the highest price possible"]'>
+      <div class="sent"><span class="num">8</span><span class="chunk" data-i="0">to sell the game</span> <span class="chunk" data-i="1">for price as higher as possible.</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">as + adjective (not comparative) + a + noun + as possible · or: the highest possible …</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">for as high a price as possible / for the highest possible price</div>
+    </div>
+    <button class="check fmcheck">Check</button>
+    <div class="hidden" id="after"><div class="note"><b>advertisement</b> = one ad (a banner, a video) · <b>advertising</b> = the activity · <b>marketing</b> = promoting and positioning a product. <i>An advertisement presenting Tetris as the first Soviet game in the West</i> would also be correct.</div></div>
+    <div class="para hidden" id="para"><small>Your answer, corrected</small>I'm not sure if I <b>would take</b> the risk of publishing Tetris alone, because <b>in those years</b> it required a lot of money and <b>could easily fail to recoup</b> the costs. But, on the other hand, <b>marketing it as the first Soviet game in the West</b> and innovative gameplay could have led to phenomenal success, and <b>a lot of people</b> saw this potential too. So, maybe I wouldn't <b>take a risk</b> like Henk did, but <b>I'm absolutely sure that I would try</b> to sell the game <b>for as high a price as possible</b>.</div>
+  </div>
 
-## 5. Your answer, upgraded
-TYPE: open
-TEXT: Answer the question again, out loud first, then in writing: **Would you take the money or refuse, like Henk? Why?** Use at least **three** phrases from today.
-SUPPORT: I'm not sure I would … · in those years · take a risk / a gamble · fail to recoup the costs · market it as … · could have led to … · as high a price as possible · on the other hand
-PROMPT: Would you take the money or refuse, like Henk? Why?
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">03 · 5 min</div>
+  <h2>Would or will?</h2>
+  <div class="rule">
+    <div><b class="f">will</b>real future, it can really happen<br><i>If the patch comes out tomorrow, I <b>will</b> play again.</i></div>
+    <div><b class="f">would</b>an imagined situation: “if I were Henk…”<br><i>If I were Henk, I <b>would</b> sell the rights.</i></div>
+  </div>
+  <div class="exercise">
+    <div class="q" data-k="would take" data-why="You imagine you are Henk: would."><div class="p">1. If I were Henk, I ___ the money and run.</div><div class="choice"><button>will take</button><button>would take</button><button>take</button></div><div class="feedback"></div></div>
+    <div class="q" data-k="would try" data-why="Still imagining yourself in 1988: would."><div class="p">2. I'm absolutely sure I ___ to sell it at the highest possible price.</div><div class="choice"><button>tried</button><button>will try</button><button>would try</button></div><div class="feedback"></div></div>
+    <div class="q" data-k="will play" data-why="Real future: the patch can really come out."><div class="p">3. If the patch comes out tomorrow, I ___ the game again.</div><div class="choice"><button>will play</button><button>would play</button><button>would have played</button></div><div class="feedback"></div></div>
+    <div class="q" data-k="could easily fail" data-why="A possibility in an imagined situation: could + verb."><div class="p">4. In 1988, a small company ___ to recoup the costs.</div><div class="choice"><button>will easily fail</button><button>could easily fail</button><button>easily failed</button></div><div class="feedback"></div></div>
+    <div class="q" data-k="wouldn't have reached" data-why="An unreal past: wouldn't have + past participle."><div class="p">5. Without the deal, Tetris ___ the West so quickly.</div><div class="choice"><button>won't reach</button><button>didn't reach</button><button>wouldn't have reached</button></div><div class="feedback"></div></div>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">04 · 7 min</div>
+  <h2>Say it like a publisher</h2>
+  <p class="intro">Phrases for talking about business risk. <b>One phrase is extra.</b> Tap a phrase in the bank when you use it.</p>
+  <div class="bank"><span>break even</span><span>a gamble</span><span>market it as</span><span>take the plunge</span><span>paid off</span><span>as high a price as possible</span><span>fail to recoup</span></div>
+  <div class="exercise">
+    <div class="gq"><div class="p"><span class="num">1</span>Publishing a game alone in 1988 was a real ___: it could make him rich or ruin him.</div><div class="row"><input class="answer" data-answers='["gamble","a gamble"]' placeholder="Type your answer"><button class="hint">Hint</button></div><div class="helper hidden">a risk that may bring a big win or a big loss</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">a gamble</div></div>
+    <div class="gq"><div class="p"><span class="num">2</span>In the end, the risk ___: the game sold millions of copies.</div><div class="row"><input class="answer" data-answers='["paid off"]' placeholder="Type your answer"><button class="hint">Hint</button></div><div class="helper hidden">brought a good result (past)</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">paid off</div></div>
+    <div class="gq"><div class="p"><span class="num">3</span>A small studio can easily ___ the costs of a big launch.</div><div class="row"><input class="answer" data-answers='["fail to recoup"]' placeholder="Type your answer"><button class="hint">Hint</button></div><div class="helper hidden">not get back the money it spent</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">fail to recoup</div></div>
+    <div class="gq"><div class="p"><span class="num">4</span>You could ___ “the first game from behind the Iron Curtain”.</div><div class="row"><input class="answer" data-answers='["market it as"]' placeholder="Type your answer"><button class="hint">Hint</button></div><div class="helper hidden">promote and present it as</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">market it as</div></div>
+    <div class="gq"><div class="p"><span class="num">5</span>Before you sell the rights, ask for ___.</div><div class="row"><input class="answer" data-answers='["as high a price as possible"]' placeholder="Type your answer"><button class="hint">Hint</button></div><div class="helper hidden">the maximum money you can get</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">as high a price as possible</div></div>
+    <div class="gq"><div class="p"><span class="num">6</span>The studio needs to sell 50,000 copies just to ___.</div><div class="row"><input class="answer" data-answers='["break even"]' placeholder="Type your answer"><button class="hint">Hint</button></div><div class="helper hidden">earn exactly what it spent: no profit, no loss</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">break even</div></div>
+    <button class="check gcheck">Check</button>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+</main>
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide')), tabs=[].slice.call(document.querySelectorAll('.tab'));
+  window.go=function(i){i=Math.max(0,Math.min(slides.length-1,i));
+    slides.forEach(function(s,j){s.style.display=j===i?'block':'none'});tabs.forEach(function(t,j){t.classList.toggle('active',j===i)});window.scrollTo(0,0)};
+  slides.forEach(function(s,j){var p=s.querySelector('.prev'),n=s.querySelector('.next');p.disabled=j===0;n.disabled=j===slides.length-1;p.onclick=function(){go(j-1)};n.onclick=function(){go(j+1)}});
+  function setTop(){document.documentElement.style.setProperty('--top',document.querySelector('.top').offsetHeight+'px')}setTop();addEventListener('resize',setTop);
+  function norm(s){return String(s||'').toLowerCase().replace(/[’‘`´ʼ′]/g,"'").replace(/[.,!?;:"“”]+/g,' ').replace(/\s+/g,' ').trim()}
+  function match(list,v){return list.some(function(a){return norm(a)===norm(v)})}
+  function fb(f,ok,t){f.textContent=t;f.className='feedback '+(ok?'good':'bad')}
+  function got(btn,ok,all){var g=btn.parentNode.querySelector('.got');if(!g){g=document.createElement('span');g.className='got';btn.after(g)}g.textContent='Got: '+ok+' / '+all+(ok===all?' 🎉':'')}
+  document.querySelectorAll('.hint').forEach(function(b){b.onclick=function(){b.closest('.fm,.gq').querySelector('.helper').classList.toggle('hidden')}});
+  document.querySelectorAll('.reveal').forEach(function(b){b.onclick=function(){b.nextElementSibling.classList.remove('hidden')}});
+  document.querySelectorAll('input').forEach(function(i){i.setAttribute('autocomplete','off');i.setAttribute('spellcheck','false');i.setAttribute('autocapitalize','off')});
+  document.querySelectorAll('.fm').forEach(function(q){q.querySelectorAll('.chunk').forEach(function(c){c.onclick=function(){
+    if(q.classList.contains('done'))return;q.querySelectorAll('.chunk').forEach(function(x){x.classList.remove('sel')});c.classList.add('sel');q.querySelector('.fix').focus()}})});
+  document.querySelector('.fmcheck').onclick=function(){var b=this,qs=document.querySelectorAll('.fm'),ok=0;
+    qs.forEach(function(q){if(q.classList.contains('done')){ok++;return}
+      var sel=q.querySelector('.chunk.sel'),inp=q.querySelector('.fix'),f=q.querySelector('.feedback'),rev=q.querySelector('.reveal');inp.classList.remove('ok','no');
+      if(!sel){fb(f,false,'Click the part with the mistake first.');rev.classList.add('hidden');return}
+      if(+sel.dataset.i!==+q.dataset.bad){fb(f,false,'This part is fine. The mistake is somewhere else.');rev.classList.remove('hidden');return}
+      if(!inp.value.trim()){fb(f,false,'Right place! Now write the correct version.');rev.classList.add('hidden');return}
+      if(match(JSON.parse(q.dataset.answers),inp.value)){ok++;inp.classList.add('ok');fb(f,true,'Found and fixed!');sel.classList.remove('sel');sel.classList.add('right');sel.textContent=inp.value.trim();q.classList.add('done');rev.classList.add('hidden')}
+      else{inp.classList.add('no');fb(f,false,'Right place, but not the right fix yet.');rev.classList.remove('hidden')}});
+    got(b,ok,qs.length);if(ok===qs.length){document.getElementById('para').classList.remove('hidden');document.getElementById('after').classList.remove('hidden')}};
+  document.querySelectorAll('.q').forEach(function(q){q.querySelectorAll('.choice button').forEach(function(b){b.onclick=function(){
+    if(q.classList.contains('done'))return;var f=q.querySelector('.feedback');
+    if(b.textContent===q.dataset.k){b.classList.add('right');q.classList.add('done');fb(f,true,'Correct. '+q.dataset.why)}else{b.classList.add('wrong');fb(f,false,'Not quite. Try again.')}}})});
+  document.querySelectorAll('.bank span').forEach(function(s){s.onclick=function(){s.classList.toggle('used')}});
+  document.querySelector('.gcheck').onclick=function(){var b=this,qs=document.querySelectorAll('.gq'),ok=0;
+    qs.forEach(function(q){var inp=q.querySelector('.answer'),v=inp.value.trim(),f=q.querySelector('.feedback'),rev=q.querySelector('.reveal');inp.classList.remove('ok','no');
+      if(!v){fb(f,false,'Write your answer first.');return}
+      var y=match(JSON.parse(inp.dataset.answers),v);inp.classList.add(y?'ok':'no');fb(f,y,y?'Correct!':'Not yet. Try again or show the answer.');rev.classList.toggle('hidden',y);if(y)ok++});
+    got(b,ok,qs.length)};
+  go(0);
+})();
 </script>
-<script src="/assets/hw-template.js"></script>
 </body>
 </html>
