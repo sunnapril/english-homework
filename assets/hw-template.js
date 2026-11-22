@@ -105,7 +105,7 @@ sections.forEach((s, si) => {
 const L = /^ru$/i.test(meta.UI || '') ? 'ru' : 'en';
 const UI = {
   ru: { 'Hint': 'Подсказка', 'Show correct answer': 'Показать ответ', 'Correct answer:': 'Правильный ответ:',
-    'New vocabulary': 'Новые слова', 'Script · open after listening': 'Текст аудио · откройте после прослушивания', 'Word bank': 'Слова', '· tap a word after you use it': '· нажмите на слово, когда используете его',
+    'New vocabulary': 'Новые слова', 'words': 'слов', 'Script · open after listening': 'Текст аудио · откройте после прослушивания', 'Word bank': 'Слова', '· tap a word after you use it': '· нажмите на слово, когда используете его',
     '↶ Back 5 seconds': '↶ Назад на 5 секунд', 'choose…': 'выберите…', 'Check this section': 'Проверить задание', 'Useful language': 'Подсказки', 'Write your answer here.': 'Напишите ответ здесь.',
     'Tap the events in order: first, second, third… Tap a numbered event again to remove its number.': 'Нажимайте по порядку: первое, второе… Нажмите ещё раз, чтобы убрать номер.',
     '✓ Correct': '✓ Верно', 'Not quite. Open the hint, try again, or show the correct answer.': 'Пока неверно. Откройте подсказку и попробуйте ещё раз или посмотрите ответ.', 'Complete this item first.': 'Сначала выполните этот пункт.', 'correct': 'верно',
@@ -153,7 +153,7 @@ sections.forEach(s => {
   if (s.items.length && s.type !== 'lotto' && s.type !== 'chain') h += `<p class="count">${countLabel(s.items.length)}</p>`;
   h += textBlock(s.text, s.image);
   if (s.vocab && theme === 'magazine') h += `<div class="vocab"><h3>${T('New vocabulary')}</h3><dl>${s.vocab.map(v => `<div><dt>${fmt(v.w)}</dt><dd>${fmt(v.d)}</dd></div>`).join('')}</dl></div>`;
-  else if (s.vocab) h += `<details class="vocab vocab-fold"><summary>${T('New vocabulary')} · ${s.vocab.length} words</summary><dl>${s.vocab.map(v => `<div><dt>${fmt(v.w)}</dt><dd>${fmt(v.d)}${v.ru ? `<span class="ru">${fmt(v.ru)}</span>` : ''}</dd></div>`).join('')}</dl></details>`;
+  else if (s.vocab) h += `<details class="vocab vocab-fold"><summary>${T('New vocabulary')} · ${s.vocab.length} ${T('words')}</summary><dl>${s.vocab.map(v => `<div><dt>${fmt(v.w)}</dt><dd>${fmt(v.d)}${v.ru ? `<span class="ru">${fmt(v.ru)}</span>` : ''}</dd></div>`).join('')}</dl></details>`;
   const ytId = s.video && s.video.embed ? ((s.video.url.match(/(?:youtu\.be\/|[?&]v=|embed\/)([\w-]{11})/) || [])[1]) : null;
   if (ytId) h += `<div class="media video embed"><div class="frame"><iframe src="https://www.youtube-nocookie.com/embed/${ytId}?rel=0&playsinline=1" title="${esc(s.video.label)}" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe></div><p class="sub">If the video does not play, turn on your VPN or <a href="${esc(s.video.url)}" target="_blank" rel="noopener">open it on YouTube</a>.</p></div>`;
   else if (s.video) h += `<div class="media video"><a class="videobtn" href="${esc(s.video.url)}" target="_blank" rel="noopener">▶ ${esc(s.video.label)}</a><p class="sub">The video opens on YouTube in a new tab. Then come back to this page. If YouTube does not open, turn on your VPN.</p></div>`;
@@ -230,7 +230,7 @@ document.querySelectorAll('section.article .text').forEach(box => {
   nodes.forEach(n => {
     if (!/[A-Za-z]/.test(n.nodeValue)) return;
     const span = document.createElement('span');
-    span.innerHTML = esc(n.nodeValue).replace(/[A-Za-z][A-Za-z'’-]*/g, w => `<span class="hl">${w}</span>`);
+    span.innerHTML = esc(n.nodeValue).replace(/(?<![&\p{L}])\p{L}[\p{L}'’-]*/gu, w => `<span class="hl">${w}</span>`);
     n.replaceWith(...span.childNodes);
   });
 });
