@@ -230,7 +230,7 @@ document.querySelectorAll('section.article .text').forEach(box => {
   nodes.forEach(n => {
     if (!/[A-Za-z]/.test(n.nodeValue)) return;
     const span = document.createElement('span');
-    span.innerHTML = esc(n.nodeValue).replace(/[A-Za-z][A-Za-z'’-]*/g, w => `<span class="hl">${w}</span>`);
+    span.innerHTML = esc(n.nodeValue).replace(/(?<![&\p{L}])\p{L}[\p{L}'’-]*/gu, w => `<span class="hl">${w}</span>`);
     n.replaceWith(...span.childNodes);
   });
 });

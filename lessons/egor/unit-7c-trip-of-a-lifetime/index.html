@@ -80,13 +80,21 @@ h3{font-size:17px;margin:22px 0 6px}
 .post.first{border-left:4px solid var(--accent)}
 .post b{font-size:14px;color:var(--muted)}
 .post p{margin:2px 0 0;font-size:17px;line-height:1.55}
-.hunt{background:#fff4dc;border-radius:5px;padding:1px 3px;cursor:pointer;box-decoration-break:clone;-webkit-box-decoration-break:clone}
-.hunt:hover{outline:2px solid #e6c37a}
-.hunt.yes{background:#d7efe4;outline:0}
-.hunt.no{background:#f6dcd6}
+.hunt{border-radius:5px;padding:1px 0;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.hunt.yes{background:var(--teal-soft);padding:1px 3px}
+.hunt.no{background:#ecebea;padding:1px 3px}
 .hunt[data-tip]::after{content:" — " attr(data-tip);font-size:13px;color:var(--muted);font-style:italic}
 .huntscore b{color:var(--accent);font-size:18px}
 .rule.grammar div{margin:7px 0}
+.purpose{display:grid;gap:8px;margin:16px 0}
+.pq{font:700 15px/1 system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}.pq span{color:var(--teal)}
+.pf{display:grid;grid-template-columns:minmax(190px,32%) 1fr;gap:6px 16px;align-items:center;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:10px;padding:10px 14px}
+.pf .form{font:700 24px/1.15 Georgia,serif;color:var(--teal)}
+.pf .form small{display:block;font:600 13px/1.3 system-ui,sans-serif;color:var(--muted);margin-top:3px}
+.pf .ex{font-style:italic;line-height:1.5}.pf .ex b{color:var(--teal);font-style:normal}
+.pnote{font-size:15px;padding:4px 2px}.pnote .x{color:var(--muted);text-decoration:line-through}.pnote b{color:var(--teal)}
+.fchip{display:inline-block;font-weight:700;color:var(--teal);background:var(--teal-soft);border-radius:6px;padding:1px 8px;margin:2px 1px;letter-spacing:.02em}
+@media(max-width:600px){.pf{grid-template-columns:1fr}}
 .rule .bad{color:#a8432c}.rule .good{color:#2c6e74}
 .choice{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
 .choice button{cursor:pointer;background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 12px;font:inherit;font-weight:600}
@@ -244,7 +252,7 @@ h3{font-size:17px;margin:22px 0 6px}
     <div class="post"><b>Vera</b><p>And pack a swimsuit <span class="hunt" data-k="y" data-why="for + noun">for the hot springs</span>. Best part of the trip!</p></div>
   </div>
   <p class="intro">a · Read Lena’s question. What three things is she worried about? Tell your teacher.</p>
-  <p class="intro">b · Find the <b>purpose</b> phrases: click them. Careful — two of the coloured phrases are traps.</p>
+  <p class="intro">b · Find the six phrases that say <b>why</b> (the purpose) and click on them. Careful: not every phrase with <i>so</i> is a purpose.</p>
   <p class="huntscore">Purpose phrases found: <b>0</b> / 6</p>
   <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
 </section>
@@ -252,13 +260,14 @@ h3{font-size:17px;margin:22px 0 6px}
 <section class="slide">
   <div class="eyebrow">05 · 12 min</div>
   <h2>Why? Expressing purpose</h2>
-  <div class="rule grammar">
-    <div><b>to</b> + verb — <i>I went to Tokyo <b>to see</b> the cherry blossoms.</i></div>
-    <div><b>in order to</b> + verb (more formal) — <i>Please arrive early <b>in order to</b> finish the registration.</i><br>negative: <b>in order not to</b> — <i>We left at 5 a.m. <b>in order not to</b> miss the sunrise.</i></div>
-    <div><b>so (that)</b> + clause, often with can / could / will / would — <i>I downloaded the maps <b>so that</b> I could use them offline.</i> Use it when the subject changes: <i>I’ll text you the address <b>so that</b> you don’t get lost.</i></div>
-    <div><b>for</b> + noun — <i>She went to the pharmacy <b>for</b> some plasters.</i></div>
-    <div><b>for</b> + -ing = what a <u>thing</u> is used for — <i>A head torch is <b>for walking</b> in the dark.</i><br><span class="bad">✗ I went to the shop for buying bread.</span> → <span class="good">✓ to buy bread / for bread</span></div>
-    <div class="muted">Pronunciation: <b>to</b> /tə/, <b>for</b> /fə/, <b>that</b> /ðət/ are not stressed.</div>
+  <div class="purpose">
+    <div class="pq">Why? <span>→</span> purpose</div>
+    <div class="pf"><div class="form">to <small>+ verb</small></div><div class="ex">I went to Tokyo <b>to see</b> the cherry blossoms.</div></div>
+    <div class="pf"><div class="form">in order (not) to <small>+ verb · a bit formal</small></div><div class="ex">Arrive early <b>in order to</b> finish the registration.<br>We left at 5 a.m. <b>in order not to</b> miss the sunrise.</div></div>
+    <div class="pf"><div class="form">so that <small>+ subject + can / could / will / would</small></div><div class="ex">I downloaded the maps <b>so that</b> I could use them offline.<br>Especially when the subject changes: I'll text you <b>so that</b> <u>you</u> don't get lost.</div></div>
+    <div class="pf"><div class="form">for <small>+ noun</small></div><div class="ex">She went to the pharmacy <b>for</b> some plasters.</div></div>
+    <div class="pf"><div class="form">for <small>+ -ing · what a <u>thing</u> is for</small></div><div class="ex">A head torch is <b>for walking</b> in the dark.</div></div>
+    <div class="pnote"><span class="x">I went to the shop for buying bread.</span> → <b>to buy</b> bread / <b>for</b> bread &nbsp;·&nbsp; <span class="muted">to /tə/, for /fə/, that /ðət/ are not stressed.</span></div>
   </div>
   <h3>a · Choose the correct option</h3>
   <div class="question"><div class="prompt"><span class="num">1</span>Bring a head torch ___ the night walk.</div><div class="choice" data-k="for" data-why="for + noun (the night walk)."><button data-v="to">to</button><button data-v="for">for</button><button data-v="so that">so that</button></div></div>
@@ -323,11 +332,11 @@ h3{font-size:17px;margin:22px 0 6px}
 <section class="slide">
   <div class="eyebrow">07 · 12 min</div>
   <h2>Travel light</h2>
-  <p class="intro">Choose a trip: <b>a five-day hike in the Altai mountains</b>, <b>a weekend badminton tournament in Kazan</b> or <b>your own idea</b>. You can only take one backpack: <b>10 kg</b> maximum (the backpack itself weighs 1.5 kg). Click to pack.</p>
+  <p class="intro">Choose a trip: <b>a five-day hike in the Altai mountains</b>, <b>badminton training and a tournament near Moscow</b> or <b>your own idea</b>. You can only take one backpack: <b>10 kg</b> maximum (the backpack itself weighs 1.5 kg). Click to pack.</p>
   <div class="pack"><div class="packbar"><span>Backpack: <b class="kgsum">1.5</b> / 10 kg</span><span class="packmsg"></span></div><div class="packgrid"><button type="button" class="pk" data-kg="2.4"><img src="img/tent.jpg" alt="tent" loading="lazy"><span class="pn">tent</span><span class="kg">2.4 kg</span></button><button type="button" class="pk" data-kg="1.4"><img src="img/sleeping-bag.jpg" alt="sleeping bag" loading="lazy"><span class="pn">sleeping bag</span><span class="kg">1.4 kg</span></button><button type="button" class="pk" data-kg="1.1"><img src="img/camping-stove.jpg" alt="camping stove + pan" loading="lazy"><span class="pn">camping stove + pan</span><span class="kg">1.1 kg</span></button><button type="button" class="pk" data-kg="0.5"><img src="img/waterproof-jacket.jpg" alt="waterproof jacket" loading="lazy"><span class="pn">waterproof jacket</span><span class="kg">0.5 kg</span></button><button type="button" class="pk" data-kg="1.3"><img src="img/walking-boots.jpg" alt="spare walking boots" loading="lazy"><span class="pn">spare walking boots</span><span class="kg">1.3 kg</span></button><button type="button" class="pk" data-kg="0.7"><img src="img/binoculars.jpg" alt="binoculars" loading="lazy"><span class="pn">binoculars</span><span class="kg">0.7 kg</span></button><button type="button" class="pk" data-kg="0.4"><img src="img/portable-charger.jpg" alt="portable charger" loading="lazy"><span class="pn">portable charger</span><span class="kg">0.4 kg</span></button><button type="button" class="pk" data-kg="0.2"><img src="img/sunscreen.jpg" alt="sunscreen" loading="lazy"><span class="pn">sunscreen</span><span class="kg">0.2 kg</span></button><button type="button" class="pk" data-kg="0.2"><img src="img/insect-repellent.jpg" alt="insect repellent" loading="lazy"><span class="pn">insect repellent</span><span class="kg">0.2 kg</span></button><button type="button" class="pk" data-kg="0.2"><img src="img/torch.jpg" alt="torch" loading="lazy"><span class="pn">torch</span><span class="kg">0.2 kg</span></button><button type="button" class="pk" data-kg="0.1"><img src="img/sunglasses.jpg" alt="sunglasses" loading="lazy"><span class="pn">sunglasses</span><span class="kg">0.1 kg</span></button><button type="button" class="pk" data-kg="2.5"><span class="pn">clothes for 5 days</span><span class="kg">2.5 kg</span></button><button type="button" class="pk" data-kg="2.0"><span class="pn">food for 2 days</span><span class="kg">2 kg</span></button><button type="button" class="pk" data-kg="1.5"><span class="pn">water, 1.5 l</span><span class="kg">1.5 kg</span></button><button type="button" class="pk" data-kg="1.6"><span class="pn">laptop</span><span class="kg">1.6 kg</span></button><button type="button" class="pk" data-kg="0.9"><span class="pn">camera + lens</span><span class="kg">0.9 kg</span></button><button type="button" class="pk" data-kg="0.4"><span class="pn">a paper book</span><span class="kg">0.4 kg</span></button></div></div>
   <div class="speaking plain">
     <p><b>Explain your choices: what are you taking, why, and what did you leave at home?</b></p>
-    <p class="muted">Use at least three different ways to express purpose: to, in order (not) to, so that, for.</p>
+    <p>Use at least <b>three different</b> ways to express purpose: <span class="fchip">TO</span> <span class="fchip">IN ORDER (NOT) TO</span> <span class="fchip">SO THAT</span> <span class="fchip">FOR + noun / -ing</span></p>
   </div>
   <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
 </section>
