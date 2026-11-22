@@ -6,8 +6,8 @@
 <title>Sergey · HW review: Tetris and a gamble</title>
 <style>
 :root{
-  --bg:#eef1f6; --card:#ffffff; --ink:#1d2433; --muted:#6b7385; --line:#dfe4ee;
-  --accent:#3b4fc4; --accent-soft:#e8ebfb; --good:#1f7a5c; --good-soft:#e3f3ec;
+  --bg:#eceef1; --card:#fbfaf7; --ink:#262c38; --muted:#6f7583; --line:#e1e2e6;
+  --accent:#56649a; --accent-soft:#eceef6; --good:#3c7a66; --good-soft:#e6f0ec;
   --bad:#b3402a; --bad-soft:#fbebe6; --gold:#b7791f; --gold-soft:#fdf3e1;
 }
 *{box-sizing:border-box}
@@ -16,12 +16,12 @@ body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 system-ui,-ap
 .top h1{margin:0 auto 10px;font:700 21px/1.2 Georgia,"Times New Roman",serif;max-width:920px}
 .top h1 small{font:500 13px system-ui,sans-serif;color:var(--muted);margin-left:6px}
 .tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:920px;margin:0 auto}
-.tab{background:#fff;border:1px solid var(--line);color:var(--ink);padding:8px 10px;border-radius:12px;font-size:14px;cursor:pointer;text-align:left;line-height:1.25}
+.tab{background:#fdfcfa;border:1px solid var(--line);color:var(--ink);padding:8px 10px;border-radius:12px;font-size:14px;cursor:pointer;text-align:left;line-height:1.25}
 .tab .n{display:block;color:var(--accent);font-weight:800;font-size:12px;letter-spacing:.08em}
 .tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
-.tab.active .n{color:#cfd6ff}
+.tab.active .n{color:#dde1ef}
 main{max-width:920px;margin:22px auto 80px;padding:0 16px}
-.slide{background:var(--card);padding:30px 34px;border:1px solid var(--line);border-radius:18px;box-shadow:0 6px 24px rgba(29,36,51,.05)}
+.slide{background:var(--card);padding:30px 34px;border:1px solid var(--line);border-radius:18px;box-shadow:0 4px 18px rgba(38,44,56,.04)}
 .eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--accent)}
 h2{font:700 32px/1.15 Georgia,"Times New Roman",serif;margin:6px 0 14px}
 h3{font:700 19px/1.3 system-ui,sans-serif;margin:22px 0 8px}
@@ -29,33 +29,33 @@ h3{font:700 19px/1.3 system-ui,sans-serif;margin:22px 0 8px}
 .muted{color:var(--muted);font-size:15px}
 .hidden{display:none!important}
 button{font:inherit}
-.score{display:flex;gap:18px;align-items:center;background:linear-gradient(135deg,#3b4fc4,#5a6fe0);color:#fff;border-radius:16px;padding:18px 22px;margin:6px 0 16px}
+.score{display:flex;gap:18px;align-items:center;background:linear-gradient(135deg,#5b6898,#7380a8);color:#fbfaf7;border-radius:16px;padding:18px 22px;margin:6px 0 16px}
 .score b{font:800 54px/1 Georgia,serif}
 .score span{font-size:16px;line-height:1.4}
 .areas{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 6px}
 .areas span{background:var(--good-soft);color:var(--good);border-radius:999px;padding:5px 13px;font-size:15px;font-weight:600}
 .areas span::before{content:"✓ ";font-weight:800}
 .wins{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0}
-.win{background:#fff;border:1px solid var(--line);border-left:4px solid var(--good);border-radius:0 12px 12px 0;padding:10px 14px}
+.win{background:#fdfcfa;border:1px solid var(--line);border-left:4px solid var(--good);border-radius:0 12px 12px 0;padding:10px 14px}
 .win .ph{font:italic 18px/1.4 Georgia,serif}
 .win .ph b{font-style:normal;color:var(--good);background:var(--good-soft);padding:0 4px;border-radius:4px}
 .win small{display:block;color:var(--muted);font-size:13.5px;margin-top:4px}
 .fixed{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
-.fixed span{background:#fff;border:1px solid var(--line);border-radius:10px;padding:6px 12px;font-size:15.5px}
+.fixed span{background:#fdfcfa;border:1px solid var(--line);border-radius:10px;padding:6px 12px;font-size:15.5px}
 .fixed span b{color:var(--good)}
 .fm{border-bottom:1px solid var(--line);padding:14px 0}
 .fm .sent{font-size:19px;line-height:2.15}
 .num{display:inline-block;min-width:26px;font-weight:800;color:var(--accent)}
-.chunk{cursor:pointer;padding:2px 6px;border-radius:7px;border:1px dashed #c9d0de;background:#fff;margin:0 1px}
+.chunk{cursor:pointer;padding:2px 6px;border-radius:7px;border:1px dashed #c9d0de;background:#fdfcfa;margin:0 1px}
 .chunk:hover{border-color:#9aa6c2}
 .chunk.sel{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:700}
 .chunk.right{background:var(--good-soft);border-color:var(--good);color:var(--good);border-style:solid;font-weight:700}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:6px}
-.answer{padding:9px 12px;font-size:16px;border:1px solid #c9d0de;border-radius:9px;background:#fff;min-width:0}
+.answer{padding:9px 12px;font-size:16px;border:1px solid #c9d0de;border-radius:9px;background:#fdfcfa;min-width:0}
 .row .answer{flex:1;max-width:420px}
 .answer.ok{border-color:var(--good);background:var(--good-soft)}
 .answer.no{border-color:var(--bad);background:var(--bad-soft)}
-.hint,.reveal,.footnav button{cursor:pointer;padding:8px 13px;border-radius:9px;border:1px solid #c9d0de;background:#fff;color:var(--ink);font-size:14px}
+.hint,.reveal,.footnav button{cursor:pointer;padding:8px 13px;border-radius:9px;border:1px solid #c9d0de;background:#fdfcfa;color:var(--ink);font-size:14px}
 .helper{background:var(--gold-soft);padding:8px 12px;border-radius:8px;font-size:14.5px;margin-top:6px}
 .feedback{font-size:14.5px;margin-top:6px}
 .feedback.good{color:var(--good);font-weight:700}.feedback.bad{color:var(--bad);font-weight:700}
@@ -63,7 +63,7 @@ button{font:inherit}
 .reveal{border-color:var(--accent)!important;color:var(--accent)!important;font-weight:600;margin-top:6px}
 .check{cursor:pointer;margin-top:18px;padding:11px 20px;border-radius:10px;border:0;background:var(--accent);color:#fff;font-weight:700;font-size:15px}
 .got{display:inline-block;margin:18px 0 0 12px;color:var(--good);font-weight:800}
-.para{background:#fff;border:2px solid var(--good);border-radius:14px;padding:14px 18px;margin:18px 0 0;font:18px/1.6 Georgia,serif}
+.para{background:#fdfcfa;border:2px solid var(--good);border-radius:14px;padding:14px 18px;margin:18px 0 0;font:18px/1.6 Georgia,serif}
 .para small{display:block;font:700 12px system-ui;letter-spacing:.08em;text-transform:uppercase;color:var(--good);margin-bottom:4px}
 .para b{color:var(--good)}
 .note{background:var(--accent-soft);border-left:4px solid var(--accent);border-radius:0 12px 12px 0;padding:10px 14px;margin:14px 0;font-size:15.5px}
@@ -71,15 +71,15 @@ button{font:inherit}
 .q{border-bottom:1px solid var(--line);padding:13px 0}
 .q .p{font-size:18px}
 .choice{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
-.choice button{cursor:pointer;background:#fff;border:1px solid #c9d0de;border-radius:9px;padding:6px 13px;font-weight:600}
+.choice button{cursor:pointer;background:#fdfcfa;border:1px solid #c9d0de;border-radius:9px;padding:6px 13px;font-weight:600}
 .choice button.right{background:var(--good);border-color:var(--good);color:#fff}
 .choice button.wrong{border-color:var(--bad);color:var(--bad);text-decoration:line-through}
 .rule{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0 6px}
-.rule div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.rule div{background:#fdfcfa;border:1px solid var(--line);border-radius:12px;padding:10px 14px}
 .rule div b.f{display:block;font:700 20px Georgia,serif;color:var(--accent)}
 .rule i b{color:var(--accent);font-style:normal}
 .bank{display:flex;gap:8px;flex-wrap:wrap;margin:12px -8px 6px;padding:10px 8px;position:sticky;top:var(--top,120px);z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
-.bank span{border:1px solid var(--accent);color:var(--accent);font-weight:600;padding:5px 14px;border-radius:999px;cursor:pointer;background:#fff}
+.bank span{border:1px solid var(--accent);color:var(--accent);font-weight:600;padding:5px 14px;border-radius:999px;cursor:pointer;background:#fdfcfa}
 .bank span.used{text-decoration:line-through;color:#a3abbd;border-color:#d5dae5;background:#f3f5f9;font-weight:400}
 .gq{border-bottom:1px solid var(--line);padding:14px 0}
 .gq .p{font-size:18px;margin-bottom:6px}
