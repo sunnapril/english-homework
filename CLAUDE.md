@@ -43,7 +43,7 @@ Folder names are case-sensitive (`homework/Anastasia/…` ≠ `homework/anastasi
 
 ## Word practice (lesson tool, not for students)
 `/word-quiz/quiz.js` + one page per student (`word-quiz/<student>/index.html`, words inline: `## topic`, `word | meaning | example with ___ (= other forms) | Russian | img/file.jpg`, `SYN: a ; b`).
-Fill the gap shows the number of missing words ("2 words"). Check every deck in the browser: all gap answers accepted, no two synonyms among options. Not linked from student menus.
+Fill the gap shows the number of missing words ("2 words"). Check every deck in the browser: all gap answers accepted, no two synonyms among options. Not linked from student menus. Exception: Natalia practises her own quiz at home (link in her HW doc, Irina 24.11.2026).
 "I know this word" hides a word in later rounds; kept only in that browser (key `pq-known:<path>`), "Show all … again" on the start screen. `LANG: de` in a deck = German hint for Picture → type.
 Irina's own deck: `/word-quiz/irina/` (tab `Irina`): Upgrade words from lesson pages + words she wanted to say in class (from her lesson reports). Not linked anywhere.
 Word formation (OGE): deck line `WF: sentence with ___ = answer | BASEWORD` (mode "Word formation" appears with ≥4 such lines); in the sheet: Topic `WF · <topic>`, Word = BASEWORD, Example = sentence with ___ = answer. Katya: `/word-quiz/katya/` (tab `Katya`).
