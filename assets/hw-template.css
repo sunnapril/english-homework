@@ -19,7 +19,7 @@ section:first-child h2{margin-top:4px}
 .chip.used{text-decoration:line-through;opacity:.48;background:#ececea}
 .q{background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px;margin:12px 0}
 .sentence{font-size:1.02rem}
-.inline{width:min(230px,48vw);border:0;border-bottom:2px solid #87a69a;background:#f8fbf9;padding:4px 7px;font:inherit;color:var(--ink)}
+.inline{width:min(230px,48vw);max-width:100%;border:0;border-bottom:2px solid #87a69a;background:#f8fbf9;padding:4px 7px;font:inherit;color:var(--ink)}
 select.inline{width:auto;max-width:100%;border:1px solid #91a9a0;border-radius:9px;background:#fff;padding:6px 9px}
 .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 button{font:inherit}

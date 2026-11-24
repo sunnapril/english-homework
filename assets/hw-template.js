@@ -240,6 +240,10 @@ const nameKey = 'hw-name:' + (meta.HOMEWORK || '');
 const valueOf = q => q.querySelector('input,select')?.value || '';
 // TYPE fix: the student edits the sentence itself; the hidden field keeps the edited sentence (empty while unchanged)
 const fixText = b => b.textContent.replace(/\s+/g, ' ').trim();
+// long answers: a text gap grows while the student types (no hint about the answer's length before typing)
+const growInline = el => { if (!el || !el.matches || !el.matches('input.inline:not(.wide)')) return; el.style.width = el.value.length > 18 ? `min(100%, ${el.value.length + 3}ch)` : ''; };
+document.addEventListener('input', e => growInline(e.target), true);
+setTimeout(() => document.querySelectorAll('input.inline').forEach(growInline), 800);
 document.addEventListener('input', e => { const b = e.target.closest && e.target.closest('.fixbox'); if (!b) return; const t = fixText(b); b.nextElementSibling.value = norm(t) === norm(b.dataset.orig) ? '' : t; b.classList.toggle('edited', !!b.nextElementSibling.value); }, true);
 document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.closest && e.target.closest('.fixbox')) e.preventDefault(); });
 document.addEventListener('paste', e => { const b = e.target.closest && e.target.closest('.fixbox'); if (!b) return; e.preventDefault(); document.execCommand('insertText', false, (e.clipboardData.getData('text/plain') || '').replace(/\s+/g, ' ')); });
