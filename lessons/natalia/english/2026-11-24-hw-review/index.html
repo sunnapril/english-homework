@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Natalia · HW review: a film called Territory</title>
+<style>
+:root{
+  --bg:#eceef1; --card:#fbfaf7; --ink:#262c38; --muted:#6f7583; --line:#e1e2e6;
+  --accent:#56649a; --accent-soft:#eceef6; --good:#3c7a66; --good-soft:#e6f0ec;
+  --bad:#b3402a; --bad-soft:#fbebe6; --gold:#b7791f; --gold-soft:#fdf3e1;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+.top{position:sticky;top:0;z-index:10;background:var(--card);border-bottom:1px solid var(--line);padding:12px 16px 12px}
+.top h1{margin:0 auto 10px;font:700 21px/1.2 Georgia,"Times New Roman",serif;max-width:920px}
+.top h1 small{font:500 13px system-ui,sans-serif;color:var(--muted);margin-left:6px}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:920px;margin:0 auto}
+.tab{background:#fdfcfa;border:1px solid var(--line);color:var(--ink);padding:8px 10px;border-radius:12px;font-size:14px;cursor:pointer;text-align:left;line-height:1.25}
+.tab .n{display:block;color:var(--accent);font-weight:800;font-size:12px;letter-spacing:.08em}
+.tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.tab.active .n{color:#dde1ef}
+main{max-width:920px;margin:22px auto 80px;padding:0 16px}
+.slide{background:var(--card);padding:30px 34px;border:1px solid var(--line);border-radius:18px;box-shadow:0 4px 18px rgba(38,44,56,.04)}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--accent)}
+h2{font:700 32px/1.15 Georgia,"Times New Roman",serif;margin:6px 0 14px}
+h3{font:700 19px/1.3 system-ui,sans-serif;margin:22px 0 8px}
+.intro{font-size:18px;margin:0 0 10px}
+.muted{color:var(--muted);font-size:15px}
+.hidden{display:none!important}
+button{font:inherit}
+.score{display:flex;gap:18px;align-items:center;background:linear-gradient(135deg,#5b6898,#7380a8);color:#fbfaf7;border-radius:16px;padding:18px 22px;margin:6px 0 16px}
+.score b{font:800 54px/1 Georgia,serif}
+.score span{font-size:16px;line-height:1.4}
+.areas{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 6px}
+.areas span{background:var(--good-soft);color:var(--good);border-radius:999px;padding:5px 13px;font-size:15px;font-weight:600}
+.areas span::before{content:"✓ ";font-weight:800}
+.wins{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0}
+.win{background:#fdfcfa;border:1px solid var(--line);border-left:4px solid var(--good);border-radius:0 12px 12px 0;padding:10px 14px}
+.win .ph{font:italic 18px/1.4 Georgia,serif}
+.win .ph b{font-style:normal;color:var(--good);background:var(--good-soft);padding:0 4px;border-radius:4px}
+.win small{display:block;color:var(--muted);font-size:13.5px;margin-top:4px}
+.fixed{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.fixed span{background:#fdfcfa;border:1px solid var(--line);border-radius:10px;padding:6px 12px;font-size:15.5px}
+.fixed span b{color:var(--good)}
+.fm{border-bottom:1px solid var(--line);padding:14px 0}
+.fm .sent{font-size:19px;line-height:2.15}
+.num{display:inline-block;min-width:26px;font-weight:800;color:var(--accent)}
+.chunk{cursor:pointer;padding:2px 6px;border-radius:7px;border:1px dashed #c9d0de;background:#fdfcfa;margin:0 1px}
+.chunk:hover{border-color:#9aa6c2}
+.chunk.sel{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:700}
+.chunk.right{background:var(--good-soft);border-color:var(--good);color:var(--good);border-style:solid;font-weight:700}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:6px}
+.answer{padding:9px 12px;font-size:16px;border:1px solid #c9d0de;border-radius:9px;background:#fdfcfa;min-width:0}
+.row .answer{flex:1;max-width:420px}
+.answer.ok{border-color:var(--good);background:var(--good-soft)}
+.answer.no{border-color:var(--bad);background:var(--bad-soft)}
+.hint,.reveal,.footnav button{cursor:pointer;padding:8px 13px;border-radius:9px;border:1px solid #c9d0de;background:#fdfcfa;color:var(--ink);font-size:14px}
+.helper{background:var(--gold-soft);padding:8px 12px;border-radius:8px;font-size:14.5px;margin-top:6px}
+.feedback{font-size:14.5px;margin-top:6px}
+.feedback.good{color:var(--good);font-weight:700}.feedback.bad{color:var(--bad);font-weight:700}
+.correct{color:var(--good);font-weight:700;font-size:15px;margin-top:4px}
+.reveal{border-color:var(--accent)!important;color:var(--accent)!important;font-weight:600;margin-top:6px}
+.check{cursor:pointer;margin-top:18px;padding:11px 20px;border-radius:10px;border:0;background:var(--accent);color:#fff;font-weight:700;font-size:15px}
+.got{display:inline-block;margin:18px 0 0 12px;color:var(--good);font-weight:800}
+.para{background:#fdfcfa;border:2px solid var(--good);border-radius:14px;padding:14px 18px;margin:18px 0 0;font:18px/1.6 Georgia,serif}
+.para small{display:block;font:700 12px system-ui;letter-spacing:.08em;text-transform:uppercase;color:var(--good);margin-bottom:4px}
+.para b{color:var(--good)}
+.note{background:var(--accent-soft);border-left:4px solid var(--accent);border-radius:0 12px 12px 0;padding:10px 14px;margin:14px 0;font-size:15.5px}
+.note b{color:var(--accent)}
+.q{border-bottom:1px solid var(--line);padding:13px 0}
+.q .p{font-size:18px}
+.choice{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.choice button{cursor:pointer;background:#fdfcfa;border:1px solid #c9d0de;border-radius:9px;padding:6px 13px;font-weight:600}
+.choice button.right{background:var(--good);border-color:var(--good);color:#fff}
+.choice button.wrong{border-color:var(--bad);color:var(--bad);text-decoration:line-through}
+.rule{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0 6px}
+.rule div{background:#fdfcfa;border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.rule div b.f{display:block;font:700 20px Georgia,serif;color:var(--accent)}
+.rule i b{color:var(--accent);font-style:normal}
+.bank{display:flex;gap:8px;flex-wrap:wrap;margin:12px -8px 6px;padding:10px 8px;position:sticky;top:var(--top,120px);z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+.bank span{border:1px solid var(--accent);color:var(--accent);font-weight:600;padding:5px 14px;border-radius:999px;cursor:pointer;background:#fdfcfa}
+.bank span.used{text-decoration:line-through;color:#a3abbd;border-color:#d5dae5;background:#f3f5f9;font-weight:400}
+.gq{border-bottom:1px solid var(--line);padding:14px 0}
+.gq .p{font-size:18px;margin-bottom:6px}
+.footnav{display:flex;justify-content:space-between;margin-top:30px;border-top:1px solid var(--line);padding-top:16px}
+.footnav button:disabled{visibility:hidden}
+@media(max-width:680px){.slide{padding:20px 16px}.tabs{grid-template-columns:1fr 1fr}.wins,.rule{grid-template-columns:1fr}h2{font-size:26px}.score b{font-size:42px}}
+</style>
+
+</head>
+<body>
+<header class="top">
+  <h1>A film called Territory <small>Natalia · HW review · 24 November</small></h1>
+  <nav class="tabs">
+    <button class="tab" onclick="go(0)"><span class="n">01</span>What went well</button>
+    <button class="tab" onclick="go(1)"><span class="n">02</span>Your sentences</button>
+    <button class="tab" onclick="go(2)"><span class="n">03</span>Written by, played by</button>
+    <button class="tab" onclick="go(3)"><span class="n">04</span>Talk about a film</button>
+  </nav>
+</header>
+<main>
+
+<section class="slide">
+  <div class="eyebrow">01 · 3 min</div>
+  <h2>What went well</h2>
+  <div class="score"><b>7 / 7</b><span>Homework “Art and Opinions”:<br>every task done, plus extra answers and your own review.</span></div>
+  <div class="areas"><span>Words from the bank 8/8</span><span>Without a bank 5/5</span><span>Reading</span><span>Listening: all false sentences corrected</span><span>Two opinion texts</span></div>
+
+  <h3>Expressions you used correctly</h3>
+  <div class="wins">
+    <div class="win"><div class="ph">I want to <b>take a leaf out of her book</b></div><small>an idiom from the lesson, used naturally</small></div>
+    <div class="win"><div class="ph">I <b>put my foot in my mouth</b> when I talked about her new haircut</div><small>a tactless comment, exactly the right situation</small></div>
+    <div class="win"><div class="ph">My <b>initial reaction</b> was surprise.</div><small>a precise B1+ alternative to “first feeling”</small></div>
+    <div class="win"><div class="ph">They <b>renovated</b> the old building and <b>restored</b> its original ceiling</div><small>two different verbs, both correct</small></div>
+    <div class="win"><div class="ph">I'd like to <b>give it a go</b> · <b>gain confidence</b> · I <b>got my own back</b></div><small>all three recalled without a word bank</small></div>
+    <div class="win"><div class="ph">people should <b>live in harmony with</b> each other and nature</div><small>a strong final sentence in your review</small></div>
+  </div>
+
+  <h3>Your reviews</h3>
+  <p class="muted">Both texts have a clear opinion, a reason and a real example (Nolan's film, <i>Territory</i>). Your reading answer used the useful language well: <i>At first I thought …, However, …, I'd recommend …</i></p>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">02 · 10 min</div>
+  <h2>Your sentences</h2>
+  <p class="intro">These sentences are from your homework. In each line, <b>click the part with the mistake</b>, then write the correct version.</p>
+  <div class="exercise">
+    <div class="fm" data-bad="1" data-answers='["by email","by e-mail","via email"]'>
+      <div class="sent"><span class="num">1</span><span class="chunk" data-i="0">Could you send the booking confirmation</span> <span class="chunk" data-i="1">on email?</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">by phone, by post, by … (no article)</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">by email</div>
+    </div>
+    <div class="fm" data-bad="1" data-answers='["advertising is","advertisements are","ads are"]'>
+      <div class="sent"><span class="num">2</span><span class="chunk" data-i="0">But often</span> <span class="chunk" data-i="1">an advertisement is</span> <span class="chunk" data-i="2">very aggressive,</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">You mean advertising in general, not one poster.</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">advertising is</div>
+    </div>
+    <div class="fm" data-bad="1" data-answers='["base their opinion on","base their opinions on"]'>
+      <div class="sent"><span class="num">3</span><span class="chunk" data-i="0">so most of the ordinary visitors unconsciously</span> <span class="chunk" data-i="1">based their opinion on</span> <span class="chunk" data-i="2">the professional’s review.</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">This happens often, in general: which tense?</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">base their opinion on</div>
+    </div>
+    <div class="fm" data-bad="1" data-answers='["a film called Territory","the film Territory","a film called Territoria","the film Territoria"]'>
+      <div class="sent"><span class="num">4</span><span class="chunk" data-i="0">Some time ago I watched</span> <span class="chunk" data-i="1">a film Territoria</span> <span class="chunk" data-i="2">based on a book about geologists.</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">a film … Territory / the film Territory</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">a film called Territory / the film Territory</div>
+    </div>
+    <div class="fm" data-bad="1" data-answers='["in the mid-20th century","in the middle of the 20th century","in the mid-twentieth century","in the middle of the twentieth century"]'>
+      <div class="sent"><span class="num">5</span><span class="chunk" data-i="0">geologists, who worked in the north of our country</span> <span class="chunk" data-i="1">in the middle of 20-th century.</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">Two things: “the” before the century, and how to write 20th.</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">in the mid-20th century / in the middle of the 20th century</div>
+    </div>
+    <div class="fm" data-bad="1" data-answers='["wrote bad reviews","gave it bad reviews","wrote negative reviews","gave it negative reviews"]'>
+      <div class="sent"><span class="num">6</span><span class="chunk" data-i="0">Many people</span> <span class="chunk" data-i="1">wrote a bad review.</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">Many people → many reviews. Or: gave it bad …</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">wrote bad reviews / gave it bad reviews</div>
+    </div>
+    <div class="fm" data-bad="2" data-answers='["was cut","had been cut","was cut a lot"]'>
+      <div class="sent"><span class="num">7</span><span class="chunk" data-i="0">the film was absolutely different from the book</span> <span class="chunk" data-i="1">and the story</span> <span class="chunk" data-i="2">was cutting</span> <span class="chunk" data-i="3">a lot.</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">The story didn't cut anything: somebody cut it. Passive: was + past participle.</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">was cut</div>
+    </div>
+    <div class="fm" data-bad="0" data-answers='["I haven&#39;t read","I have not read","I&#39;ve never read","I have never read"]'>
+      <div class="sent"><span class="num">8</span><span class="chunk" data-i="0">I didn't read</span> <span class="chunk" data-i="1">the book</span> <span class="chunk" data-i="2">and I liked the film.</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">Not at a finished time in the past, but “in my life up to now”.</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">I haven't read</div>
+    </div>
+    <div class="fm" data-bad="1" data-answers='["the main character","the protagonist","the central character"]'>
+      <div class="sent"><span class="num">9</span><span class="chunk" data-i="0">it was the first Russian meditative film where nature is</span> <span class="chunk" data-i="1">the main hero</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">“Hero” = a brave person who saves others. A person (or thing) in the centre of a story is the main …</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">the main character</div>
+    </div>
+    <div class="fm" data-bad="1" data-answers='["are shown in contrast to","are contrasted with","are shown as the opposite of"]'>
+      <div class="sent"><span class="num">10</span><span class="chunk" data-i="0">while people and their actions</span> <span class="chunk" data-i="1">showed opposite</span> <span class="chunk" data-i="2">nature's power and greatness.</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">People don't show anything here, the film shows them (passive). Then: in contrast to …</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">are shown in contrast to</div>
+    </div>
+    <button class="check fmcheck">Check</button>
+    <div class="para hidden" id="para"><small>Your review, corrected</small>Some time ago I watched <b>a film called Territory</b>, based on a book about geologists who worked in the north of our country <b>in the mid-20th century</b>. Many people <b>gave it bad reviews</b>. According to <b>these reviews</b>, the film was absolutely different from the book, and the story <b>was cut</b> a lot. I <b>haven't read</b> the book, and I liked the film. In my opinion, it was the first Russian meditative film where nature is <b>the main character</b>, while people and their actions <b>are shown in contrast to</b> nature's power and greatness. And the main idea <b>of</b> the film is that people should live in harmony with each other and nature.</div>
+    <div class="hidden" id="after"><div class="note"><b>advertisement</b> = one ad (a poster, a video) · <b>advertising</b> = ads in general, uncountable · <b>review</b>: a good / bad / mixed review; <b>give</b> a film good reviews.<br><b>free for visitors</b> ✗ → <b>free to visit</b> / <b>free for visitors</b> (without “access”) · <b>the main idea of</b> the film (not “in”)</div></div>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">03 · 5 min</div>
+  <h2>Written by, played by</h2>
+  <div class="rule">
+    <div><b class="f">written by · directed by</b>the person who <u>created</u> it<br><i>The songs were <b>written</b> by … · The film was <b>directed</b> by …</i></div>
+    <div><b class="f">played by</b>the actor who <u>acted</u> the role<br><i>Harry Potter was <b>played</b> by Daniel Radcliffe.</i></div>
+  </div>
+  <div class="exercise">
+    <div class="q" data-k="written" data-why="A song is created by a writer: written by."><div class="p">1. Only four of the songs on <i>Thriller</i> were ___ by Michael Jackson.</div><div class="choice"><button>played</button><button>written</button><button>invented</button></div><div class="feedback"></div></div>
+    <div class="q" data-k="played" data-why="An actor plays a character."><div class="p">2. In <i>The Shawshank Redemption</i>, Andy Dufresne is ___ by Tim Robbins.</div><div class="choice"><button>invented</button><button>written</button><button>played</button></div><div class="feedback"></div></div>
+    <div class="q" data-k="written" data-why="A writer writes stories; “invented” is for machines and ideas."><div class="p">3. The Harry Potter stories were ___ in Britain in the 1990s.</div><div class="choice"><button>written</button><button>invented</button><button>played</button></div><div class="feedback"></div></div>
+    <div class="q" data-k="designed" data-why="An architect designs a building."><div class="p">4. Casa Milà was ___ by Antoni Gaudí.</div><div class="choice"><button>painted</button><button>designed</button><button>directed</button></div><div class="feedback"></div></div>
+    <div class="q" data-k="invented" data-why="Things like the telephone are invented."><div class="p">5. The telephone was ___ in the 19th century.</div><div class="choice"><button>written</button><button>designed</button><button>invented</button></div><div class="feedback"></div></div>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">04 · 7 min</div>
+  <h2>Talk about a film</h2>
+  <p class="intro">Useful phrases for a short review. <b>One phrase is extra.</b> Tap a phrase in the bank when you use it.</p>
+  <div class="bank"><span>is based on</span><span>gave it mixed reviews</span><span>was cut</span><span>a film called</span><span>the main character</span><span>in contrast to</span><span>is set in</span></div>
+  <div class="exercise">
+    <div class="gq"><div class="p"><span class="num">1</span>Yesterday I watched ___ <i>Leto</i>, about rock musicians in the 1980s.</div><div class="row"><input class="answer" data-answers='["a film called"]' placeholder="Type your answer"><button class="hint">Hint</button></div><div class="helper hidden">introducing a title the listener may not know</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">a film called</div></div>
+    <div class="gq"><div class="p"><span class="num">2</span>The series ___ a true story about a family of engineers.</div><div class="row"><input class="answer" data-answers='["is based on"]' placeholder="Type your answer"><button class="hint">Hint</button></div><div class="helper hidden">it takes its story from …</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">is based on</div></div>
+    <div class="gq"><div class="p"><span class="num">3</span>Critics ___: some loved it, others found it boring.</div><div class="row"><input class="answer" data-answers='["gave it mixed reviews"]' placeholder="Type your answer"><button class="hint">Hint</button></div><div class="helper hidden">some good, some bad opinions</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">gave it mixed reviews</div></div>
+    <div class="gq"><div class="p"><span class="num">4</span>The director's version was three hours long, so a lot ___ before the premiere.</div><div class="row"><input class="answer" data-answers='["was cut"]' placeholder="Type your answer"><button class="hint">Hint</button></div><div class="helper hidden">passive: somebody removed scenes</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">was cut</div></div>
+    <div class="gq"><div class="p"><span class="num">5</span>The story ___ a small village in Karelia.</div><div class="row"><input class="answer" data-answers='["is set in"]' placeholder="Type your answer"><button class="hint">Hint</button></div><div class="helper hidden">where the action happens</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">is set in</div></div>
+    <div class="gq"><div class="p"><span class="num">6</span>The quiet village is shown ___ the noisy, busy city.</div><div class="row"><input class="answer" data-answers='["in contrast to"]' placeholder="Type your answer"><button class="hint">Hint</button></div><div class="helper hidden">as the opposite of</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">in contrast to</div></div>
+    <button class="check gcheck">Check</button>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+</main>
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide')), tabs=[].slice.call(document.querySelectorAll('.tab'));
+  window.go=function(i){i=Math.max(0,Math.min(slides.length-1,i));
+    slides.forEach(function(s,j){s.style.display=j===i?'block':'none'});tabs.forEach(function(t,j){t.classList.toggle('active',j===i)});window.scrollTo(0,0)};
+  slides.forEach(function(s,j){var p=s.querySelector('.prev'),n=s.querySelector('.next');p.disabled=j===0;n.disabled=j===slides.length-1;p.onclick=function(){go(j-1)};n.onclick=function(){go(j+1)}});
+  function setTop(){document.documentElement.style.setProperty('--top',document.querySelector('.top').offsetHeight+'px')}setTop();addEventListener('resize',setTop);
+  function norm(s){return String(s||'').toLowerCase().replace(/[’‘`´ʼ′]/g,"'").replace(/[.,!?;:"“”]+/g,' ').replace(/\s+/g,' ').trim()}
+  function match(list,v){return list.some(function(a){return norm(a)===norm(v)})}
+  function fb(f,ok,t){f.textContent=t;f.className='feedback '+(ok?'good':'bad')}
+  function got(btn,ok,all){var g=btn.parentNode.querySelector('.got');if(!g){g=document.createElement('span');g.className='got';btn.after(g)}g.textContent='Got: '+ok+' / '+all+(ok===all?' 🎉':'')}
+  document.querySelectorAll('.hint').forEach(function(b){b.onclick=function(){b.closest('.fm,.gq').querySelector('.helper').classList.toggle('hidden')}});
+  document.querySelectorAll('.reveal').forEach(function(b){b.onclick=function(){b.nextElementSibling.classList.remove('hidden')}});
+  document.querySelectorAll('input').forEach(function(i){i.setAttribute('autocomplete','off');i.setAttribute('spellcheck','false');i.setAttribute('autocapitalize','off')});
+  document.querySelectorAll('.fm').forEach(function(q){q.querySelectorAll('.chunk').forEach(function(c){c.onclick=function(){
+    if(q.classList.contains('done'))return;q.querySelectorAll('.chunk').forEach(function(x){x.classList.remove('sel')});c.classList.add('sel');q.querySelector('.fix').focus()}})});
+  document.querySelector('.fmcheck').onclick=function(){var b=this,qs=document.querySelectorAll('.fm'),ok=0;
+    qs.forEach(function(q){if(q.classList.contains('done')){ok++;return}
+      var sel=q.querySelector('.chunk.sel'),inp=q.querySelector('.fix'),f=q.querySelector('.feedback'),rev=q.querySelector('.reveal');inp.classList.remove('ok','no');
+      if(!sel){fb(f,false,'Click the part with the mistake first.');rev.classList.add('hidden');return}
+      if(+sel.dataset.i!==+q.dataset.bad){fb(f,false,'This part is fine. The mistake is somewhere else.');rev.classList.remove('hidden');return}
+      if(!inp.value.trim()){fb(f,false,'Right place! Now write the correct version.');rev.classList.add('hidden');return}
+      if(match(JSON.parse(q.dataset.answers),inp.value)){ok++;inp.classList.add('ok');fb(f,true,'Found and fixed!');sel.classList.remove('sel');sel.classList.add('right');sel.textContent=inp.value.trim();q.classList.add('done');rev.classList.add('hidden')}
+      else{inp.classList.add('no');fb(f,false,'Right place, but not the right fix yet.');rev.classList.remove('hidden')}});
+    got(b,ok,qs.length);if(ok===qs.length){document.getElementById('para').classList.remove('hidden');document.getElementById('after').classList.remove('hidden')}};
+  document.querySelectorAll('.q').forEach(function(q){q.querySelectorAll('.choice button').forEach(function(b){b.onclick=function(){
+    if(q.classList.contains('done'))return;var f=q.querySelector('.feedback');
+    if(b.textContent===q.dataset.k){b.classList.add('right');q.classList.add('done');fb(f,true,'Correct. '+q.dataset.why)}else{b.classList.add('wrong');fb(f,false,'Not quite. Try again.')}}})});
+  document.querySelectorAll('.bank span').forEach(function(s){s.onclick=function(){s.classList.toggle('used')}});
+  document.querySelector('.gcheck').onclick=function(){var b=this,qs=document.querySelectorAll('.gq'),ok=0;
+    qs.forEach(function(q){var inp=q.querySelector('.answer'),v=inp.value.trim(),f=q.querySelector('.feedback'),rev=q.querySelector('.reveal');inp.classList.remove('ok','no');
+      if(!v){fb(f,false,'Write your answer first.');return}
+      var y=match(JSON.parse(inp.dataset.answers),v);inp.classList.add(y?'ok':'no');fb(f,y,y?'Correct!':'Not yet. Try again or show the answer.');rev.classList.toggle('hidden',y);if(y)ok++});
+    got(b,ok,qs.length)};
+  go(0);
+})();
+</script>
+
+</body>
+</html>
