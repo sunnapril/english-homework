@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sergey · HW review: the ultimate formula</title>
+<style>
+:root{
+  --bg:#eceef1; --card:#fbfaf7; --ink:#262c38; --muted:#6f7583; --line:#e1e2e6;
+  --accent:#56649a; --accent-soft:#eceef6; --good:#3c7a66; --good-soft:#e6f0ec;
+  --bad:#b3402a; --bad-soft:#fbebe6; --gold:#b7791f; --gold-soft:#fdf3e1;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+.top{position:sticky;top:0;z-index:10;background:var(--card);border-bottom:1px solid var(--line);padding:12px 16px 12px}
+.top h1{margin:0 auto 10px;font:700 21px/1.2 Georgia,"Times New Roman",serif;max-width:920px}
+.top h1 small{font:500 13px system-ui,sans-serif;color:var(--muted);margin-left:6px}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:920px;margin:0 auto}
+.tab{background:#fdfcfa;border:1px solid var(--line);color:var(--ink);padding:8px 10px;border-radius:12px;font-size:14px;cursor:pointer;text-align:left;line-height:1.25}
+.tab .n{display:block;color:var(--accent);font-weight:800;font-size:12px;letter-spacing:.08em}
+.tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.tab.active .n{color:#dde1ef}
+main{max-width:920px;margin:22px auto 80px;padding:0 16px}
+.slide{background:var(--card);padding:30px 34px;border:1px solid var(--line);border-radius:18px;box-shadow:0 4px 18px rgba(38,44,56,.04)}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--accent)}
+h2{font:700 32px/1.15 Georgia,"Times New Roman",serif;margin:6px 0 14px}
+h3{font:700 19px/1.3 system-ui,sans-serif;margin:22px 0 8px}
+.intro{font-size:18px;margin:0 0 10px}
+.muted{color:var(--muted);font-size:15px}
+.hidden{display:none!important}
+button{font:inherit}
+.score{display:flex;gap:18px;align-items:center;background:linear-gradient(135deg,#5b6898,#7380a8);color:#fbfaf7;border-radius:16px;padding:18px 22px;margin:6px 0 16px}
+.score b{font:800 54px/1 Georgia,serif}
+.score span{font-size:16px;line-height:1.4}
+.areas{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 6px}
+.areas span{background:var(--good-soft);color:var(--good);border-radius:999px;padding:5px 13px;font-size:15px;font-weight:600}
+.areas span::before{content:"✓ ";font-weight:800}
+.wins{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0}
+.win{background:#fdfcfa;border:1px solid var(--line);border-left:4px solid var(--good);border-radius:0 12px 12px 0;padding:10px 14px}
+.win .ph{font:italic 18px/1.4 Georgia,serif}
+.win .ph b{font-style:normal;color:var(--good);background:var(--good-soft);padding:0 4px;border-radius:4px}
+.win small{display:block;color:var(--muted);font-size:13.5px;margin-top:4px}
+.fixed{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.fixed span{background:#fdfcfa;border:1px solid var(--line);border-radius:10px;padding:6px 12px;font-size:15.5px}
+.fixed span b{color:var(--good)}
+.fm{border-bottom:1px solid var(--line);padding:14px 0}
+.fm .sent{font-size:19px;line-height:2.15}
+.num{display:inline-block;min-width:26px;font-weight:800;color:var(--accent)}
+.chunk{cursor:pointer;padding:2px 6px;border-radius:7px;border:1px dashed #c9d0de;background:#fdfcfa;margin:0 1px}
+.chunk:hover{border-color:#9aa6c2}
+.chunk.sel{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:700}
+.chunk.right{background:var(--good-soft);border-color:var(--good);color:var(--good);border-style:solid;font-weight:700}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:6px}
+.answer{padding:9px 12px;font-size:16px;border:1px solid #c9d0de;border-radius:9px;background:#fdfcfa;min-width:0}
+.row .answer{flex:1;max-width:420px}
+.answer.ok{border-color:var(--good);background:var(--good-soft)}
+.answer.no{border-color:var(--bad);background:var(--bad-soft)}
+.hint,.reveal,.footnav button{cursor:pointer;padding:8px 13px;border-radius:9px;border:1px solid #c9d0de;background:#fdfcfa;color:var(--ink);font-size:14px}
+.helper{background:var(--gold-soft);padding:8px 12px;border-radius:8px;font-size:14.5px;margin-top:6px}
+.feedback{font-size:14.5px;margin-top:6px}
+.feedback.good{color:var(--good);font-weight:700}.feedback.bad{color:var(--bad);font-weight:700}
+.correct{color:var(--good);font-weight:700;font-size:15px;margin-top:4px}
+.reveal{border-color:var(--accent)!important;color:var(--accent)!important;font-weight:600;margin-top:6px}
+.check{cursor:pointer;margin-top:18px;padding:11px 20px;border-radius:10px;border:0;background:var(--accent);color:#fff;font-weight:700;font-size:15px}
+.got{display:inline-block;margin:18px 0 0 12px;color:var(--good);font-weight:800}
+.para{background:#fdfcfa;border:2px solid var(--good);border-radius:14px;padding:14px 18px;margin:18px 0 0;font:18px/1.6 Georgia,serif}
+.para small{display:block;font:700 12px system-ui;letter-spacing:.08em;text-transform:uppercase;color:var(--good);margin-bottom:4px}
+.para b{color:var(--good)}
+.note{background:var(--accent-soft);border-left:4px solid var(--accent);border-radius:0 12px 12px 0;padding:10px 14px;margin:14px 0;font-size:15.5px}
+.note b{color:var(--accent)}
+.q{border-bottom:1px solid var(--line);padding:13px 0}
+.q .p{font-size:18px}
+.choice{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.choice button{cursor:pointer;background:#fdfcfa;border:1px solid #c9d0de;border-radius:9px;padding:6px 13px;font-weight:600}
+.choice button.right{background:var(--good);border-color:var(--good);color:#fff}
+.choice button.wrong{border-color:var(--bad);color:var(--bad);text-decoration:line-through}
+.rule{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0 6px}
+.rule div{background:#fdfcfa;border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.rule div b.f{display:block;font:700 20px Georgia,serif;color:var(--accent)}
+.rule i b{color:var(--accent);font-style:normal}
+.bank{display:flex;gap:8px;flex-wrap:wrap;margin:12px -8px 6px;padding:10px 8px;position:sticky;top:var(--top,120px);z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+.bank span{border:1px solid var(--accent);color:var(--accent);font-weight:600;padding:5px 14px;border-radius:999px;cursor:pointer;background:#fdfcfa}
+.bank span.used{text-decoration:line-through;color:#a3abbd;border-color:#d5dae5;background:#f3f5f9;font-weight:400}
+.gq{border-bottom:1px solid var(--line);padding:14px 0}
+.gq .p{font-size:18px;margin-bottom:6px}
+.footnav{display:flex;justify-content:space-between;margin-top:30px;border-top:1px solid var(--line);padding-top:16px}
+.footnav button:disabled{visibility:hidden}
+@media(max-width:680px){.slide{padding:20px 16px}.tabs{grid-template-columns:1fr 1fr}.wins,.rule{grid-template-columns:1fr}h2{font-size:26px}.score b{font-size:42px}}
+.fm .why{display:none;margin-top:6px;font-size:.92rem;color:#4b5263;background:#f3f4f8;border-radius:8px;padding:8px 10px}
+.fm.done .why{display:block}
+</style>
+
+</head>
+<body>
+<header class="top">
+  <h1>The ultimate formula <small>Sergey · HW review · 27 November</small></h1>
+  <nav class="tabs">
+    <button class="tab" onclick="go(0)"><span class="n">01</span>What went well</button>
+    <button class="tab" onclick="go(1)"><span class="n">02</span>Your answer</button>
+    <button class="tab" onclick="go(2)"><span class="n">03</span>A, the or nothing?</button>
+    <button class="tab" onclick="go(3)"><span class="n">04</span>Say it like a reviewer</button>
+  </nav>
+</header>
+<main>
+
+<section class="slide">
+  <div class="eyebrow">01 · 3 min</div>
+  <h2>What went well</h2>
+  <div class="score"><b>26 / 26</b><span>Homework “Control Resonant”:<br>every closed task correct.</span></div>
+  <div class="areas"><span>Video questions 12/12</span><span>Phrases from the video 7/7</span><span>As … as possible 7/7</span><span>Open answer: two strong examples</span></div>
+  <h3>As … as possible: all correct</h3>
+  <p class="muted">You asked for this structure on Monday and used it without a single mistake: <i>as accurate <b>an</b> estimate as possible</i>, <i>the <b>largest possible</b> audience</i>.</p>
+  <h3>Strong language in your answer</h3>
+  <div class="wins">
+    <div class="win"><div class="ph">PlayStation 4 was <b>the most successful console in their history</b></div><small>a correct superlative with a clear frame</small></div>
+    <div class="win"><div class="ph">a <b>third-person action</b> game · an <b>open or semi-open world</b></div><small>precise genre vocabulary</small></div>
+    <div class="win"><div class="ph"><b>side missions</b> with <b>secondary mechanics</b></div><small>exactly how game reviewers talk</small></div>
+    <div class="win"><div class="ph">one example of a copy, then <b>for balance</b> an original game</div><small>a clear structure: you answered both parts of the question</small></div>
+  </div>
+  <div class="note"><b>A word from your quiz:</b> on 23.11 you learned <b>in-house</b> (done inside the company). It fits perfectly in your answer: Death Stranding <i>wasn't made by an <b>in-house</b> studio</i>. You'll find it on the next slide.</div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">02 · 10 min</div>
+  <h2>Your answer</h2>
+  <p class="intro">These are your sentences, word for word. In each line, <b>click the part with the mistake</b>, then write the correct version. After a correct fix you'll see <b>why</b>.</p>
+  <div class="exercise">
+    <div class="fm" data-bad="1" data-answers='["the ultimate formula"]'>
+      <div class="sent"><span class="num">1</span><span class="chunk" data-i="0">they found</span> <span class="chunk" data-i="1">an ultimate formula</span> <span class="chunk" data-i="2">for their games</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">ultimate works like the best: there is only one.</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">the ultimate formula</div>
+      <div class="why"><b>Why:</b> <i>ultimate</i> = the best / the final one of its kind. Like superlatives (<i>the best</i>, <i>the biggest</i>), it points to the only one, so we use <b>the</b>.</div>
+    </div>
+    <div class="fm" data-bad="1" data-answers='["the same mechanics"]'>
+      <div class="sent"><span class="num">2</span><span class="chunk" data-i="0">it should be a third-person action with</span> <span class="chunk" data-i="1">same mechanics</span> <span class="chunk" data-i="2">in stealth missions</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">same never comes alone.</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">the same mechanics</div>
+      <div class="why"><b>Why:</b> <b>same</b> always takes <b>the</b>: <i>the same menus, the same progression</i>. It compares with something we already know.</div>
+    </div>
+    <div class="fm" data-bad="1" data-answers='["the character","the player&#39;s character","your character"]'>
+      <div class="sent"><span class="num">3</span><span class="chunk" data-i="0">colorful items, which</span> <span class="chunk" data-i="1">character</span> <span class="chunk" data-i="2">can equip</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">one character, and we know which one</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">the character</div>
+      <div class="why"><b>Why:</b> a singular countable noun can't stand alone. It is the main character of the game, so we know which one: <b>the</b> character.</div>
+    </div>
+    <div class="fm" data-bad="1" data-answers='["it would have","it has"]'>
+      <div class="sent"><span class="num">4</span><span class="chunk" data-i="0">if the game is open or semi open-world,</span> <span class="chunk" data-i="1">it would has</span> <span class="chunk" data-i="2">towers or bases</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">would + the base form</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">it would have / it has</div>
+      <div class="why"><b>Why:</b> after <b>would</b> (and can, will, should) the verb has no ending: <i>would have</i>. Because you describe a real pattern, the simple <i>it has</i> is even more natural.</div>
+    </div>
+    <div class="fm" data-bad="1" data-answers='["started making jokes about","started to make jokes about","started joking about"]'>
+      <div class="sent"><span class="num">5</span><span class="chunk" data-i="0">Of course, gamers</span> <span class="chunk" data-i="1">start to make jokes on</span> <span class="chunk" data-i="2">Sony published games</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">two things: it already happened, and joke … something</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">started making jokes about</div>
+      <div class="why"><b>Why:</b> the jokes are in the past (after these games came out): <b>started</b>. And we make jokes <b>about</b> something; <i>jokes on</i> is only in <i>the joke is on you</i>.</div>
+    </div>
+    <div class="fm" data-bad="1" data-answers='["I want to talk about","I want to tell you about","I&#39;d like to talk about","I&#39;d like to tell you about"]'>
+      <div class="sent"><span class="num">6</span><span class="chunk" data-i="0">And for the balance,</span> <span class="chunk" data-i="1">I want to tell about</span> <span class="chunk" data-i="2">one game</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">tell needs a person: tell someone about …</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">I want to talk about / I want to tell you about</div>
+      <div class="why"><b>Why:</b> <b>tell</b> needs a person: <i>tell <u>you</u> about</i>. Without a person, use <b>talk about</b>. (And: <i>to balance it out</i> or <i>for balance</i>, without “the”.)</div>
+    </div>
+    <div class="fm" data-bad="1" data-answers='["an in-house studio","their in-house studio","one of their in-house studios"]'>
+      <div class="sent"><span class="num">7</span><span class="chunk" data-i="0">but wasn't made by</span> <span class="chunk" data-i="1">their inner studio</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">a word from your quiz, 23.11: done inside the company</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">an in-house studio</div>
+      <div class="why"><b>Why:</b> <i>inner</i> means “inside” physically or emotionally (<i>inner city, inner peace</i>). A studio owned by the company is an <b>in-house</b> studio.</div>
+    </div>
+    <div class="fm" data-bad="1" data-answers='["what type of game it would be","what kind of game it would be"]'>
+      <div class="sent"><span class="num">8</span><span class="chunk" data-i="0">nobody could imagine</span> <span class="chunk" data-i="1">what type of games it would</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">one game, and would needs a verb</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">what type of game it would be</div>
+      <div class="why"><b>Why:</b> it is one game, so <b>type of game</b>. And <b>would</b> can't end the clause without a verb: <i>it would <b>be</b></i>.</div>
+    </div>
+    <div class="fm" data-bad="1" data-answers='["a surprisingly good game"]'>
+      <div class="sent"><span class="num">9</span><span class="chunk" data-i="0">and it was</span> <span class="chunk" data-i="1">surprisingly good game</span> <span class="chunk" data-i="2">with a great story</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">game is singular and countable</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">a surprisingly good game</div>
+      <div class="why"><b>Why:</b> words before the noun (an adverb, an adjective) don't remove the article: <b>a</b> game → <b>a</b> good game → <b>a</b> surprisingly good game.</div>
+    </div>
+    <button class="check fmcheck">Check</button>
+    <div class="para hidden" id="para"><small>Your answer, polished</small>The ultimate example of games copying each other is the games published by Sony. Sony has a lot of PlayStation exclusives, and while PlayStation 4 was the most successful console in their history, they found <b>the ultimate formula</b> for their games: a third-person action game with <b>the same</b> stealth mechanics, <b>the same</b> type of menus and <b>the same</b> progression through colourful items that <b>the character</b> can equip. If the game is open or semi-open world, <b>it has</b> towers or bases that you <b>have to</b> clear to <b>unlock</b> part of the map, <b>collectibles</b> all over the map, and side missions with secondary mechanics that appear <b>in the main story only once</b>. Following this formula, they released The Last of Us Part I and II, three Spider-Man games, two Horizon games, Days Gone and, not so long ago, a Wolverine game. Of course, gamers <b>started making jokes about</b> Sony-published games, even <b>though</b> other aspects of them were good.<br><br><b>To balance it out</b>, I want to <b>talk about</b> one game that was <b>unlike anything before or since</b>. It was published by Sony too, but it wasn't made by <b>an in-house studio</b>: Death Stranding. From the first teaser right up to the release, nobody could imagine <b>what type of game it would be</b>, and after the demos nobody could believe it <b>was</b> a game only about deliveries, but it is. Of course, it has common mechanics in the stealth and shooting segments, but <b>most of the time</b> you deliver different types of cargo, and it was <b>a surprisingly good game</b> with a great story and a wonderful atmosphere.</div>
+    <div class="hidden" id="after"><div class="note"><b>Also in your text:</b> collection items → <b>collectibles</b> · open part of the map → <b>unlock</b> · which you should clear → which you <b>have to</b> clear (it's a rule of the game, not advice) · only one time → <b>only once</b> · even if → even <b>though</b> (it really was true) · most of time → most of <b>the</b> time.</div></div>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">03 · 5 min</div>
+  <h2>A, the or nothing?</h2>
+  <div class="rule">
+    <div><b class="f">the</b>only one or we know which<br><i>the ultimate formula · the same menus · the main story · most of the time</i></div>
+    <div><b class="f">a / an</b>one of many, singular countable<br><i>a surprisingly good game · an in-house studio</i></div>
+    <div><b class="f">—</b>plural or uncountable in general<br><i>Gamers love collectibles. · Stealth is hard.</i></div>
+  </div>
+  <div class="exercise">
+    <div class="q" data-k="the" data-why="same always takes the."><div class="p">1. Every open-world game seems to have ___ same towers to climb.</div><div class="choice"><button>a</button><button>the</button><button>—</button></div><div class="feedback"></div></div>
+    <div class="q" data-k="a" data-why="One game among many, singular countable: a."><div class="p">2. Despite the trailers, it's ___ surprisingly calm game about walking and delivering cargo.</div><div class="choice"><button>the</button><button>—</button><button>a</button></div><div class="feedback"></div></div>
+    <div class="q" data-k="—" data-why="Plural, in general: no article."><div class="p">3. ___ gamers often make jokes about long tutorials.</div><div class="choice"><button>—</button><button>The</button><button>A</button></div><div class="feedback"></div></div>
+    <div class="q" data-k="the" data-why="A fixed phrase: most of the time."><div class="p">4. Most of ___ time you just explore and pick up items.</div><div class="choice"><button>a</button><button>—</button><button>the</button></div><div class="feedback"></div></div>
+    <div class="q" data-k="an" data-why="One studio, and in-house starts with a vowel sound: an."><div class="p">5. The sequel was developed by ___ in-house studio in Japan.</div><div class="choice"><button>an</button><button>the</button><button>—</button></div><div class="feedback"></div></div>
+    <div class="q" data-k="the" data-why="Superlative: the only best one."><div class="p">6. For many players, it was ___ best game of the year.</div><div class="choice"><button>—</button><button>the</button><button>a</button></div><div class="feedback"></div></div>
+    <div class="q" data-k="—" data-why="Uncountable, in general: no article."><div class="p">7. I don't usually enjoy ___ stealth in open-world games.</div><div class="choice"><button>a</button><button>—</button><button>the</button></div><div class="feedback"></div></div>
+    <div class="q" data-k="the" data-why="One main character, and we know which: the."><div class="p">8. In ___ main story, you meet the villain only twice.</div><div class="choice"><button>the</button><button>a</button><button>—</button></div><div class="feedback"></div></div>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">04 · 5 min</div>
+  <h2>Say it like a reviewer</h2>
+  <p class="intro">Phrases from your polished answer. <b>One phrase is extra.</b> Tap a phrase in the bank when you use it.</p>
+  <div class="bank"><span>unlock</span><span>collectibles</span><span>in-house</span><span>unlike anything</span><span>to balance it out</span><span>jokes about</span><span>talk about</span><span>the ultimate</span></div>
+  <div class="exercise">
+    <div class="gq"><div class="p"><span class="num">1</span>You need to find all 50 hidden ___ to get the final trophy.</div><div class="row"><input class="answer" data-answers='["collectibles"]' placeholder="Type your answer"><button class="hint">Hint</button></div><div class="helper hidden">items you collect around the map</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">collectibles</div></div>
+    <div class="gq"><div class="p"><span class="num">2</span>Clear the enemy base to ___ the next part of the map.</div><div class="row"><input class="answer" data-answers='["unlock"]' placeholder="Type your answer"><button class="hint">Hint</button></div><div class="helper hidden">make it available</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">unlock</div></div>
+    <div class="gq"><div class="p"><span class="num">3</span>The studio built its engine ___ instead of licensing one.</div><div class="row"><input class="answer" data-answers='["in-house"]' placeholder="Type your answer"><button class="hint">Hint</button></div><div class="helper hidden">inside the company</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">in-house</div></div>
+    <div class="gq"><div class="p"><span class="num">4</span>The ending was ___ I had seen in a game before.</div><div class="row"><input class="answer" data-answers='["unlike anything"]' placeholder="Type your answer"><button class="hint">Hint</button></div><div class="helper hidden">completely different from everything</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">unlike anything</div></div>
+    <div class="gq"><div class="p"><span class="num">5</span>I've criticised the sequel a lot. ___, let me name two things it does really well.</div><div class="row"><input class="answer" data-answers='["To balance it out"]' placeholder="Type your answer"><button class="hint">Hint</button></div><div class="helper hidden">to make the review fair</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">To balance it out</div></div>
+    <div class="gq"><div class="p"><span class="num">6</span>After the launch, players made a lot of ___ the endless loading screens.</div><div class="row"><input class="answer" data-answers='["jokes about"]' placeholder="Type your answer"><button class="hint">Hint</button></div><div class="helper hidden">laughed at something: … about</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">jokes about</div></div>
+    <div class="gq"><div class="p"><span class="num">7</span>For many fans, it's ___ open-world game of the decade.</div><div class="row"><input class="answer" data-answers='["the ultimate"]' placeholder="Type your answer"><button class="hint">Hint</button></div><div class="helper hidden">the very best, final one</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">the ultimate</div></div>
+    <button class="check gcheck">Check</button>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+</main>
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide')), tabs=[].slice.call(document.querySelectorAll('.tab'));
+  window.go=function(i){i=Math.max(0,Math.min(slides.length-1,i));
+    slides.forEach(function(s,j){s.style.display=j===i?'block':'none'});tabs.forEach(function(t,j){t.classList.toggle('active',j===i)});window.scrollTo(0,0)};
+  slides.forEach(function(s,j){var p=s.querySelector('.prev'),n=s.querySelector('.next');p.disabled=j===0;n.disabled=j===slides.length-1;p.onclick=function(){go(j-1)};n.onclick=function(){go(j+1)}});
+  function setTop(){document.documentElement.style.setProperty('--top',document.querySelector('.top').offsetHeight+'px')}setTop();addEventListener('resize',setTop);
+  function norm(s){return String(s||'').toLowerCase().replace(/[’‘`´ʼ′]/g,"'").replace(/[.,!?;:"“”]+/g,' ').replace(/\s+/g,' ').trim()}
+  function match(list,v){return list.some(function(a){return norm(a)===norm(v)})}
+  function fb(f,ok,t){f.textContent=t;f.className='feedback '+(ok?'good':'bad')}
+  function got(btn,ok,all){var g=btn.parentNode.querySelector('.got');if(!g){g=document.createElement('span');g.className='got';btn.after(g)}g.textContent='Got: '+ok+' / '+all+(ok===all?' 🎉':'')}
+  document.querySelectorAll('.hint').forEach(function(b){b.onclick=function(){b.closest('.fm,.gq').querySelector('.helper').classList.toggle('hidden')}});
+  document.querySelectorAll('.reveal').forEach(function(b){b.onclick=function(){b.nextElementSibling.classList.remove('hidden')}});
+  document.querySelectorAll('input').forEach(function(i){i.setAttribute('autocomplete','off');i.setAttribute('spellcheck','false');i.setAttribute('autocapitalize','off')});
+  document.querySelectorAll('.fm').forEach(function(q){q.querySelectorAll('.chunk').forEach(function(c){c.onclick=function(){
+    if(q.classList.contains('done'))return;q.querySelectorAll('.chunk').forEach(function(x){x.classList.remove('sel')});c.classList.add('sel');q.querySelector('.fix').focus()}})});
+  document.querySelector('.fmcheck').onclick=function(){var b=this,qs=document.querySelectorAll('.fm'),ok=0;
+    qs.forEach(function(q){if(q.classList.contains('done')){ok++;return}
+      var sel=q.querySelector('.chunk.sel'),inp=q.querySelector('.fix'),f=q.querySelector('.feedback'),rev=q.querySelector('.reveal');inp.classList.remove('ok','no');
+      if(!sel){fb(f,false,'Click the part with the mistake first.');rev.classList.add('hidden');return}
+      if(+sel.dataset.i!==+q.dataset.bad){fb(f,false,'This part is fine. The mistake is somewhere else.');rev.classList.remove('hidden');return}
+      if(!inp.value.trim()){fb(f,false,'Right place! Now write the correct version.');rev.classList.add('hidden');return}
+      if(match(JSON.parse(q.dataset.answers),inp.value)){ok++;inp.classList.add('ok');fb(f,true,'Found and fixed!');sel.classList.remove('sel');sel.classList.add('right');sel.textContent=inp.value.trim();q.classList.add('done');rev.classList.add('hidden')}
+      else{inp.classList.add('no');fb(f,false,'Right place, but not the right fix yet.');rev.classList.remove('hidden')}});
+    got(b,ok,qs.length);if(ok===qs.length){['para','after'].forEach(function(id){var e=document.getElementById(id);if(e)e.classList.remove('hidden')})}};
+  document.querySelectorAll('.q').forEach(function(q){q.querySelectorAll('.choice button').forEach(function(b){b.onclick=function(){
+    if(q.classList.contains('done'))return;var f=q.querySelector('.feedback');
+    if(b.textContent===q.dataset.k){b.classList.add('right');q.classList.add('done');fb(f,true,'Correct. '+q.dataset.why)}else{b.classList.add('wrong');fb(f,false,'Not quite. Try again.')}}})});
+  document.querySelectorAll('.bank span').forEach(function(s){s.onclick=function(){s.classList.toggle('used')}});
+  document.querySelectorAll('.gcheck').forEach(function(btn){btn.onclick=function(){var b=this,qs=b.closest('.slide').querySelectorAll('.gq'),ok=0;
+    qs.forEach(function(q){var inp=q.querySelector('.answer'),v=inp.value.trim(),f=q.querySelector('.feedback'),rev=q.querySelector('.reveal');inp.classList.remove('ok','no');
+      if(!v){fb(f,false,'Write your answer first.');return}
+      var y=match(JSON.parse(inp.dataset.answers),v);inp.classList.add(y?'ok':'no');fb(f,y,y?'Correct!':'Not yet. Try again or show the answer.');rev.classList.toggle('hidden',y);if(y)ok++});
+    got(b,ok,qs.length)}});
+  document.querySelectorAll('.mood').forEach(function(m){m.onclick=function(){document.querySelectorAll('.mood').forEach(function(x){x.classList.toggle('picked',x===m)})}});
+  go(0);
+})();
+</script>
+
+</body>
+</html>
