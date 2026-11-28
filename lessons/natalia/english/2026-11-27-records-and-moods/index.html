@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Natalia · Reviews and moods · 27 November</title>
+<style>
+:root{
+  --bg:#eceef1; --card:#fbfaf7; --ink:#262c38; --muted:#6f7583; --line:#e1e2e6;
+  --accent:#56649a; --accent-soft:#eceef6; --good:#3c7a66; --good-soft:#e6f0ec;
+  --bad:#b3402a; --bad-soft:#fbebe6; --gold:#b7791f; --gold-soft:#fdf3e1;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+.top{position:sticky;top:0;z-index:10;background:var(--card);border-bottom:1px solid var(--line);padding:12px 16px 12px}
+.top h1{margin:0 auto 10px;font:700 21px/1.2 Georgia,"Times New Roman",serif;max-width:920px}
+.top h1 small{font:500 13px system-ui,sans-serif;color:var(--muted);margin-left:6px}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:920px;margin:0 auto}
+.tab{background:#fdfcfa;border:1px solid var(--line);color:var(--ink);padding:8px 10px;border-radius:12px;font-size:14px;cursor:pointer;text-align:left;line-height:1.25}
+.tab .n{display:block;color:var(--accent);font-weight:800;font-size:12px;letter-spacing:.08em}
+.tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.tab.active .n{color:#dde1ef}
+main{max-width:920px;margin:22px auto 80px;padding:0 16px}
+.slide{background:var(--card);padding:30px 34px;border:1px solid var(--line);border-radius:18px;box-shadow:0 4px 18px rgba(38,44,56,.04)}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--accent)}
+h2{font:700 32px/1.15 Georgia,"Times New Roman",serif;margin:6px 0 14px}
+h3{font:700 19px/1.3 system-ui,sans-serif;margin:22px 0 8px}
+.intro{font-size:18px;margin:0 0 10px}
+.muted{color:var(--muted);font-size:15px}
+.hidden{display:none!important}
+button{font:inherit}
+.score{display:flex;gap:18px;align-items:center;background:linear-gradient(135deg,#5b6898,#7380a8);color:#fbfaf7;border-radius:16px;padding:18px 22px;margin:6px 0 16px}
+.score b{font:800 54px/1 Georgia,serif}
+.score span{font-size:16px;line-height:1.4}
+.areas{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 6px}
+.areas span{background:var(--good-soft);color:var(--good);border-radius:999px;padding:5px 13px;font-size:15px;font-weight:600}
+.areas span::before{content:"✓ ";font-weight:800}
+.wins{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0}
+.win{background:#fdfcfa;border:1px solid var(--line);border-left:4px solid var(--good);border-radius:0 12px 12px 0;padding:10px 14px}
+.win .ph{font:italic 18px/1.4 Georgia,serif}
+.win .ph b{font-style:normal;color:var(--good);background:var(--good-soft);padding:0 4px;border-radius:4px}
+.win small{display:block;color:var(--muted);font-size:13.5px;margin-top:4px}
+.fixed{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.fixed span{background:#fdfcfa;border:1px solid var(--line);border-radius:10px;padding:6px 12px;font-size:15.5px}
+.fixed span b{color:var(--good)}
+.fm{border-bottom:1px solid var(--line);padding:14px 0}
+.fm .sent{font-size:19px;line-height:2.15}
+.num{display:inline-block;min-width:26px;font-weight:800;color:var(--accent)}
+.chunk{cursor:pointer;padding:2px 6px;border-radius:7px;border:1px dashed #c9d0de;background:#fdfcfa;margin:0 1px}
+.chunk:hover{border-color:#9aa6c2}
+.chunk.sel{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:700}
+.chunk.right{background:var(--good-soft);border-color:var(--good);color:var(--good);border-style:solid;font-weight:700}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:6px}
+.answer{padding:9px 12px;font-size:16px;border:1px solid #c9d0de;border-radius:9px;background:#fdfcfa;min-width:0}
+.row .answer{flex:1;max-width:420px}
+.answer.ok{border-color:var(--good);background:var(--good-soft)}
+.answer.no{border-color:var(--bad);background:var(--bad-soft)}
+.hint,.reveal,.footnav button{cursor:pointer;padding:8px 13px;border-radius:9px;border:1px solid #c9d0de;background:#fdfcfa;color:var(--ink);font-size:14px}
+.helper{background:var(--gold-soft);padding:8px 12px;border-radius:8px;font-size:14.5px;margin-top:6px}
+.feedback{font-size:14.5px;margin-top:6px}
+.feedback.good{color:var(--good);font-weight:700}.feedback.bad{color:var(--bad);font-weight:700}
+.correct{color:var(--good);font-weight:700;font-size:15px;margin-top:4px}
+.reveal{border-color:var(--accent)!important;color:var(--accent)!important;font-weight:600;margin-top:6px}
+.check{cursor:pointer;margin-top:18px;padding:11px 20px;border-radius:10px;border:0;background:var(--accent);color:#fff;font-weight:700;font-size:15px}
+.got{display:inline-block;margin:18px 0 0 12px;color:var(--good);font-weight:800}
+.para{background:#fdfcfa;border:2px solid var(--good);border-radius:14px;padding:14px 18px;margin:18px 0 0;font:18px/1.6 Georgia,serif}
+.para small{display:block;font:700 12px system-ui;letter-spacing:.08em;text-transform:uppercase;color:var(--good);margin-bottom:4px}
+.para b{color:var(--good)}
+.note{background:var(--accent-soft);border-left:4px solid var(--accent);border-radius:0 12px 12px 0;padding:10px 14px;margin:14px 0;font-size:15.5px}
+.note b{color:var(--accent)}
+.q{border-bottom:1px solid var(--line);padding:13px 0}
+.q .p{font-size:18px}
+.choice{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.choice button{cursor:pointer;background:#fdfcfa;border:1px solid #c9d0de;border-radius:9px;padding:6px 13px;font-weight:600}
+.choice button.right{background:var(--good);border-color:var(--good);color:#fff}
+.choice button.wrong{border-color:var(--bad);color:var(--bad);text-decoration:line-through}
+.rule{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0 6px}
+.rule div{background:#fdfcfa;border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.rule div b.f{display:block;font:700 20px Georgia,serif;color:var(--accent)}
+.rule i b{color:var(--accent);font-style:normal}
+.bank{display:flex;gap:8px;flex-wrap:wrap;margin:12px -8px 6px;padding:10px 8px;position:sticky;top:var(--top,120px);z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+.bank span{border:1px solid var(--accent);color:var(--accent);font-weight:600;padding:5px 14px;border-radius:999px;cursor:pointer;background:#fdfcfa}
+.bank span.used{text-decoration:line-through;color:#a3abbd;border-color:#d5dae5;background:#f3f5f9;font-weight:400}
+.gq{border-bottom:1px solid var(--line);padding:14px 0}
+.gq .p{font-size:18px;margin-bottom:6px}
+.footnav{display:flex;justify-content:space-between;margin-top:30px;border-top:1px solid var(--line);padding-top:16px}
+.footnav button:disabled{visibility:hidden}
+@media(max-width:680px){.slide{padding:20px 16px}.tabs{grid-template-columns:1fr 1fr}.wins,.rule{grid-template-columns:1fr}h2{font-size:26px}.score b{font-size:42px}}
+.moods{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+@media(max-width:600px){.moods{grid-template-columns:repeat(2,1fr)}}
+.mood{border:2px solid transparent;border-radius:14px;padding:16px 12px;text-align:left;cursor:pointer;font:inherit;color:#26303a;min-height:96px;display:flex;flex-direction:column;justify-content:flex-end;gap:4px}
+.mood b{font-size:1.05rem}.mood span{font-size:.85rem;opacity:.8}
+.m1{background:#f6e3b8}.m2{background:#f3d2c3}.m3{background:#e3e7d8}.m4{background:#ddd9ee}.m5{background:#d6e2ea}.m6{background:#e5e1dc}
+.mood.picked{border-color:#56649a;box-shadow:0 0 0 3px rgba(86,100,154,.18)}
+.drive-audio{width:100%;max-width:440px;height:96px;border:0;border-radius:10px;background:#f1f3f4;display:block;margin:8px 0}
+.talk{line-height:1.7;margin:10px 0 12px 1.2em}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Reviews and moods <small>Natalia · lesson 27 November</small></h1>
+  <nav class="tabs">
+    <button class="tab" onclick="go(0)"><span class="n">01</span>How are you?</button>
+    <button class="tab" onclick="go(1)"><span class="n">02</span>What went well</button>
+    <button class="tab" onclick="go(2)"><span class="n">03</span>Your sentences</button>
+    <button class="tab" onclick="go(3)"><span class="n">04</span>Since …</button>
+  </nav>
+</header>
+<main>
+
+<section class="slide">
+  <div class="eyebrow">01 · 3 min</div>
+  <h2>How are you today?</h2>
+  <p class="intro">Choose the card that is closest to how you feel today. Then say why in one or two sentences.</p>
+  <div class="moods">
+    <button class="mood m1"><b>on top of the world</b><span>very happy, everything is going well</span></button>
+    <button class="mood m2"><b>buzzing</b><span>excited and full of energy</span></button>
+    <button class="mood m3"><b>fine, just a bit tired</b><span>OK, but not at my best</span></button>
+    <button class="mood m4"><b>all over the place</b><span>too much going on, I can't focus</span></button>
+    <button class="mood m5"><b>pretty bummed out</b><span>disappointed, a bit sad</span></button>
+    <button class="mood m6"><b>drained</b><span>no energy left at all</span></button>
+  </div>
+  <div class="note"><b>Useful language:</b> I'm feeling … because … · It's been a … week. · To be honest, … · Right now I'm a bit …</div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">02 · 3 min</div>
+  <h2>What went well</h2>
+  <div class="score"><b>18 / 19</b><span>Homework “Unexpected Results”, tasks 1, 4 and the bonus:<br>only one small mistake.</span></div>
+  <div class="areas"><span>Repair Café words 8/8</span><span>Fix it 6/6</span><span>Bonus 4/5</span><span>Listening: both of Michael's lies</span></div>
+  <h3>Your own sentences</h3>
+  <div class="wins">
+    <div class="win"><div class="ph">The story <b>ended well</b>.</div><small>adverb after a verb: well, not good</small></div>
+    <div class="win"><div class="ph">Some scenes look like <b>highly professional</b> photographs.</div><small>highly + adjective</small></div>
+    <div class="win"><div class="ph">The novel was written <b>as a response</b> to the war.</div><small>as = in the role of</small></div>
+    <div class="win"><div class="ph">Because of the rain, they <b>put off</b> the concert.</div><small>a phrasal verb from our lessons, used correctly</small></div>
+    <div class="win"><div class="ph">The museum is <b>within walking distance</b> of our hotel.</div><small>the full expression with “of”</small></div>
+    <div class="win"><div class="ph">At the premiere, the actress <b>had on</b> a long red dress.</div><small>have on = wear</small></div>
+  </div>
+  <p class="muted">Listening: you found both of Michael's lies about Usain Bolt (the nickname “Giraffe” and the shoes in 2012), and everything you wrote about Konishiki's sport and fame was right.</p>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">03 · 6 min</div>
+  <h2>Your sentences</h2>
+  <p class="intro">These sentences are from your homework. In each line, <b>click the part with the mistake</b>, then write the correct version.</p>
+  <div class="exercise">
+    <div class="fm" data-bad="0" data-answers='["Today&#39;s topic","Today&#39;s topic is"]'>
+      <div class="sent"><span class="num">1</span><span class="chunk" data-i="0">Today topic</span> <span class="chunk" data-i="1">is “Famous world</span> <span class="chunk" data-i="2">record breakers”.</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">the topic of today = …'s topic</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">Today's topic</div>
+    </div>
+    <div class="fm" data-bad="1" data-answers='["he has been","he&#39;s been","has been"]'>
+      <div class="sent"><span class="num">2</span><span class="chunk" data-i="0">Since he stopped fighting</span> <span class="chunk" data-i="1">he was</span> <span class="chunk" data-i="2">very successful.</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">since + a point in the past → from then until now: which tense?</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">he has been</div>
+    </div>
+    <div class="fm" data-bad="1" data-answers='["a TV chef","a TV cook","a TV presenter of a cookery show"]'>
+      <div class="sent"><span class="num">3</span><span class="chunk" data-i="0">He was an actor in films, a musician and even</span> <span class="chunk" data-i="1">a TV-cooker.</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">A cooker is a thing in the kitchen (плита). A person who cooks is a … / a …</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">a TV chef / a TV cook</div>
+    </div>
+    <div class="fm" data-bad="1" data-answers='["was dressed","were dressed"]'>
+      <div class="sent"><span class="num">4</span><span class="chunk" data-i="0">Everyone at the party</span> <span class="chunk" data-i="1">dressed</span> <span class="chunk" data-i="2">to the nines.</span></div>
+      <div class="row"><input class="answer fix" placeholder="Correct version"><button class="hint">Hint</button></div><div class="helper hidden">How they looked (a state), like “was wearing”: … dressed to the nines</div>
+      <div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">was dressed</div>
+    </div>
+    <button class="check fmcheck">Check</button>
+    <div class="hidden" id="after"><div class="note"><b>a cooker</b> = плита · <b>a cook</b> / <b>a chef</b> = повар · <b>be dressed to the nines</b> = быть разодетым · Bonus 1: <i>I was going to the premiere</i> is also fine English, but the structure we practised is <b>I was going to go</b> to the premiere.</div></div>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">04 · 6 min</div>
+  <h2>Since … → have done</h2>
+  <div class="rule">
+    <div><b class="f">since + a point in the past → Present Perfect</b>from then until now<br><i>Since he stopped fighting, he <b>has been</b> very successful.</i></div>
+    <div><b class="f">a finished time → Past Simple</b>when exactly<br><i>He <b>stopped</b> fighting in 1997.</i></div>
+  </div>
+  <p class="intro">Put the verb in the correct form.</p>
+  <div class="exercise">
+    <div class="gq"><div class="p"><span class="num">1</span>Since he stopped fighting, Konishiki ___ (act) in a couple of films.</div><div class="row"><input class="answer" data-answers='["has acted","&#39;s acted"]' placeholder="Type your answer"><button class="hint">Hint</button></div><div class="helper hidden">since … → has + past participle</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">has acted</div></div>
+    <div class="gq"><div class="p"><span class="num">2</span>Kittinger ___ (hold) the record for the longest free fall for over 50 years.</div><div class="row"><input class="answer" data-answers='["has held","&#39;s held"]' placeholder="Type your answer"><button class="hint">Hint</button></div><div class="helper hidden">for over 50 years, until now</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">has held</div></div>
+    <div class="gq"><div class="p"><span class="num">3</span>Konishiki ___ (stop) fighting in 1997.</div><div class="row"><input class="answer" data-answers='["stopped"]' placeholder="Type your answer"><button class="hint">Hint</button></div><div class="helper hidden">in 1997 = a finished time</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">stopped</div></div>
+    <div class="gq"><div class="p"><span class="num">4</span>Since the museum reopened, it ___ (be) full every weekend.</div><div class="row"><input class="answer" data-answers='["has been","&#39;s been"]' placeholder="Type your answer"><button class="hint">Hint</button></div><div class="helper hidden">since … → has + past participle of be</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">has been</div></div>
+    <div class="gq"><div class="p"><span class="num">5</span>I ___ (not / see) my old classmates since we finished school.</div><div class="row"><input class="answer" data-answers='["haven&#39;t seen","have not seen"]' placeholder="Type your answer"><button class="hint">Hint</button></div><div class="helper hidden">negative: haven't + past participle</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">haven't seen</div></div>
+    <div class="gq"><div class="p"><span class="num">6</span>Since he joined the speaking club, Tom ___ (gain) a lot of confidence.</div><div class="row"><input class="answer" data-answers='["has gained","&#39;s gained"]' placeholder="Type your answer"><button class="hint">Hint</button></div><div class="helper hidden">a word from our lessons: gain confidence</div><div class="feedback"></div><button class="reveal hidden">Show correct answer</button><div class="correct hidden">has gained</div></div>
+    <button class="check gcheck">Check</button>
+  </div>
+  <div class="footnav"><button class="prev">← Previous</button><button class="next">Next →</button></div>
+</section>
+
+</main>
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide')), tabs=[].slice.call(document.querySelectorAll('.tab'));
+  window.go=function(i){i=Math.max(0,Math.min(slides.length-1,i));
+    slides.forEach(function(s,j){s.style.display=j===i?'block':'none'});tabs.forEach(function(t,j){t.classList.toggle('active',j===i)});window.scrollTo(0,0)};
+  slides.forEach(function(s,j){var p=s.querySelector('.prev'),n=s.querySelector('.next');p.disabled=j===0;n.disabled=j===slides.length-1;p.onclick=function(){go(j-1)};n.onclick=function(){go(j+1)}});
+  function setTop(){document.documentElement.style.setProperty('--top',document.querySelector('.top').offsetHeight+'px')}setTop();addEventListener('resize',setTop);
+  function norm(s){return String(s||'').toLowerCase().replace(/[’‘`´ʼ′]/g,"'").replace(/[.,!?;:"“”]+/g,' ').replace(/\s+/g,' ').trim()}
+  function match(list,v){return list.some(function(a){return norm(a)===norm(v)})}
+  function fb(f,ok,t){f.textContent=t;f.className='feedback '+(ok?'good':'bad')}
+  function got(btn,ok,all){var g=btn.parentNode.querySelector('.got');if(!g){g=document.createElement('span');g.className='got';btn.after(g)}g.textContent='Got: '+ok+' / '+all+(ok===all?' 🎉':'')}
+  document.querySelectorAll('.hint').forEach(function(b){b.onclick=function(){b.closest('.fm,.gq').querySelector('.helper').classList.toggle('hidden')}});
+  document.querySelectorAll('.reveal').forEach(function(b){b.onclick=function(){b.nextElementSibling.classList.remove('hidden')}});
+  document.querySelectorAll('input').forEach(function(i){i.setAttribute('autocomplete','off');i.setAttribute('spellcheck','false');i.setAttribute('autocapitalize','off')});
+  document.querySelectorAll('.fm').forEach(function(q){q.querySelectorAll('.chunk').forEach(function(c){c.onclick=function(){
+    if(q.classList.contains('done'))return;q.querySelectorAll('.chunk').forEach(function(x){x.classList.remove('sel')});c.classList.add('sel');q.querySelector('.fix').focus()}})});
+  document.querySelector('.fmcheck').onclick=function(){var b=this,qs=document.querySelectorAll('.fm'),ok=0;
+    qs.forEach(function(q){if(q.classList.contains('done')){ok++;return}
+      var sel=q.querySelector('.chunk.sel'),inp=q.querySelector('.fix'),f=q.querySelector('.feedback'),rev=q.querySelector('.reveal');inp.classList.remove('ok','no');
+      if(!sel){fb(f,false,'Click the part with the mistake first.');rev.classList.add('hidden');return}
+      if(+sel.dataset.i!==+q.dataset.bad){fb(f,false,'This part is fine. The mistake is somewhere else.');rev.classList.remove('hidden');return}
+      if(!inp.value.trim()){fb(f,false,'Right place! Now write the correct version.');rev.classList.add('hidden');return}
+      if(match(JSON.parse(q.dataset.answers),inp.value)){ok++;inp.classList.add('ok');fb(f,true,'Found and fixed!');sel.classList.remove('sel');sel.classList.add('right');sel.textContent=inp.value.trim();q.classList.add('done');rev.classList.add('hidden')}
+      else{inp.classList.add('no');fb(f,false,'Right place, but not the right fix yet.');rev.classList.remove('hidden')}});
+    got(b,ok,qs.length);if(ok===qs.length){['para','after'].forEach(function(id){var e=document.getElementById(id);if(e)e.classList.remove('hidden')})}};
+  document.querySelectorAll('.q').forEach(function(q){q.querySelectorAll('.choice button').forEach(function(b){b.onclick=function(){
+    if(q.classList.contains('done'))return;var f=q.querySelector('.feedback');
+    if(b.textContent===q.dataset.k){b.classList.add('right');q.classList.add('done');fb(f,true,'Correct. '+q.dataset.why)}else{b.classList.add('wrong');fb(f,false,'Not quite. Try again.')}}})});
+  document.querySelectorAll('.bank span').forEach(function(s){s.onclick=function(){s.classList.toggle('used')}});
+  document.querySelectorAll('.gcheck').forEach(function(btn){btn.onclick=function(){var b=this,qs=b.closest('.slide').querySelectorAll('.gq'),ok=0;
+    qs.forEach(function(q){var inp=q.querySelector('.answer'),v=inp.value.trim(),f=q.querySelector('.feedback'),rev=q.querySelector('.reveal');inp.classList.remove('ok','no');
+      if(!v){fb(f,false,'Write your answer first.');return}
+      var y=match(JSON.parse(inp.dataset.answers),v);inp.classList.add(y?'ok':'no');fb(f,y,y?'Correct!':'Not yet. Try again or show the answer.');rev.classList.toggle('hidden',y);if(y)ok++});
+    got(b,ok,qs.length)}});
+  document.querySelectorAll('.mood').forEach(function(m){m.onclick=function(){document.querySelectorAll('.mood').forEach(function(x){x.classList.toggle('picked',x===m)})}});
+  go(0);
+})();
+</script>
+
+</body>
+</html>
